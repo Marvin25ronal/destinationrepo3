@@ -1,0 +1,85 @@
+<div class="col-12">
+    <div class="card card-body">
+        <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#759ee0" type="ball-scale-multiple">
+            <p style="font-size: 20px; color:#fff">Cargando Información...</p>
+        </ngx-spinner>
+        <div class="d-flex mb-3 mt-3">
+            <form class="m-t-20" [formGroup]="formfilter" (ngSubmit)="FilterdataDate()">
+                <div class="row">
+                    <div class="col-sm-12 col-lg-5">
+                        <div class="form-group row">
+                            <label for="inital_date" class="col-sm-12">Fecha inicial</label>
+                            <div class="input-group col-sm-12">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1">
+                                        <i class="far fa-calendar-alt"></i>
+                                    </span>
+                                </div>
+                                <input type="date" class="form-control" id="inital_date" formControlName="inital_date"
+                                    required >
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-lg-5">
+                        <div class="form-group row">
+                            <label for="final_date" class="col-sm-12">Fecha final</label>
+                            <div class="input-group col-sm-12">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1">
+                                        <i class="far fa-calendar-alt"></i>
+                                    </span>
+                                </div>
+                                <input type="date" class="form-control" id="final_date" formControlName="final_date"
+                                    required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-lg-2">
+                        <div class="form-group row">
+                            <button type="submit" class="btn btn-raised mr-1 text-white m-t-30" style="background-color: #3473da;" [disabled]="!formfilter.valid">Filtrar</button>
+                        </div>
+                    </div>
+                </div>                    
+            </form>
+        </div>
+        <div class="table-responsive table-bordered">
+            <table class="table table-striped mb-0 no-wrap v-middle">
+                <thead>
+                    <tr>
+                        <th scope="col">Fecha</th>
+                        <th scope="col">Descripción</th>
+                        <th scope="col">Conteo de personas</th>
+                        <th scope="col">Conteo de coincidencias</th>
+                        <th scope="col">Usuario</th>
+                    </tr>
+                </thead>
+                <tbody>
+                        <tr *ngFor="let request of binnaclelist | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
+        
+                            <td class="text-center">
+                                {{request.creation_date | date: 'dd/MM/yyyy'}}
+                            </td>
+                            <td class="text-center">
+                                <ngb-highlight [result]="request.description" [term]="searchTerm"></ngb-highlight>
+                            </td>
+                            <td class="text-center">
+                                <ngb-highlight [result]="request.number_of_records"></ngb-highlight>
+                            </td>
+                            <td class="text-center">
+                                <ngb-highlight [result]="request.match_count"></ngb-highlight>
+                            </td>
+                            <td class="text-center">
+                                <ngb-highlight [result]="request.username" [term]="searchTerm"></ngb-highlight>
+                            </td>
+                        </tr>
+                </tbody>
+                </table>
+                <div class="d-flex justify-content-center p-2">
+                    <ngb-pagination *ngIf="binnaclelist" [maxSize]="5" [collectionSize]="binnaclelist.length" [(page)]="page"
+                        [pageSize]="pageSize">
+                    </ngb-pagination>
+                </div>
+        </div>
+    </div>
+</div>
+

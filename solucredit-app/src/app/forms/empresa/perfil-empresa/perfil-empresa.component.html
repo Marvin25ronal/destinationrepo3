@@ -1,0 +1,655 @@
+<div class="row mt-4">
+    <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#759ee0" type="ball-scale-multiple">
+        <p style="font-size: 20px; color:#fff">Cargando Información...</p>
+    </ngx-spinner>
+
+    <div class="col-md-6">
+        <img class="ml-5" src="/assets/images/logo.png" alt="solucredits" width="auto" height="80%">
+    </div>
+    <div class="col-md-6">
+        <h2>SOLUCIONES CREDITICIAS S.A.</h2>
+        <p>
+            Avenida Las Américas, 8-42 Zona 13, Edificio Américas 10, Nivel 9, Oficina 902 <br> Guatemala, Guatemala <br> PBX.: 2301 4400
+        </p>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-sm-12">
+        <!-- [formGroup]="createProfile" -->
+        <form class="form-horizontal">
+
+            <div class="card">
+                <div class="card-header" style="background-color: #3473da;">
+                    <h4 class="card-title mb-0 text-white">Perfil del solicitante</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row form-group ">
+                        <div class="col-12">
+                            <label for="inputNombre" class="col-sm-12 custom-label">Nombre comercial de la empresa</label>
+                            <div class="col-sm-12">
+                                <input type="text" class="form-control" [(ngModel)]="profileForm.comercial_name" name="comercial-name">
+                            </div>
+                            <!--  <small class="form-text text-danger col-sm-12" *ngIf="!createProfile.get('inputNombre').valid && (createProfile.get('inputNombre').dirty || createProfile.get('inputNombre').touched)">El nombre es requerido.</small> -->
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Nombre de los socios</h4>
+
+                    <div *ngFor="let asso of profileForm.associates; index as i">
+
+                        <div *ngIf="asso.remove != true">
+                            <div class="row form-group">
+                                <div class="col-lg-4 col-md-5 col-sm-12">
+
+                                    <label for="inputNombre" class="col-sm-12">Nombre completo</label>
+                                    <div class="col-sm-12">
+                                        <input type="text" class="form-control" [(ngModel)]="asso.name" name="asso-name{{i}}">
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-3 col-sm-12">
+                                    <label for="inputNombre" class="col-sm-12">Cargo que desempeña</label>
+                                    <div class="col-sm-12">
+                                        <input type="text" class="form-control" [(ngModel)]="asso.position" name="asso-position{{i}}">
+                                    </div>
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-12">
+                                    <label for="inputNombre" class="col-sm-12">NIT</label>
+                                    <div class="col-sm-12">
+                                        <input type="text" class="form-control" maxlength="13" minlength="8" [(ngModel)]="asso.nit" name="asso-nit{{i}}">
+                                    </div>
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-12">
+                                    <label for="inputNombre" class="col-sm-12">% de participación accionaria</label>
+                                    <div class="col-sm-12">
+                                        <input type="text" class="form-control" [(ngModel)]="asso.shareholding" name="asso-share-holding{{i}}">
+                                    </div>
+                                </div>
+                                <div class="col-lg-1 align-self-end" *ngIf="asso.associate_id || associatesCount > 1">
+                                    <button (click)="quitarSocio(i)" class="btn btn-danger btn-raised mr-1"> <i class="far fa-window-close"></i> </button>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+
+
+                    <div class="row">
+                        <div class="offset-lg-9 col-lg-3">
+                            <label for="inputNombre" class="col-sm-12"></label>
+                            <button (click)="agregarSocio()" class="btn  btn-info ml-auto  btn-color-solucredit">Agregar otra socio</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Informe comercial</h4>
+                    <div class="ml-3 mt-4">
+                        <div class="row mb-4">
+                            <h5 class="card-title">Empresas que conforman el GRUPO</h5>
+                        </div>
+
+
+                        <div *ngFor="let company of profileForm.companies; index as i">
+                            <div *ngIf="company.remove != true">
+                                <hr class="mt-5 mb-5" *ngIf="i > 1">
+                                <div class="row form-group">
+                                    <div class="col-lg-4">
+                                        <label for="inputNombre" class="col-sm-12">Nombre comercial</label>
+                                        <div class="col-sm-12">
+                                            <input type="text" class="form-control" [(ngModel)]="company.comercial_name" name="company-comercial-name{{i}}">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <label for="inputNombre" class="col-sm-12">Relación Afiliada, Subsidiaria, Holding</label>
+                                        <div class="col-sm-12">
+                                            <input type="text" class="form-control" [(ngModel)]="company.relation" name="company-relation{{i}}">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <label for="inputNombre" class="col-sm-12">NIT</label>
+                                        <div class="col-sm-12">
+                                            <input type="text" class="form-control" maxlength="13" minlength="8" [(ngModel)]="company.nit" name="company-nit{{i}}">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col-lg-4">
+                                        <label for="inputNombre" class="col-sm-12">País de domicilio</label>
+                                        <div class="col-sm-12">
+                                            <input type="text" class="form-control" [(ngModel)]="company.country" name="company-country{{i}}">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <label for="inputNombre" class="col-sm-12">Actividad comercial</label>
+                                        <div class="col-sm-12">
+                                            <input type="text" class="form-control" [(ngModel)]="company.business_activity" name="company-businnes{{i}}">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-1 align-self-end" *ngIf="company.company_id || companysCount > 1">
+                                        <button (click)="quitarEmpresa(i)" class="btn btn-danger btn-raised mr-1"> <i class="far fa-window-close"></i> </button>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="row">
+                            <div class="col-lg-3 offset-lg-9">
+                                <label for="inputNombre" class="col-sm-12"></label>
+                                <button (click)="agregarEmpresa()" class="btn  btn-info ml-auto  btn-color-solucredit">Agregar Empresa</button>
+                            </div>
+                        </div>
+
+                        <div class="row mt-5">
+                            <h5 class="card-title">Nombre y tiempo de laborar, de los principales ejecutivos de la empresa</h5>
+                        </div>
+
+                        <div class="row mt-5">
+                            <div class="col-lg-3">
+                                <label class="col-sm-12">Puesto</label>
+                            </div>
+                            <div class="col-lg-5">
+                                <label class="col-sm-12">Nombre completo</label>
+                            </div>
+                            <div class="col-lg-4">
+                                <label class="col-sm-12">Tiempo de laborar</label>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-lg-3">
+                                <label class="col-sm-12" style="font-weight: 400 !important;">Gerente general</label>
+                            </div>
+                            <div class="col-lg-5">
+                                <div class="col-sm-12">
+                                    <input type="text" class="form-control" [(ngModel)]="profileForm.ceo_name" name="ceo-name">
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="col-sm-12">
+                                    <input type="text" class="form-control" [(ngModel)]="profileForm.ceo_time" name="ceo-time">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-lg-3">
+                                <label class="col-sm-12" style="font-weight: 400 !important;">Gerente financiero</label>
+                            </div>
+                            <div class="col-lg-5">
+                                <div class="col-sm-12">
+                                    <input type="text" class="form-control" [(ngModel)]="profileForm.finance_ceo_name" name="financial-ceo-name">
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="col-sm-12">
+                                    <input type="text" class="form-control" [(ngModel)]="profileForm.finance_ceo_time" name="financial-ceo-time">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-lg-3">
+                                <label class="col-sm-12" style="font-weight: 400 !important;">Gerente de RR.HH</label>
+                            </div>
+                            <div class="col-lg-5">
+                                <div class="col-sm-12">
+                                    <input type="text" class="form-control" [(ngModel)]="profileForm.rh_ceo_name" name="rh-ceo-name">
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="col-sm-12">
+                                    <input type="text" class="form-control" [(ngModel)]="profileForm.rh_ceo_time" name="rh-ceo-time">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-lg-3">
+                                <label class="col-sm-12" style="font-weight: 400 !important;">Gerente de producción</label>
+                            </div>
+                            <div class="col-lg-5">
+                                <div class="col-sm-12">
+                                    <input type="text" class="form-control" [(ngModel)]="profileForm.prod_ceo_name" name="prod-ceo-name">
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="col-sm-12">
+                                    <input type="text" class="form-control" [(ngModel)]="profileForm.prod_ceo_time" name="prod-ceo-time">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-lg-3">
+                                <label class="col-sm-12" style="font-weight: 400 !important;">Gerente de operaciones</label>
+                            </div>
+                            <div class="col-lg-5">
+                                <div class="col-sm-12">
+                                    <input type="text" class="form-control" [(ngModel)]="profileForm.op_ceo_name" name="op_ceo-name">
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="col-sm-12">
+                                    <input type="text" class="form-control" [(ngModel)]="profileForm.op_ceo_time" name="op_ceo-name">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-lg-3">
+                                <label class="col-sm-12" style="font-weight: 400 !important;">Gerente de ventas</label>
+                            </div>
+                            <div class="col-lg-5">
+                                <div class="col-sm-12">
+                                    <input type="text" class="form-control" [(ngModel)]="profileForm.sales_ceo_name" name="sales-ceo-name">
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="col-sm-12">
+                                    <input type="text" class="form-control" [(ngModel)]="profileForm.sales_ceo_time" name="sales_ceo-time">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-lg-3">
+                                <label class="col-sm-12" style="font-weight: 400 !important;">Gerente de créditos/cobros</label>
+                            </div>
+                            <div class="col-lg-5">
+                                <div class="col-sm-12">
+                                    <input type="text" class="form-control" [(ngModel)]="profileForm.credit_ceo_name" name="credit-ceo-name">
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="col-sm-12">
+                                    <input type="text" class="form-control" [(ngModel)]="profileForm.credit_ceo_time" name="credit-ceo-time">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Productos o servicios</h4>
+
+                    <div class="row form-group">
+                        <div class="col-lg-12">
+                            <label for="inputMoneda" class="col-sm-12">Principales Líneas de producción o comercialización que maneja en el negocio</label>
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <textarea class="form-control" rows="3" placeholder="Agregar descripción..." [(ngModel)]="profileForm.productions_commerce" name="productions-commerce"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row form-group">
+                        <div class="col-lg-12">
+                            <label class="col-sm-12">Mencione el tipo y nombre de las marcas</label>
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <textarea class="form-control" rows="3" placeholder="Agregar descripción..." [(ngModel)]="profileForm.brands" name="prifile-brands"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row ml-1">
+                        <label class="col-sm-12">Comportamiento cíclico de las ventas</label>
+                    </div>
+
+                    <div class="row form-group ml-2">
+                        <div class="col-lg-3">
+                            <label class="col-sm-12">1° trimestre</label>
+                            <div class="input-group mb-3">
+                                <input type="number" class="form-control" [(ngModel)]="profileForm.first_quarter" name="first-quarter">
+                                <div class="input-group-append">
+                                    <span class="input-group-text">%</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <label class="col-sm-12">2° trimestre</label>
+                            <div class="input-group mb-3">
+                                <input type="number" class="form-control" [(ngModel)]="profileForm.second_quarter" name="second_quarter">
+                                <div class="input-group-append">
+                                    <span class="input-group-text">%</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <label class="col-sm-12">3° trimestre</label>
+                            <div class="input-group mb-3">
+                                <input type="number" class="form-control" [(ngModel)]="profileForm.third_quarter" name="third-quarter">
+                                <div class="input-group-append">
+                                    <span class="input-group-text">%</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <label class="col-sm-12">4° trimestre</label>
+                            <div class="input-group mb-3">
+                                <input type="number" class="form-control" [(ngModel)]="profileForm.fourth_quarter" name="fourth-quarter">
+                                <div class="input-group-append">
+                                    <span class="input-group-text">%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Segmento de mercado</h4>
+                    <div class="row form-group">
+                        <div class="col-lg-12">
+                            <label for="inputMoneda" class="col-sm-12">Segmento al que va dirigido los productos o servicios</label>
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <textarea class="form-control" rows="3" placeholder="Agregar descripción..." [(ngModel)]="profileForm.product_segment" name="product-segment"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row form-group">
+                        <div class="col-lg-12">
+                            <label for="inputMoneda" class="col-sm-12">Principales competidores en el mercado por cada producto o servicio que ofrezca</label>
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <textarea class="form-control" rows="3" placeholder="Agregar descripción..." [(ngModel)]="profileForm.competitors" name="competitors"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row form-group">
+                        <div class="col-lg-12">
+                            <label for="inputMoneda" class="col-sm-12">Porcentaje de participación en el mercado por cada producto o servicio</label>
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <textarea class="form-control" rows="3" placeholder="Agregar descripción..." [(ngModel)]="profileForm.market_percentage" name="market-porcentage"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row form-group">
+                        <div class="col-lg-12">
+                            <label for="inputMoneda" class="col-sm-12">Canales de distribución</label>
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <textarea class="form-control" rows="3" placeholder="Agregar descripción..." [(ngModel)]="profileForm.distribution_channels" name="distributions-chaneels"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Estructura de ventas</h4>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Ventas</th>
+                                            <th scope="col">Porcentaje</th>
+                                            <th scope="col">Ventas</th>
+                                            <th scope="col">Porcentaje</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Contado</td>
+                                            <td>
+                                                <div class="input-group mb-3">
+                                                    <input type="number" class="form-control" [(ngModel)]="profileForm.cash_sales" name="cash-sales">
+                                                    <div class="input-group-append">
+                                                        <span class="input-group-text">%</span>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>Locales</td>
+                                            <td>
+                                                <div class="input-group mb-3">
+                                                    <input type="number" class="form-control" [(ngModel)]="profileForm.credit_sales" name="credit-sales">
+                                                    <div class="input-group-append">
+                                                        <span class="input-group-text">%</span>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Crédito</td>
+                                            <td>
+                                                <div class="input-group mb-3">
+                                                    <input type="number" class="form-control" [(ngModel)]="profileForm.local_sales" name="local-sales">
+                                                    <div class="input-group-append">
+                                                        <span class="input-group-text">%</span>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>Exportaciones</td>
+                                            <td>
+                                                <div class="input-group mb-3">
+                                                    <input type="number" class="form-control" [(ngModel)]="profileForm.exports_sales" name="exports-sales">
+                                                    <div class="input-group-append">
+                                                        <span class="input-group-text">%</span>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><b>Total (100%)</b></td>
+                                            <td><b>100%</b></td>
+                                            <td><b>Total (100%)</b></td>
+                                            <td><b>100%</b></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mb-4 mt-5">
+                        <div class="col-lg-12 ml-1">
+                            <h5 class="card-title">Ingreso en moneda extranjera</h5>
+                        </div>
+                    </div>
+
+                    <div class="row form-group ml-2">
+                        <div class="col-lg-12">
+                            ¿El solicitante genera dólares o euros?&nbsp;
+                            <div class="form-check form-check-inline">
+                                <div class="custom-control custom-radio">
+                                    <input type="radio" class="custom-control-input" id="customControlValidation4" [value]="isforeign[0]" [(ngModel)]="profileForm.sales_foreign_currency" name="sales-foreign-currency">
+                                    <label class="custom-control-label" for="customControlValidation4">Si</label>
+                                </div>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <div class="custom-control custom-radio">
+                                    <input type="radio" class="custom-control-input" id="customControlValidation5" [value]="isforeign[1]" [(ngModel)]="profileForm.sales_foreign_currency" name="sales-foreign-currency">
+                                    <label class="custom-control-label" for="customControlValidation5">No</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row form-group ml-2">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <textarea class="form-control" rows="3" placeholder="Agregar origen..." [(ngModel)]="profileForm.sales_foreign_currency_origin" name="sales-foreign-currency-origin"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Estructura de compras</h4>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Ventas</th>
+                                            <th scope="col">Porcentaje</th>
+                                            <th scope="col">Ventas</th>
+                                            <th scope="col">Porcentaje</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Contado</td>
+                                            <td>
+                                                <div class="input-group mb-3">
+                                                    <input type="number" class="form-control" [(ngModel)]="profileForm.cash_purchases" name="cash-purchases">
+                                                    <div class="input-group-append">
+                                                        <span class="input-group-text">%</span>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>Locales</td>
+                                            <td>
+                                                <div class="input-group mb-3">
+                                                    <input type="number" class="form-control" [(ngModel)]="profileForm.local_purchases" name="local-purchases">
+                                                    <div class="input-group-append">
+                                                        <span class="input-group-text">%</span>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Crédito</td>
+                                            <td>
+                                                <div class="input-group mb-3">
+                                                    <input type="number" class="form-control" [(ngModel)]="profileForm.credit_purchases" name="credit-purchases">
+                                                    <div class="input-group-append">
+                                                        <span class="input-group-text">%</span>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>Exportaciones</td>
+                                            <td>
+                                                <div class="input-group mb-3">
+                                                    <input type="number" class="form-control" [(ngModel)]="profileForm.exports_purchases" name="exports-purchases">
+                                                    <div class="input-group-append">
+                                                        <span class="input-group-text">%</span>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><b>Total (100%)</b></td>
+                                            <td><b>100%</b></td>
+                                            <td><b>Total (100%)</b></td>
+                                            <td><b>100%</b></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="row mb-4 mt-5">
+                        <div class="col-lg-12 ml-1">
+                            <h5 class="card-title">Compras en moneda extranjera</h5>
+                        </div>
+                    </div>
+
+                    <div class="row form-group ml-2">
+                        <div class="col-sm-12">
+                            ¿El solicitante realiza compras en moneda extranjera?&nbsp;
+                            <div class="form-check form-check-inline">
+                                <div class="custom-control custom-radio">
+                                    <input type="radio" class="custom-control-input" id="customControlValidation2" [value]="isforeignpurchase[0]" [(ngModel)]="profileForm.purchases_foreign_currency" name="purchases-foreign-currency">
+                                    <label class="custom-control-label" for="customControlValidation2">Si</label>
+                                </div>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <div class="custom-control custom-radio">
+                                    <input type="radio" class="custom-control-input" id="customControlValidation3" [value]="isforeignpurchase[1]" [(ngModel)]="profileForm.purchases_foreign_currency" name="purchases-foreign-currency">
+                                    <label class="custom-control-label" for="customControlValidation3">No</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row form-group ml-2 mt-3">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <textarea class="form-control" rows="3" placeholder="Agregar país de origen de las importaciones o compras..." [(ngModel)]="profileForm.purchases_foreign_currency_origin" name="purchases-foreign-currency-origin"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+
+                    <h4 class="card-title">Operaciones en otros paises</h4>
+
+                    <div *ngFor="let country of profileForm.country_operations; index as i">
+                        <div *ngIf="country.remove != true">
+                            <div class="row form-group">
+                                <div class="col-lg-4">
+                                    <label class="col-sm-12">País donde opera</label>
+                                    <div class="col-sm-12">
+                                        <input type="text" class="form-control" aria-label="Username" id="inputNombre" [(ngModel)]="country.country" name="country-country{{i}}">
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <label class="col-sm-12">Monto de ventas anuales (Dolares USD)</label>
+                                    <div class="col-sm-12">
+                                        <input type="number" class="form-control" aria-label="Username" id="inputNombre" [(ngModel)]="country.year_sales" name="country-year-sales{{i}}">
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 align-self-end" *ngIf="country.country_operation_id || countryOperationCount > 1">
+                                    <button (click)="quitarOperacion(i)" class="btn btn-danger btn-raised mr-1"> <i class="far fa-window-close"></i> </button>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                    <div class="row">
+                        <div class="offset-lg-9 col-lg-3">
+                            <label for="inputNombre" class="col-sm-12"></label>
+                            <button (click)="agregarOperacion()" class="btn  btn-info ml-auto  btn-color-solucredit">Agregar otra empresa</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="card">
+                <div class="card-body">
+                    <div class="form-group m-b-0 text-right">
+                        <button (click)="onSubmitComplete()" class="btn  btn-info ml-auto  btn-color-solucredit">Marcar como completado</button>
+                        <button (click)="onSubmit()" class="btn  btn-info ml-auto  btn-color-solucredit">Guardar</button>
+                        <button (click)="returnPreviusPage()" class="btn btn-dark waves-effect waves-light">Regresar</button>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>

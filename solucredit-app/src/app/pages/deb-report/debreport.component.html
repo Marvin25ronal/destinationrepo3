@@ -1,0 +1,48 @@
+<div class="row">
+    <div class="col-md-12">
+        <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#759ee0" type="ball-scale-multiple">
+            <p style="font-size: 20px; color:#fff">Cargando Información...</p>
+        </ngx-spinner>
+        <!--- pagination Table -->
+        <div class="card">
+            <div class="card-body">
+
+
+                <app-reportfilters (onFilter)="search($event)" (onCreateExcel)="xlsxDownload($event)" [config]="config" [(vals)]="vals" [dataset1]='valores1' [dataset3]='valores2' (onChange1)="onfilterChange1($event)" (onChange3)="onfilterChange2($event)"></app-reportfilters>
+
+                <table class="table table-striped border mt-4">
+                    <thead>
+                        <tr>
+                            <th *ngFor="let header of dataList.metadata">
+
+                                {{header}}
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- <tr *ngFor="let req of dataList.data">
+                            <td>{{req.customer_id}}</td>
+                            <td>{{req.name}}</td>
+                            <td>{{req.nit }}</td>
+                            <td>{{req.request_id }}</td>
+                            <td>{{req.documents | reqreportdocs}}</td>
+                            <td>{{req.warranties |reqreportdocs }}</td>
+                            <td>{{req.status| reqreportstatus }}</td>
+                            <td>{{req.type | reqreporttype}}</td>
+                            <td>{{req.create_date | date: 'dd/MM/yyyy'}}</td>
+                            <td>{{req.verifications |reqreportdocs }}</td>
+
+                        </tr> -->
+                    </tbody>
+                </table>
+
+                <div class="d-flex justify-content-center p-2">
+                    <ngb-pagination [collectionSize]="this.totalData" [pageSize]="pageSize" [(page)]="page" aria-label="Default pagination" (pageChange)="pageChange($event)" [boundaryLinks]="true" [maxSize]="7"></ngb-pagination>
+                </div>
+            </div>
+        </div>
+        <!--- End pagination Table -->
+
+    </div>
+</div>
+<notifier-container></notifier-container>

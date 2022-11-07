@@ -1,0 +1,258 @@
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card-body">
+            <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#759ee0" type="ball-scale-multiple">
+                <p style="font-size: 20px; color:#fff">Cargando Información...</p>
+            </ngx-spinner>
+            <div class="card-block">
+                <div class="card-body" id='templateInforme'>
+                    <div style="text-align: center;">
+                        <h1>Informe Reporte consolidado de operaciones</h1>
+                        <hr>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12 col-md-6 ">
+                            <div class="form-group row">
+                                <label for="name" class="col-sm-3 text-right">Representante:</label>
+                                <div class="input-group col-sm-9">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-addon1">
+                                            <i class="far fa-user"></i>
+                                        </span>
+                                    </div>
+                                    <input type="text" class="form-control" aria-label="Username" id="name" required
+                                        placeholder="Ej. Roberto" disabled [value]="getRep()">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-6">
+                            <div class="form-group row">
+                                <label for="date" class="col-sm-3 text-right">Lugar y fecha:</label>
+                                <div class="input-group col-sm-9">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-addon1">
+                                            <i class="far fa-address-card"></i>
+                                        </span>
+                                    </div>
+                                    <input type="text" size="8" maxlength="8" class="form-control" id="date"
+                                        placeholder="Lugar y fecha" [value]="getDate()" disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-sm-12 col-md-12 row">
+                            <div class="col-sm-3">
+                                <label for="phone" class="col-md-6 text-right">Análisis:</label>
+                            </div>
+                            <div class="form-group row col-sm-9">
+                                <div class="input-group">
+                                    <textarea type="text" class="form-control " required rows="12"
+                                        [placeholder]="'Ej. Descripción de una transacción'" disabled
+                                        [value]="councilApprovalSelected?councilApprovalSelected.commercialanalysis_comment:''"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr class="rounded">
+                    <div class="row">
+                        <div class="col-sm-12 col-md-6">
+                            <div class="form-group row">
+                                <label for="name" class="col-sm-3 text-right">Tipo Cliente:</label>
+                                <div class="input-group col-sm-9">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-addon1">
+                                            <i class="far fa-user"></i>
+                                        </span>
+                                    </div>
+                                    <input type="text" class="form-control" aria-label="Username" id="name" required
+                                        placeholder="Ej. Roberto" disabled  [value]="dataCustomer?.type===0?'Individual':'Juridico'">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-6">
+                            <div class="form-group row">
+                                <label for="name" class="col-sm-3 text-right">Cliente:</label>
+                                <div class="input-group col-sm-9">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-addon1">
+                                            <i class="far fa-user"></i>
+                                        </span>
+                                    </div>
+                                    <input type="text" class="form-control" aria-label="Username" id="name" required
+                                        placeholder="Ej. Roberto" disabled
+                                        [value]="this.dataCustomer?.type==0?this.dataCustomer?.name:this.dataCustomer?.businessname">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12 col-md-6">
+                            <div class="form-group row">
+                                <label for="name" class="col-sm-3 text-right">Tipo de gestión:</label>
+                                <div class="input-group col-sm-9">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-addon1">
+                                            <i class="far fa-user"></i>
+                                        </span>
+                                    </div>
+                                    <input type="text" class="form-control" aria-label="Username" id="name" required
+                                        placeholder="Ej. Roberto" disabled [value]="this.lastRequest?.warranty_type|req_warranty_type">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-6">
+                            <div class="form-group row">
+                                <label for="name" class="col-sm-3 text-right">Tipo de solicitud:</label>
+                                <div class="input-group col-sm-9">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-addon1">
+                                            <i class="far fa-user"></i>
+                                        </span>
+                                    </div>
+                                    <input type="text" class="form-control" aria-label="Username" id="name" required
+                                        placeholder="Ej. Roberto" disabled
+                                        [value]="lastRequest.type|req_type">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="table-responsive">
+                        <table class="table v-middle white-table">
+                            <thead>
+                                <tr>
+                                    <th *ngFor="let header of dataList.metadata">
+                                        <div class="text-center">
+                                            {{header}}
+                                        </div>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of dataList.data;let i=index;">
+                                    <td>
+                                        {{i+1}}
+                                    </td>
+                                    <td>
+                                        {{item.document}}
+                                    </td>
+                                    <td>
+                                        {{item.legal_autorization}}
+                                    </td>
+                                    <td>
+                                        {{item.legal_autorization_date|date:expresionDate}}
+                                    </td>
+                                    <td>
+                                        {{item.comercial_autorization}}
+                                    </td>
+                                    <td>
+                                        {{item.comercial_autorization_date|date:expresionDate}}
+                                    </td>
+                                    <td>
+                                        {{item.amount}}
+                                    </td>
+                                    <td>
+                                        {{item.rate}}
+                                    </td>
+                                    <td>
+                                        {{item.warranty_days}}
+                                    </td>
+                                    <td>
+                                        {{item.aproval}}
+                                    </td>
+                                    <td>
+                                        {{item.history}}
+                                    </td>
+                                    <td *ngIf="item.check==1">
+                                        <app-flag [check_value]="true"></app-flag>
+                                    </td>
+                                    <td *ngIf="item.check==0">
+                                        <app-flag [check_value]="false"></app-flag>
+                                    </td>
+                                    <td>
+                                        <i style="cursor: pointer;" class=" icon-eye"></i>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <h4>Historial de operaciones</h4>
+                    </div>
+                    <hr class="rounded">
+                    <div class="table-responsive">
+                        <table class="table v-middle white-table">
+                            <thead>
+                                <tr>
+                                    <th *ngFor="let header of dataList2.metadata">
+                                        <div class="text-center">
+                                            {{header}}
+                                        </div>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of dataList2.data;let i=index;">
+                                    <td>
+                                        {{i+1}}
+                                    </td>
+                                    <td>
+                                        {{item.operation}}
+                                    </td>
+                                    <td>
+                                        {{item.client}}
+                                    </td>
+                                    <td>
+                                        {{item.amount}}
+                                    </td>
+                                    <td>
+                                        {{item.conditions}}
+                                    </td>
+                                    <td>
+                                        {{item.deudores}}
+                                    </td>
+                                    <td>
+                                        {{item.address}}
+                                    </td>
+                                    <td *ngIf="item.check==1">
+                                        <app-flag [check_value]="true"></app-flag>
+                                    </td>
+                                    <td *ngIf="item.check==0">
+                                        <app-flag [check_value]="false"></app-flag>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                   
+                </div>
+                <div class="card-footer" style="background-color: white;">
+                    <div class="form-group m-b-0 text-right">
+                        <button type="button" ngbTooltip="Generar PDF" class="btn btn-raised mr-1 text-white"
+                        (click)="createPDF()"
+                            style="background-color: #3473da;">
+                            <i-feather name="pen-tool"></i-feather>
+                            Generar
+                            Informe
+                        </button>
+                        <button type="button" class="btn btn-raised mr-1 text-white"
+                        (click)="showAlertConfirm()"
+                            style="background-color: #3473da;">
+                            <i class="fas fa-check"></i>
+                            Completar
+                            Análisis</button>
+                        <button type="submit" class="btn btn-raised mr-1 text-white btn-secondary"
+                            ngbTooltip="Volver a Listado Clientes" (click)="onRoute()">
+                            <i class="fas fa-times"></i>
+                            Cerrar</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

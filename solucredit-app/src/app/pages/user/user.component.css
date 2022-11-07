@@ -1,0 +1,160 @@
+.numbers-right {
+    display: flex;
+    justify-content: flex-end;
+    font-weight: 600;
+}
+
+.div-table-actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.div-con-flex {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.div-con-flex-col {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    overflow: scroll;
+}
+
+.div-con-flex-col::-webkit-scrollbar {
+    display: none;
+}
+
+.card-roles {
+    max-height: 2rem;
+}
+
+.btn-cambio-pass {
+    white-space: normal;
+    width: 100px;
+    -webkit-appearance: none;
+    color: white;
+    font-size: 0.7rem;
+    background-color: black;
+}
+
+.btn-color-solucredit {
+    background-color: #2061C4;
+    color: white;
+}
+
+.btn-color-solucredit-secondary {
+    background-color: #6C6C6C;
+    color: white;
+}
+
+.btn-hide {
+    display: none;
+}
+
+.btn-show {
+    display: block;
+}
+
+.label-rol {
+    background-color: black;
+    margin: 0.2rem;
+}
+
+details {
+    overflow: scroll;
+    /* border-color: #878d99; */
+    /* color: rgba(255, 255, 255, 0.9); */
+    /* background: #878d99; */
+    /*  border: 1px solid; */
+    cursor: pointer;
+    transition: background 0.3s;
+    border-radius: 4px;
+    /* min-height: 48px;
+    max-height: 60px; */
+    transform-origin: top center;
+    transform: rotate(0.1deg);
+    transition: all 0.3s;
+}
+
+details::-webkit-scrollbar {
+    display: none;
+}
+
+
+/* 
+details:hover {
+    border-color: #878d99;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+details:active {
+    color: green;
+    border-color: #6d7380;
+}
+ */
+
+details ::-webkit-details-marker {
+    display: none;
+}
+
+details+details {
+    margin-top: 10px;
+}
+
+details.square {
+    border-radius: 0;
+}
+
+details[open] {
+    transition: all 0.6s;
+    min-height: 100px;
+    max-height: 200px;
+}
+
+summary {
+    outline: none;
+    /* font-size: 16px; */
+    padding: 13px;
+}
+
+summary:selection {
+    background: transparent;
+}
+
+summary .close {
+    display: none;
+}
+
+[open] summary .close {
+    display: inline;
+}
+
+summary .open {
+    display: inline;
+}
+
+[open] summary .open {
+    display: none;
+}
+
+[open] summary {
+    display: inline;
+}
+
+summary:after {
+    margin-top: 2px;
+    content: "➕";
+    float: left;
+    margin-right: 11px;
+    text-align: center;
+    /* font-size: 11px; */
+}
+
+[open] summary:after {
+    padding: 0 0 12px 0;
+    content: "➖";
+}

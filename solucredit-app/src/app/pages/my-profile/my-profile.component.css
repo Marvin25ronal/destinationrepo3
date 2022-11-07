@@ -1,0 +1,377 @@
+.custom_btn1 {
+    background: #2061c4;
+    border-color: #2061c4;
+}
+
+.custom_add1 {
+    background: #2061c4;
+    border-color: #2061c4;
+}
+
+.custom_btndanger {
+    width: 117px !important;
+}
+
+.custom_btn1:hover,
+.custom_add1:hover {
+    background: #4376c4;
+    border-color: #4376c4;
+}
+
+.custom_btn2 {
+    background: white;
+    border-color: #2061c4;
+    color: #2061c4;
+}
+
+.custom_btn2_edit {
+    background-color: white;
+    padding: 10px;
+    border-radius: 5px;
+    font-weight: 500;
+    border: 1px solid #2061c4;
+    cursor: pointer;
+    margin-bottom: 0.5rem;
+}
+.my-badge {
+    background-color: #ff3d3d;
+    margin-left: 9px;
+    font-weight: 500;
+    color: white;
+    height: 20px;
+    width: 20px;
+    font-size: 14px;
+    justify-content: center;
+    align-items: center;
+}
+/* .custom_btn2:hover {
+    background-color: white;
+    padding: 10px;
+    border-radius: 5px;
+    font-weight: 500;
+    border: 1px solid #2061c4;
+    color: #2061c4;
+    opacity: 0.8;
+} */
+
+.container-file {
+    display: block;
+    margin: auto;
+    text-align: center;
+    position: relative;
+    padding: 20px;
+}
+
+.custom-color-icon {
+    color: #2061c4;
+}
+
+.custom-fontsize1 {
+    font-size: 1.5rem;
+}
+
+::ng-deep .nav-pills .nav-link.active {
+    background-color: #2061c4;
+}
+
+::ng-deep #ngb-tab-5-panel {
+    margin-top: 20px !important;
+}
+
+::ng-deep #ngb-tab-3 {
+    cursor: default;
+}
+
+.div-button-mail-customer {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    background-color: whitesmoke;
+    margin-top: 1.2rem;
+}
+
+.btn-color-solucredit {
+    background-color: #2061c4;
+    color: white;
+}
+
+.btn-color-solucredit-secondary {
+    background-color: #6c6c6c;
+    color: white;
+}
+
+.div-confirmation {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    /* background-color: whitesmoke;
+    margin-top: 1.2rem; */
+}
+
+.logotipo_customer {
+    position: absolute;
+    top: -80px;
+    right: 40px;
+    height: 135px;
+    object-fit: cover;
+}
+
+.customa1 {
+    cursor: pointer;
+    color: #2962ff;
+}
+
+.table.customtp td {
+    padding: 0 3px;
+}
+
+.imgPlaceholder {
+    position: absolute;
+    right: -181px;
+    top: -20px;
+    width: 140px;
+}
+
+/* //COSAS PARA LO DE LOS FORMULARIOS */
+
+.forms-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    /*  background-color: red; */
+    /* justify-content: center; */
+    /* align-items: center; */
+}
+
+.pending-div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* background-color: yellow; */
+    border-radius: 2px;
+    box-shadow: 1px 2px 10px 0px rgba(0, 0, 0, 0.3);
+    margin-bottom: 1rem;
+    /* max-width: 80%; */
+}
+
+.pending-info-div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-width: 50%;
+    min-height: 40%;
+    border-radius: 2px;
+    box-shadow: 1px 2px 10px 0px rgba(0, 0, 0, 0.3);
+}
+
+.statebadge {
+    max-width: min-content;
+}
+
+th {
+    background: white;
+    position: sticky;
+    top: 0;
+    /* Don't forget this, required for the stickiness */
+    /* box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.4); */
+}
+
+.forms-modal {
+    max-height: 50vh;
+    margin-top: 1rem;
+    border-radius: 10px;
+    box-shadow: 0.2rem 0.2rem rgba(0, 0, 0, 0.2);
+}
+
+.forms-modal::-webkit-scrollbar {
+    width: 6px;
+    border-left: 1px solid #e6ecf8;
+}
+
+.forms-modal::-webkit-scrollbar-thumb {
+    background-color: #2061c4;
+}
+
+::ng-deep .my-class .modal-dialog {
+    max-width: fit-content;
+    width: fit-content;
+}
+::ng-deep .my-class .modal-content {
+    border-radius: 15px;
+}
+::ng-deep .my-tabs .nav-pills .nav-link.active {
+    background-color: #2061c4;
+    color: white;
+}
+.modal {
+    display: block !important;
+    /* I added this to see the modal, you don't need this */
+}
+
+/* Important part */
+
+.modal-dialog {
+    overflow-y: initial !important;
+}
+
+.modal-body {
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.button-drop:focus {
+    background-color: transparent;
+    border-color: transparent;
+    color: black;
+}
+
+.customlink {
+    width: fit-content;
+    background-color: #2061c4;
+    color: #fff;
+    border-radius: 4px;
+    padding: 10px;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.customlink:hover {
+    text-decoration: underline;
+}
+
+::ng-deep .nav-tabs .nav-link.active {
+    border-bottom: 2px solid #2061c4 !important;
+    background-color: #4180e91a;
+    border-left: 2px solid #2061c4;
+}
+
+::ng-deep .my-class2 .modal-dialog {
+    min-width: 75%;
+    max-width: 75%;
+    overflow: hidden;
+    min-height: 75vh;
+}
+::ng-deep .my-class2 .modal-content {
+    border-radius: 15px;
+}
+
+.ticket-desc {
+    width: 500px;
+}
+
+.ticket-desc p {
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.ticket-desc small {
+    width: 400px;
+    display: block;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.btn-avals-from {
+    background: #2061c4;
+    border-color: #2061c4;
+}
+
+.card-btn {
+    cursor: pointer;
+}
+
+.card-btn:hover {
+    background-color: #b3c7d1 !important;
+    color: white;
+}
+
+.custom-card-list-link {
+    cursor: pointer;
+    color: #4281e9;
+}
+
+.custom-card-list-link:hover {
+    cursor: pointer;
+    color: #2061c4 !important;
+    font-weight: 600;
+}
+
+::ng-deep .modal1 .modal-dialog {
+    max-width: 80%;
+    width: 80%;
+}
+
+::ng-deep .my-modal .modal-content {
+    border-radius: 15px;
+}
+::ng-deep .modal1 .modal-content {
+    border-radius: 15px;
+}
+
+::ng-deep .my-modal .modal-header {
+    background-color: rgba(225, 229, 234, 0.1);
+    border-top-right-radius: 15px;
+    border-top-left-radius: 15px;
+    opacity: 0.8;
+}
+
+::ng-deep .my-modal-large .modal-content {
+    border-radius: 15px;
+    width: 100%;
+}
+::ng-deep .my-modal-large .modal-header {
+    background-color: rgba(225, 229, 234, 0.1);
+    border-top-right-radius: 15px;
+    border-top-left-radius: 15px;
+    opacity: 0.8;
+}
+::ng-deep .my-modal-large .modal-dialog {
+    max-width: 80%;
+    width: 80%;
+}
+.close {
+    float: left;
+    border-width: 0 !important;
+    border: none;
+    outline: none;
+}
+::ng-deep .my-class2 .modal-content {
+    border-radius: 15px;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey;
+    border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #c8c6c6;
+    border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #0094da;
+}
+
+
+::ng-deep .my-tabs .nav-pills .nav-link.active {
+    background-color: #2061c4;
+    color: white;
+}
+
+::ng-deep .nav-tabs .nav-link.active {
+    border-bottom: 2px solid #2061c4 !important;
+    background-color: #4180e91a;
+    border-left: 2px solid #2061c4;
+    color: black;
+}

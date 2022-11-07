@@ -1,0 +1,127 @@
+.close {
+    float: left;
+    border-width: 0 !important;
+    border: none;
+    outline: none;
+}
+::ng-deep .my-modal .modal-dialog {
+    min-width: 90%;
+    max-width: 90%;
+    /* max-height: 50vh; */
+}
+::ng-deep .my-modal .modal-content {
+    border-radius: 15px;
+}
+::ng-deep .my-modal .modal-header {
+    background-color: rgba(225, 229, 234, 0.1);
+    border-top-right-radius: 15px;
+    border-top-left-radius: 15px;
+    opacity: 0.8;
+}
+
+.hiddencustom{
+        position: absolute;
+    width: 100%;
+    height: 80%;
+    right: 0;
+    top: 0;
+    opacity: 0;
+}
+.custom_btn1 {
+    background: #2061c4;
+    border-color: #2061c4;
+}
+
+.custom_add1 {
+    background: #2061c4;
+    border-color: #2061c4;
+}
+
+.detail-title {
+  width: 80px;
+  position: relative;
+}
+
+.detail-title:after {
+    content: ":";
+    position: absolute;
+    right: 0px;
+  }
+
+.contact-list .contact-item:hover {
+    cursor: pointer;
+}
+.contact-list .contact-item.active {
+    background-color: #e9ecef;
+}
+#btnAddContact {
+  position: absolute;
+  right: 15px;
+  top: 15px;
+}
+li.contact-item:hover {
+    /*background-color: #d9e8ffa8;*/
+    border-bottom: 2px solid #2061c4 !important;
+}
+.selectitem{
+    border-bottom: 2px solid #2061c4 !important;
+    background-color: #4180e91a;
+    border-left: 2px solid #2061c4;
+}
+
+.left-part {
+    height: calc(100vh - 178px) !important;
+}
+.right-part {
+    min-height: calc(100vh - 178px) !important;
+}
+
+.customlink{
+    cursor: pointer; 
+    color: #2962ff
+}
+.customlink:hover{
+    cursor: pointer; 
+    color: #2962ff;
+    text-decoration:underline;
+    font-weight: 400;
+}
+.card-title>span{
+    text-transform: uppercase;
+}
+
+.custom-card-list-link {
+    cursor: pointer;
+    color: #4281e9;
+}
+
+.custom-card-list-link:hover {
+    cursor: pointer;
+    color: #2061c4 !important;
+    font-weight: 600;
+}
+
+::ng-deep .modal1 .modal-dialog {
+    max-width: 80%;
+    width: 80%;
+}
+
+::ng-deep .modal1 .modal-dialog {
+    max-width: 80%;
+    width: 80%;
+    border-radius: 15px;
+}
+::ng-deep .modal1 .modal-content {
+    border-radius: 15px;
+}
+::ng-deep .modal1 .modal-header {
+    background-color: rgba(225, 229, 234, 0.1);
+    border-top-right-radius: 15px;
+    border-top-left-radius: 15px;
+    opacity: 0.8;
+}
+
+.btn-color-solucredit {
+    background-color: #2061c4;
+    color: white;
+}

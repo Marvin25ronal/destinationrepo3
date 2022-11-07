@@ -1,0 +1,798 @@
+<div>
+    <div *ngIf="request?.doc_type == 6 || request?.doc_type == 1">
+        <div id="templateInforme">
+            <div style="text-align: center;">
+                <h1>Informe Autorización Gerente Operaciones</h1>
+                <hr>
+            </div>
+            <div class="row">
+                <div class="col-sm-12 col-md-6">
+                    <div class="form-group row">
+                        <label for="name" class="col-sm-3 text-right">Responsable:</label>
+                        <div class="input-group col-sm-9">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">
+                                    <i class="far fa-user"></i>
+                                </span>
+                            </div>
+                            <input type="text" class="form-control" aria-label="Username" id="name" required
+                                [value]=" this.gerencialAnalysisResponsable?.firstname+' '+this.gerencialAnalysisResponsable?.lastname"
+                                placeholder="Documento sin Aprobación" disabled>
+                        </div>
+        
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-6">
+                    <div class="form-group row">
+                        <label for="name" class="col-sm-4 text-right"> Fecha de Autorización:</label>
+                        <div class="input-group col-sm-8">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">
+                                    <i class="fas fa-calendar"></i>
+                                </span>
+                            </div>
+                            <input type="text" class="form-control" aria-label="Username" id="name" required
+                                [value]="getInfoOtherResponsable(Gerencial_Manager_Authorization)?.analysis.approval_date |date:'M/d/yy, h:mm a'"
+                                placeholder="Ej. Roberto" disabled>
+                        </div>
+        
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12 col-md-12">
+                    <div class="form-group row">
+                        <label for="name" class="col-sm-1 text-right">Análisis:</label>
+                        <div class="input-group col-sm-11">
+                            <textarea type="text" class="form-control " required rows="12"
+                                [placeholder]="'Ej. Descripción de una transacción'" disabled
+                                [value]="this.analysis?.commercialanalysis_comment"></textarea>
+                        </div>
+        
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-sm-12 col-md-6">
+                    <div class="form-group row">
+                        <label for="name" class="col-sm-3 text-right">Tipo Cliente:</label>
+                        <div class="input-group col-sm-9">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">
+                                    <i class="far fa-user"></i>
+                                </span>
+                            </div>
+                            <input type="text" class="form-control" aria-label="Username" id="name" required
+                                placeholder="Ej. Roberto" disabled [value]="this.customerType?.customer_type">
+                        </div>
+        
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-6">
+                    <div class="form-group row">
+                        <label for="name" class="col-sm-3 text-right">Cliente:</label>
+                        <div class="input-group col-sm-9">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">
+                                    <i class="far fa-user"></i>
+                                </span>
+                            </div>
+                            <input type="text" class="form-control" aria-label="Username" id="name" required
+                                placeholder="Ej. Roberto" disabled
+                                [value]="this.customer?.type==0?this.customer?.name:this.customer?.businessname">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12 col-md-6">
+                    <div class="form-group row">
+                        <label for="name" class="col-sm-3 text-right">Tipo de Gestión:</label>
+                        <div class="input-group col-sm-9">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">
+                                    <i class="far fa-user"></i>
+                                </span>
+                            </div>
+                            <input type="text" class="form-control" aria-label="Username" id="name" required
+                                placeholder="Ej. Roberto" disabled [value]="this.request?.doc_type|req_doc_type">
+                        </div>
+        
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-6">
+                    <div class="form-group row">
+                        <label for="name" class="col-sm-3 text-right">Tipo de solicitud:</label>
+                        <div class="input-group col-sm-9">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">
+                                    <i class="far fa-user"></i>
+                                </span>
+                            </div>
+                            <input type="text" class="form-control" aria-label="Username" id="name" required
+                                placeholder="Ej. Roberto" disabled [value]="this.typesRequest?.name">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="table-responsive table-hover">
+                <h4>Condiciones</h4>
+                <table class="table table-responsive-lg no-wrap v-middle white-table">
+                    <thead>
+                        <tr>
+                            <th *ngFor="let header of conditionSheetList.metadata">
+                                <div class="text-center">
+                                    {{header}}
+                                </div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                1
+                            </td>
+                            <td>
+                                {{conditionSheetSelected?.document_number}}
+                            </td>
+                            <td>
+                                {{ getInfoOtherResponsable('Legal')?.responsable.firstname+'
+                                '+getInfoOtherResponsable('Legal')?.responsable.lastname}}
+                            </td>
+                            <td>
+                                {{getInfoOtherResponsable(Legal_Analysis)?.analysis.approval_date |
+                                date:'M/d/yy, h:mm a'}}
+                            </td>
+                            <td>
+                                {{this.analysisResponsable?.firstname+' '+this.analysisResponsable?.lastname}}
+                            </td>
+                            <td>
+                                {{getInfoOtherResponsable(Commercial_Manager_Authorization)?.analysis.approval_date
+                                | date:'M/d/yy, h:mm a'}}
+                            </td>
+                            <td>
+                                {{conditionSheetSelected?.required_amount |currency:"GTQ":"symbol"}}
+                            </td>
+                            <td>
+                                {{getShowCommissionRate()?.rate_type==1?getShowCommissionRate()?.rate_percentage+'%':getShowCommissionRate()?.rate_amount}}
+                            </td>
+                            <td>
+                                {{conditionSheetSelected?.warranty_days}}
+                            </td>
+                            <td>
+                                0%
+                            </td>
+                            <td>
+                                60
+                            </td>
+        
+                            <td>
+                                <app-flag [check_value]="conditionSheetSelected?.status_condition_sheet"></app-flag>
+                            </td>
+                            <td>
+                                <button type="button" (click)="showConditionSheetMethod()"
+                                    class="btn btn text-white custom_add1">
+                                    <i class="fas fa-eye"></i>
+                                    Ver</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="card-footer" style="background-color: white;">
+                <div class="form-group m-b-0 text-right">
+                    <button type="button" class="btn btn-raised mr-1 text-white" style="background-color: #3473da;"
+                        (click)="downloadConditionSheet()">
+                        <i class="fas fa-download"></i>
+                        Descargar Hoja de Condiciones</button>
+                </div>
+            </div>
+            <hr>
+            <div class="table-responsive table-hover">
+                <h4>Acta de Gerencia</h4>
+                <table class="table table-responsive-lg no-wrap v-middle white-table">
+                    <thead>
+                        <tr>
+                            <th *ngFor="let header of managementActList.metadata">
+                                <div class="text-center">
+                                    {{header}}
+                                </div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="text-center">
+                                    1
+                                </div>
+                            </td>
+                            <td>
+                                <div class="text-center">
+                                    {{mAct?.registry_act1+mAct?.registry_act2}}
+                                </div>
+                            </td>
+                            <td>
+                                <div class="text-center">
+                                    {{this.customer?.type==0?this.customer?.name:this.customer?.businessname}}
+                                </div>
+                            </td>
+                            <td>
+                                <div class="text-center">
+                                    --
+                                </div>
+                            </td>
+                            <td>
+                                <div class="text-center">
+                                    --
+                                </div>
+                            </td>
+                            <td>
+                                <div class="text-center">
+                                    {{mAct?.address_act}}
+                                </div>
+                            </td>
+                            <td>
+                                <div class="text-center">
+                                    <app-flag [check_value]="+mAct?.status_act"></app-flag>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="card-footer" style="background-color: white;">
+                <div class="form-group m-b-0 text-right">
+                    <button type="button" class="btn btn-raised mr-1 text-white" style="background-color: #3473da;"
+                        (click)="downloadConditionSheet()">
+                        <i class="fas fa-download"></i>
+                        Descargar Acta de Gerencia</button>
+                </div>
+            </div>
+            <hr>
+            <div class="table-responsive table-hover">
+                <h4>Acta de Gerencia</h4>
+                <table class="table table-responsive-lg no-wrap v-middle white-table">
+                    <thead>
+                        <tr>
+                            <th *ngFor="let header of managementResList.metadata">
+                                <div class="text-center">
+                                    {{header}}
+                                </div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="text-center">
+                                    1
+                                </div>
+                            </td>
+                            <td>
+                                <div class="text-center">
+                                    {{mAct?.registry_act1+mAct?.registry_act2}}
+                                </div>
+                            </td>
+                            <td>
+                                <div class="text-center">
+                                    {{this.customer?.type==0?this.customer?.name:this.customer?.businessname}}
+                                </div>
+                            </td>
+                            <td>
+                                <div class="text-center">
+                                    --
+                                </div>
+                            </td>
+                            <td>
+                                <div class="text-center">
+                                    --
+                                </div>
+                            </td>
+                            <td>
+                                <div class="text-center">
+                                    {{mAct?.address_act}}
+                                </div>
+                            </td>
+                            <td>
+                                <div class="text-center">
+                                    <app-flag [check_value]="+mAct?.status_act"></app-flag>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="card-footer" style="background-color: white;">
+                <div class="form-group m-b-0 text-right">
+                    <button type="button" class="btn btn-raised mr-1 text-white" style="background-color: #3473da;"
+                        (click)="downloadConditionSheet()">
+                        <i class="fas fa-download"></i>
+                        Descargar Resolución de Acta</button>
+                </div>
+            </div>
+            <hr>
+            <div class="table-responsive table-hover">
+                <h4>Acta de Gerencia</h4>
+                <table class="table table-responsive-lg no-wrap v-middle white-table">
+                    <thead>
+                        <tr>
+                            <th *ngFor="let header of documentRegisterList.metadata">
+                                <div class="text-center">
+                                    {{header}}
+                                </div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="text-center">
+                                    1
+                                </div>
+                            </td>
+                            <td>
+                                <div class="text-center">
+                                    {{mAct?.registry_act1+mAct?.registry_act2}}
+                                </div>
+                            </td>
+                            <td>
+                                <div class="text-center">
+                                    {{this.customer?.type==0?this.customer?.name:this.customer?.businessname}}
+                                </div>
+                            </td>
+                            <td>
+                                <div class="text-center">
+                                    --
+                                </div>
+                            </td>
+                            <td>
+                                <div class="text-center">
+                                    --
+                                </div>
+                            </td>
+                            <td>
+                                <div class="text-center">
+                                    {{mAct?.address_act}}
+                                </div>
+                            </td>
+                            <td>
+                                <div class="text-center">
+                                    <app-flag [check_value]="+mAct?.status_act"></app-flag>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="card-footer" style="background-color: white;">
+                <div class="form-group m-b-0 text-right">
+                    <button type="button" class="btn btn-raised mr-1 text-white" style="background-color: #3473da;"
+                        (click)="downloadConditionSheet()">
+                        <i class="fas fa-download"></i>
+                        Descargar Registro de Escritura</button>
+                </div>
+            </div>
+            <div class="card-footer" style="background-color: white;">
+                <div class="form-group m-b-0 text-right">
+                    <button type="button" class="btn btn-raised mr-1 text-white" style="background-color: #3473da;">
+                        <i class="fas fa-download"></i>
+                        Descargar Acta de Gerencia</button>
+                    <button type="button" class="btn btn-raised mr-1 text-white" style="background-color: #3473da;"  (click)="createPDF()">
+                        <i-feather name="pen-tool" ></i-feather> 
+                        Firmar
+                        Informe</button>
+                    <button type="button" class="btn btn-raised mr-1 text-white" style="background-color: #3473da;" (click)="showAlertConfirm()">
+                        <i class="fas fa-check"></i>
+                        Activar
+                        cliente</button>
+                    <button type="button" class="btn btn-raised mr-1 text-white btn-secondary" (click)="return_view_method()"
+                        ngbTooltip="Volver a Listado Clientes">
+                        <i class="fas fa-times"></i>
+                        Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="request?.doc_type == 3 || request?.doc_type == 5 ||request?.doc_type==0">
+        <div id="templateInforme">
+            <div style="text-align: center;">
+                <h1>Informe Autorización Gerente Operaciones</h1>
+                <hr>
+            </div>
+            <div class="row">
+                <div class="col-sm-12 col-md-6">
+                    <div class="form-group row">
+                        <label for="name" class="col-sm-3 text-right">Gerente General:</label>
+                        <div class="input-group col-sm-9">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">
+                                    <i class="far fa-user"></i>
+                                </span>
+                            </div>
+                            <input type="text" class="form-control" aria-label="Username" id="name" required
+                                [value]=" this.gerencialAnalysisResponsable?.firstname+' '+this.gerencialAnalysisResponsable?.lastname"
+                                placeholder="Ej. Roberto" disabled>
+                        </div>
+        
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-6">
+                    <div class="form-group row">
+                        <label for="name" class="col-sm-4 text-right"> Fecha de Autorización:</label>
+                        <div class="input-group col-sm-8">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">
+                                    <i class="fas fa-calendar"></i>
+                                </span>
+                            </div>
+                            <input type="text" class="form-control" aria-label="Username" id="name" required
+                                [value]="getInfoOtherResponsable(Gerencial_Manager_Authorization)?.analysis.approval_date |date:'M/d/yy, h:mm a'"
+                                placeholder="Ej. Roberto" disabled>
+                        </div>
+        
+                    </div>
+                </div>
+        
+            </div>
+            <div class="row">
+                <div class="col-sm-12 col-md-6">
+                    <div class="form-group row">
+                        <label for="name" class="col-sm-3 text-right">Gerente Comercial:</label>
+                        <div class="input-group col-sm-9">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">
+                                    <i class="far fa-user"></i>
+                                </span>
+                            </div>
+                            <input type="text" class="form-control" aria-label="Username" id="name" required
+                                placeholder="Ej. Roberto" disabled
+                                [value]=" this.analysisResponsable?.firstname+' '+this.analysisResponsable?.lastname">
+                        </div>
+        
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-6">
+                    <div class="form-group row">
+                        <label for="name" class="col-sm-4 text-right"> Fecha de Autorización:</label>
+                        <div class="input-group col-sm-8">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">
+                                    <i class="fas fa-calendar"></i>
+                                </span>
+                            </div>
+                            <input type="text" class="form-control" aria-label="Username" id="name" required
+                                [value]="getInfoOtherResponsable(Commercial_Manager_Authorization)?.analysis.approval_date |date:'M/d/yy, h:mm a'"
+                                placeholder="Ej. Roberto" disabled>
+                        </div>
+        
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12 col-md-6">
+                    <div class="form-group row">
+                        <label for="name" class="col-sm-3 text-right">Oficial cumplimiento:</label>
+                        <div class="input-group col-sm-9">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">
+                                    <i class="far fa-user"></i>
+                                </span>
+                            </div>
+                            <input type="text" class="form-control" aria-label="Username" id="name" required
+                                placeholder="Ej. Roberto" disabled
+                                [value]="getInfoOtherResponsable('Cumplimiento')?.responsable.firstname+' '+getInfoOtherResponsable('Cumplimiento')?.responsable.lastname">
+                        </div>
+        
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-6">
+                    <div class="form-group row">
+                        <label for="name" class="col-sm-4 text-right"> Fecha de Autorización:</label>
+                        <div class="input-group col-sm-8">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">
+                                    <i class="fas fa-calendar"></i>
+                                </span>
+                            </div>
+                            <input type="text" class="form-control" aria-label="Username" id="name" required
+                                [value]="getInfoOtherResponsable(Compliance_Verification)?.analysis.approval_date |date:'M/d/yy, h:mm a'"
+                                placeholder="Ej. Roberto" disabled>
+                        </div>
+        
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12 col-md-6">
+                    <div class="form-group row">
+                        <label for="name" class="col-sm-3 text-right">Análisis Legal:</label>
+                        <div class="input-group col-sm-9">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">
+                                    <i class="far fa-user"></i>
+                                </span>
+                            </div>
+                            <input type="text" class="form-control" aria-label="Username" id="name" required
+                                placeholder="Ej. Roberto" disabled
+                                [value]="getInfoOtherResponsable('Legal')?.responsable.firstname+' '+getInfoOtherResponsable('Legal')?.responsable.lastname">
+                        </div>
+        
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-6">
+                    <div class="form-group row">
+                        <label for="name" class="col-sm-4 text-right"> Fecha de Autorización:</label>
+                        <div class="input-group col-sm-8">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">
+                                    <i class="fas fa-calendar"></i>
+                                </span>
+                            </div>
+                            <input type="text" class="form-control" aria-label="Username" id="name" required
+                                [value]="getInfoOtherResponsable(Legal_Analysis)?.analysis.approval_date |date:'M/d/yy, h:mm a'"
+                                placeholder="Ej. Roberto" disabled>
+                        </div>
+        
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12 col-md-6">
+                    <div class="form-group row">
+                        <label for="name" class="col-sm-3 text-right">Lugar y Fecha:</label>
+                        <div class="input-group col-sm-9">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">
+                                    <i class="far fa-user"></i>
+                                </span>
+                            </div>
+                            <input type="text" class="form-control" aria-label="Username" id="name" required
+                                placeholder="Ej. Roberto" disabled [value]="conditionSheetSelected?.place_and_date">
+                        </div>
+        
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-6">
+                    <div class="form-group row">
+                        <label for="name" class="col-sm-4 text-right">Condiciones:</label>
+                        <div class="input-group col-sm-8">
+                            <div class="col-sm-1">
+                                <div class="custom-control custom-radio">
+                                    <input type="radio" id="sipertenece" class="custom-control-input"
+                                        [(ngModel)]="checkDocuments" [value]="1" disabled>
+                                    <label class="custom-control-label custom-label" for="sipertenece">Si</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12 col-md-12">
+                    <div class="form-group row">
+                        <label for="name" class="col-sm-1 text-right">Análisis:</label>
+                        <div class="input-group col-sm-11">
+                            <textarea type="text" class="form-control " required rows="12"
+                                [placeholder]="'Ej. Descripción de una transacción'" disabled
+                                [value]="this.analysis?.commercialanalysis_comment"></textarea>
+                        </div>
+        
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-sm-12 col-md-6">
+                    <div class="form-group row">
+                        <label for="name" class="col-sm-3 text-right">Tipo Cliente:</label>
+                        <div class="input-group col-sm-9">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">
+                                    <i class="far fa-user"></i>
+                                </span>
+                            </div>
+                            <input type="text" class="form-control" aria-label="Username" id="name" required
+                                placeholder="Ej. Roberto" disabled [value]="this.customerType?.customer_type">
+                        </div>
+        
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-6">
+                    <div class="form-group row">
+                        <label for="name" class="col-sm-3 text-right">Cliente:</label>
+                        <div class="input-group col-sm-9">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">
+                                    <i class="far fa-user"></i>
+                                </span>
+                            </div>
+                            <input type="text" class="form-control" aria-label="Username" id="name" required
+                                placeholder="Ej. Roberto" disabled
+                                [value]="this.customer?.type==0?this.customer?.name:this.customer?.businessname">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12 col-md-6">
+                    <div class="form-group row">
+                        <label for="name" class="col-sm-3 text-right">Tipo de Gestión:</label>
+                        <div class="input-group col-sm-9">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">
+                                    <i class="far fa-user"></i>
+                                </span>
+                            </div>
+                            <input type="text" class="form-control" aria-label="Username" id="name" required
+                                placeholder="Ej. Roberto" disabled [value]="this.request?.doc_type|req_doc_type">
+                        </div>
+        
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-6">
+                    <div class="form-group row">
+                        <label for="name" class="col-sm-3 text-right">Tipo de solicitud:</label>
+                        <div class="input-group col-sm-9">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">
+                                    <i class="far fa-user"></i>
+                                </span>
+                            </div>
+                            <input type="text" class="form-control" aria-label="Username" id="name" required
+                                placeholder="Ej. Roberto" disabled [value]="this.typesRequest?.name">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="table-responsive table-hover">
+                <table class="table table-responsive-lg no-wrap v-middle white-table">
+                    <thead>
+                        <tr>
+                            <th *ngFor="let header of conditionSheetList.metadata">
+                                <div class="text-center">
+                                    {{header}}
+                                </div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                1
+                            </td>
+                            <td>
+                                {{conditionSheetSelected?.document_number}}
+                            </td>
+                            <td>
+                                {{ getInfoOtherResponsable('Legal')?.responsable.firstname+'
+                                '+getInfoOtherResponsable('Legal')?.responsable.lastname}}
+                            </td>
+                            <td>
+                                {{getInfoOtherResponsable(Legal_Analysis)?.analysis.approval_date |
+                                date:'M/d/yy, h:mm a'}}
+                            </td>
+                            <td>
+                                {{this.analysisResponsable?.firstname+' '+this.analysisResponsable?.lastname}}
+                            </td>
+                            <td>
+                                {{getInfoOtherResponsable(Commercial_Manager_Authorization)?.analysis.approval_date
+                                | date:'M/d/yy, h:mm a'}}
+                            </td>
+                            <td>
+                                {{conditionSheetSelected?.required_amount |currency:"GTQ":"symbol"}}
+                            </td>
+                            <td>
+                                {{getShowCommissionRate()?.rate_type==1?getShowCommissionRate()?.rate_percentage+'%':getShowCommissionRate()?.rate_amount}}
+                            </td>
+                            <td>
+                                {{conditionSheetSelected?.warranty_days}}
+                            </td>
+                            <td>
+                                0%
+                            </td>
+                            <td>
+                                60
+                            </td>
+        
+                            <td>
+                                <app-flag [check_value]="conditionSheetSelected?.status_condition_sheet"></app-flag>
+                            </td>
+                            <td>
+                                <button type="button" (click)="showConditionSheetMethod()"
+                                    class="btn btn text-white custom_add1">
+                                    <i class="fas fa-eye"></i>
+                                    Ver</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        
+            <div class="card-footer" style="background-color: white;">
+                <div class="form-group m-b-0 text-right">
+                    <button type="button" class="btn btn-raised mr-1 text-white" style="background-color: #3473da;"
+                        (click)="downloadConditionSheet()">
+                        <i class="fas fa-download"></i>
+                        Descargar Hoja de Condiciones</button>
+                </div>
+            </div>
+            <hr>
+            <div class="table-responsive table-hover">
+                <table class="table table-responsive-lg no-wrap v-middle white-table">
+                    <thead>
+                        <tr>
+                            <th *ngFor="let header of managementActList.metadata">
+                                <div class="text-center">
+                                    {{header}}
+                                </div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="text-center">
+                                    1
+                                </div>
+                            </td>
+                            <td>
+                                <div class="text-center">
+                                    {{mAct?.registry_act1+mAct?.registry_act2}}
+                                </div>
+                            </td>
+                            <td>
+                                <div class="text-center">
+                                    {{this.customer?.type==0?this.customer?.name:this.customer?.businessname}}
+                                </div>
+                            </td>
+                            <td>
+                                <div class="text-center">
+                                    --
+                                </div>
+                            </td>
+                            <td>
+                                <div class="text-center">
+                                    --
+                                </div>
+                            </td>
+                            <td>
+                                <div class="text-center">
+                                    {{mAct?.address_act}}
+                                </div>
+                            </td>
+                            <td>
+                                <div class="text-center">
+                                    <app-flag [check_value]="+mAct?.status_act"></app-flag>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        
+            <div class="card-footer" style="background-color: white;">
+                <div class="form-group m-b-0 text-right">
+                    <button type="button" class="btn btn-raised mr-1 text-white" style="background-color: #3473da;">
+                        <i class="fas fa-download"></i>
+                        Descargar Acta de Gerencia</button>
+                    <button type="button" class="btn btn-raised mr-1 text-white" style="background-color: #3473da;"  (click)="createPDF()">
+                        <i-feather name="pen-tool" ></i-feather> 
+                        Firmar
+                        Informe</button>
+                    <button type="button" class="btn btn-raised mr-1 text-white" style="background-color: #3473da;" (click)="showAlertConfirm()">
+                        <i class="fas fa-check"></i>
+                        Activar
+                        cliente</button>
+                    <button type="button" class="btn btn-raised mr-1 text-white btn-secondary" (click)="return_view_method()"
+                        ngbTooltip="Volver a Listado Clientes">
+                        <i class="fas fa-times"></i>
+                        Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

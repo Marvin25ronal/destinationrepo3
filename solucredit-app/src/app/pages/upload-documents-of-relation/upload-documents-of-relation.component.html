@@ -1,0 +1,3415 @@
+<div class="row">
+  <div class="col-md-12">
+    <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#759ee0" type="ball-scale-multiple">
+      <p style="font-size: 20px; color: #fff">Subiendo Documento...</p>
+    </ngx-spinner>
+    <ngx-spinner name="enviandoinfo" bdColor="rgba(51,51,51,0.8)" size="medium" color="#759ee0"
+      type="ball-scale-multiple">
+      <p style="font-size: 20px; color: #fff">Enviando información..</p>
+    </ngx-spinner>
+    <ngx-spinner name="cargandoinfo" bdColor="rgba(51,51,51,0.8)" size="medium" color="#759ee0"
+      type="ball-scale-multiple">
+      <p style="font-size: 20px; color: #fff">Cargando información..</p>
+    </ngx-spinner>
+    <!-- row -->
+    <!-- <button class="btn text-white custom_add1 m-b-20" *ngIf="initialRelation" (click)="CompleteDoc()" [disabled]="initialRelation.status === 2 || initialRelation.status === 3"><i class="fas fa-check text-white m-r-10"></i>Completar Documentos</button>-->
+
+    <div *ngIf="initialRelation">
+      <ngb-alert [dismissible]="false" type="success" *ngIf="
+          (initialRelation &&
+            initialRelation.status_doc === 3 &&
+            customer.type === 0) ||
+          (initialRelation &&
+            statusAceptado === true &&
+            initialRelation.status_doc === 3) ||
+          (initialRelation &&
+            statusAceptado === true &&
+            initialRelation.status_doc === 2 &&
+            customer.type === 1)
+        ">
+        <strong>Nota!</strong>
+        Los documentos ya fueron enviados, estos
+        documentos seran verificados por Solucredit.
+      </ngb-alert>
+      <ngb-alert [dismissible]="false" type="danger" *ngIf="
+          getShowError()
+        ">
+
+        <strong>Nota!</strong>
+        {{getErrorMessage()}}
+
+      </ngb-alert>
+    </div>
+
+    <!--  <div class="row">
+            <div class="col-md-6">
+                <div class="card text-center">
+                    <div class="card-body text-white" style="background-color: #2061C4;">
+                        <fieldset class="form-group">
+                            <input type="file" accept=".pdf, .jpeg, .jpg, .png" class="hiddencustom" id="exampleInputFile" (change)="showPreviewImage($event,'InicioRelacion','DPI')">
+                        </fieldset>
+                        <div class="p-25">
+                            <span class="display-4">
+                                <i class="fas fa-upload"></i>
+                            </span>
+                            <br>
+                          
+                            <h5 class="font-light m-t-15">Puede dar click aqui para subir el archivo, o halar el archivo. </h5>
+                        </div>
+                    </div>
+                    <div class="card-footer bg-white" style="color: #2061C4;">
+                        <h3 class="font-medium">DPI</h3>
+                        <button (click)="ViewDocu(viewdocuments,'InicioRelacion',initialRelation.DPI_key)" class="btn text-white custom_add1" *ngIf="initialRelation && initialRelation.DPI_key"><i class="fas fa-book text-white m-r-10" ></i>Ver documento subido</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card text-center">
+                    <div class="card-body text-white" style="background-color: #2061C4;">
+                        <fieldset class="form-group">
+                            <input type="file" accept=".pdf, .jpeg, .jpg, .png" class="hiddencustom" id="exampleInputFile" (change)="showPreviewImage($event,'InicioRelacion','CartaConsetimiento')">
+                        </fieldset>
+                        <div class="p-25">
+                            <span class="display-4">
+                                <i class="fas fa-upload"></i>
+                            </span>
+                            <br>
+                            <h5 class="font-light m-t-15">Puede dar click aqui para subir el archivo, o halar el archivo. </h5>
+                        </div>
+                    </div>
+                    <div class="card-footer bg-white" style="color: #2061C4;">
+                        <h3 class="font-medium">Carta de consentimiento</h3>
+                        <button class="btn text-white custom_add1" (click)="ViewDocu(viewdocuments,'InicioRelacion',initialRelation.letter_of_consent_key)" *ngIf="initialRelation && initialRelation.letter_of_consent_key"><i class="fas fa-book text-white m-r-10" ></i>Ver documento subido</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+       
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Documento Personal de Identificacion (DPI)</h4>
+              
+                    <div  class="input-group">
+                        <div class="col-md-6">
+                            <div  class="custom-file">
+                                <input *ngIf="initialRelation" [disabled]="initialRelation.status === 2||initialRelation.status === 4"  type="file" accept=".pdf, .jpeg, .jpg, .png" id="inputGroupFile03" class="custom-file-input"  (change)="showPreviewImage($event,'InicioRelacion','DPI', initialRelation)">
+                                <label  for="inputGroupFile03" class="custom-file-label">Seleccionar documento</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div  class="input-group-prepend offset-md-1">
+                                <button (click)="ViewDocu(viewdocuments,'InicioRelacion',initialRelation.DPI_key)" type="button" class="btn btn-outline-secondary" *ngIf="initialRelation && initialRelation.DPI_key" >Ver documento subido</button>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title"> Carta de consentimiento </h4>
+             
+                    <div  class="input-group">
+                        <div class="col-md-6">
+                            <div  class="custom-file">
+                                <input *ngIf="initialRelation" [disabled]="initialRelation.status === 2||initialRelation.status === 4" type="file" accept=".pdf, .jpeg, .jpg, .png"  id="inputGroupFile03" class="custom-file-input" (change)="showPreviewImage($event,'InicioRelacion','CartaConsetimiento', initialRelation)">
+                                <label  for="inputGroupFile03" class="custom-file-label">Seleccionar documento</label>
+                            </div>
+                            <div  class="input-group-prepend mt-4">
+                                <a href="https://solucredit-public.s3.amazonaws.com/resources/Autorizacion%20para%20realizar%20consultas%20%28Individual%29.doc" target="_blank"> <button type="button"  class="btn btn-outline-secondary">Descargar Carta de consentimiento</button></a>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div  class="input-group-prepend offset-md-1">
+                                <button type="button" class="btn btn-outline-secondary" (click)="ViewDocu(viewdocuments,'InicioRelacion',initialRelation.letter_of_consent_key)" *ngIf="initialRelation && initialRelation.letter_of_consent_key">Ver documento subido</button>
+                            </div>
+                        </div>      
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>
+ end row -->
+
+    <!-- <div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive table-bordered">
+                <table class="table table-striped mb-0 no-wrap v-middle">
+                    <thead>
+                        <tr>
+                            <th scope="col">Nombre Completo</th>
+                            <th scope="col">Documento Personal de Identificacion (DPI)</th>
+                            <th scope="col">Ver DPI</th>
+                            <th scope="col">Carta de consentimiento</th>
+                            <th scope="col">Ver Documento</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td >
+                                <div *ngIf="customer">{{customer.name}}</div>
+                            </td>
+                            <td>
+                                <div  class="custom-file">
+                                    <input *ngIf="initialRelation" [disabled]="initialRelation.status_doc === 2||initialRelation.status_doc === 3"  type="file" accept=".pdf, .jpeg, .jpg, .png" id="inputGroupFile03" class="custom-file-input"  (change)="showPreviewImage($event,'InicioRelacion','DPI')">
+                                    <label  for="inputGroupFile03" class="custom-file-label">Seleccionar documento</label>
+                                </div>
+                            </td>
+                            <td>
+                                <div  class="input-group-prepend">
+                                    <button (click)="ViewDocu(viewdocuments,'InicioRelacion',initialRelation.DPI_key,initialRelation.id)" type="button" class="btn btn-outline-secondary" *ngIf="initialRelation && initialRelation.DPI_key" >Ver DPI</button>
+                                </div>
+                            </td>
+                            <td>
+                                
+                                    <div  class="custom-file">
+                                        <input *ngIf="initialRelation" [disabled]="initialRelation.status_doc === 2||initialRelation.status_doc === 3" type="file" accept=".pdf, .jpeg, .jpg, .png"  id="inputGroupFile03" class="custom-file-input" (change)="showPreviewImage($event,'InicioRelacion','CartaConsetimiento')">
+                                        <label  for="inputGroupFile03" class="custom-file-label">Seleccionar documento</label>
+                                    </div>
+                                
+                                <div class="row mt-2 ml-2">
+                                    <span>Descarga tu carta de consentimiento <a *ngIf="customer" href="{{url_letter}}?type=individual&name={{customer.name}}&dpi={{customer.DPI}}" target="_blank">Aqui!</a></span>
+                                </div>
+                               
+                            </td>
+                            <td>
+                                <div  class="input-group-prepend">
+                                    <button type="button" class="btn btn-outline-secondary" (click)="ViewDocu(viewdocuments,'InicioRelacion',initialRelation.letter_of_consent_key, initialRelation.id)" *ngIf="initialRelation && initialRelation.letter_of_consent_key">Ver documento</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr *ngFor="let person of persons">
+                            <td>
+                                {{person.first_name}} {{person.last_name}}
+                            </td>
+                            <td>
+                                <div  class="custom-file">
+                                    <input *ngIf="person" [disabled]="person.status_doc === 2||person.status_doc === 3"  type="file" accept=".pdf, .jpeg, .jpg, .png" id="inputGroupFile03" class="custom-file-input"  (change)="showPreviewImageJuridico($event,'InicioRelacion','DPI', person)">
+                                    <label  for="inputGroupFile03" class="custom-file-label">Seleccionar documento</label>
+                                </div>
+                            </td>
+                            <td>
+                                <div  class="input-group-prepend">
+                                    <button (click)="ViewDocu(viewdocuments,'InicioRelacion',person.DPI_key, person.id)" type="button" class="btn btn-outline-secondary" *ngIf="person && person.DPI_key" >Ver DPI</button>
+                                </div>
+                            </td>
+                            <td>
+                                <div  class="custom-file">
+                                    <input *ngIf="person" [disabled]="person.status_doc === 2||person.status_doc === 3" type="file" accept=".pdf, .jpeg, .jpg, .png"  id="inputGroupFile03" class="custom-file-input" (change)="showPreviewImageJuridico($event,'InicioRelacion','CartaConsetimiento', person)">
+                                    <label  for="inputGroupFile03" class="custom-file-label">Seleccionar documento</label>
+                                </div>
+                                <div class="row mt-2 ml-2">
+                                    <span>Descarga tu carta de consentimiento <a href="{{url_letter}}?type=juridico&name={{person.first_name}} {{person.last_name}}&dpi={{person.DPI}}&bussines={{customer.businessname}}&nit={{customer.nit}}" target="_blank">Aqui!</a></span>
+                                </div>
+                            </td>
+                            <td>
+                                <div  class="input-group-prepend">
+                                    <button type="button" class="btn btn-outline-secondary" (click)="ViewDocu(viewdocuments,'InicioRelacion',person.letter_of_consent_key, person.id)" *ngIf="person && person.letter_of_consent_key">Ver documento</button>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr *ngFor="let fiduciary of dataFiduciary">
+                            <td>
+                                {{fiduciary.name1}} {{fiduciary.lastname1}}
+                            </td>
+                            <td>
+                                <div  class="custom-file">
+                                    <input *ngIf="fiduciary" [disabled]="fiduciary.status_doc === 2||fiduciary.status_doc === 3"  type="file" accept=".pdf, .jpeg, .jpg, .png" id="inputGroupFile03" class="custom-file-input"  (change)="showPreviewImageJuridico($event,'Fiduciarios','DPI', fiduciary)">
+                                    <label  for="inputGroupFile03" class="custom-file-label">Seleccionar documento</label>
+                                </div>
+                            </td>
+                            <td>
+                                <div  class="input-group-prepend">
+                                    <button (click)="ViewDocu(viewdocuments,'Fiduciarios',fiduciary.DPI_key, fiduciary.id)" type="button" class="btn btn-outline-secondary" *ngIf="fiduciary && fiduciary.DPI_key" >Ver DPI</button>
+                                </div>
+                            </td>
+                            <td>
+                                <div  class="custom-file">
+                                    <input *ngIf="fiduciary" [disabled]="fiduciary.status_doc === 2||fiduciary.status_doc === 3" type="file" accept=".pdf, .jpeg, .jpg, .png"  id="inputGroupFile03" class="custom-file-input" (change)="showPreviewImageJuridico($event,'Fiduciarios','CartaConsetimiento', fiduciary)">
+                                    <label  for="inputGroupFile03" class="custom-file-label">Seleccionar documento</label>
+                                </div>
+                                <div class="row mt-2 ml-2">
+                                    <span>Descarga tu carta de consentimiento <a href="{{url_letter}}?type=juridico&name={{fiduciary.first_name}} {{fiduciary.last_name}}&dpi={{fiduciary.DPI}}&bussines={{fiduciary.businessname}}&nit={{customer.nit}}" target="_blank">Aqui!</a></span>
+                                </div>
+                            </td>
+                            <td>
+                                <div  class="input-group-prepend">
+                                    <button type="button" class="btn btn-outline-secondary" (click)="ViewDocu(viewdocuments,'Fiduciarios',fiduciary.letter_of_consent_key, fiduciary.id)" *ngIf="fiduciary && fiduciary.letter_of_consent_key">Ver documento</button>
+                                </div>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+                </div>            
+            </div>
+        </div>
+    </div>
+</div> -->
+  </div>
+</div>
+
+<!-- Mobile toggle button -->
+<!--<a
+  [ngClass]="showSidebar ? 'ti-close' : 'ti-menu'"
+  class="btn btn-success show-left-part d-block d-md-none"
+  href="javascript:void(0)"
+  (click)="mobileSidebar()"
+></a>
+<div class="main-part">
+  <div
+    class="left-part bg-white fixed-left-part"
+    [ngClass]="{ 'show-panel': showSidebar }"
+  >
+    <div class="position-relative">
+      <div class="p-l-15 p-r-25 py-3 d-flex align-items-center border-bottom">
+        <h4>Nombres</h4>
+      </div>
+      <ul class="contact-list list-style-none">
+        <li
+          class="contact-item border-bottom p-3"
+          *ngIf="customer && customer.type == 0"
+          (click)="onSelect('customer', 0)"
+          [ngClass]="{ selectitem: idselected == 'cotainercustomer' }"
+        >
+          <span class="font-medium">{{ customer.name }}</span>
+        </li>
+        <li
+          class="contact-item border-bottom p-3"
+          *ngIf="customer && customer.type == 1"
+          (click)="onSelect('customer', 0)"
+          [ngClass]="{ selectitem: idselected == 'cotainercustomer' }"
+        >
+          <span class="font-medium">{{ customer.businessname }}</span>
+        </li>
+        <li
+          class="contact-item border-bottom p-3"
+          *ngFor="let person of persons"
+          (click)="onSelect('person', person.id)"
+          [ngClass]="{ selectitem: idselected == 'cotainerp' + person.id }"
+        >
+          <span class="font-medium"
+            >{{ person.first_name }} {{ person.last_name }}</span
+          >
+        </li>
+        <li
+          class="contact-item border-bottom p-3"
+          *ngFor="let fiduciary of dataFiduciary"
+          (click)="onSelect('fiduciary', fiduciary.id_fiduciary)"
+          [ngClass]="{
+            selectitem: idselected == 'cotainerf' + fiduciary.id_fiduciary
+          }"
+        >
+          <span class="font-medium"
+            >{{ fiduciary.name1 }} {{ fiduciary.lastname1 }}</span
+          >
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="right-part bg-white">
+    <div
+      style="
+        text-align: right;
+        padding: 12px 10px 0px 9px;
+        border-bottom: 1px solid #e9ecef !important;
+      "
+    >
+      <button
+        class="btn text-white custom_add1 m-b-20"
+        (click)="openModalSR(this.createfiduciary)"
+      >
+        <i class="fas fa-check text-white m-r-10"></i>Agregar un aval
+      </button>
+      <button
+        class="btn text-white custom_add1 m-b-20"
+        *ngIf="initialRelation"
+        (click)="CompleteDoc()"
+        [disabled]="
+          (initialRelation.status_doc === 2 && disable === true) ||
+          (initialRelation.status_doc === 3 && disable === true) ||
+          initialRelation.DPI_key === null ||
+          initialRelation.letter_of_consent_key === null ||
+          (initialRelation.status_doc === 2 && customer.type === 0) ||
+          (initialRelation.status_doc === 3 && customer.type === 0) ||
+          (customer.type === 1 && disable === true)
+        "
+      >
+        <i class="fas fa-check text-white m-r-10"></i>Completar Documentos
+      </button>
+    </div>
+    <div class="card">
+      <div>
+        <div>
+          <div class="px-3 container-customer">
+            <table
+              class="table table-striped mb-0 no-wrap v-middle"
+              *ngIf="idselected == 'cotainercustomer'"
+            >
+              <thead>
+                <tr>
+                  <th scope="col">Nombre Completo</th>
+                  <th scope="col">
+                    Documento Personal de Identificacion (DPI)
+                  </th>
+                  <th scope="col">Ver DPI</th>
+                  <th scope="col">Carta de consentimiento</th>
+                  <th scope="col">Ver Documento</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <div *ngIf="customer">{{ customer.name }}</div>
+                  </td>
+                  <td>
+                    <div class="custom-file">
+                      <input
+                        *ngIf="initialRelation"
+                        [disabled]="
+                          initialRelation.status_doc === 2 ||
+                          initialRelation.status_doc === 3
+                        "
+                        type="file"
+                        accept=".pdf, .jpeg, .jpg, .png"
+                        id="inputGroupFile03"
+                        class="custom-file-input"
+                        (change)="
+                          showPreviewImage($event, 'InicioRelacion', 'DPI')
+                        "
+                      />
+                      <label for="inputGroupFile03" class="custom-file-label"
+                        >Seleccionar documento</label
+                      >
+                    </div>
+                  </td>
+                  <td>
+                    <div class="input-group-prepend">
+                      <button
+                        (click)="
+                          ViewDocu(
+                            viewdocuments,
+                            'InicioRelacion',
+                            initialRelation.DPI_key,
+                            initialRelation.id
+                          )
+                        "
+                        type="button"
+                        class="btn btn-outline-secondary"
+                        *ngIf="initialRelation && initialRelation.DPI_key"
+                      >
+                        Ver DPI
+                      </button>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="custom-file">
+                      <input
+                        *ngIf="initialRelation"
+                        [disabled]="
+                          initialRelation.status_doc === 2 ||
+                          initialRelation.status_doc === 3
+                        "
+                        type="file"
+                        accept=".pdf, .jpeg, .jpg, .png"
+                        id="inputGroupFile03"
+                        class="custom-file-input"
+                        (change)="
+                          showPreviewImage(
+                            $event,
+                            'InicioRelacion',
+                            'CartaConsetimiento'
+                          )
+                        "
+                      />
+                      <label for="inputGroupFile03" class="custom-file-label"
+                        >Seleccionar documento</label
+                      >
+                    </div>
+
+                    <div class="row mt-2 ml-2">
+                      <span
+                        >Descarga tu carta de consentimiento
+                        <a
+                          style="cursor: pointer; color: #2962ff"
+                          (click)="
+                            openModalDowloandLetter(
+                              this.downloadLetter,
+                              'cliente',
+                              customer
+                            )
+                          "
+                          >Aqui!</a
+                        ></span
+                      >
+                    </div>
+                  </td>
+                  <td>
+                    <div class="input-group-prepend">
+                      <button
+                        type="button"
+                        class="btn btn-outline-secondary"
+                        (click)="
+                          ViewDocu(
+                            viewdocuments,
+                            'InicioRelacion',
+                            initialRelation.letter_of_consent_key,
+                            initialRelation.id
+                          )
+                        "
+                        *ngIf="
+                          initialRelation &&
+                          initialRelation.letter_of_consent_key
+                        "
+                      >
+                        Ver documento
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div
+            *ngFor="let person of persons"
+            class="px-3"
+            [class]="'cotainerp' + person.id"
+          >
+            <table
+              class="table table-striped mb-0 no-wrap v-middle"
+              *ngIf="idselected == 'cotainerp' + person.id"
+            >
+              <thead>
+                <tr>
+                  <th scope="col">Nombre Completo</th>
+                  <th scope="col">
+                    Documento Personal de Identificacion (DPI)
+                  </th>
+                  <th scope="col">Ver DPI</th>
+                  <th scope="col">Carta de consentimiento</th>
+                  <th scope="col">Ver Documento</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>{{ person.first_name }} {{ person.last_name }}</td>
+                  <td>
+                    <div class="custom-file">
+                      <input
+                        *ngIf="person"
+                        [disabled]="
+                          person.status_doc === 2 || person.status_doc === 3
+                        "
+                        type="file"
+                        accept=".pdf, .jpeg, .jpg, .png"
+                        id="inputGroupFile03"
+                        class="custom-file-input"
+                        (change)="
+                          showPreviewImageJuridico(
+                            $event,
+                            'InicioRelacion',
+                            'DPI',
+                            person
+                          )
+                        "
+                      />
+                      <label for="inputGroupFile03" class="custom-file-label"
+                        >Seleccionar documento</label
+                      >
+                    </div>
+                  </td>
+                  <td>
+                    <div class="input-group-prepend">
+                      <button
+                        (click)="
+                          ViewDocu(
+                            viewdocuments,
+                            'InicioRelacion',
+                            person.DPI_key,
+                            person.id
+                          )
+                        "
+                        type="button"
+                        class="btn btn-outline-secondary"
+                        *ngIf="person && person.DPI_key"
+                      >
+                        Ver DPI
+                      </button>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="custom-file">
+                      <input
+                        *ngIf="person"
+                        [disabled]="
+                          person.status_doc === 2 || person.status_doc === 3
+                        "
+                        type="file"
+                        accept=".pdf, .jpeg, .jpg, .png"
+                        id="inputGroupFile03"
+                        class="custom-file-input"
+                        (change)="
+                          showPreviewImageJuridico(
+                            $event,
+                            'InicioRelacion',
+                            'CartaConsetimiento',
+                            person
+                          )
+                        "
+                      />
+                      <label for="inputGroupFile03" class="custom-file-label"
+                        >Seleccionar documento</label
+                      >
+                    </div>
+                    <div class="row mt-2 ml-2">
+                      <span
+                        >Descarga tu carta de consentimiento
+                        <a
+                          style="cursor: pointer; color: #2962ff"
+                          (click)="
+                            openModalDowloandLetter(
+                              this.downloadLetter,
+                              'representante',
+                              person
+                            )
+                          "
+                          >Aqui!</a
+                        ></span
+                      >
+                    </div>
+                  </td>
+                  <td>
+                    <div class="input-group-prepend">
+                      <button
+                        type="button"
+                        class="btn btn-outline-secondary"
+                        (click)="
+                          ViewDocu(
+                            viewdocuments,
+                            'InicioRelacion',
+                            person.letter_of_consent_key,
+                            person.id
+                          )
+                        "
+                        *ngIf="person && person.letter_of_consent_key"
+                      >
+                        Ver documento
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div
+            *ngFor="let fiduciary of dataFiduciary"
+            class="px-3"
+            [class]="'cotainerf' + fiduciary.id_fiduciary"
+          >
+            <table
+              class="table table-striped mb-0 no-wrap v-middle"
+              *ngIf="idselected == 'cotainerf' + fiduciary.id_fiduciary"
+            >
+              <thead>
+                <tr>
+                  <th scope="col">Nombre Completo</th>
+                  <th scope="col">
+                    Documento Personal de Identificacion (DPI)
+                  </th>
+                  <th scope="col">Ver DPI</th>
+                  <th scope="col">Carta de consentimiento</th>
+                  <th scope="col">Ver Documento</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>{{ fiduciary.name1 }} {{ fiduciary.lastname1 }}</td>
+                  <td>
+                    <div class="custom-file">
+                      <input
+                        *ngIf="fiduciary"
+                        [disabled]="
+                          fiduciary.status_doc === 2 ||
+                          fiduciary.status_doc === 3
+                        "
+                        type="file"
+                        accept=".pdf, .jpeg, .jpg, .png"
+                        id="inputGroupFile03"
+                        class="custom-file-input"
+                        (change)="
+                          showPreviewImageFiduciario(
+                            $event,
+                            'Fiduciarios',
+                            'DPI',
+                            fiduciary
+                          )
+                        "
+                      />
+                      <label for="inputGroupFile03" class="custom-file-label"
+                        >Seleccionar documento</label
+                      >
+                    </div>
+                  </td>
+                  <td>
+                    <div class="input-group-prepend">
+                      <button
+                        (click)="
+                          ViewDocuFidu(
+                            viewdocuments,
+                            'Fiduciarios',
+                            fiduciary.DPI_key,
+                            fiduciary.id_fiduciary
+                          )
+                        "
+                        type="button"
+                        class="btn btn-outline-secondary"
+                        *ngIf="fiduciary && fiduciary.DPI_key"
+                      >
+                        Ver DPI
+                      </button>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="custom-file">
+                      <input
+                        *ngIf="fiduciary"
+                        [disabled]="
+                          fiduciary.status_doc === 2 ||
+                          fiduciary.status_doc === 3
+                        "
+                        type="file"
+                        accept=".pdf, .jpeg, .jpg, .png"
+                        id="inputGroupFile03"
+                        class="custom-file-input"
+                        (change)="
+                          showPreviewImageFiduciario(
+                            $event,
+                            'Fiduciarios',
+                            'CartaConsetimiento',
+                            fiduciary
+                          )
+                        "
+                      />
+                      <label for="inputGroupFile03" class="custom-file-label"
+                        >Seleccionar documento</label
+                      >
+                    </div>
+                    <div class="row mt-2 ml-2">
+                      <span
+                        >Descarga tu carta de consentimiento
+                        <a
+                          style="cursor: pointer; color: #2962ff"
+                          (click)="
+                            openModalDowloandLetter(
+                              this.downloadLetter,
+                              'fiduciario',
+                              fiduciary
+                            )
+                          "
+                          >Aqui!</a
+                        ></span
+                      >
+                    </div>
+                  </td>
+                  <td>
+                    <div class="input-group-prepend">
+                      <button
+                        type="button"
+                        class="btn btn-outline-secondary"
+                        (click)="
+                          ViewDocuFidu(
+                            viewdocuments,
+                            'Fiduciarios',
+                            fiduciary.letter_of_consent_key,
+                            fiduciary.id_fiduciary
+                          )
+                        "
+                        *ngIf="fiduciary && fiduciary.letter_of_consent_key"
+                      >
+                        Ver documento
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>-->
+
+<div class="row">
+  <div class="col-lg-3">
+    <div class="card">
+      <div class="card-body" id="createbuttons">
+        <div class="row" >
+          <div class="col-md-12 col-lg-12 col-xl-12 text-md-right mt-4 mt-md-0">
+            <!-- <button class="btn btn-lg btn-block text-white btn-success"
+              *ngIf="initialRelation"
+              (click)="CompleteDoc()"
+              ngbTooltip="Este botón estará habilitado hasta que todos los documentos esten completos"
+              [disabled]="
+                (initialRelation.status_doc === 2 && disable === true) ||
+                (initialRelation.status_doc === 3 && disable === true) ||
+                initialRelation.DPI_key === null ||
+                initialRelation.letter_of_consent_key === null ||
+                (initialRelation.status_doc === 2 && customer.type === 0) ||
+                (initialRelation.status_doc === 3 && customer.type === 0) ||
+                (customer.type === 1 && disable === true)
+              ">
+              <i class="fas fa-check text-white m-r-10"></i>Completar Documentos
+            </button> -->
+
+            <button class="btn btn-block text-white custom_add1" (click)="openModalSR2(this.createfiduciary)"
+              ngbTooltip="Clic para agregar un nuevo aval para la solicitud">
+              <i class=" fas fa-users text-white m-r-10"></i>Agregar un aval
+            </button>
+            <button *ngIf="this.customer&&this.customer.type==1" class="btn btn-block text-white custom_add1 mt-3"
+              (click)="openModalRepresentative(this.createrepresentative)"
+              ngbTooltip="Clic para agregar un representante a la solicitud.">
+              <i class=" fas fa-user-plus text-white m-r-10"></i>Agregar un Representante
+            </button>
+          </div>
+        </div>
+        <hr />
+
+        <div class="row">
+          <div class="col-12" style="text-align: justify;">
+            <strong>INSTRUCCIONES</strong>
+            <ul>
+              <li>Comienza dando click en <strong>SUBIR DOCUMENTOS</strong> en cualquier persona</li>
+              <li>Para completar los documentos debes cargar en <strong>PDF</strong> la carta de consentimiento firmada
+                y el DPI (ambos lados).</li>
+              <li>Descarga la carta de consentimiento, firmala y adjuntala como <strong>PDF</strong>.</li>
+              <li>Repite esto con cada persona para completar los documentos.</li>
+              <li>Al complentar los documentos da click en <strong>DOCUMENTOS</strong>.</li>
+              <li>Los documentos serán enviados y revisados por SoluCredit, espera nuestra comunicación.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-9">
+    <div class="row justify-content-center">
+      <!-- card cliente -->
+      <div class="col-md-12" *ngIf="customer">
+        <!-- <div class="card">
+          <div class="card-body text-center">
+            <img *ngIf="customer && customer.type == 0" width="100" class="rounded-circle border p-1" src="assets/images/user.png"/>
+            <img *ngIf="customer && customer.type == 1" width="100" class="rounded-circle border p-1" src="assets/images/users.png"/>
+            <h4 class="card-title mt-3 mb-0">
+              <span class="badge badge-success font-medium align-items-center" style="border-radius: 4px;font-size: 12px;"  *ngIf="initialRelation.DPI_key != null && initialRelation.letter_of_consent_key != null">Doc. Completos</span>
+               <span class="badge badge-info font-medium align-items-center" style="border-radius: 4px;font-size: 12px;"  *ngIf="initialRelation.DPI_key == null && initialRelation.letter_of_consent_key == null">Doc. Pendientes</span><br>
+              <span *ngIf="customer && customer.type == 0">{{ customer.name }}</span>
+              <span *ngIf="customer && customer.type == 1">{{ customer.businessname }}</span>
+            </h4>
+            <small class="text-muted" *ngIf="customer && customer.type == 0">Cliente Individual</small>
+            <small class="text-muted" *ngIf="customer && customer.type == 1">Cliente Juridico</small>
+            <div class="mt-3">
+              <button class="btn" [ngClass]="{'btn-success': initialRelation.DPI_key != null, 'btn-info': initialRelation.DPI_key == null}" (click)="openModaViewEditDoc(this.vieweditdoc,'customer','DPI')">DPI</button>
+              <button class="btn" [ngClass]="{'btn-success': initialRelation.letter_of_consent_key != null, 'btn-info': initialRelation.letter_of_consent_key == null}" (click)="openModaViewEditDoc(this.vieweditdoc,'customer','Letter')">Carta de Consentimiento</button>
+            </div>
+            <div class="mt-3 pt-3">
+              <span class="customlink" (click)="openModalDowloandLetter(this.downloadLetter,'cliente', customer)">Descargar carta de consentimiento</span>
+            </div>
+          </div>
+        </div> -->
+        <div class="card">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-lg-8">
+                <div class="d-flex d-inline-flex flex-row">
+                  <div class="d-inline my-auto">
+                    <img *ngIf="customer && customer.type == 0" src="assets/images/user.png" alt="user" width="50"
+                      class="rounded-circle">
+                    <img *ngIf="customer && customer.type == 1" src="assets/images/users.png" alt="user" width="50"
+                      class="rounded-circle">
+                  </div>
+                  <div class="d-inline my-auto ml-4">
+                    <h3>
+                      <i class="fa fa-times text-warning"
+                        *ngIf="initialRelation.DPI_key == null || initialRelation.letter_of_consent_key == null||anyDeclined(initialRelation)"></i>
+                      <i class="fa fa-check text-success"
+                        *ngIf="initialRelation.DPI_key != null && initialRelation.letter_of_consent_key != null&&!anyDeclined(initialRelation)"></i>
+                    </h3>
+                  </div>
+
+                  <div class="d-inline my-auto ml-4">
+
+                    <span class="badge badge-success font-medium align-items-center"
+                      style="border-radius: 4px;font-size: 12px;"
+                      *ngIf="initialRelation.DPI_key != null && initialRelation.letter_of_consent_key != null &&!anyDeclined(initialRelation)">Doc.
+                      Completos</span>
+                    <span class="badge badge-info font-medium align-items-center"
+                      style="border-radius: 4px;font-size: 12px;"
+                      *ngIf="(initialRelation.DPI_key == null || initialRelation.letter_of_consent_key == null)&&!anyDeclined(initialRelation)">Doc.
+                      Pendientes</span>
+                    <span class="badge badge-danger font-medium align-items-center"
+                      style="border-radius: 4px;font-size: 12px;"
+                      *ngIf="initialRelation&&anyDeclined(initialRelation)">Doc. Rechazados</span>
+                    <br>
+
+                  </div>
+
+                  <h5 *ngIf="customer && customer.type == 0" class="d-inline my-auto ml-3">{{ customer.name }}</h5>
+                  <h5 *ngIf="customer && customer.type == 1" class="d-inline my-auto ml-3">{{ customer.businessname }}
+                  </h5>
+
+                  <h6 *ngIf="customer && customer.type == 0" class="d-inline my-auto text-muted ml-4 ">Cliente
+                    Individual</h6>
+                  <h6 *ngIf="customer && customer.type == 1" class="d-inline my-auto text-muted ml-4 ">Cliente Juridico
+                  </h6>
+                </div>
+              </div>
+              <div class="col-lg-4 text-right my-auto">
+                <div class="ml-auto text-right my-auto" id="uploaddocuments">
+                  <div class="d-flex flex-row-reverse align-items-center border-left custom-card-list-link"
+                    (click)="actionEditDocuments(customer)" 
+                      [disabled]="persons.length==0"
+                    >
+                    <i class="display-6 icon-arrow-right ml-3"></i>
+                    <h4 class="ml-3 my-auto" ngbTooltip="Click para subir tus documentos">
+                      SUBIR DOCUMENTOS
+                    </h4>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- SEPARATOR -->
+      <div class="col-md-1" *ngIf="persons.length>0">
+        <span class="text-muted"><b>SOCIOS</b></span>
+      </div>
+      <div class="col-md-11" *ngIf="persons.length>0">
+        <hr />
+      </div>
+      <!-- card representante y socios del cliente -->
+      <div class="col-md-12">
+        <ul class="timeline timeline-left ml-2">
+          <li class="timeline-inverted timeline-item" *ngFor="let person of persons">
+            <div class="timeline-badge text-white">
+              <img width="50" class="rounded-circle" src="assets/images/user.png" />
+            </div>
+            <div class="timeline-panel" style="background-color: white; border-radius: 10px !important;">
+              <div class="timeline-body">
+                <div class="row">
+                  <div class="col-lg-8">
+                    <div class="d-flex d-inline-flex flex-row">
+                      <div class="d-inline my-auto">
+                        <h3>
+                          <i class="fa fa-check text-success"
+                            *ngIf="person.DPI_key != null && person.letter_of_consent_key != null &&!anyDeclined(person)"></i>
+                          <i class="fa fa-times text-warning"
+                            *ngIf="person.DPI_key == null || person.letter_of_consent_key == null||anyDeclined(person)"></i>
+                        </h3>
+                      </div>
+                      <div class="d-inline my-auto ml-4">
+                        <span class="badge badge-success font-medium align-items-center"
+                          style="border-radius: 4px;font-size: 12px;"
+                          *ngIf="person.DPI_key != null && person.letter_of_consent_key != null &&!anyDeclined(person)">Doc.
+                          Completos</span>
+                        <span class="badge badge-info font-medium align-items-center"
+                          style="border-radius: 4px;font-size: 12px;"
+                          *ngIf="(person.DPI_key == null || person.letter_of_consent_key == null)&&!anyDeclined(person)">Doc.
+                          Pendientes</span>
+                        <span class="badge badge-danger font-medium align-items-center"
+                          style="border-radius: 4px;font-size: 12px;" *ngIf="person&&anyDeclined(person)">Doc.
+                          Rechazados</span>
+
+                      </div>
+                      <h5 class="d-inline my-auto ml-3">{{ person.name }}</h5>
+
+                      <h6 class="d-inline my-auto text-muted ml-4" *ngIf="person.representative_id !== null">
+                        Representante</h6>
+                      <h6 class="d-inline my-auto text-muted ml-4" *ngIf="person.member_id !== null">Socio</h6>
+                    </div>
+                  </div>
+                  <div class="col-lg-4 text-right my-auto">
+                    <div class="d-flex flex-row-reverse align-items-center border-left custom-card-list-link"
+                      (click)="actionEditDocuments(person, 'person')">
+                      <i class="display-6 icon-arrow-right ml-3"></i>
+                      <h4 class="ml-3 my-auto" ngbTooltip="Click para subir documentos">
+                        SUBIR DOCUMENTOS
+                      </h4>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <!-- SEPARATOR -->
+      <div class="col-md-1">
+        <span class="text-muted"><b>AVALES</b></span>
+      </div>
+      <div class="col-md-11">
+        <hr />
+      </div>
+      <!-- card fiduciarios -->
+      <div class="col-md-12">
+        <ul class="timeline timeline-left ml-2">
+          <li class="timeline-inverted timeline-item"
+            *ngFor="let fiduciary of getChilds(dataFiduciary, null); index as i;">
+            <div class="timeline-badge text-white">
+              <img *ngIf="fiduciary.type == 0 || fiduciary.type == 2 || fiduciary.type == 3" width="50"
+                class="rounded-circle" src="assets/images/user.png" />
+              <img *ngIf="fiduciary.type == 1" width="50" class="rounded-circle" src="assets/images/users.png" />
+            </div>
+            <div class="timeline-panel" style="background-color: white; border-radius: 10px !important;">
+              <div class="timeline-body">
+                <div class="row">
+                  <div class="col-lg-8">
+                    <div class="d-flex d-inline-flex flex-row">
+                      <div class="d-inline my-auto">
+                        <h3>
+                          <i class="fa fa-check text-success mr-4"
+                            *ngIf="fiduciary.DPI_key != null && fiduciary.letter_of_consent_key != null && !anyDeclined(fiduciary)"></i>
+                          <i class="fa fa-times text-warning mr-4"
+                            *ngIf="(fiduciary.DPI_key == null || fiduciary.letter_of_consent_key == null) || anyDeclined(fiduciary)"></i>
+                        </h3>
+                      </div>
+                      <div class="d-inline my-auto">
+                        <span class="badge badge-success font-medium align-items-center mr-4"
+                          style="border-radius: 4px;font-size: 12px;"
+                          *ngIf="fiduciary.DPI_key != null && fiduciary.letter_of_consent_key != null && !anyDeclined(fiduciary)">Doc.
+                          Completos</span>
+                        <span class="badge badge-info font-medium align-items-center mr-4"
+                          style="border-radius: 4px;font-size: 12px;"
+                          *ngIf="(fiduciary.DPI_key == null || fiduciary.letter_of_consent_key == null)&&!anyDeclined(fiduciary)">Doc.
+                          Pendientes</span>
+                        <span class="badge badge-danger font-medium align-items-center mr-4"
+                          style="border-radius: 4px;font-size: 12px;" *ngIf="(fiduciary)&&anyDeclined(fiduciary)">Doc.
+                          Rechazados</span><br>
+                      </div>
+
+                      <h5 *ngIf="fiduciary.type == 0" class="d-inline my-auto ml-3">{{fiduciary.name}}</h5>
+                      <h5 *ngIf="fiduciary.type == 1" class="d-inline my-auto ml-3">{{ fiduciary.businessname }}</h5>
+                      <h5 *ngIf="fiduciary.type == 2 || fiduciary.type == 3" class="d-inline my-auto ml-3">
+                        {{fiduciary.name}}</h5>
+
+
+                      <h6 *ngIf="fiduciary.type == 0" class="d-inline my-auto text-muted ml-4">Aval Individual</h6>
+                      <h6 *ngIf="fiduciary.type == 1" class="d-inline my-auto text-muted ml-4">Aval Juridico</h6>
+                      <h6 *ngIf="fiduciary.type == 2" class="d-inline my-auto text-muted ml-4"><b>Representante</b> de
+                        Aval {{fiduciary.businessname}}</h6>
+                      <h6 *ngIf="fiduciary.type == 3" class="d-inline my-auto text-muted ml-4"><b>Socio</b> de Aval
+                        {{fiduciary.businessname}}</h6>
+                    </div>
+                  </div>
+                  <div class="col-lg-4 text-right my-auto">
+                    <div class="d-flex flex-row-reverse align-items-center border-left custom-card-list-link"
+                      (click)="actionEditDocuments(fiduciary, 'fiduciary')">
+                      <i class="display-6 icon-arrow-right ml-3"></i>
+                      <h4 class="ml-3 my-auto" ngbTooltip="Click para subir tus documentos">
+                        SUBIR DOCUMENTOS
+                      </h4>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <ul class="timeline timeline-left" *ngIf="getChilds(dataFiduciary, fiduciary.id_fiduciary).length > 0"
+              style="margin-left: 5rem !important; margin-top: 5rem !important;">
+              <li class="timeline-inverted timeline-item"
+                *ngFor="let child of getChilds(dataFiduciary, fiduciary.id_fiduciary); index as i;">
+                <div class="timeline-badge text-white">
+                  <img *ngIf="child.type == 0 || child.type == 2 || child.type == 3" width="50" class="img-fluid"
+                    src="assets/images/user.png" />
+                  <img *ngIf="child.type == 1" width="50" class="img-fluid" src="assets/images/users.png" />
+                </div>
+                <div class="timeline-panel" style="background-color: white; border-radius: 10px !important;">
+                  <!-- <div class="timeline-heading">
+                    <h5 *ngIf="child.type == 0" class="timeline-title">{{ child.name || '' }}</h5>
+                    <h5 *ngIf="child.type == 1" class="timeline-title">{{ child.businessname }}</h5>
+                    <h5 *ngIf="child.type == 2 || child.type == 3" class="timeline-title">{{ child.name || ''}}</h5>
+      
+                    <p>
+                      <small *ngIf="child.type == 0" class="text-muted">Aval Individual</small>
+                      <small *ngIf="child.type == 1" class="text-muted">Aval Juridico</small>
+                      <small *ngIf="child.type == 2" class="text-muted">Representante de Aval {{child.businessname}}</small>
+                      <small *ngIf="child.type == 3" class="text-muted">Socio de Aval {{child.businessname}}</small>
+                    </p>
+                  </div>             -->
+                  <div class="timeline-body">
+                    <div class="row">
+                      <div class="col-lg-8">
+                        <div class="d-flex d-inline-flex flex-row">
+                          <div class="d-inline my-auto ">
+                            <h3>
+                              <i class="fa fa-check text-success"
+                                *ngIf="child.DPI_key != null && child.letter_of_consent_key != null &&!anyDeclined(child)"></i>
+                              <i class="fa fa-times text-warning"
+                                *ngIf="(child.DPI_key == null || child.letter_of_consent_key == null)|| anyDeclined(child)"></i>
+                            </h3>
+                          </div>
+                          <div class="d-inline my-auto ml-4">
+                            <span class="badge badge-success font-medium align-items-center"
+                              style="border-radius: 4px;font-size: 12px;"
+                              *ngIf="child.DPI_key != null && child.letter_of_consent_key != null && !anyDeclined(child)">Doc.
+                              Completos</span>
+                            <span class="badge badge-info font-medium align-items-center"
+                              style="border-radius: 4px;font-size: 12px;"
+                              *ngIf="(child.DPI_key == null || child.letter_of_consent_key == null) && !anyDeclined(fiduciary)">Doc.
+                              Pendientes</span><br>
+                              <span class="badge badge-danger font-medium align-items-center mr-4"
+                          style="border-radius: 4px;font-size: 12px;" *ngIf="(child)&&anyDeclined(child)">Doc.
+                          Rechazados</span><br>
+                          </div>
+                          <h5 *ngIf="child.type == 0" class="d-inline my-auto ml-3">{{child.name}}</h5>
+                          <h5 *ngIf="child.type == 1" class="d-inline my-auto ml-3">{{ child.businessname }}</h5>
+                          <h5 *ngIf="child.type == 2 || child.type == 3" class="d-inline my-auto ml-3">{{child.name}}
+                          </h5>
+
+
+                          <h6 *ngIf="child.type == 0" class="d-inline my-auto text-muted ml-4">Aval Individual</h6>
+                          <h6 *ngIf="child.type == 1" class="d-inline my-auto text-muted ml-4">Aval Juridico</h6>
+                          <h6 *ngIf="child.type == 2" class="d-inline my-auto text-muted ml-4"><b>Representante</b> de
+                            Aval {{child.businessname}}</h6>
+                          <h6 *ngIf="child.type == 3" class="d-inline my-auto text-muted ml-4"><b>Socio</b> de Aval
+                            {{child.businessname}}</h6>
+                        </div>
+                      </div>
+                      <div class="col-lg-4 text-right my-auto">
+                        <div class="ml-auto text-right my-auto">
+                          <div class="d-flex flex-row-reverse align-items-center border-left custom-card-list-link"
+                            (click)="actionEditDocuments(child, 'fiduciary')">
+                            <i class="display-6 icon-arrow-right ml-3"></i>
+                            <h4 class="ml-3 my-auto">
+                              SUBIR DOCUMENTOS
+                            </h4>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="row justify-content-center" id="senddocuments">
+      <button class="btn btn-lg btn-block text-white btn-success" *ngIf="initialRelation" (click)="CompleteDoc()"
+        ngbTooltip="Este botón estará habilitado hasta que todos los documentos esten completos" [disabled]="
+          ((initialRelation.status_doc === 2 && disable === true) ||
+          (initialRelation.status_doc === 3 && disable === true) ||
+          initialRelation.DPI_key === null ||
+          initialRelation.letter_of_consent_key === null ||
+          (initialRelation.status_doc === 2 && customer.type === 0&&disable==true) ||
+          (initialRelation.status_doc === 3 && customer.type === 0 && disable==true) ||
+          (customer.type === 1 && disable === true))|| !allDocumentsAreCorrect()
+        ">
+        <i class="fas fa-check text-white m-r-10"></i>Completar Documentos 
+      </button>
+    </div>
+  </div>
+</div>
+
+
+
+
+<ng-template #vieweditdoc let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title" id="editUserLabel">Ver/subir Documentos</h5>
+    <button type="button" class="close" (click)="closeBtnClick()" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="card-block">
+      <h3>Documentos</h3>
+      <div class="alert alert-warning">
+        <h5>Unicamente se aceptan documentos .pdf / .png / .jpg</h5>
+      </div>
+      <div class="form-horizontal">
+        <div class="card-body customer" *ngIf="datatypeSelected == 'customer'">
+          <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-12">
+              <input *ngIf="initialRelation && datatypeSelected == 'customer' && datatypeDocSelected=='DPI'"
+                [disabled]="initialRelation.status_doc === 2 ||initialRelation.dpi_status==1" type="file"
+                accept=".pdf, .jpeg, .jpg, .png" id="inputGroupFile03" class="custom-file-input"
+                (change)="showPreviewImage($event, 'InicioRelacion', 'DPI')" />
+              <input *ngIf="initialRelation && datatypeSelected == 'customer' && datatypeDocSelected=='Letter'"
+                [disabled]="initialRelation.status_doc === 2 ||initialRelation.letter_of_consent_status==1" type="file"
+                accept=".pdf, .jpeg, .jpg, .png" id="inputGroupFile03" class="custom-file-input"
+                (change)="showPreviewImage($event,'InicioRelacion','CartaConsetimiento')" />
+              <label for="inputGroupFile03" class="custom-file-label">Seleccionar documento</label>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12">
+              <button type="button" class="btn btn-outline-secondary"
+                (click)="ViewDocu(viewdocuments,'InicioRelacion',initialRelation.DPI_name,initialRelation.id)"
+                *ngIf="initialRelation && initialRelation.DPI_key && datatypeSelected == 'customer' && datatypeDocSelected=='DPI'">
+                Ver documento
+              </button>
+              <button type="button" class="btn btn-outline-secondary"
+                (click)="ViewDocu(viewdocuments,'InicioRelacion',initialRelation.letter_of_consent_name,initialRelation.id)"
+                *ngIf="initialRelation && initialRelation.letter_of_consent_key && datatypeSelected == 'customer' && datatypeDocSelected=='Letter'">
+                Ver documento
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="card-body person" *ngIf="datatypeSelected == 'person'">
+          <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-12">
+              <input *ngIf="dataCurrentSelected && datatypeSelected == 'person' && datatypeDocSelected=='DPI'"
+                [disabled]="dataCurrentSelected.status_doc === 2 ||dataCurrentSelected.dpi_status==1" type="file"
+                accept=".pdf, .jpeg, .jpg, .png" id="inputGroupFile03" class="custom-file-input"
+                (change)="showPreviewImageJuridico($event,'InicioRelacion','DPI',dataCurrentSelected)" />
+
+              <input *ngIf="dataCurrentSelected && datatypeSelected == 'person' && datatypeDocSelected=='Letter'"
+                [disabled]="dataCurrentSelected.status_doc === 2 ||dataCurrentSelected.letter_of_consent_status==1"
+                type="file" accept=".pdf, .jpeg, .jpg, .png" id="inputGroupFile03" class="custom-file-input"
+                (change)="showPreviewImageJuridico($event,'InicioRelacion','CartaConsetimiento',dataCurrentSelected)" />
+              <label for="inputGroupFile03" class="custom-file-label">Seleccionar documento</label>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12">
+              <button
+                (click)="ViewDocu(viewdocuments,'InicioRelacion',dataCurrentSelected.DPI_name,dataCurrentSelected.id)"
+                type="button" class="btn btn-outline-secondary"
+                *ngIf="dataCurrentSelected && dataCurrentSelected.DPI_key && datatypeSelected == 'person' && datatypeDocSelected=='DPI'">
+                DPI
+              </button>
+              <button type="button" class="btn btn-outline-secondary"
+                (click)="ViewDocu(viewdocuments,'InicioRelacion',dataCurrentSelected.letter_of_consent_name,dataCurrentSelected.id)"
+                *ngIf="dataCurrentSelected && dataCurrentSelected.letter_of_consent_key && datatypeSelected == 'person' && datatypeDocSelected=='Letter'">
+                Documento
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="card-body aval" *ngIf="datatypeSelected == 'fiduciary'">
+          <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-12">
+              <input *ngIf="dataCurrentSelected && datatypeSelected == 'fiduciary' && datatypeDocSelected=='DPI'"
+                [disabled]="dataCurrentSelected.status_doc === 2 ||dataCurrentSelected.dpi_status==1" type="file"
+                accept=".pdf, .jpeg, .jpg, .png" id="inputGroupFile03" class="custom-file-input"
+                (change)="showPreviewImageFiduciario($event,'Fiduciarios','DPI',dataCurrentSelected)" />
+
+              <input *ngIf="dataCurrentSelected && datatypeSelected == 'fiduciary' && datatypeDocSelected=='Letter'"
+                [disabled]="dataCurrentSelected.status_doc === 2 ||dataCurrentSelected.letter_of_consent_status==1"
+                type="file" accept=".pdf, .jpeg, .jpg, .png" id="inputGroupFile03" class="custom-file-input"
+                (change)="showPreviewImageFiduciario($event,'Fiduciarios','CartaConsetimiento',dataCurrentSelected)" />
+              <label for="inputGroupFile03" class="custom-file-label">Seleccionar documento</label>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12">
+              <button
+                (click)="ViewDocuFidu(viewdocuments,'Fiduciarios',dataCurrentSelected.DPI_name,dataCurrentSelected.id_fiduciary)"
+                type="button" class="btn btn-outline-secondary"
+                *ngIf="dataCurrentSelected && dataCurrentSelected.DPI_key && datatypeSelected == 'fiduciary' && datatypeDocSelected=='DPI'">
+                DPI
+              </button>
+              <button type="button" class="btn btn-outline-secondary"
+                (click)="ViewDocuFidu(viewdocuments,'Fiduciarios',dataCurrentSelected.letter_of_consent_name,dataCurrentSelected.id_fiduciary)"
+                *ngIf="dataCurrentSelected && dataCurrentSelected.letter_of_consent_key && datatypeSelected == 'fiduciary' && datatypeDocSelected=='Letter'">
+                Documento
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+  </div>
+</ng-template>
+<!--CARTA CONSENTIMIENTO-->
+<ng-template #downloadLetter let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title" id="editUserLabel">
+      Datos para descargar <strong>Carta de Consentimiento
+      </strong>
+    </h5>
+
+    <button type="button" class="close" (click)="closeBtnClick()" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <!--ROJO-->
+
+    <form [formGroup]="formletter" class="form-horizontal r-separator" (ngSubmit)="DowloadLetterform()">
+      <div class="card-body">
+        <div class="form-group row p-b-15" *ngIf="!formletter.get('showBusinessName').disabled">
+          <label for="businessname" class="col-sm-3 text-right control-label col-form-label">Nombre de la
+            empresa
+            <app-asteriskrequired></app-asteriskrequired>
+          </label>
+          <div class="col-sm-9">
+            <input type="text" class="form-control" aria-label="Username" id="businessname"
+              formControlName="businessname" />
+            <small class="form-text text-danger col-sm-12" *ngIf="
+              !formletter.get('businessname').valid &&
+              (formletter.get('businessname').dirty ||
+                formletter.get('businessname').touched)
+            ">El campo es requerido.</small>
+          </div>
+        </div>
+
+
+        <div class="form-group  p-b-15" *ngIf="!formletter.get('businessnit').disabled">
+          <app-custominput label="NIT" [isrequired]="true" [formcontrol]="formletter.get('businessnit')" id="nit"
+            [placeholder]="placeHolders.nit" iconclass="far fa-address-card" type="tel"
+            [errorMessages]="errorMessages.nitErrorMessages" [maxLength]="13"></app-custominput>
+
+          <!-- <label for="nit" class="col-sm-3 text-right control-label col-form-label">NIT</label>
+          <div class="col-sm-9">
+            <input type="text" class="form-control" aria-label="Username" id="businessnit" formControlName="businessnit"
+              maxlength="13" minlength="6" />
+            <small class="form-text text-danger col-sm-12" *ngIf="
+              !formletter.get('businessnit').valid &&
+              (formletter.get('businessnit').dirty || formletter.get('businessnit').touched)
+            ">El campo es requerido.</small>
+          </div> -->
+        </div>
+
+        <div class="form-group row p-b-15" *ngIf="!formletter.get('showBusinessName').disabled">
+          <label from="nit" class="col-sm-3 text-right control-label col-form-label">Representante<app-asteriskrequired>
+            </app-asteriskrequired></label>
+          <div class="col-sm-9">
+            <select class="custom-select" id="bank" formControlName="representative" required=""
+              (change)="onChangeSelector($event.target.value)">
+              <option value="null" selected="selected" disabled>Selecciona un Representante</option>
+              <option value="{{item.value}}" *ngFor="let item of this.representativeArray;let index;">{{item.text}}
+              </option>
+            </select>
+            <small class="form-text text-danger col-sm-12" *ngIf="
+              !formletter.get('representative').valid &&
+              (formletter.get('representative').dirty || formletter.get('representative').touched)
+            ">Debes seleccionar un representante.</small>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-lg-6">
+            <app-custominput label="Primer nombre" [isrequired]="true" [formcontrol]="formletter.get('first_name')"
+              id="name1" [placeholder]="placeHolders.firstname" iconclass="far fa-user" type="text"
+              [errorMessages]="errorMessages.firstnameErrorMessages"></app-custominput>
+
+          </div>
+          <div class="col-lg-6">
+            <app-custominput label="Segundo nombre" [isrequired]="false" [formcontrol]="formletter.get('name2')"
+              id="name2" [placeholder]="placeHolders.secondname" iconclass="far fa-user" type="text"
+              [errorMessages]="[]">
+            </app-custominput>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-6">
+            <app-custominput label="Tercer nombre" [isrequired]="false" [formcontrol]="formletter.get('name3')"
+              id="name2" [placeholder]="placeHolders.thirdname" iconclass="far fa-user" type="text"
+              [errorMessages]="[]">
+            </app-custominput>
+          </div>
+          <div class="col-lg-6">
+            <app-custominput label="Primer apellido" [isrequired]="true" [formcontrol]="formletter.get('last_name')"
+              id="last_name" [placeholder]="placeHolders.lastname1" iconclass="far fa-user" type="text"
+              [errorMessages]="errorMessages.lastnameErrorMessages">
+            </app-custominput>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-6">
+            <app-custominput label="Segundo apellido" [isrequired]="false" [formcontrol]="formletter.get('lastname2')"
+              id="name2" [placeholder]="placeHolders.lastname2" iconclass="far fa-user" type="text"
+              [errorMessages]="[]">
+            </app-custominput>
+          </div>
+          <div class="col-lg-6">
+            <app-custominput label="Apellido de casada" [isrequired]="false" [formcontrol]="formletter.get('lastname3')"
+              id="name2" [placeholder]="placeHolders.lastname2" iconclass="far fa-user" type="text"
+              [errorMessages]="[]">
+            </app-custominput>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-6">
+            <app-custominput label="DPI" [isrequired]="true" [formcontrol]="formletter.get('DPI')" id="dpi"
+              [placeholder]="placeHolders.dpi" iconclass="far fa-address-card" type="tel"
+              [errorMessages]="errorMessages.dpiErrorMessages" [maxLength]="13"></app-custominput>
+          </div>
+          <div class="col-lg-6" *ngIf="!formletter.get('nit').disabled">
+            <app-custominput label="NIT" [isrequired]="true" [formcontrol]="formletter.get('nit')" id="nit"
+              [placeholder]="placeHolders.nit" iconclass="far fa-address-card" type="tel"
+              [errorMessages]="errorMessages.nitErrorMessages" [maxLength]="13"></app-custominput>
+          </div>
+
+
+
+        </div>
+
+
+
+
+
+
+
+
+
+        <div class="form-group row">
+          <label class="col-sm-3"></label>
+          <div class="col-sm-9">
+            <app-required-input-message [isValid]="formletter.valid"></app-required-input-message>
+          </div>
+
+        </div>
+      </div>
+      <hr />
+      <div class="card-footer row align-items-center" style="background-color: white; ">
+        <div class="col-lg-9">
+          <ngb-alert [dismissible]="false" type="danger" *ngIf="warningLetter && !formletter.valid || warningLetter">
+            <strong>Nota!</strong> La carta se descargara con datos incorrectos; Ingresar los datos correctos.
+          </ngb-alert>
+          <!--AMARILLO-->
+          <ngb-alert [dismissible]="false" type="warning" *ngIf="!formletter.valid">
+            <strong>Advertencia!</strong> Ingresa los datos requeridos para descargar la carta de consentimiento.
+          </ngb-alert>
+          <!--VERDE-->
+          <ngb-alert [dismissible]="false" type="success" *ngIf="formletter.valid && !warningLetter">
+            Clic en <strong>Descargar carta de consentimiento</strong>
+          </ngb-alert>
+        </div>
+
+        <div class=" col-lg-3 form-group m-b-0 text-right">
+          <button type="submit" class="btn btn-raised mr-1 text-white" style="background-color: #3473da"
+            [disabled]="!formletter.valid && !lockowner">
+            <i class="fas fa-download mr-2"></i>
+            Descargar Carta
+          </button>
+          <button type="button" class="btn btn-raised mr-1 text-white btn-secondary" (click)="closeBtnClick()">
+            <i class="fas fa-times mr-2"></i>
+            Cancelar
+          </button>
+
+        </div>
+      </div>
+    </form>
+  </div>
+</ng-template>
+
+<app-documentmodal [imgsrcbase64]="imgsrcbase64" [pdfsrcbase64]="pdfsrcbase64"></app-documentmodal>
+
+
+
+<ng-template #createrepresentative let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="editRepresentativeLabel">Registrar un Nuevo Representante</h4>
+    <button type="button" class="close" (click)="closeBtnClick()" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="card">
+      <div class="card-body">
+        <div class="card-block">
+          <form [formGroup]="formrepresentative" class="form-horizontal" (ngSubmit)="SaveRepresentative()">
+            <div clas="card-body">
+              <div class="row">
+                <div class="col-sm-12 col-lg-6">
+                  <app-custominput label="Primer nombre" [isrequired]="true"
+                    [formcontrol]="formrepresentative.get('first_name')" id="first_name"
+                    [placeholder]="placeHolders.firstname" iconclass="far fa-user" mode="top" type="text"
+                    [errorMessages]="errorMessages.firstnameErrorMessages"></app-custominput>
+                  <!-- <div class="form-group row">
+                    <label for="first_name" class="col-sm-12">Primer nombre</label>
+                    <div class="input-group col-sm-12">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1">
+                          <i class="far fa-user"></i>
+                        </span>
+                      </div>
+                      <input type="text" class="form-control" aria-label="Username" id="first_name"
+                        formControlName="first_name" required placeholder="Ej. Roberto">
+                    </div>
+                    <small class="form-text text-danger col-sm-12"
+                      *ngIf="!formrepresentative.get('first_name').valid && (formrepresentative.get('first_name').dirty || formrepresentative.get('first_name').touched)">El
+                      nombre es requerido.</small>
+                  </div> -->
+                </div>
+                <div class="col-sm-12 col-lg-6">
+                  <div class="form-group row">
+                    <label for="first_name" class="col-sm-12">Segundo nombre</label>
+                    <div class="input-group col-sm-12">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1">
+                          <i class="far fa-user"></i>
+                        </span>
+                      </div>
+                      <input type="text" class="form-control" aria-label="Username" id="name2" formControlName="name2"
+                        placeholder="Ej. Ariel">
+                    </div>
+
+                  </div>
+                </div>
+                <div class="col-sm-12 col-lg-6">
+                  <div class="form-group row">
+                    <label for="first_name" class="col-sm-12">Tercer nombre</label>
+                    <div class="input-group col-sm-12">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1">
+                          <i class="far fa-user"></i>
+                        </span>
+                      </div>
+                      <input type="text" class="form-control" aria-label="Username" id="name3" formControlName="name3"
+                        placeholder="Ej. Ariel">
+                    </div>
+
+                  </div>
+                </div>
+                <!--APELLIDO-->
+                <div class="col-sm-12 col-lg-6">
+                  <app-custominput label="Primer apellido" [isrequired]="true"
+                    [formcontrol]="formrepresentative.get('last_name')" id="last_name"
+                    [placeholder]="placeHolders.lastname1" iconclass="far fa-user" mode="top" type="text"
+                    [errorMessages]="errorMessages.lastnameErrorMessages"></app-custominput>
+                  <!-- <div class="form-group row">
+                    <label for="last_name" class="col-sm-12">Primer apellido</label>
+                    <div class="input-group col-sm-12">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1">
+                          <i class="far fa-user"></i>
+                        </span>
+                      </div>
+                      <input type="text" class="form-control" aria-label="Username" id="last_name"
+                        formControlName="last_name" required placeholder="Ej. Jimenez">
+                    </div>
+                    <small class="form-text text-danger col-sm-12"
+                      *ngIf="!formrepresentative.get('last_name').valid && (formrepresentative.get('last_name').dirty || formrepresentative.get('last_name').touched)">El
+                      apellido es requerido.</small>
+                  </div> -->
+                </div>
+
+                <div class="col-sm-12 col-lg-6">
+                  <div class="form-group row">
+                    <label for="last_name" class="col-sm-12">Segundo apellido</label>
+                    <div class="input-group col-sm-12">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1">
+                          <i class="far fa-user"></i>
+                        </span>
+                      </div>
+                      <input type="text" class="form-control" aria-label="Username" id="lastname2"
+                        formControlName="lastname2" placeholder="Ej. Jimenez">
+                    </div>
+
+                  </div>
+                </div>
+                <div class="col-sm-12 col-lg-6">
+                  <div class="form-group row">
+                    <label for="last_name" class="col-sm-12">Apellido de casada</label>
+                    <div class="input-group col-sm-12">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1">
+                          <i class="far fa-user"></i>
+                        </span>
+                      </div>
+                      <input type="text" class="form-control" aria-label="Username" id="lastname3"
+                        formControlName="lastname3" placeholder="Ej. Ramirez">
+                    </div>
+
+                  </div>
+                </div>
+                <!--DPI-->
+                <div class="col-sm-12 col-lg-6">
+                  <app-custominput label="DPI" [isrequired]="true" [formcontrol]="formrepresentative.get('DPI')"
+                    id="dpi" [placeholder]="placeHolders.dpi" iconclass="far fa-address-card" mode="top" type="tel"
+                    [errorMessages]="errorMessages.dpiErrorMessages" [maxLength]="13"></app-custominput>
+                  <!-- <div class="form-group row">
+                    <label for="DPI" class="col-sm-12">DPI</label>
+                    <div class="input-group col-sm-12">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1">
+                          <i class="far fa-address-card"></i>
+                        </span>
+                      </div>
+                      <input type="text" maxlength="13" size="13" class="form-control" aria-label="Username" id="DPI"
+                        formControlName="DPI" placeholder="Ej. 2743984710101">
+                    </div>
+                    <small class="form-text text-danger col-sm-12"
+                      *ngIf="!formrepresentative.get('DPI').valid && (formrepresentative.get('DPI').dirty || formrepresentative.get('DPI').touched)">El
+                      DPI es requerido.</small>
+                  </div> -->
+                </div>
+                <!--GENERO-->
+                <div class="col-sm-12 col-lg-6">
+                  <label for="gender" class="col-sm-12">Seleccionar Género <app-asteriskrequired></app-asteriskrequired>
+                  </label>
+                  <div class="form-group row">
+                    <div class="input-group col-sm-12">
+                      <div _ngcontent-bpb-c164="" class="input-group-prepend"><label _ngcontent-bpb-c164=""
+                          for="inputGroupSelect01" class="input-group-text"><i class="fas fa-venus-mars"></i></label>
+                      </div>
+                      <select class="custom-select col-sm-12" id="gender" formControlName="gender">
+                        <option value="" selected disabled>Selecionar...</option>
+                        <option value="0">Femenino</option>
+                        <option value="1">Masculino</option>
+                      </select>
+                    </div>
+                    <small class="form-text text-danger col-sm-12"
+                      *ngIf="!formrepresentative.get('gender').valid && (formrepresentative.get('gender').dirty || formrepresentative.get('gender').touched)">Seleccione
+                      un genero.</small>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <!--DATE-->
+                <div class="col-sm-12 col-lg-6">
+                  <div class="form-group row">
+                    <label for="birthdate" class="col-sm-12">Fecha de Nacimiento</label>
+                    <div class="input-group col-sm-12">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1">
+                          <i class="fas fa-calendar-alt"></i>
+                        </span>
+                      </div>
+                      <input type="date" class="form-control" id="birthdate" formControlName="birthdate">
+
+                    </div>
+                    <small class="form-text text-danger col-sm-12"
+                      *ngIf="!formrepresentative.get('birthdate').valid && (formrepresentative.get('birthdate').dirty || formrepresentative.get('birthdate').touched)">La
+                      fecha de nacimiento es requerida.</small>
+                  </div>
+                </div>
+                <!--CORREO-->
+                <div class="col-sm-12 col-lg-6">
+                  <app-custominput label="Correo electrónico" [isrequired]="true"
+                    [formcontrol]="formrepresentative.get('email')" id="email" [placeholder]="placeHolders.email"
+                    iconclass="far fa-envelope" mode="top" type="email"
+                    [errorMessages]="errorMessages.emailErrorMessages"></app-custominput>
+                  <!-- <div class="form-group row">
+                    <label for="email" class="col-sm-12">Correo Electrónico</label>
+                    <div class="input-group col-sm-12">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1">
+                          <i class="fas fa-envelope"></i>
+                        </span>
+                      </div>
+                      <input type="email" class="form-control" id="email" formControlName="email"
+                        placeholder="Ej. email@email.com">
+                    </div>
+                    <small class="form-text text-danger col-sm-12"
+                      *ngIf="!formrepresentative.get('email').valid && (formrepresentative.get('email').dirty || formrepresentative.get('email').touched)">Ingresar
+                      un correo electrónico válido.</small>
+                  </div> -->
+                </div>
+                <!--TELEFONO-->
+                <div class="col-sm-12 col-lg-6">
+                  <app-custominput label="Número de celular" [isrequired]="true"
+                    [formcontrol]="formrepresentative.get('mobile_phone')" id="phone" [placeholder]="placeHolders.phone"
+                    iconclass="far fa-address-card" mode="top" type="tel"
+                    [errorMessages]="errorMessages.phoneErrorMessages" [maxLength]="8"></app-custominput>
+                  <!-- <div class="form-group row">
+                    <label for="mobile_phone" class="col-sm-12">Número de celular</label>
+                    <div class="input-group col-sm-12">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1">
+                          <i class="fas fa-mobile-alt"></i>
+                        </span>
+                      </div>
+                      <input type="text" maxlength="8" size="8" class="form-control" id="mobile_phone"
+                        formControlName="mobile_phone" placeholder="Ej. 45826578">
+                    </div>
+                    <small class="form-text text-danger col-sm-12"
+                      *ngIf="!formrepresentative.get('mobile_phone').valid && (formrepresentative.get('mobile_phone').dirty || formrepresentative.get('mobile_phone').touched)">El
+                      número de celular es requerido.</small>
+                  </div> -->
+                </div>
+                <!--No CASA-->
+                <div class="col-sm-12 col-lg-6">
+                  <div class="form-group row">
+                    <label for="home_phone" class="col-sm-12">Número de casa</label>
+                    <div class="input-group col-sm-12">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1">
+                          <i class="fas fa-phone"></i>
+                        </span>
+                      </div>
+                      <input type="text" maxlength="8" size="8" class="form-control" id="home_phone"
+                        formControlName="home_phone" placeholder="Ej. 24536987">
+                    </div>
+                    <small class="form-text text-danger col-sm-12"
+                      *ngIf="!formrepresentative.get('home_phone').valid && (formrepresentative.get('home_phone').dirty || formrepresentative.get('home_phone').touched)">El
+                      número debe contener 8 digitos.</small>
+                  </div>
+                </div>
+                <!--OFICINA-->
+                <div class="col-sm-12 col-lg-6">
+                  <div class="form-group row">
+                    <label for="office_home" class="col-sm-12">Número de oficina</label>
+                    <div class="input-group col-sm-12">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1">
+                          <i class="fas fa-phone"></i>
+                        </span>
+                      </div>
+                      <input type="text" maxlength="8" size="8" class="form-control" id="office_home"
+                        formControlName="office_home" placeholder="Ej. 24536987">
+                    </div>
+                    <small class="form-text text-danger col-sm-12"
+                      *ngIf="!formrepresentative.get('office_home').valid && (formrepresentative.get('office_home').dirty || formrepresentative.get('office_home').touched)">El
+                      número debe contener 8 digitos.</small>
+                  </div>
+                </div>
+                <!--DIRECCION-->
+                <div class="col-sm-12 col-lg-6">
+                  <div class="form-group row">
+                    <label for="address" class="col-sm-12">Dirección</label>
+                    <div class="input-group col-sm-12">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1">
+                          <i class=" far fa-address-book"></i>
+                        </span>
+                      </div>
+                      <input type="text" class="form-control" id="address" formControlName="address"
+                        placeholder="Ej. 8va. calle 35-40 zona 4, Mixco, Guatemala">
+                    </div>
+                    <small class="form-text text-danger col-sm-12"
+                      *ngIf="!formrepresentative.get('address').valid && (formrepresentative.get('address').dirty || formrepresentative.get('address').touched)">La
+                      dirección es requerida.</small>
+                  </div>
+                </div>
+                <div style="display: flex; ">
+
+                  <label for="feic_source_income" class="col-sm-12">Marcar el Representante como Socio:</label>
+                  <div class="col-lg-12 col-md-12 col-sm-12">
+                    <div class="custom-control custom-checkbox">
+                      <input type="checkbox" value="1" id="associate" class="custom-control-input"
+                        formControlName="associate" />
+                      <label class="custom-control-label" for="associate">
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <hr>
+            <div class="card-body">
+              <div class="form-group m-b-0 text-left">
+                <button type="submit" class="btn btn-raised mr-1 text-white" style="background-color: #3473da;"
+                  [disabled]="!formrepresentative.valid">Registrar</button>
+                <button (click)="closeBtnClick()" class="btn btn-gray waves-effect waves-light">Cancelar</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+
+<ng-template #createfiduciary let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="editUserLabel">Agregar un Nuevo Fiduciario</h4>
+    <button type="button" class="close" (click)="closeBtnClick()" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="card-block">
+      <form [formGroup]="formfiduciary" class="form-horizontal" (ngSubmit)="CheckCreateCustomerFiducaryWaranty()">
+        <div class="card-body">
+          <div class="row">
+            <label for="type" class="col-sm-12">Tipo de Cliente</label>
+            <div class="col-12">
+              <div class="row form-group">
+                <div class="col-lg-6 col-md-6 col-sm-12 text-center">
+                  <div class="custom-control custom-radio">
+                    <input type="radio" id="customRadiocliente1" name="type" value="0" class="custom-control-input"
+                      formControlName="type" (change)="chageTypeWarranties()" />
+                    <label class="custom-control-label custom-label" for="customRadiocliente1">Individual</label>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12 text-center">
+                  <div class="custom-control custom-radio">
+                    <input type="radio" id="customRadiocliente2" name="type" value="1" class="custom-control-input"
+                      formControlName="type" (change)="chageTypeWarranties()" />
+                    <label class="custom-control-label custom-label" for="customRadiocliente2">Jurídico</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <hr />
+
+          <div class="row" *ngIf="formfiduciary.controls.type.value == 1">
+            <div class="col-sm-12 col-lg-4">
+              <div class="form-group row">
+                <label for="name" class="col-sm-12">Razón Social y Nombre Comercial
+                  <app-asteriskrequired></app-asteriskrequired>
+                </label>
+                <div class="input-group col-sm-12">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon1">
+                      <i class="fas fa-building"></i>
+                    </span>
+                  </div>
+                  <input type="text" class="form-control" aria-label="businessname" id="businessname"
+                    formControlName="businessname" required placeholder="Ej. Solucredit S.A." />
+                </div>
+                <small class="form-text text-danger col-sm-12" *ngIf="
+                    !formfiduciary.get('businessname').valid &&
+                    (formfiduciary.get('businessname').dirty ||
+                      formfiduciary.get('businessname').touched)
+                  ">La Razón Social y Nombre Comercial Son Requeridos.</small>
+              </div>
+            </div>
+            <div class="col-sm-12 col-lg-4">
+              <app-custominput label="NIT" [isrequired]="true" [formcontrol]="formfiduciary.get('businessnit')"
+                id="businessnit" [placeholder]="placeHolders.nit" iconclass="far fa-address-card" mode="top" type="tel"
+                [errorMessages]="errorMessages.nitErrorMessages" [maxLength]="13"></app-custominput>
+              <!-- <div class="form-group row">
+                <label for="businessnit" class="col-sm-12">Nit de la Empresa <app-asteriskrequired></app-asteriskrequired></label>
+                <div class="input-group col-sm-12">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon1">
+                      <i class="fas fa-address-book"></i>
+                    </span>
+                  </div>
+                  <input size="8" maxlength="8" type="text" class="form-control" aria-label="Username" id="businessnit"
+                    formControlName="businessnit" placeholder="Ej. 12345678" />
+                </div>
+                <small class="form-text text-danger col-sm-12" *ngIf="
+                    !formfiduciary.get('businessnit').valid &&
+                    (formfiduciary.get('businessnit').dirty ||
+                      formfiduciary.get('businessnit').touched)
+                  ">Este Campo es Requerido.</small>
+              </div> -->
+            </div>
+            <div class="col-sm-12 col-lg-4">
+              <div class="form-group row">
+                <label for="businessnumber" class="col-sm-12">Número de la Empresa <app-asteriskrequired>
+                  </app-asteriskrequired></label>
+                <div class="input-group col-sm-12">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon1">
+                      <i class="fas fa-phone"></i>
+                    </span>
+                  </div>
+                  <input size="8" maxlength="8" type="text" class="form-control" aria-label="Username"
+                    id="businessnumber" formControlName="businessnumber" placeholder="Ej. 12345678" />
+                </div>
+                <small class="form-text text-danger col-sm-12" *ngIf="
+                    !formfiduciary.get('businessnumber').valid &&
+                    (formfiduciary.get('businessnumber').dirty ||
+                      formfiduciary.get('businessnumber').touched)
+                  ">Este Campo es Requerido.</small>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-4"
+            *ngIf="formfiduciary.controls.type.value == 1 && this.dataResponseSaveFiduciary &&  this.dataResponseSaveFiduciary.success == true">
+            <hr>
+            <form [formGroup]="FormJuridicoRepresentatives" (ngSubmit)="addRepresentativeActualAval()">
+              <div class="row">
+                <div class="col-md-12">
+                  <h4>Representante Legal del Aval Jurídico</h4>
+                </div>
+              </div>
+              <div class="row mt-2">
+                <div class="col-lg-3 col-md-3 col-sm-12">
+                  <app-custominput label="Primer nombre" [isrequired]="true"
+                    [formcontrol]="FormJuridicoRepresentatives.get('name1')" id="name1"
+                    [placeholder]="placeHolders.firstname" iconclass="far fa-user" mode="top" type="text"
+                    [errorMessages]="errorMessages.firstnameErrorMessages"></app-custominput>
+                  <!-- <div class="form-group row">
+                    <label for="name1" class="col-sm-12">Primer nombre <app-asteriskrequired></app-asteriskrequired></label>
+                    <div class="input-group col-sm-12">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1">
+                          <i class="fas fa-address-card"></i>
+                        </span>
+                      </div>
+                      <input type="text" class="form-control" formControlName="name1" required>
+                    </div>
+                  </div> -->
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-12">
+                  <div class="form-group row">
+                    <label for="name1" class="col-sm-12">Segundo nombre</label>
+                    <div class="input-group col-sm-12">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1">
+                          <i class="fas fa-address-card"></i>
+                        </span>
+                      </div>
+                      <input type="text" class="form-control" formControlName="name2">
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-12">
+                  <div class="form-group row">
+                    <label for="name1" class="col-sm-12">Tercer nombre</label>
+                    <div class="input-group col-sm-12">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1">
+                          <i class="fas fa-address-card"></i>
+                        </span>
+                      </div>
+                      <input type="text" class="form-control" formControlName="name3">
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-12">
+                  <app-custominput label="Primer apellido" [isrequired]="true"
+                    [formcontrol]="FormJuridicoRepresentatives.get('lastname1')" id="lastname1"
+                    [placeholder]="placeHolders.lastname1" iconclass="far fa-user" mode="top" type="text"
+                    [errorMessages]="errorMessages.lastnameErrorMessages"></app-custominput>
+                  <!-- <div class="form-group row">
+                    <label for="name1" class="col-sm-12">Primer apellido <app-asteriskrequired></app-asteriskrequired></label>
+                    <div class="input-group col-sm-12">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1">
+                          <i class="fas fa-address-card"></i>
+                        </span>
+                      </div>
+                      <input type="text" class="form-control" formControlName="lastname1" required>
+                    </div>
+                  </div> -->
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-12">
+                  <div class="form-group row">
+                    <label for="name1" class="col-sm-12">Segundo apellido</label>
+                    <div class="input-group col-sm-12">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1">
+                          <i class="fas fa-address-card"></i>
+                        </span>
+                      </div>
+                      <input type="text" class="form-control" formControlName="lastname2">
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-12">
+                  <div class="form-group row">
+                    <label for="name1" class="col-sm-12">Apellido de casada</label>
+                    <div class="input-group col-sm-12">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1">
+                          <i class="fas fa-address-card"></i>
+                        </span>
+                      </div>
+                      <input type="text" class="form-control" formControlName="lastname3">
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-12">
+                  <app-custominput label="NIT" [isrequired]="true"
+                    [formcontrol]="FormJuridicoRepresentatives.get('NIT')" id="nit" [placeholder]="placeHolders.nit"
+                    iconclass="far fa-address-card" mode="top" type="tel"
+                    [errorMessages]="errorMessages.nitErrorMessages" [maxLength]="13"></app-custominput>
+                  <!-- <div class="form-group row">
+                    <label for="name" class="col-sm-12">Nit <app-asteriskrequired></app-asteriskrequired></label>
+                    <div class="input-group col-sm-12">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1">
+                          <i class="fas fa-address-card"></i>
+                        </span>
+                      </div>
+                      <input type="text" size="8" maxlength="8" class="form-control" formControlName="NIT" required>
+                    </div>
+                  </div> -->
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-12">
+                  <app-custominput label="Teléfono" [isrequired]="true"
+                    [formcontrol]="FormJuridicoRepresentatives.get('phone')" id="phone"
+                    [placeholder]="placeHolders.phone" iconclass="far fa-address-card" mode="top" type="tel"
+                    [errorMessages]="errorMessages.phoneErrorMessages" [maxLength]="8"></app-custominput>
+                  <!-- <div class="form-group row">
+                    <label for="name" class="col-sm-12">Teléfono <app-asteriskrequired></app-asteriskrequired></label>
+                    <div class="input-group col-sm-12">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1">
+                          <i class="fas fa-address-card"></i>
+                        </span>
+                      </div>
+                      <input type="text" size="8" maxlength="8" class="form-control" formControlName="phone" required>
+                    </div>
+                  </div> -->
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-12">
+                  <app-custominput label="DPI" [isrequired]="true"
+                    [formcontrol]="FormJuridicoRepresentatives.get('DPI')" id="dpi" [placeholder]="placeHolders.dpi"
+                    iconclass="far fa-address-card" mode="top" type="tel"
+                    [errorMessages]="errorMessages.dpiErrorMessages" [maxLength]="13"></app-custominput>
+                  <!-- <div class="form-group row">
+                    <label for="name" class="col-sm-12">DPI <app-asteriskrequired></app-asteriskrequired></label>
+                    <div class="input-group col-sm-12">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1">
+                          <i class="fas fa-address-card"></i>
+                        </span>
+                      </div>
+                      <input type="text" size="13" maxlength="13" class="form-control" formControlName="DPI" required>
+                    </div>
+                  </div> -->
+                </div>
+                <div class="col-md-1">
+                  <div class="form-group">
+                    <label for="addBtn" class="col-sm-12">&nbsp;</label>
+                    <button type="submit" class="btn text-white" ngbTooltip="Clic para Agregar un Representante Legal"
+                      style="background-color: #3473da" [disabled]="!FormJuridicoRepresentatives.valid"> <i
+                        class="fas fa-user-plus"></i></button>
+                  </div>
+                </div>
+              </div>
+            </form>
+
+            <div class="row mt-2">
+              <div class="col-sm-12 col-lg-12">
+                <div class="table-responsive">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th scope="col" style="text-align: center;">Nombre</th>
+                        <th scope="col" style="text-align: center;">Nit</th>
+                        <th scope="col" style="text-align: center;">Teléfono</th>
+                        <th scope="col" style="text-align: center;">Acciones</th>
+                      </tr>
+                    </thead>
+                    <tbody style="text-align: center;">
+                      <tr *ngFor="let member of dataResponseAddRepresentative;let i = index">
+                        <td>
+                          {{member.name}}
+                        </td>
+                        <td>
+                          {{member.nit}}
+                        </td>
+                        <td>
+                          {{member.phone}}
+                        </td>
+
+                        <td>
+                          <button class="btn btn-info waves-effect btn-rounded waves-light" type="button"
+                            ngbTooltip="Clic para Editar la Información del Representante"
+                            (click)="openModalUpdateRepresentative(updatefiduciaryrepresentative, member)"><i
+                              class="fas fa-pencil-alt"></i></button>
+                          <button class="btn btn-danger waves-effect btn-rounded waves-light" type="button"
+                            ngbTooltip="Clic para Eliminar la Información del Representante"
+                            (click)="deleteFiduciary(member.id_fiduciary)"><i class="fas fa-trash-alt"></i></button>
+                        </td>
+                      </tr>
+                      <tr *ngIf="dataResponseAddRepresentative.length === 0">
+                        <td colspan="4" style="background-color: #f2f7f8;;" class="text-center">Lista vacía</td>
+                      </tr>
+
+
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-4"
+            *ngIf="formfiduciary.controls.type.value == 1 &&  this.dataResponseSaveFiduciary && this.dataResponseSaveFiduciary.success == true">
+            <hr>
+            <form [formGroup]="FormJuridicoMembers" (ngSubmit)="addMemberActualAval()">
+              <div class="row">
+                <div class="col-md-12">
+                  <h4><strong>Socios del Aval Jurídico</strong></h4>
+                </div>
+              </div>
+              <div class="row mt-2">
+                <div class="col-lg-3 col-md-3 col-sm-12">
+                  <app-custominput label="Primer nombre" [isrequired]="true"
+                    [formcontrol]="FormJuridicoMembers.get('name1')" id="name1" [placeholder]="placeHolders.firstname"
+                    iconclass="far fa-user" mode="top" type="text"
+                    [errorMessages]="errorMessages.firstnameErrorMessages"></app-custominput>
+                  <!-- <div class="form-group row">
+                    <label for="name1" class="col-sm-12">Primer nombre <app-asteriskrequired></app-asteriskrequired></label>
+                    <div class="input-group col-sm-12">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1">
+                          <i class="fas fa-address-card"></i>
+                        </span>
+                      </div>
+                      <input type="text" class="form-control" formControlName="name1" required>
+                    </div>
+                  </div> -->
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-12">
+                  <div class="form-group row">
+                    <label for="name1" class="col-sm-12">Segundo nombre </label>
+                    <div class="input-group col-sm-12">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1">
+                          <i class="fas fa-address-card"></i>
+                        </span>
+                      </div>
+                      <input type="text" class="form-control" formControlName="name2">
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-12">
+                  <div class="form-group row">
+                    <label for="name1" class="col-sm-12">Tercer nombre</label>
+                    <div class="input-group col-sm-12">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1">
+                          <i class="fas fa-address-card"></i>
+                        </span>
+                      </div>
+                      <input type="text" class="form-control" formControlName="name3">
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-12">
+                  <app-custominput label="Primer apellido" [isrequired]="true"
+                    [formcontrol]="FormJuridicoMembers.get('lastname1')" id="lastname1"
+                    [placeholder]="placeHolders.lastname1" iconclass="far fa-user" mode="top" type="text"
+                    [errorMessages]="errorMessages.lastnameErrorMessages"></app-custominput>
+                  <!-- <div class="form-group row">
+                    <label for="name1" class="col-sm-12">Primer apellido <app-asteriskrequired></app-asteriskrequired></label>
+                    <div class="input-group col-sm-12">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1">
+                          <i class="fas fa-address-card"></i>
+                        </span>
+                      </div>
+                      <input type="text" class="form-control" formControlName="lastname1" required>
+                    </div>
+                  </div> -->
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-12">
+                  <div class="form-group row">
+                    <label for="name1" class="col-sm-12">Segundo apellido</label>
+                    <div class="input-group col-sm-12">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1">
+                          <i class="fas fa-address-card"></i>
+                        </span>
+                      </div>
+                      <input type="text" class="form-control" formControlName="lastname2">
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-12">
+                  <div class="form-group row">
+                    <label for="name1" class="col-sm-12">Apellido de casada</label>
+                    <div class="input-group col-sm-12">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1">
+                          <i class="fas fa-address-card"></i>
+                        </span>
+                      </div>
+                      <input type="text" class="form-control" formControlName="lastname3">
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-12">
+                  <app-custominput label="NIT" [isrequired]="true" [formcontrol]="FormJuridicoMembers.get('NIT')"
+                    id="nit" [placeholder]="placeHolders.nit" iconclass="far fa-address-card" mode="top" type="tel"
+                    [errorMessages]="errorMessages.nitErrorMessages" [maxLength]="13"></app-custominput>
+                  <!-- <div class="form-group row">
+                    <label for="name" class="col-sm-12">Nit <app-asteriskrequired></app-asteriskrequired></label>
+                    <div class="input-group col-sm-12">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1">
+                          <i class="fas fa-address-card"></i>
+                        </span>
+                      </div>
+                      <input type="text" size="8" maxlength="8" class="form-control" formControlName="NIT" required>
+                    </div>
+                  </div> -->
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-12">
+                  <app-custominput label="Teléfono" [isrequired]="true" [formcontrol]="FormJuridicoMembers.get('phone')"
+                    id="phone" [placeholder]="placeHolders.phone" iconclass="far fa-address-card" mode="top" type="tel"
+                    [errorMessages]="errorMessages.phoneErrorMessages" [maxLength]="8"></app-custominput>
+                  <!-- <div class="form-group row">
+                    <label for="name" class="col-sm-12">Teléfono <app-asteriskrequired></app-asteriskrequired></label>
+                    <div class="input-group col-sm-12">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1">
+                          <i class="fas fa-address-card"></i>
+                        </span>
+                      </div>
+                      <input type="text" size="8" maxlength="8" class="form-control" formControlName="phone" required>
+                    </div>
+                  </div> -->
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-12">
+                  <app-custominput label="DPI" [isrequired]="true" [formcontrol]="FormJuridicoMembers.get('DPI')"
+                    id="dpi" [placeholder]="placeHolders.dpi" iconclass="far fa-address-card" mode="top" type="tel"
+                    [errorMessages]="errorMessages.dpiErrorMessages" [maxLength]="13"></app-custominput>
+                  <!-- <div class="form-group row">
+                    <label for="name" class="col-sm-12">DPI <app-asteriskrequired></app-asteriskrequired></label>
+                    <div class="input-group col-sm-12">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1">
+                          <i class="fas fa-address-card"></i>
+                        </span>
+                      </div>
+                      <input type="text" size="13" maxlength="13" class="form-control" formControlName="DPI" required>
+                    </div>
+                  </div> -->
+                </div>
+                <div class="col-md-1">
+                  <div class="form-group">
+                    <label for="addBtn" class="col-sm-12">&nbsp;</label>
+                    <button type="submit" class="btn text-white" style="background-color: #3473da"
+                      ngbTooltip="Clic para Agregar un Socio" [disabled]="!FormJuridicoMembers.valid"> <i
+                        class="fas fa-user-plus"></i></button>
+                  </div>
+                </div>
+              </div>
+            </form>
+
+            <div class="row mt-2">
+              <div class="col-sm-12 col-lg-12">
+                <div class="table-responsive">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th scope="col" style="text-align: center;">Nombre</th>
+                        <th scope="col" style="text-align: center;">Nit</th>
+                        <th scope="col" style="text-align: center;">Teléfono</th>
+                        <th scope="col" style="text-align: center;">Acciones</th>
+                      </tr>
+                    </thead>
+                    <tbody style="text-align: center;">
+                      <tr *ngFor="let member of AvalActualMembers;let i = index">
+                        <td>
+                          {{member.name}}
+                        </td>
+                        <td>
+                          {{member.nit}}
+                        </td>
+                        <td>
+                          {{member.phone}}
+                        </td>
+                        <td>
+                          <button class="btn btn-info waves-effect btn-rounded waves-light" type="button"
+                            ngbTooltip="Clic para Editar la Información del Socio"
+                            (click)="openModalUpdateMember(updatefiduciaryMember, member)"><i
+                              class="fas fa-pencil-alt"></i></button>
+                          <button class="btn btn-danger waves-effect btn-rounded waves-light" type="button"
+                            ngbTooltip="Clicl para Eliminar la Información del Socio"
+                            (click)="deleteFiduciary(member.id_fiduciary)"><i class="fas fa-trash-alt"></i></button>
+                        </td>
+                      </tr>
+                      <tr *ngIf="AvalActualMembers.length === 0">
+                        <td colspan="4" style="background-color: #f2f7f8;;" class="text-center">Lista vacía</td>
+                      </tr>
+
+
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--FORMULARIO CLIENTE INDIVIDUAL-->
+          <div class="row mb-4" *ngIf="formfiduciary.controls.type.value == 0">
+            <div class="col-sm-12 col-lg-12">
+
+              <div class="form-group row">
+                <div class="col-lg-6 col-md-4 col-sm-6">
+                  <app-custominput label="Primer nombre" [isrequired]="true" [formcontrol]="formfiduciary.get('name1')"
+                    id="name1" [placeholder]="placeHolders.firstname" iconclass="far fa-user" mode="top" type="text"
+                    [errorMessages]="errorMessages.firstnameErrorMessages"></app-custominput>
+                  <!-- <label for="name" class="col-sm-12">Primer nombre<code
+                      style="font-size: 16px"><sup>*</sup></code></label>
+                  <div class="input-group col-sm-12">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" id="basic-addon1"><i class="far fa-user"></i></span>
+                    </div>
+                    <input type="text" class="form-control" aria-label="Username" id="name1" formControlName="name1"
+                      required placeholder="Ej. Roberto" />
+                  </div>
+                  <small class="form-text text-danger col-sm-12"
+                    *ngIf=" !formfiduciary.get('name1').valid && (formfiduciary.get('name1').dirty || formfiduciary.get('name1').touched)">
+                    El Nombre Completo es Requerido.
+                  </small> -->
+                </div>
+                <div class="col-lg-6 col-md-4 col-sm-6">
+                  <label for="name" class="col-sm-12">Segundo nombre</label>
+                  <div class="input-group col-sm-12">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" id="basic-addon1"><i class="far fa-user"></i></span>
+                    </div>
+                    <input type="text" class="form-control" aria-label="Username" id="name2" formControlName="name2"
+                      placeholder="Ej. Roberto" />
+                  </div>
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-lg-6 col-md-4 col-sm-6">
+                  <label for="name" class="col-sm-12">Tercer nombre<code style="font-size: 16px"></code></label>
+                  <div class="input-group col-sm-12">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" id="basic-addon1"><i class="far fa-user"></i></span>
+                    </div>
+                    <input type="text" class="form-control" aria-label="Username" id="name3" formControlName="name3"
+                      placeholder="Ej. Roberto" />
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-4 col-sm-6">
+                  <app-custominput label="Primer apellido" [isrequired]="true"
+                    [formcontrol]="formfiduciary.get('lastname1')" id="lastname1" [placeholder]="placeHolders.lastname1"
+                    iconclass="far fa-user" mode="top" type="text"
+                    [errorMessages]="errorMessages.lastnameErrorMessages"></app-custominput>
+                  <!-- <label for="name" class="col-sm-12">Primer apellido<code
+                      style="font-size: 16px"><sup>*</sup></code></label>
+                  <div class="input-group col-sm-12">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" id="basic-addon1"><i class="far fa-user"></i></span>
+                    </div>
+                    <input type="text" class="form-control" aria-label="Username" id="lastname1"
+                      formControlName="lastname1" placeholder="Ej. Sanchez" />
+                  </div> -->
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-lg-6 col-md-4 col-sm-6">
+                  <label for="name" class="col-sm-12">Segundo apellido</label>
+                  <div class="input-group col-sm-12">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" id="basic-addon1"><i class="far fa-user"></i></span>
+                    </div>
+                    <input type="text" class="form-control" aria-label="Username" id="lastname2"
+                      formControlName="lastname2" placeholder="Ej. Sanchez" />
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-4 col-sm-6">
+                  <label for="name" class="col-sm-12">Apellido de casada</label>
+                  <div class="input-group col-sm-12">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" id="basic-addon1"><i class="far fa-user"></i></span>
+                    </div>
+                    <input type="text" class="form-control" aria-label="Username" id="lastname"
+                      formControlName="lastname3" placeholder="Ej. Lopez" />
+                  </div>
+                </div>
+              </div>
+
+
+              <div class="form-group row">
+                <div class="col-lg-6 col-md-4 col-sm-6">
+                  <app-custominput label="DPI" [isrequired]="true" [formcontrol]="formfiduciary.get('DPI')" id="dpi"
+                    [placeholder]="placeHolders.dpi" iconclass="far fa-address-card" mode="top" type="tel"
+                    [errorMessages]="errorMessages.dpiErrorMessages" [maxLength]="13"></app-custominput>
+                  <!-- <label for="DPI" class="col-sm-12">DPI<code style="font-size: 16px"><sup>*</sup></code></label>
+                  <div class="input-group col-sm-12">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" id="basic-addon1">
+                        <i class="fas fa-address-card"></i>
+                      </span>
+                    </div>
+                    <input size="13" maxlength="13" type="text" class="form-control" aria-label="DPI" id="DPI"
+                      formControlName="DPI" placeholder="Ej. 1234567891234" />
+                  </div>
+                  <small class="form-text text-danger col-sm-12" *ngIf="
+                        !formfiduciary.get('DPI').valid &&
+                        (formfiduciary.get('DPI').dirty ||
+                          formfiduciary.get('DPI').touched)
+                      ">El Campo DPI es Requerido.</small> -->
+
+                </div>
+
+                <div class="col-lg-6 col-md-4 col-sm-6">
+                  <app-custominput label="NIT" [isrequired]="true" [formcontrol]="formfiduciary.get('nit')" id="nit"
+                    [placeholder]="placeHolders.nit" iconclass="far fa-address-card" mode="top" type="tel"
+                    [errorMessages]="errorMessages.nitErrorMessages" [maxLength]="13"></app-custominput>
+                  <!-- <label for="nit" class="col-sm-12">Nit<code style="font-size: 16px"><sup>*</sup></code></label>
+                  <div class="input-group col-sm-12">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" id="basic-addon1">
+                        <i class="fas fa-address-book"></i>
+                      </span>
+                    </div>
+                    <input size="8" maxlength="8" type="text" class="form-control" aria-label="nit" id="nit"
+                      formControlName="nit" placeholder="Ej. 1234567891234" />
+                  </div>
+                  <small class="form-text text-danger col-sm-12" *ngIf="
+                        !formfiduciary.get('nit').valid &&
+                        (formfiduciary.get('nit').dirty ||
+                          formfiduciary.get('nit').touched)
+                      ">El Campo Nit es Requerido.</small> -->
+                </div>
+
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+        <hr />
+        <div class="card-body">
+          <div class="form-group m-b-0 text-left">
+            <button *ngIf="formfiduciary.controls.type.value == 0" type="submit" class="btn btn-raised mr-1 text-white"
+              style="background-color: #3473da" [disabled]="!formfiduciary.valid">
+              Confirmar
+            </button>
+            <button
+              *ngIf="formfiduciary.controls.type.value == 1 &&!(this.dataResponseSaveFiduciary &&  this.dataResponseSaveFiduciary.success == true)"
+              type="submit" class="btn btn-raised mr-1 text-white" style="background-color: #3473da"
+              [disabled]="!formfiduciary.valid">
+              Guardar
+            </button>
+
+            <button type="button" class="btn btn-raised mr-1 btn-color-solucredit-secondary" (click)="closeBtnClick()">
+              Cancelar
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #UpdatefiduciaryLegal let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title" id="editUserLabel">Información de Aval Juridico</h5>
+    <button type="button" class="close" (click)="closeBtnClick()" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="card-block">
+      <form [formGroup]="formfiduciary" class="form-horizontal" (ngSubmit)="UpdateFiducaryWaranty()">
+        <div class="card-body">
+
+          <div class="row">
+            <div class="col-sm-12 col-lg-4">
+              <div class="form-group row">
+                <label for="name" class="col-sm-12">Razón social y nombre comercial
+                  <app-asteriskrequired></app-asteriskrequired>
+                </label>
+                <div class="input-group col-sm-12">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon1">
+                      <i class="fas fa-building"></i>
+                    </span>
+                  </div>
+                  <input type="text" class="form-control" aria-label="businessname" id="businessname"
+                    formControlName="businessname" required placeholder="Ej. Solucredit S.A." />
+                </div>
+                <small class="form-text text-danger col-sm-12" *ngIf="
+                    !formfiduciary.get('businessname').valid &&
+                    (formfiduciary.get('businessname').dirty ||
+                      formfiduciary.get('businessname').touched)
+                  ">La razón social y nombre comercial son requeridos.</small>
+              </div>
+            </div>
+            <div class="col-sm-12 col-lg-4">
+              <div class="form-group row">
+                <label for="businessnit" class="col-sm-12">Nit de la Empresa <app-asteriskrequired>
+                  </app-asteriskrequired></label>
+                <div class="input-group col-sm-12">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon1">
+                      <i class="far fa-user"></i>
+                    </span>
+                  </div>
+                  <input size="8" maxlength="8" type="text" class="form-control" aria-label="Username" id="businessnit"
+                    formControlName="businessnit" placeholder="Ej. 12345678" />
+                </div>
+                <small class="form-text text-danger col-sm-12" *ngIf="
+                    !formfiduciary.get('businessnit').valid &&
+                    (formfiduciary.get('businessnit').dirty ||
+                      formfiduciary.get('businessnit').touched)
+                  ">Este campo es requerido.</small>
+              </div>
+            </div>
+            <div class="col-sm-12 col-lg-4">
+              <div class="form-group row">
+                <label for="businessnumber" class="col-sm-12">Número de la Empresa <app-asteriskrequired>
+                  </app-asteriskrequired></label>
+                <div class="input-group col-sm-12">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon1">
+                      <i class="far fa-user"></i>
+                    </span>
+                  </div>
+                  <input size="8" maxlength="8" type="tel" class="form-control" aria-label="Username"
+                    id="businessnumber" formControlName="businessnumber" placeholder="Ej. 12345678" />
+                </div>
+                <small class="form-text text-danger col-sm-12" *ngIf="
+                    !formfiduciary.get('businessnumber').valid &&
+                    (formfiduciary.get('businessnumber').dirty ||
+                      formfiduciary.get('businessnumber').touched)
+                  ">Este campo es requerido.</small>
+              </div>
+            </div>
+            <div class="col-sm-12 col-lg-4">
+              <button *ngIf="formfiduciary.controls.type.value == 1" type="submit"
+                class="btn btn-raised mr-1 text-white" style="background-color: #3473da"
+                [disabled]="!formfiduciary.valid">
+                Guardar
+              </button>
+            </div>
+          </div>
+
+          <div class="mt-4">
+            <hr>
+            <form [formGroup]="FormJuridicoRepresentatives" (ngSubmit)="addRepresentativeActualAval()">
+              <div class="row">
+                <div class="col-md-12">
+                  <h3>Representante Legal del cliente jurídico</h3>
+                </div>
+              </div>
+              <div class="row mt-2">
+                <div class="col-lg-4 col-md-4 col-sm-12">
+                  <div class="form-group row">
+                    <label for="name1" class="col-sm-12">Nombre Completo <app-asteriskrequired></app-asteriskrequired>
+                    </label>
+                    <div class="input-group col-sm-12">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1">
+                          <i class="fas fa-address-card"></i>
+                        </span>
+                      </div>
+                      <input type="text" class="form-control" formControlName="name" required>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-12">
+                  <div class="form-group row">
+                    <label for="name" class="col-sm-12">Nit <app-asteriskrequired></app-asteriskrequired></label>
+                    <div class="input-group col-sm-12">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1">
+                          <i class="fas fa-address-card"></i>
+                        </span>
+                      </div>
+                      <input type="text" class="form-control" formControlName="NIT" required>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-12">
+                  <div class="form-group row">
+                    <label for="name" class="col-sm-12">Teléfono <app-asteriskrequired></app-asteriskrequired></label>
+                    <div class="input-group col-sm-12">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1">
+                          <i class="fas fa-address-card"></i>
+                        </span>
+                      </div>
+                      <input type="number" class="form-control" formControlName="phone" required>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-12">
+                  <div class="form-group row">
+                    <label for="name" class="col-sm-12">DPI <app-asteriskrequired></app-asteriskrequired></label>
+                    <div class="input-group col-sm-12">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1">
+                          <i class="fas fa-address-card"></i>
+                        </span>
+                      </div>
+                      <input type="number" class="form-control" formControlName="DPI" required>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-1">
+                  <div class="form-group">
+                    <label for="addBtn" class="col-sm-12">&nbsp;</label>
+                    <button type="submit" class="btn text-white" style="background-color: #3473da"
+                      [disabled]="!FormJuridicoRepresentatives.valid"> <i class="fas fa-user-plus"></i></button>
+                  </div>
+                </div>
+              </div>
+            </form>
+
+            <div class="row mt-2">
+              <div class="col-sm-12 col-lg-12">
+                <div class="table-responsive">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Nit</th>
+                        <th scope="col">Teléfono</th>
+                        <th scope="col">Acciones</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let member of dataResponseAddRepresentative;let i = index">
+                        <td>
+                          {{member.name}}
+                        </td>
+                        <td>
+                          {{member.nit}}
+                        </td>
+                        <td>
+                          {{member.phone}}
+                        </td>
+
+                        <td>
+                          <button class="btn btn-info waves-effect btn-rounded waves-light" type="button"
+                            (click)="openModalUpdateRepresentative(updatefiduciaryrepresentative, member)"><i
+                              class="fas fa-pencil-alt"></i></button>
+                          <button class="btn btn-danger waves-effect btn-rounded waves-light" type="button"
+                            (click)="deleteFiduciary(member.id_fiduciary)"><i class="fas fa-trash-alt"></i></button>
+                        </td>
+                      </tr>
+                      <tr *ngIf="AvalActualRepresentatives.length == 0">
+                        <td colspan="4" style="background-color: #f2f7f8;;" class="text-center">Lista vacía</td>
+                      </tr>
+
+
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-4">
+            <hr>
+            <form [formGroup]="FormJuridicoMembers" (ngSubmit)="addMemberActualAval()">
+              <div class="row">
+                <div class="col-md-12">
+                  <h3>Socios del aval jurídico</h3>
+                </div>
+              </div>
+              <div class="row mt-2">
+                <div class="col-lg-4 col-md-4 col-sm-12">
+                  <div class="form-group row">
+                    <label for="name1" class="col-sm-12">Nombre Completo <app-asteriskrequired></app-asteriskrequired>
+                    </label>
+                    <div class="input-group col-sm-12">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1">
+                          <i class="fas fa-address-card"></i>
+                        </span>
+                      </div>
+                      <input type="text" class="form-control" formControlName="name1" required>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-12">
+                  <div class="form-group row">
+                    <label for="name" class="col-sm-12">Nit <app-asteriskrequired></app-asteriskrequired></label>
+                    <div class="input-group col-sm-12">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1">
+                          <i class="fas fa-address-card"></i>
+                        </span>
+                      </div>
+                      <input type="text" class="form-control" formControlName="NIT" required>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-12">
+                  <div class="form-group row">
+                    <label for="name" class="col-sm-12">Teléfono <app-asteriskrequired></app-asteriskrequired></label>
+                    <div class="input-group col-sm-12">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1">
+                          <i class="fas fa-address-card"></i>
+                        </span>
+                      </div>
+                      <input type="number" class="form-control" formControlName="phone" required>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-12">
+                  <div class="form-group row">
+                    <label for="name" class="col-sm-12">DPI <app-asteriskrequired></app-asteriskrequired></label>
+                    <div class="input-group col-sm-12">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1">
+                          <i class="fas fa-address-card"></i>
+                        </span>
+                      </div>
+                      <input type="number" class="form-control" formControlName="DPI" required>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-1">
+                  <div class="form-group">
+                    <label for="addBtn" class="col-sm-12">&nbsp;</label>
+                    <button type="submit" class="btn text-white" style="background-color: #3473da"
+                      [disabled]="!FormJuridicoMembers.valid"> <i class="fas fa-user-plus"></i></button>
+                  </div>
+                </div>
+              </div>
+            </form>
+
+            <div class="row mt-2">
+              <div class="col-sm-12 col-lg-12">
+                <div class="table-responsive">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Nit</th>
+                        <th scope="col">Teléfono</th>
+                        <th scope="col">Acciones</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let member of AvalActualMembers;let i = index">
+                        <td>
+                          {{member.name1}}
+                        </td>
+                        <td>
+                          {{member.nit}}
+                        </td>
+                        <td>
+                          {{member.phone}}
+                        </td>
+                        <td>
+                          <button class="btn btn-info waves-effect btn-rounded waves-light" type="button"
+                            (click)="openModalUpdateMember(updatefiduciaryMember, member)"><i
+                              class="fas fa-pencil-alt"></i></button>
+                          <button class="btn btn-danger waves-effect btn-rounded waves-light" type="button"
+                            (click)="deleteFiduciary(member.id_fiduciary)"><i class="fas fa-trash-alt"></i></button>
+                        </td>
+                      </tr>
+                      <tr *ngIf="AvalActualMembers.length == 0">
+                        <td colspan="4" style="background-color: #f2f7f8;;" class="text-center">Lista vacía</td>
+                      </tr>
+
+
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <hr />
+        <div class="card-body">
+          <div class="form-group m-b-0 text-left">
+            <button *ngIf="formfiduciary.controls.type.value == 0" type="submit" class="btn btn-raised mr-1 text-white"
+              style="background-color: #3473da" [disabled]="!formfiduciary.valid">
+              Confirmar
+            </button>
+            <button type="button" class="btn btn-raised mr-1 text-white btn-color-solucredit-secondary"
+              (click)="closeBtnClick()">
+              Cancelar
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #updatefiduciary let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title" id="editUserLabel">Editar un Fiduciario</h5>
+    <button type="button" class="close" (click)="closeBtnClick()" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="card-block">
+      <form [formGroup]="formfiduciary" class="form-horizontal" (ngSubmit)="UpdateFiducaryWaranty()">
+        <div class="card-body">
+          <div class="row">
+            <label class="col-sm-12" for="type">Tipo de cliente</label>
+            <div class="col-12">
+              <div class="row form-group">
+                <div class="col-lg-6 col-md-6 col-sm-12 text-center">
+                  <div class="custom-control custom-radio">
+                    <input type="radio" id="customRadiocliente1" name="type" value="0" class="custom-control-input"
+                      formControlName="type" (change)="chageTypeWarranties()" />
+                    <label class="custom-control-label custom-label" for="customRadiocliente1">Individual</label>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12 text-center">
+                  <div class="custom-control custom-radio">
+                    <input type="radio" id="customRadiocliente2" name="type" value="1" class="custom-control-input"
+                      formControlName="type" (change)="chageTypeWarranties()" />
+                    <label class="custom-control-label custom-label" for="customRadiocliente2">Juridico</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <hr />
+          <div class="row" *ngIf="formfiduciary.controls.type.value == 1">
+            <div class="col-sm-12 col-lg-12">
+              <div class="form-group row">
+                <label for="name" class="col-sm-12">Razón social y nombre comercial
+                  <app-asteriskrequired></app-asteriskrequired>
+                </label>
+                <div class="input-group col-sm-12">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon1">
+                      <i class="fas fa-building"></i>
+                    </span>
+                  </div>
+                  <input type="text" class="form-control" aria-label="businessname" id="businessname"
+                    formControlName="businessname" required placeholder="Ej. Solucredit S.A." />
+                </div>
+                <small class="form-text text-danger col-sm-12" *ngIf="
+                    !formfiduciary.get('businessname').valid &&
+                    (formfiduciary.get('businessname').dirty ||
+                      formfiduciary.get('businessname').touched)
+                  ">La razón social y nombre comercial son requeridos.</small>
+              </div>
+            </div>
+          </div>
+          <div class="row ">
+            <div class="col-sm-12 col-lg-4">
+              <div class="form-group row">
+                <label for="name" class="col-sm-12">Primer Nombre <app-asteriskrequired></app-asteriskrequired></label>
+                <div class="input-group col-sm-12">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon1">
+                      <i class="far fa-user"></i>
+                    </span>
+                  </div>
+                  <input type="text" class="form-control" aria-label="Username" id="name1" formControlName="name1"
+                    required placeholder="Ej. Roberto" />
+                </div>
+                <small class="form-text text-danger col-sm-12" *ngIf="
+                    !formfiduciary.get('name1').valid &&
+                    (formfiduciary.get('name1').dirty ||
+                      formfiduciary.get('name1').touched)
+                  ">El primer apellido es requerido.</small>
+              </div>
+            </div>
+            <div class="col-sm-12 col-lg-4">
+              <div class="form-group row">
+                <label for="name" class="col-sm-12">Segundo Nombre</label>
+                <div class="input-group col-sm-12">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon1">
+                      <i class="far fa-user"></i>
+                    </span>
+                  </div>
+                  <input type="text" class="form-control" aria-label="Username" id="name2" formControlName="name2"
+                    placeholder="Ej. Elias" />
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-12 col-lg-4">
+              <div class="form-group row">
+                <label for="name" class="col-sm-12">Otro nombre</label>
+                <div class="input-group col-sm-12">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon1">
+                      <i class="far fa-user"></i>
+                    </span>
+                  </div>
+                  <input type="text" class="form-control" aria-label="Username" id="name3" formControlName="name3"
+                    placeholder="Ej. Roberto Elias" />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mb-4">
+            <div class="col-sm-12 col-lg-4">
+              <div class="form-group row">
+                <label for="name" class="col-sm-12">Primer Apellido <app-asteriskrequired></app-asteriskrequired>
+                </label>
+                <div class="input-group col-sm-12">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon1">
+                      <i class="far fa-user"></i>
+                    </span>
+                  </div>
+                  <input type="text" class="form-control" aria-label="Last Name" id="lastname1"
+                    formControlName="lastname1" required placeholder="Ej.Perez " />
+                </div>
+                <small class="form-text text-danger col-sm-12" *ngIf="
+                    !formfiduciary.get('lastname1').valid &&
+                    (formfiduciary.get('lastname1').dirty ||
+                      formfiduciary.get('lastname1').touched)
+                  ">El primer apellido es requerido.</small>
+              </div>
+            </div>
+            <div class="col-sm-12 col-lg-4">
+              <div class="form-group row">
+                <label for="name" class="col-sm-12">Segundo Apellido <app-asteriskrequired></app-asteriskrequired>
+                </label>
+                <div class="input-group col-sm-12">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon1">
+                      <i class="far fa-user"></i>
+                    </span>
+                  </div>
+                  <input type="text" class="form-control" aria-label="second Last name" id="lastname2"
+                    formControlName="lastname2" required placeholder="Ej. Ramirez" />
+                </div>
+                <small class="form-text text-danger col-sm-12" *ngIf="
+                    !formfiduciary.get('lastname2').valid &&
+                    (formfiduciary.get('lastname2').dirty ||
+                      formfiduciary.get('lastname2').touched)
+                  ">El segundo apellido es requerido.</small>
+              </div>
+            </div>
+            <div class="col-sm-12 col-lg-4">
+              <div class="form-group row">
+                <label for="name" class="col-sm-12">Apellido de casada</label>
+                <div class="input-group col-sm-12">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon1">
+                      <i class="far fa-user"></i>
+                    </span>
+                  </div>
+                  <input type="text" class="form-control" aria-label="Last name" id="lastname3"
+                    formControlName="lastname3" placeholder="Ej. Ramirez" />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-sm-12 col-lg-4">
+            <div class="form-group row">
+              <label for="DPI" class="col-sm-12">DPI</label>
+              <div class="input-group col-sm-12">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="basic-addon1">
+                    <i class="far fa-user"></i>
+                  </span>
+                </div>
+                <input type="number" class="form-control" aria-label="DPI" id="DPI" formControlName="DPI"
+                  placeholder="Ej. 1234567891234" />
+              </div>
+              <small class="form-text text-danger col-sm-12" *ngIf="
+                    !formfiduciary.get('DPI').valid &&
+                    (formfiduciary.get('DPI').dirty ||
+                      formfiduciary.get('DPI').touched)
+                  ">El campo es requerido.</small>
+            </div>
+          </div>
+          <div class="col-sm-12 col-lg-4">
+            <div class="form-group row">
+              <label for="nit" class="col-sm-12">Nit</label>
+              <div class="input-group col-sm-12">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="basic-addon1">
+                    <i class="far fa-user"></i>
+                  </span>
+                </div>
+                <input type="number" class="form-control" aria-label="nit" id="nit" formControlName="nit"
+                  placeholder="Ej. 1234567891234" />
+              </div>
+              <small class="form-text text-danger col-sm-12" *ngIf="
+                    !formfiduciary.get('nit').valid &&
+                    (formfiduciary.get('nit').dirty ||
+                      formfiduciary.get('nit').touched)
+                  ">El campo es requerido.</small>
+            </div>
+          </div>
+        </div>
+        <hr />
+        <div class="card-body">
+          <div class="form-group m-b-0 text-left">
+            <button type="submit" class="btn btn-raised mr-1 text-white" style="background-color: #3473da"
+              [disabled]="!formfiduciary.valid">
+              Guardar
+            </button>
+            <button type="button" class="btn btn-raised mr-1 text-white btn-color-solucredit-secondary"
+              (click)="closeBtnClick()">
+              Cancelar
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #updatefiduciaryrepresentative let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title" id="editUserLabel">Actualizar información de Representante</h5>
+    <button id="updateMemberClose" type="button" class="close" (click)="modal.dismiss('cerrar')" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="card-block">
+      <form [formGroup]="FormUpdateJuridicoRepresentatives" (ngSubmit)="UpdateRepresentativeActualAval()">
+        <div class="row">
+          <div class="col-md-12">
+            <h3>Representante Legal del Aval Jurídico</h3>
+          </div>
+        </div>
+        <div class="row mt-2">
+          <div class="col-lg-3 col-md-3 col-sm-12">
+            <div class="form-group row">
+              <label for="name" class="col-sm-12">Primer Nombre<code style="font-size: 16px"><sup>*</sup></code></label>
+              <div class="input-group col-sm-12">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="basic-addon1">
+                    <i class="far fa-user"></i>
+                  </span>
+                </div>
+                <input type="text" class="form-control" aria-label="Username" id="name1" formControlName="name1"
+                  required placeholder="Ej. Roberto" />
+              </div>
+              <small class="form-text text-danger col-sm-12" *ngIf="
+                  !FormUpdateJuridicoRepresentatives.get('name1').valid &&
+                  (FormUpdateJuridicoRepresentatives.get('name1').dirty ||
+                  FormUpdateJuridicoRepresentatives.get('name1').touched)
+                ">El primer apellido es requerido.</small>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-12">
+            <div class="form-group row">
+              <label for="name" class="col-sm-12">Segundo Nombre</label>
+              <div class="input-group col-sm-12">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="basic-addon1">
+                    <i class="far fa-user"></i>
+                  </span>
+                </div>
+                <input type="text" class="form-control" aria-label="Username" id="name2" formControlName="name2"
+                  placeholder="Ej. Elias" />
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-12">
+            <div class="form-group row">
+              <label for="name" class="col-sm-12">Otro nombre</label>
+              <div class="input-group col-sm-12">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="basic-addon1">
+                    <i class="far fa-user"></i>
+                  </span>
+                </div>
+                <input type="text" class="form-control" aria-label="Username" id="name3" formControlName="name3"
+                  placeholder="Ej. Roberto Elias" />
+              </div>
+            </div>
+          </div>
+
+
+
+          <div class="col-lg-3 col-md-3 col-sm-12">
+            <div class="form-group row">
+              <label for="name" class="col-sm-12">Primer Apellido<code
+                  style="font-size: 16px"><sup>*</sup></code></label>
+              <div class="input-group col-sm-12">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="basic-addon1">
+                    <i class="far fa-user"></i>
+                  </span>
+                </div>
+                <input type="text" class="form-control" aria-label="Last Name" id="lastname1"
+                  formControlName="lastname1" required placeholder="Ej.Perez " />
+              </div>
+              <small class="form-text text-danger col-sm-12" *ngIf="
+                  !FormUpdateJuridicoRepresentatives.get('lastname1').valid &&
+                  (FormUpdateJuridicoRepresentatives.get('lastname1').dirty ||
+                  FormUpdateJuridicoRepresentatives.get('lastname1').touched)
+                ">El primer apellido es requerido.</small>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-12">
+            <div class="form-group row">
+              <label for="name" class="col-sm-12">Segundo Apellido<code
+                  style="font-size: 16px"><sup>*</sup></code></label>
+              <div class="input-group col-sm-12">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="basic-addon1">
+                    <i class="far fa-user"></i>
+                  </span>
+                </div>
+                <input type="text" class="form-control" aria-label="second Last name" id="lastname2"
+                  formControlName="lastname2" placeholder="Ej. Ramirez" />
+              </div>
+
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-12">
+            <div class="form-group row">
+              <label for="name" class="col-sm-12">Apellido de casada</label>
+              <div class="input-group col-sm-12">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="basic-addon1">
+                    <i class="far fa-user"></i>
+                  </span>
+                </div>
+                <input type="text" class="form-control" aria-label="Last name" id="lastname3"
+                  formControlName="lastname3" placeholder="Ej. Ramirez" />
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-12">
+            <div class="form-group row">
+              <label for="name" class="col-sm-12">Nit <app-asteriskrequired></app-asteriskrequired></label>
+              <div class="input-group col-sm-12">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="basic-addon1">
+                    <i class="fas fa-address-card"></i>
+                  </span>
+                </div>
+                <input type="text" class="form-control" formControlName="NIT" required>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-12">
+            <div class="form-group row">
+              <label for="name" class="col-sm-12">Teléfono <app-asteriskrequired></app-asteriskrequired></label>
+              <div class="input-group col-sm-12">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="basic-addon1">
+                    <i class="fas fa-address-card"></i>
+                  </span>
+                </div>
+                <input type="number" class="form-control" formControlName="phone" required>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-12">
+            <div class="form-group row">
+              <label for="name" class="col-sm-12">DPI <app-asteriskrequired></app-asteriskrequired></label>
+              <div class="input-group col-sm-12">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="basic-addon1">
+                    <i class="fas fa-address-card"></i>
+                  </span>
+                </div>
+                <input type="number" class="form-control" formControlName="DPI" required>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-1">
+            <div class="form-group">
+              <label for="addBtn" class="col-sm-12">&nbsp;</label>
+              <button type="submit" class="btn text-white" style="background-color: #3473da"
+                [disabled]="!FormUpdateJuridicoRepresentatives.valid"> Guardar</button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #updatefiduciaryMember let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title" id="editUserLabel">Actualizar Información de Socio</h5>
+    <button id="updateMemberClose" type="button" class="close" (click)="modal.dismiss('cerrar')" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="card-block">
+      <form [formGroup]="FormUpdateJuridicoMembers" (ngSubmit)="UpdateMemberActualAval()">
+        <div class="row">
+          <div class="col-md-12">
+            <h3>Socios del Aval Jurídico</h3>
+          </div>
+        </div>
+        <div class="row mt-2">
+          <div class="col-lg-3 col-md-3 col-sm-12">
+            <div class="form-group row">
+              <label for="name" class="col-sm-12">Primer Nombre<code style="font-size: 16px"><sup>*</sup></code></label>
+              <div class="input-group col-sm-12">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="basic-addon1">
+                    <i class="far fa-user"></i>
+                  </span>
+                </div>
+                <input type="text" class="form-control" aria-label="Username" id="name1" formControlName="name1"
+                  required placeholder="Ej. Roberto" />
+              </div>
+              <small class="form-text text-danger col-sm-12" *ngIf="
+                  !FormUpdateJuridicoMembers.get('name1').valid &&
+                  (FormUpdateJuridicoMembers.get('name1').dirty ||
+                  FormUpdateJuridicoMembers.get('name1').touched)
+                ">El primer apellido es requerido.</small>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-12">
+            <div class="form-group row">
+              <label for="name" class="col-sm-12">Segundo Nombre</label>
+              <div class="input-group col-sm-12">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="basic-addon1">
+                    <i class="far fa-user"></i>
+                  </span>
+                </div>
+                <input type="text" class="form-control" aria-label="Username" id="name2" formControlName="name2"
+                  placeholder="Ej. Elias" />
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-12">
+            <div class="form-group row">
+              <label for="name" class="col-sm-12">Otro nombre</label>
+              <div class="input-group col-sm-12">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="basic-addon1">
+                    <i class="far fa-user"></i>
+                  </span>
+                </div>
+                <input type="text" class="form-control" aria-label="Username" id="name3" formControlName="name3"
+                  placeholder="Ej. Roberto Elias" />
+              </div>
+            </div>
+          </div>
+
+
+
+          <div class="col-lg-3 col-md-3 col-sm-12">
+            <div class="form-group row">
+              <label for="name" class="col-sm-12">Primer Apellido<code
+                  style="font-size: 16px"><sup>*</sup></code></label>
+              <div class="input-group col-sm-12">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="basic-addon1">
+                    <i class="far fa-user"></i>
+                  </span>
+                </div>
+                <input type="text" class="form-control" aria-label="Last Name" id="lastname1"
+                  formControlName="lastname1" required placeholder="Ej.Perez " />
+              </div>
+              <small class="form-text text-danger col-sm-12" *ngIf="
+                  !FormUpdateJuridicoMembers.get('lastname1').valid &&
+                  (FormUpdateJuridicoMembers.get('lastname1').dirty ||
+                  FormUpdateJuridicoMembers.get('lastname1').touched)
+                ">El primer apellido es requerido.</small>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-12">
+            <div class="form-group row">
+              <label for="name" class="col-sm-12">Segundo Apellido<code
+                  style="font-size: 16px"><sup>*</sup></code></label>
+              <div class="input-group col-sm-12">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="basic-addon1">
+                    <i class="far fa-user"></i>
+                  </span>
+                </div>
+                <input type="text" class="form-control" aria-label="second Last name" id="lastname2"
+                  formControlName="lastname2" placeholder="Ej. Ramirez" />
+              </div>
+
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-12">
+            <div class="form-group row">
+              <label for="name" class="col-sm-12">Apellido de casada</label>
+              <div class="input-group col-sm-12">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="basic-addon1">
+                    <i class="far fa-user"></i>
+                  </span>
+                </div>
+                <input type="text" class="form-control" aria-label="Last name" id="lastname3"
+                  formControlName="lastname3" placeholder="Ej. Ramirez" />
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-12">
+            <div class="form-group row">
+              <label for="name" class="col-sm-12">Nit <app-asteriskrequired></app-asteriskrequired></label>
+              <div class="input-group col-sm-12">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="basic-addon1">
+                    <i class="fas fa-address-card"></i>
+                  </span>
+                </div>
+                <input type="text" class="form-control" formControlName="NIT" required>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-12">
+            <div class="form-group row">
+              <label for="name" class="col-sm-12">Teléfono <app-asteriskrequired></app-asteriskrequired></label>
+              <div class="input-group col-sm-12">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="basic-addon1">
+                    <i class="fas fa-address-card"></i>
+                  </span>
+                </div>
+                <input type="number" class="form-control" formControlName="phone" required>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-12">
+            <div class="form-group row">
+              <label for="name" class="col-sm-12">DPI <app-asteriskrequired></app-asteriskrequired></label>
+              <div class="input-group col-sm-12">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="basic-addon1">
+                    <i class="fas fa-address-card"></i>
+                  </span>
+                </div>
+                <input type="number" class="form-control" formControlName="DPI" required>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-1">
+            <div class="form-group">
+              <label for="addBtn" class="col-sm-12">&nbsp;</label>
+              <button type="submit" class="btn text-white" style="background-color: #3473da"
+                [disabled]="!FormUpdateJuridicoMembers.valid"> Guardar</button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</ng-template>
+
+
+<aside class="customizer" [ngClass]="{'show-service-panel': showSettings}">
+  <a *ngIf="showSettings" href="javascript:void(0)" class="service-panel-toggle" (click)="showSettings = !showSettings">
+    <i class="fa fa-times"></i>
+  </a>
+  <div class="customizer-body custom-pills">
+    <ngb-tabset type="pills" [justify]="tabStatus">
+      <ngb-tab>
+        <ng-template ngbTabTitle>
+          <span>Subir Documentos</span>
+        </ng-template>
+        <ng-template ngbTabContent>
+          <div class="text-center border-bottom p-15">
+            <h4>{{ uploadDocumentsUserData.name}}</h4>
+          </div>
+          <!-- <div class="p-15 border-bottom">
+                    <ngb-progressbar type="success" [value]="25"></ngb-progressbar>
+                  </div> -->
+          <div class="border-bottom p-15">
+            <div class="row">
+              <div class="col-2">
+                <h3>1.</h3>
+              </div>
+              <div class="col-10">
+                <h5>Descargar Carta de Consentimiento</h5>
+              </div>
+            </div>
+            <button ngbTooltip="Clic para Descargar Carta de Consentimiento"
+              *ngIf="uploadDocumentsUserData.type == 'client'" class="btn btn-info btn-block"
+              (click)="openModalDowloandLetter(this.downloadLetter,'cliente', this.uploadDocumentsUserRecord)">
+              Descargar Carta
+            </button>
+            <!-- [disabled]="uploadDocumentsUserData.fiduciary_type == 1"  -->
+            <button ngbTooltip="Clic para Descargar Carta de Consentimiento"
+              *ngIf="uploadDocumentsUserData.type == 'fiduciary' && uploadDocumentsUserData.fiduciary_type == 1"
+              class="btn btn-info btn-block"
+              (click)="openModalDowloandLetter(this.downloadLetter,'avalJuridico', this.uploadDocumentsUserRecord)">
+              Descargar Carta
+            </button>
+            <button ngbTooltip="Clic para Descargar Carta de Consentimiento"
+              *ngIf="uploadDocumentsUserData.type == 'fiduciary' && !(uploadDocumentsUserData.fiduciary_type == 1)"
+              class="btn btn-info btn-block"
+              (click)="openModalDowloandLetter(this.downloadLetter,'fiduciario', this.uploadDocumentsUserRecord)">
+              Descargar Carta
+            </button>
+            <button ngbTooltip="Clic para Descargar Carta de Consentimiento"
+              *ngIf="uploadDocumentsUserData.type == 'person'" class="btn btn-info btn-block"
+              (click)="openModalDowloandLetter(this.downloadLetter,'representante', this.uploadDocumentsUserRecord)">
+              Descargar Carta
+            </button>
+          </div>
+
+          <div class="border-bottom p-15">
+            <div class="row">
+              <div class="col-2">
+                <h3>2.</h3>
+              </div>
+              <div class="col-10">
+                <h5>Subir Carta de Consentimiento Firmada</h5>
+              </div>
+            </div>
+
+            <button ngbTooltip="Sube la Carta de Consentimiento en Formato PDF/PNG"
+              *ngIf="uploadDocumentsUserData.type == 'client'"
+              [ngClass]="{'btn-success': initialRelation.letter_of_consent_key != null, 'btn-info': initialRelation.letter_of_consent_key == null,'btn-danger':initialRelation.letter_of_consent_status==-1}"
+              class="btn btn-block" (click)="openModaViewEditDoc(this.vieweditdoc,'customer','Letter')">
+              Carta de Consentimiento
+            </button>
+            <button ngbTooltip="Sube la Carta de Consentimiento en Formato PDF/PNG"
+              *ngIf="uploadDocumentsUserData.type == 'fiduciary'"
+              [ngClass]="{'btn-success': uploadDocumentsUserData.letter_of_consent_key != null, 'btn-info': uploadDocumentsUserData.letter_of_consent_key == null,'btn-danger':uploadDocumentsUserData.letter_of_consent_status==-1}"
+              class="btn btn-block"
+              (click)="openModaViewEditDoc(this.vieweditdoc,'fiduciary','Letter',this.uploadDocumentsUserRecord)">
+              Carta de Consentimiento
+            </button>
+            <button ngbTooltip="Sube la Carta de Consentimiento en Formato PDF/PNG"
+              *ngIf="uploadDocumentsUserData.type == 'person'"
+              [ngClass]="{'btn-success': uploadDocumentsUserData.letter_of_consent_key != null, 'btn-info': uploadDocumentsUserData.letter_of_consent_key == null,'btn-danger':uploadDocumentsUserData.letter_of_consent_status==-1}"
+              class="btn btn-block"
+              (click)="openModaViewEditDoc(this.vieweditdoc,'person','Letter',this.uploadDocumentsUserRecord)">
+              Carta de Consentimiento
+            </button>
+          </div>
+
+          <div class="border-bottom p-15">
+            <div class="row">
+              <div class="col-2">
+                <h3>3.</h3>
+              </div>
+              <div class="col-10">
+                <h5
+                  *ngIf="(uploadDocumentsUserData.type == 'fiduciary' && uploadDocumentsUserData.fiduciary_type == 1) || (uploadDocumentsUserData.type == 'client' && uploadDocumentsUserData.client_type == 1)">
+                  Subir Acta de Nombramiento
+                </h5>
+                <h5
+                  *ngIf="!( (uploadDocumentsUserData.type == 'fiduciary' && uploadDocumentsUserData.fiduciary_type == 1) || (uploadDocumentsUserData.type == 'client' && uploadDocumentsUserData.client_type == 1))">
+                  Subir Ambos Lados del DPI
+                </h5>
+              </div>
+            </div>
+
+            <button ngbTooltip="Sube el Documento de Identificación en Formato PDF/PNG"
+              *ngIf="uploadDocumentsUserData.type == 'client'"
+              [ngClass]="{'btn-success': initialRelation.DPI_key != null, 'btn-info': initialRelation.DPI_key == null,'btn-danger':initialRelation.dpi_status==-1}"
+              class="btn btn-block" (click)="openModaViewEditDoc(this.vieweditdoc,'customer','DPI')">
+              <span *ngIf="uploadDocumentsUserData.client_type == 0">
+                DPI
+              </span>
+              <span *ngIf="uploadDocumentsUserData.client_type == 1">
+                Acta de Nombramiento
+              </span>
+            </button>
+
+
+            <button ngbTooltip="Sube el Documento de Identificación en Formato PDF/PNG"
+              *ngIf="uploadDocumentsUserData.type == 'fiduciary'"
+              [ngClass]="{'btn-success': uploadDocumentsUserData.DPI_key != null, 'btn-info': uploadDocumentsUserData.DPI_key == null,'btn-danger':uploadDocumentsUserData.dpi_status==-1}"
+              class="btn btn-block"
+              (click)="openModaViewEditDoc(this.vieweditdoc,'fiduciary','DPI',this.uploadDocumentsUserRecord)">
+              <span *ngIf="uploadDocumentsUserData.type == 'fiduciary' && uploadDocumentsUserData.fiduciary_type == 1">
+                Acta de nombramiento
+              </span>
+              <span
+                *ngIf="!(uploadDocumentsUserData.type == 'fiduciary' && uploadDocumentsUserData.fiduciary_type == 1)">
+                DPI
+              </span>
+            </button>
+
+            <button ngbTooltip="Sube el Documento de Identificación en Formato PDF/PNG"
+              *ngIf="uploadDocumentsUserData.type == 'person'"
+              [ngClass]="{'btn-success': uploadDocumentsUserData.DPI_key != null, 'btn-info': uploadDocumentsUserData.DPI_key == null,'btn-danger':uploadDocumentsUserData.dpi_status==-1}"
+              class="btn btn-block"
+              (click)="openModaViewEditDoc(this.vieweditdoc,'person','DPI',this.uploadDocumentsUserRecord)">
+              DPI
+            </button>
+          </div>
+        </ng-template>
+      </ngb-tab>
+    </ngb-tabset>
+  </div>
+</aside>

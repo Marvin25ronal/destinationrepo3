@@ -1,0 +1,53 @@
+.custom_btn1{
+    background: #2061c4;
+    border-color: #2061c4;
+}
+.custom_btn1:hover, .custom_add1:hover{
+    background: #4376c4;
+    border-color: #4376c4;
+}
+
+.btn-color-solucredit {
+    background-color: #2061C4;
+    color: white;
+}
+
+.btn-color-solucredit-secondary {
+    background-color: #6C6C6C;
+    color: white;
+}
+
+.div-table-actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+::ng-deep .my-modal .modal-content {
+    border-radius: 15px;
+}
+::ng-deep .my-modal .modal-header {
+    background-color: rgba(225, 229, 234, 0.1);
+    border-top-right-radius: 15px;
+    border-top-left-radius: 15px;
+    opacity: 0.8;
+}
+
+.close {
+    float: left;
+    border-width: 0 !important;
+    border: none;
+    outline: none;
+}

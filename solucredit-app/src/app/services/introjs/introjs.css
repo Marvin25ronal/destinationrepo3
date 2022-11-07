@@ -1,0 +1,15 @@
+.customTooltip * {
+    color: #4a4a4a;
+    font-size: 18px
+}
+
+.customTooltip .introjs-tooltip-title {
+    color: #0077b6;
+}
+
+.customTooltip .introjs-nextbutton {
+    color: white;
+    background-color: #023e8a;
+    font-family: sans-serif;
+    text-shadow: none;
+}

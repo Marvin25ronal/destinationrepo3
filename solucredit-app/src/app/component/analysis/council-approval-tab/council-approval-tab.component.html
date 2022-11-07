@@ -1,0 +1,388 @@
+<div class="card-body" [ngSwitch]="pageCouncilApproval">
+    <div class="container-xxl" *ngSwitchCase="0">
+
+        <div class="row">
+            <div style="text-align: center;" class="col-lg-12">
+                <h1>Resumen Aprobación Consejo/Comité de Credito</h1>
+                <hr>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 col-md-6">
+                <div class="form-group row">
+                    <label for="clienttype" class="col-sm-3 text-right">Tipo de cliente:</label>
+                    <div class="input-group col-sm-9">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">
+                                <i class="far fa-user"></i>
+                            </span>
+                        </div>
+                        <input type="text" class="form-control" aria-label="Usuario" id="clienttype"
+                            [value]="dataCustomer?.type===0?'Individual':'Juridico'" disabled>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-6">
+                <div class="form-group row">
+                    <label for="user" class="col-sm-3 text-right">Cliente:</label>
+                    <div class="input-group col-sm-9">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">
+                                <i class="far fa-user"></i>
+                            </span>
+                        </div>
+                        <input type="text" class="form-control" aria-label="Usuario" id="user" disabled
+                            [value]="dataCustomer?.type===0?(dataCustomer?.name):dataCustomer?.businessname">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 col-md-6">
+                <div class="form-group row">
+                    <label for="clienttype" class="col-sm-3 text-right">Tipo de Gestión:</label>
+                    <div class="input-group col-sm-9">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">
+                                <i class="far fa-file"></i>
+                            </span>
+                        </div>
+                        <input type="text" class="form-control" aria-label="Usuario" id="clienttype" disabled
+                            [value]="lastRequest?.warranty_type|req_warranty_type">
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-6">
+                <div class="form-group row">
+                    <label for="user" class="col-sm-3 text-right">Tipo de solicitud:</label>
+                    <div class="input-group col-sm-9">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">
+                                <i class="far fa-file"></i>
+                            </span>
+                        </div>
+                        <input type="text" class="form-control" aria-label="Usuario" id="user" disabled
+                            [value]="lastRequest.type|req_type">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 col-md-6">
+                <div class="form-group row">
+                    <label for="clienttype" class="col-sm-3 text-right">Código de cliente:</label>
+                    <div class="input-group col-sm-9">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">
+                                <i class="far fa-file"></i>
+                            </span>
+                        </div>
+                        <input type="text" class="form-control" aria-label="Usuario" id="clienttype" disabled
+                            [value]="'001'">
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-6">
+                <div class="form-group row">
+                    <label for="clienttype" class="col-sm-3 text-right">Tiene operaciones previas:</label>
+                    <div class="row col-sm-9" style="justify-content: center;">
+                        <div class="col-sm-1">
+                            <div class="custom-control custom-radio" style="padding-left: 10%;">
+                                <input type="radio" [id]="'sipertenece'+i" [(ngModel)]="previous_operation"
+                                    [value]="true" class="custom-control-input" [name]="'percentage_comission'"
+                                    [ngModelOptions]="{standalone: true}" disabled>
+                                <label class="custom-control-label custom-label" [for]="'sipertenece'">Si</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-1" style="justify-content: center;">
+                            <div class="custom-control custom-radio">
+                                <input type="radio" [id]="'nopertenece'+i" [(ngModel)]="previous_operation"
+                                    [value]="false" class="custom-control-input" [name]="'percentage_comission'"
+                                    [ngModelOptions]="{standalone: true}" disabled>
+                                <label class="custom-control-label custom-label" [for]="'nopertenece'">No</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="table-responsive table-hover">
+            <table class="table table-responsive-lg no-wrap v-middle white-table">
+                <thead>
+                    <tr>
+                        <th *ngFor="let header of council_approval_dataList.metadata">
+                            <div class="text-center">
+                                {{header}}
+                            </div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of council_approval_dataList.data;let i=index;">
+                        <td style="text-align: center;">
+                            {{i+1}}
+                        </td> 
+                        <td style="text-align: center;">
+                            {{item.uploaddocsca_comment}}
+                        </td>
+                        <td style="text-align: center;">
+                            {{item.responsable}}
+                        </td>
+                        <td>
+                            {{item.approval_date?(item.approval_date|date:'M/d/yy, h:mm a'):'Sin aprobar'}}
+                        </td>
+                        <td>
+                            <div style="text-align: center;">
+                                <app-flag [check_value]="+item.check">
+                                </app-flag>
+                            </div>
+                        </td>
+                        <td>
+                    <tr>
+                        <td>
+                            <i style="cursor: pointer;" class=" icon-eye"
+                                (click)="openReport(item.uploaddocsca_comment)"
+                            ></i>
+                        </td>
+                        <td>
+                            <i style="cursor: pointer;" class="fas fa-cloud-download-alt">
+                            </i>
+                        </td>
+                    </tr>
+                    </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="card-footer" style="background-color: white;">
+            <div class="form-group m-b-0 text-right">
+                <button type="button" (click)="downloadAllDocs()" class="btn btn-raised mr-1 text-white"
+                    style="background-color: #3473da;">
+                    <i class="fas fa-cloud-download-alt"></i>
+                    Descargar Expediente (ZIP)</button>
+                <button type="submit" class="btn btn-raised mr-1 text-white" style="background-color: #3473da;"
+                    (click)="changeView(1)">
+                    <i class="fas fa-list"></i>
+                    Realizar Aprobación Comité</button>
+            </div>
+        </div>
+    </div>
+    <div class="container" *ngSwitchCase="1">
+        <form [formGroup]="updateCouncilApprovalForm" (ngSubmit)="initAnalysisMethod()">
+            <div class="row">
+                <div class="col-lg-4" style="text-align: left;">
+                    <label for="first_name">
+                        Revisión de hoja de condiciones:
+                    </label>
+                </div>
+                <div class="col-lg-8" style="align-items: center;">
+                    <button type="button" class="btn btn ml-auto btn-info"
+                        (click)="openConditionSheet()"
+                    > <i class="fas fa-file"></i>
+                        Ver Configuración y Parámetros
+                    </button>
+                    <button type="button" class="btn btn ml-auto btn-info"
+                        (click)="openAct()"
+                    > <i class="fas fa-file"></i>
+                        Parametros acta de consejo administración
+                    </button>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-lg-4" style="text-align: left;">
+                    <label for="first_name">
+                        Adjuntar evidencia/respaldo
+                    </label>
+                </div>
+                <div class="col-lg-8" style="align-items: center;">
+                    <button type="button" class="btn btn ml-auto btn-info"
+                    (click)="openModalUploadlGerencialManagerAuthorization(modalUploadDocs)"
+                    > <i class="fas fa-cloud-upload-alt"></i>
+                        Cargar
+                    </button>
+
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-lg-4" style="text-align: left;">
+                    <label for="first_name">
+
+                    </label>
+                </div>
+                <br>
+                <div class="col-lg-8" style="align-items: center;">
+                    <div class="table-responsive table-hover">
+                        <table class="table table-responsive-lg no-wrap v-middle white-table">
+                            <thead>
+                                <tr>
+                                    <th *ngFor="let header of councilApprovalDocumentsList.metadata">
+                                        <div style="text-align: center;">
+                                            {{header}}
+                                        </div>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let doc of councilApprovalDocumentsList.data">
+                                    <td>
+                                        <div style="text-align: justify;">
+                                            {{doc.uploaddocsca_namedoc | namefile | slice:0:20}}
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div style="text-align: justify;">
+                                            {{doc.uploaddocsca_comment}}
+                                        </div>
+                                    </td>
+                                    <td>
+                                <tr>
+                                    <td>
+                                        <i style="cursor: pointer;" class=" icon-eye"
+                                            *ngIf="doc.uploaddocsca_namedoc.includes('jpg')||doc.uploaddocsca_namedoc.includes('pdf')||doc.uploaddocsca_namedoc.includes('png')||doc.uploaddocsca_namedoc.includes('jpeg')"
+                                            (click)="showDocument(doc)"></i>
+                                    </td>
+                                    <td>
+                                        <i style="cursor: pointer;" class="fas fa-cloud-download-alt"
+                                            (click)="downloadDocument(doc)">
+                                        </i>
+                                    </td>
+                                    <td>
+                                        <i style="cursor: pointer;color:red"
+                                            (click)="deleteDocCA(doc,'Gerente General')" class="icon-trash"></i>
+                                    </td>
+
+
+                                </tr>
+                                </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4" style="text-align: left;">
+                    <label for="first_name">
+                        Informe revisado:
+                    </label>
+                </div>
+                <div class="col-lg-8 row" style="align-items: center;">
+                    <div class="col-sm-1">
+                        <div class="custom-control custom-radio">
+                            <input type="radio" id="sipertenece" [(ngModel)]="council_approval_docs_valid"
+                                (change)="changeVerificationsDocsLegalAnalysis(1)" [value]="1"
+                                class="custom-control-input" formControlName="valid_documents">
+                            <label class="custom-control-label custom-label" for="sipertenece">Si</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-1">
+                        <div class="custom-control custom-radio">
+                            <input type="radio" id="nopertenece" [(ngModel)]="council_approval_docs_valid"
+                                [value]="0" class="custom-control-input"
+                                (change)="changeVerificationsDocsLegalAnalysis(0)" formControlName="valid_documents">
+                            <label class="custom-control-label custom-label" for="nopertenece">No</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-lg-4" style="text-align: left;">
+                    <label for="first_name">
+                        Opinión de análisis:
+                    </label>
+                </div>
+
+                <div class="col-lg-8 row" style="align-items: center;">
+                    <textarea type="text" class="form-control " required rows="12"
+                        [placeholder]="'Ej. Descripción de una transacción'" formControlName="comment"></textarea>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-lg-4" style="text-align: left;">
+                    <label for="first_name">
+
+                    </label>
+                </div>
+                <div class="col-lg-8" style="align-items: flex-start;">
+                    <button type="submit" class="btn btn ml-auto btn-info">
+                        <i class="fas fa-save"></i>
+                        Guardar</button>
+                </div>
+            </div>
+            <br>
+            <div class="card-footer" style="background-color: white;">
+                <div class="form-group m-b-0 text-right">
+                    <button type="button" ngbTooltip="Visualizar checklist" class="btn btn-raised mr-1 text-white"
+                        [disabled]="!councilApprovalSelected" (click)="showReport()" style="background-color: #3473da;">
+                        <i class="fas fa-list"></i>
+                        Checklist Formalización
+                    </button>
+                    <button type="button" class="btn btn-raised mr-1 text-white" style="background-color: #3473da;"
+                        [disabled]="!councilApprovalSelected">
+                        <i class="fas fa-check"></i>
+                        Revisión de Prospecto</button>
+                    <button type="button" ngbTooltip="Regresar a vista anterior" (click)="changeView(0)"
+                        class="btn btn-raised mr-1 text-white" style="background-color: #3473da;">
+                        <i class="fas fa-undo"></i>
+                        Volver a Resumen gerencial
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="container-xxl" *ngSwitchCase="2">
+        <app-council-approval-report (return_view)="returnview2()"
+        [councilApprovalSelected]="councilApprovalSelected"
+        [dataCustomer]="dataCustomer"
+        [lastRequest]="lastRequest"
+        >
+        </app-council-approval-report>
+    </div>
+</div>
+<ng-template #modalUploadDocs let-modal>
+    <div class="modal-header text-center">
+        <h3 class="modal-title" id="editUserLabel">Evidencias y Documentos Respaldo </h3>
+        <button id="updateMemberClose" type="button" class="close" (click)="modal.dismiss('cerrar')" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div style="display: flex; flex-direction: column;">
+
+            <div class="card-block">
+                <form [formGroup]="FormUploadDocumentsCA" class="form-horizontal">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12">
+                                <div class="form-group row">
+                                    <label for="prod_serv_other_signers" class="col-sm-12">Comentario:</label>
+                                    <div class="input-group col-sm-12">
+                                        <textarea type="text" class="form-control .module" aria-label="comment"
+                                            id="comment" formControlName="uploaddocsca_comment" style="width: 50%"
+                                            rows="2">
+                                        </textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div style="display: flex; justify-content: center; align-items: center;">
+                <input type="file" [id]="'exampleInputFile'+i" style="display: none;"
+                    [disabled]="!FormUploadDocumentsCA.valid" (change)="uploadDocsCA($event,doc,'s'+i)"
+                    accept=".doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,.xls,.xlsx,.pdf,image/*" />
+                <button class="btn mb-2 text-white custom_add1 btn-sm" [disabled]="!FormUploadDocumentsCA.valid"
+                    style="display: block;">
+                    <label [for]="'exampleInputFile'+i"> <i class=" far fa-edit mr-3"></i>Subir archivo</label>
+                </button>
+            </div>
+        </div>
+    </div>
+</ng-template>

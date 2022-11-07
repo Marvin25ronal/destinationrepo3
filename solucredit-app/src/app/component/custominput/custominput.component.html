@@ -1,0 +1,40 @@
+<div class="form-group row align-items-center" *ngIf="mode=='normal'">
+    <label [for]="id" class="col-sm-3 text-right">{{label}}
+        <app-asteriskrequired *ngIf="isrequired"></app-asteriskrequired>
+    </label>
+    <div class="input-group col-sm-9 ">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon1">
+                <i [class]="iconclass"></i>
+            </span>
+        </div>
+        <input [type]="type" class="form-control" [id]="id" [formControl]="formcontrol" [placeholder]="placeholder"
+            [maxlength]="maxLength" [class.is-invalid]="formcontrol.invalid && formcontrol.touched" *ngIf="currencyMask"
+            [currencyMask]="currencyMask" [options]="options">
+        <input [type]="type" class="form-control" [id]="id" [formControl]="formcontrol" [maxlength]="maxLength"
+            [class.is-invalid]="formcontrol.invalid && formcontrol.touched" [placeholder]="placeholder"
+            *ngIf="!currencyMask" [options]="options">
+
+        <small class="form-text text-danger col-sm-12" *ngIf="formcontrol.errors&& formcontrol.invalid &&(formcontrol.dirty||formcontrol.touched)">{{getFirstError()}}</small>
+    </div>
+</div>
+
+<div class="form-group row align-items-center" *ngIf="mode=='top'">
+    <label [for]="id" class="col-sm-12">{{label}}
+        <app-asteriskrequired *ngIf="isrequired"></app-asteriskrequired>
+    </label>
+    <div class="input-group col-sm-12 ">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon1">
+                <i [class]="iconclass"></i>
+            </span>
+        </div>
+        <input [type]="type" class="form-control" [id]="id" [formControl]="formcontrol" [maxlength]="maxLength"
+            [class.is-invalid]="formcontrol.invalid && formcontrol.touched" [placeholder]="placeholder"
+            *ngIf="currencyMask" [currencyMask]="currencyMask" [options]="options">
+        <input [type]="type" class="form-control" [id]="id" [formControl]="formcontrol" [maxlength]="maxLength"
+            [class.is-invalid]="formcontrol.invalid && formcontrol.touched" [placeholder]="placeholder"
+            *ngIf="!currencyMask" [options]="options">
+        <small class="form-text text-danger col-sm-12" *ngIf="formcontrol.errors&&formcontrol.invalid &&(formcontrol.dirty||formcontrol.touched)">{{getFirstError()}}</small>
+    </div>
+</div>

@@ -1,0 +1,859 @@
+<ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#759ee0" type="ball-scale-multiple">
+    <p style="font-size: 20px; color:#fff">Cargando Información...</p>
+</ngx-spinner>
+<form class="form-horizontal" [formGroup]="createConditionSheetForm" (ngSubmit)="saveConditionSheet()">
+    <div class="card">
+        <div class="row">
+            <div style="display:flex; flex-direction: column; align-items: flex-start;justify-content: flex-start; margin:1.2rem"
+                class="col-md-12">
+                <h4 style="margin-left: 0.2rem;">Documento</h4>
+                <div class="col-md-12 divider"></div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12">
+                <app-custominput
+                    label="Número de Documento"
+                    [isrequired]="true"
+                    [formcontrol]="createConditionSheetForm.get('document_number')"
+                    id="document_number"
+                    [placeholder]="placeHolders.conditionSheetNumber"
+                    showMessage="El número de documento es requerido."
+                    iconclass="fas fa-file-alt"
+                    mode="top"
+                ></app-custominput>
+                
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12">
+                <app-custominput
+                    label="Lugar y fecha"
+                    [isrequired]="false"
+                    [formcontrol]="createConditionSheetForm.get('place_and_date')"
+                    id="place_and_date"
+                    [placeholder]="placeHolders.placeAndDate"
+                    iconclass="fas fa-map-marker-alt"
+                    mode="top"
+                ></app-custominput>
+              
+            </div>
+
+            <div class="col-lg-6 col-md-6 col-sm-12">
+                <div class="form-group row">
+                    <label for="name" class="col-sm-12">
+                        Nombre del cliente
+                    </label>
+                    <div class="input-group col-sm-12">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">
+                                <i class="fas fa-user"></i>
+                            </span>
+                        </div>
+                        <input type="text" class="form-control" id="name" disabled [value]="customer_name">
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12">
+               
+                    <app-custominput
+                    label="Monto solicitado"
+                    [isrequired]="true"
+                    [formcontrol]="createConditionSheetForm.get('required_amount')"
+                    id="place_and_date"
+                    [placeholder]="placeHolders.requiredAmount"
+                    iconclass="icon-credit-card"
+                    mode="top"
+                    [currencyMask]="true"
+                    [options]="{ prefix: '', thousands: ',', decimal: '.', nullable:true }"
+                ></app-custominput>
+                
+            </div>
+            <div style="display:flex; flex-direction: column; align-items: flex-start;justify-content: flex-start; margin:1.2rem"
+                class="col-md-12">
+                <h4 style="margin-left: 0.2rem;">Tasas</h4>
+                <div class="col-md-12 divider"></div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12">
+                <app-customoption
+                label="Sucursal"
+                [isrequired]="true"
+                [formcontrol]="createConditionSheetForm.get('branch_office')"
+                id="branch_office"
+                iconclass="fas fa-building"
+                [data]="branchOfficeList"
+                itemLabel="branchoffice_name"
+                itemValue="id_branchoffice"
+                mode="top"
+            ></app-customoption>
+
+               
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12">
+                <div class="form-group row">
+                    <label for="amount" class="col-sm-12">
+
+                    </label>
+                    <div class="input-group col-sm-12">
+
+                    </div>
+                </div>
+            </div>
+            <ng-container *ngIf="branchOffice!=-1">
+                <ng-container *ngFor="let rate of filterRates();let i=index;">
+                    <div class="col-lg-6 col-md col-sm-12">
+                        <label [for]="'hola'+i" class="col-sm-12">
+                            {{rate.rate_description}} por defecto
+                        </label>
+                        <div class="row" style="justify-content: center;">
+                            <div class="col-sm-1">
+                                <div class="custom-control custom-radio">
+                                    <input type="radio" [id]="'sipertenece'+i" [(ngModel)]="changeValuesRates[i]"
+                                        [value]="true" (change)="changeCustomPercentage(i,true,rate)"
+                                        class="custom-control-input" [name]="'percentage_comission'+i"
+                                        [ngModelOptions]="{standalone: true}" [disabled]="isDisabledRule(rate)">
+                                    <label class="custom-control-label custom-label" [for]="'sipertenece'+i">Si</label>
+                                </div>
+                            </div>
+                            <div class="col-sm-1">
+                                <div class="custom-control custom-radio">
+                                    <input type="radio" [id]="'nopertenece'+i" [(ngModel)]="changeValuesRates[i]"
+                                        [value]="false" (change)="changeCustomPercentage(i,false,rate)"
+                                        class="custom-control-input" [name]="'percentage_comission'+i"
+                                        [ngModelOptions]="{standalone: true}" [disabled]="isDisabledRule(rate)">
+                                    <label class="custom-control-label custom-label" [for]="'nopertenece'+i">No</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <ng-container *ngIf="rate.default_s==1;else elseblock">
+                        <div class="col-lg-6 col-md col-sm-12" *ngIf="!changeValuesRates[i]"
+                            [formGroup]="interest.controls[i]">
+                            <label for="customPenaltyRate" class="col-sm-12">
+
+                            </label>
+                            <div class="input-group col-sm-12">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1">
+                                        <i class="fas fa-percent"></i>
+                                    </span>
+                                </div>
+                                <input currencyMask placeholder="Ej. 1000.00"
+                                    [options]="{ prefix: '', thousands: ',', decimal: '.', nullable:true }"
+                                    class="form-control" id="customPenaltyRate" formControlName="percentage">
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md col-sm-12" *ngIf="changeValuesRates[i]"
+                            [formGroup]="interest.controls[i]">
+                            <label for="customPenaltyRate" class="col-sm-12">
+
+                            </label>
+                            <div class="input-group col-sm-12">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1">
+                                        <i class="fas fa-percent"></i>
+                                    </span>
+                                </div>
+                                <input disabled class="form-control" formControlName="percentage" currencyMask
+                                    [options]="{ prefix: '', thousands: ',', decimal: '.', nullable:true }">
+                            </div>
+                        </div>
+                    </ng-container>
+                    <ng-template #elseblock>
+                        <div class="col-lg-6 col-md col-sm-12" *ngIf="!changeValuesRates[i]"
+                            [formGroup]="interest.controls[i]">
+                            <label for="customPenaltyRate" class="col-sm-12">
+
+                            </label>
+                            <div class="input-group col-sm-12">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1">
+                                        <i class="fas fa-credit-card"></i>
+                                    </span>
+                                </div>
+                                <input currencyMask placeholder="Ej. 1000.00"
+                                    [options]="{ prefix: '', thousands: ',', decimal: '.', nullable:true }"
+                                    class="form-control" id="customPenaltyRate" formControlName="amount">
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md col-sm-12" *ngIf="changeValuesRates[i]"
+                            [formGroup]="interest.controls[i]">
+                            <label for="customPenaltyRate" class="col-sm-12">
+
+                            </label>
+                            <div class="input-group col-sm-12">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1">
+                                        <i class="fas fa-credit-card"></i>
+                                    </span>
+                                </div>
+                                <input currencyMask
+                                    [options]="{ prefix: '', thousands: ',', decimal: '.', nullable:true }" disabled
+                                    class="form-control" formControlName="amount">
+                            </div>
+                        </div>
+                    </ng-template>
+
+                </ng-container>
+
+            </ng-container>
+
+
+            <div style="display:flex; flex-direction: column; align-items: flex-start;justify-content: flex-start; margin:1.2rem"
+                class="col-md-12">
+                <h4 style="margin-left: 0.2rem;">Garantía</h4>
+                <div class="col-md-12 divider"></div>
+            </div>
+            <!--DIAS DE GARANTIA=== SE TIENE QUE PRIMERO SELECCIONAR LA SEDE Y LUEGO SE DEBEN DE MOSTRAR LAS DE ESAS SEDES-->
+
+            <div class="col-lg-6 col-md-6 col-sm-12">
+                <app-custominput
+                    label="Días de Garantía"
+                    [isrequired]="true"
+                    [formcontrol]="createConditionSheetForm.get('warranty_days')"
+                    id="warranty_days"
+                    [placeholder]="placeHolders.warrantyDays"
+                    iconclass="fas fa-calendar"
+                    mode="top"
+                    type="number"
+                ></app-custominput>
+                
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12">
+                <app-custominput
+                label=" Gastos administrativos"
+                [isrequired]="true"
+                [formcontrol]="createConditionSheetForm.get('administrative_expenses')"
+                id="administrative_expenses"
+                [placeholder]="placeHolders.amount"
+                iconclass="icon-credit-card"
+                mode="top"
+                [currencyMask]="true"
+                [options]="{ prefix: '', thousands: ',', decimal: '.', nullable:true }"
+            ></app-custominput>
+                
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12">
+                <app-custominput
+                label=" Gastos de desembolso"
+                [isrequired]="true"
+                [formcontrol]="createConditionSheetForm.get('disbursement_expenses')"
+                id="disbursement_expenses"
+                [placeholder]="placeHolders.amount"
+                iconclass="icon-credit-card"
+                mode="top"
+                [currencyMask]="true"
+                [options]="{ prefix: '', thousands: ',', decimal: '.', nullable:true }"
+            ></app-custominput>
+               
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12">
+                <app-custominput
+                label="Seguro"
+                [isrequired]="true"
+                [formcontrol]="createConditionSheetForm.get('insurance')"
+                id="insurance"
+                [placeholder]="placeHolders.amount"
+                iconclass="icon-credit-card"
+                mode="top"
+                [currencyMask]="true"
+                [options]="{ prefix: '', thousands: ',', decimal: '.', nullable:true }"
+            ></app-custominput>
+               
+            </div>
+            <div style="display:flex; flex-direction: column; align-items: flex-start;justify-content: flex-start; margin:1.2rem"
+                class="col-md-12">
+                <h4 style="margin-left: 0.2rem;">Otras condiciones</h4>
+                <div class="col-md-12 divider"></div>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <div class="form-group row">
+                    <label for="amount" class="col-sm-12">
+                        Descripción
+                    </label>
+                    <div class="input-group col-sm-12">
+
+                        <textarea type="text" class="form-control "  rows="5" [value]=""
+                            formControlName="other_conditions"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div style="display:flex; flex-direction: column; align-items: flex-start;justify-content: flex-start; margin:1.2rem"
+                class="col-md-12">
+                <h4 style="margin-left: 0.2rem;">Información de Socios</h4>
+                <div class="col-md-12 divider"></div>
+            </div>
+            <!--Para esta parte vamos a jalar el listado de socios y por cada uno de ellos vamos 
+                a mostrarlo en la tabla y que ellos selecciones el porcentaje y el puesto
+            -->
+            <div class="col-lg-4 col-md-4 col-sm-12">
+                <div class="form-group row">
+                    <label for="amount" class="col-sm-12">
+                        Socio
+                    </label>
+                    <div class="input-group col-sm-12">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">
+                                <i class="icon-credit-card"></i>
+                            </span>
+                        </div>
+                        <select name="customPenaltyRate" class="custom-select col-sm-12" id="typeubicacion"
+                            formControlName="customer_member_id">
+                            <option [value]="-1" selected disabled>Selecionar...</option>
+
+                            <option *ngFor="let member of members" [value]="member.rsdet_id">{{member.name}}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-12">
+                <label for="customPenaltyRate" class="col-sm-12">
+                    Porcentaje de participación
+                </label>
+                <div class="input-group col-sm-12">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1">
+                            <i class="fas fa-percent"></i>
+                        </span>
+                    </div>
+                    <input placeholder="Ej. 100" type="number" min="1" max="100" class="form-control"
+                        formControlName="customer_member_percentage" id="customPenaltyRate">
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-12">
+                <label for="customPenaltyRate" class="col-sm-12">
+                    Puesto
+                </label>
+                <div class="input-group col-sm-12">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1">
+                            <i class="fas fa-briefcase"></i>
+                        </span>
+                    </div>
+                    <input type="text" class="form-control" id="customPenaltyRate"
+                        formControlName="customer_member_work">
+                </div>
+            </div>
+            <div class="card-footer col-lg-12 col-md-12 col-sm-12" style="background-color: white;">
+                <div class="form-group m-b-0 text-right">
+                    <button type="button" class="btn btn-raised mr-1 text-white" style="background-color: #3473da;"
+                        [disabled]="disabledAddMember()" (click)="createMember()">
+                        Agregar</button>
+                </div>
+            </div>
+            <br>
+            <br>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col" style="text-align: center;">#</th>
+                            <th scope="col" style="text-align: center;">Nombre Socio</th>
+                            <th scope="col" style="text-align: center;">Puesto</th>
+                            <th scope="col" style="text-align: center;">Porcentaje de participación</th>
+                            <th scope="col" style="text-align: center;">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let member of membersConditionSheet;let i=index">
+                            <td style="text-align: center;">
+                                {{i+1}}
+                            </td>
+                            <td style="text-align: center;">{{member.name}}</td>
+                            <td style="text-align: center;">{{member.worker_position}}</td>
+                            <td style="text-align: center;">{{member.participation_percentage}}</td>
+                            <td style="text-align: center;">
+                                <div class="div-table-actions" style="justify-content: end; z-index: 1;">
+                                    <button class="btn btn-raised mr-1 text-white btn-color-solucredit" type="button"
+                                        (click)="openModalMember(member,editMember)" data-toggle="tooltip"
+                                        data-placement="top" title="Editar nombre"><span class="btn-label"><i
+                                                class="fas fa-edit"></i></span></button>
+                                    <button class="btn btn-danger ml-auto " data-toggle="tooltip" data-placement="top"
+                                        type="button" (click)="deleteMember(member.id)" title="Eliminar carpeta"><i
+                                            class="fas fa-trash"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!--DEUDORES-->
+            <div style="display:flex; flex-direction: column; align-items: flex-start;justify-content: flex-start; margin:1.2rem"
+                class="col-md-12">
+                <h4 style="margin-left: 0.2rem;">Deudores autorizados</h4>
+                <div class="col-md-12 divider"></div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-12">
+                <div class="form-group row">
+                    <label for="amount" class="col-sm-12">
+                        Deudor
+                    </label>
+                    <div class="input-group col-sm-12">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">
+                                <i class="icon-credit-card"></i>
+                            </span>
+                        </div>
+                        <select name="customPenaltyRate" class="custom-select col-sm-12" id="typeubicacion"
+                            formControlName="id_debtor">
+                            <option [value]="-1" selected disabled>Selecionar...</option>
+                            <option *ngFor="let debtor of debtorsList" [value]="debtor.id_debtor">
+                                {{debtor.business_name}}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-12">
+                <label for="customPenaltyRate" class="col-sm-12">
+                    Forma de pago
+                </label>
+                <div class="input-group col-sm-12">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1">
+                            <i class="fas fa-briefcase"></i>
+                        </span>
+                    </div>
+                    <select name="customPenaltyRate" class="custom-select col-sm-12" id="typeubicacion"
+                        formControlName="id_payment_method">
+                        <option [value]="-1" selected disabled>Selecionar...</option>
+                        <option *ngFor="let payment of paymentMethodList" [value]="payment.id_payment">
+                            {{payment.payment_name}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-12">
+                <div class="form-group row">
+                    <label for="amount" class="col-sm-12">
+                        Banco
+                    </label>
+                    <div class="input-group col-sm-12">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">
+                                <i class="fas fa-university"></i>
+                            </span>
+                        </div>
+                        <select name="customPenaltyRate" class="custom-select col-sm-12" id="typeubicacion"
+                            formControlName="id_bank">
+                            <option [value]="-1" selected disabled>Selecionar...</option>
+                            <option *ngFor="let bank of banksList" [value]="bank.id_banks">{{bank.banks_name}}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-12">
+                <div class="form-group row">
+                    <label for="amount" class="col-sm-12">
+                        Monto para descontar
+                    </label>
+                    <div class="input-group col-sm-12">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">
+                                <i class="icon-credit-card"></i>
+                            </span>
+                        </div>
+                        <input currencyMask placeholder="Ej. 1000.00"
+                            [options]="{ prefix: '', thousands: ',', decimal: '.', nullable:true }" class="form-control"
+                            id="amount" formControlName="debtor_maximum_amount_to_discount">
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-12">
+                <div class="form-group row">
+                    <label for="amount" class="col-sm-12">
+                        Días de Garantía
+                    </label>
+                    <div class="input-group col-sm-12">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">
+                                <i class="fas fa-calendar"></i>
+                            </span>
+                        </div>
+                        <input class="form-control" id="amount" type="number" formControlName="debtor_warranty_days">
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-12" *ngIf="!customPenaltyRate">
+                <label for="customPenaltyRate" class="col-sm-12">
+                    Tasa de comisión
+                </label>
+                <div class="input-group col-sm-12">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1">
+                            <i class="fas fa-percent"></i>
+                        </span>
+                    </div>
+                    <input currencyMask placeholder="Ej. 1000.00"
+                        [options]="{ prefix: '', thousands: ',', decimal: '.', nullable:true }" class="form-control"
+                        formControlName="debtor_commission_rate" id="customPenaltyRate">
+                </div>
+            </div>
+            <div class="card-footer col-lg-12 col-md-12 col-sm-12" style="background-color: white;">
+                <div class="form-group m-b-0 text-right">
+                    <button type="button" class="btn btn-raised mr-1 text-white" style="background-color: #3473da;"
+                        [disabled]="disabledAddDebtor()" (click)="createDebtor()">
+                        Agregar</button>
+                </div>
+            </div>
+            <br>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col" style="text-align: center;">#</th>
+                            <th scope="col" style="text-align: center;">Deudor</th>
+                            <th scope="col" style="text-align: center;">Forma de pago</th>
+                            <th scope="col" style="text-align: center;">Banco</th>
+                            <th scope="col" style="text-align: center;">Monto</th>
+                            <th scope="col" style="text-align: center;">Días de garantía</th>
+                            <th scope="col" style="text-align: center;">Tasa</th>
+                            <th scope="col" style="text-align: center;">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let debtor of debtorsConditionSheet;let i=index;">
+                            <td style="text-align: center;">{{i+1}}</td>
+                            <td style="text-align: center;">
+                                {{debtor.debtor.business_name}}
+                            </td>
+                            <td style="text-align: center;">
+                                {{debtor.payment.payment_name}}
+                            </td>
+                            <td style="text-align: center;">
+                                {{debtor.bank.banks_name}}
+                            </td>
+                            <td style="text-align: center;">
+                                {{debtor.maximum_amount_to_discount}}
+                            </td>
+                            <td style="text-align: center;">
+                                {{debtor.warranty_days}}
+                            </td>
+                            <td style="text-align: center;">
+                                {{debtor.interest_rate}}
+                            </td>
+                            <td style="text-align: center;">
+                                <div class="div-table-actions" style="justify-content: end; z-index: 1;">
+                                    <button class="btn btn-raised mr-1 text-white btn-color-solucredit" type="button"
+                                        (click)="openModalDebtor(debtor,editDebtor)" data-toggle="tooltip"
+                                        data-placement="top" title="Editar nombre"><span class="btn-label"><i
+                                                class="fas fa-edit"></i></span></button>
+                                    <button class="btn btn-danger ml-auto " data-toggle="tooltip" data-placement="top"
+                                        type="button" (click)="deleteDebtor(debtor.id)" title="Eliminar carpeta"><i
+                                            class="fas fa-trash"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!--CUENTA-->
+            <div style="display:flex; flex-direction: column; align-items: flex-start;justify-content: flex-start; margin:1.2rem"
+                class="col-md-12">
+                <h4 style="margin-left: 0.2rem;">Estado de cuenta</h4>
+                <div class="col-md-12 divider"></div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-12">
+                <label for="custompercentage" class="col-sm-12">
+                    Autorizado
+                </label>
+                <div class="input-group col-sm-12">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1">
+                            <i class="fas fa-percent"></i>
+                        </span>
+                    </div>
+                    <input currencyMask placeholder="Ej. 1000.00"
+                        [options]="{ prefix: '', thousands: ',', decimal: '.', nullable:true }" class="form-control"
+                        id="customPenaltyRate">
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-12">
+                <label for="custompercentage" class="col-sm-12">
+                    Utilizado
+                </label>
+                <div class="input-group col-sm-12">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1">
+                            <i class="fas fa-percent"></i>
+                        </span>
+                    </div>
+                    <input currencyMask placeholder="Ej. 1000.00"
+                        [options]="{ prefix: '', thousands: ',', decimal: '.', nullable:true }" class="form-control"
+                        id="customPenaltyRate">
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-12">
+                <label for="custompercentage" class="col-sm-12">
+                    Pagado
+                </label>
+                <div class="input-group col-sm-12">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1">
+                            <i class="fas fa-percent"></i>
+                        </span>
+                    </div>
+                    <input currencyMask placeholder="Ej. 1000.00"
+                        [options]="{ prefix: '', thousands: ',', decimal: '.', nullable:true }" class="form-control"
+                        id="customPenaltyRate">
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-12">
+                <label for="custompercentage" class="col-sm-12">
+                    Por Pagar
+                </label>
+                <div class="input-group col-sm-12">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1">
+                            <i class="fas fa-percent"></i>
+                        </span>
+                    </div>
+                    <input currencyMask placeholder="Ej. 1000.00"
+                        [options]="{ prefix: '', thousands: ',', decimal: '.', nullable:true }" class="form-control"
+                        id="customPenaltyRate">
+                </div>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <div class="form-group row">
+                    <label for="amount" class="col-sm-12">
+                        Descripción del cliente
+                    </label>
+                    <div class="input-group col-sm-12">
+                        <textarea type="text" class="form-control " rows="5" [value]=""
+                            formControlName="cli ent_description"></textarea>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+        <div class="card-footer" style="background-color: white;">
+            <div class="form-group m-b-0 text-right">
+                <button type="submit" class="btn btn-raised mr-1 text-white" style="background-color: #3473da;"
+                    [disabled]="!createConditionSheetForm.valid">
+                    <i class="fas fa-save"></i>
+                    Guardar Información</button>
+                <button type="button" class="btn btn-raised mr-1 text-white" style="background-color: #3473da;"
+                    (click)="approveConditionSheet(1)" *ngIf="conditionSheetSelected?.status_condition_sheet==0">
+                    <i class="fas fa-check-square"></i>
+                    Aprobar</button>
+                <button type="button" class="btn btn-raised mr-1 text-white" style="background-color: #3473da;"
+                    (click)="approveConditionSheet(0)" *ngIf="conditionSheetSelected?.status_condition_sheet==1">
+                    <i class="fas fa-times"></i>
+                    Desaprobar</button>
+                <button type="button" class="btn btn-raised mr-1 text-white" style="background-color: #3473da;">
+                    <i-feather name="pen-tool"></i-feather>
+                    Firmar
+                    Gerente General</button>
+                <button type="submit" class="btn btn-raised mr-1 text-white" style="background-color: #3473da;">
+                    <i-feather name="pen-tool"></i-feather>
+                    Firmar
+                    Vicepresidente del
+                    consejo</button>
+
+                <button type="button" class="btn btn-secondary btn-raised mr-1 text-white" (click)="changeValue()">
+                    <i class="fas fa-times"></i>
+                    Cerrar</button>
+            </div>
+        </div>
+
+    </div>
+</form>
+
+
+<ng-template #editMember let-modal>
+    <div class="modal-header">
+        <h3 class="modal-title">Editar</h3>
+        <button type="button" class="close" (click)="closeBtnClick()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form class="form-horizontal" [formGroup]="updateMember" (ngSubmit)="updateMemberMethod()">
+            <div class="form-group row">
+                <label for="email" class="col-sm-2 text-right control-label col-form-label">Socio:</label>
+                <div class="col-sm-9 ">
+                    <div class="input-group col-sm-12 ">
+                        <div class="input-group-prepend ">
+                            <span class="input-group-text" id="basic-addon1">
+                                <i class="fas fa-user"></i>
+                            </span>
+                        </div>
+                        <input type="text" class="form-control" required disabled [value]="memberSelected.name"
+                            placeholder="Ingresar Nombre">
+                    </div>
+                    <!-- <small class="form-text text-danger"
+                        *ngIf="!updateForm.get('name').valid && (updateForm.get('name').dirty || updateForm.get('name').touched)">El
+                        nombre es requerido</small> -->
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="email" class="col-sm-2 text-right control-label col-form-label">Porcentaje:</label>
+                <div class="col-sm-9 ">
+                    <div class="input-group col-sm-12 ">
+                        <div class="input-group-prepend ">
+                            <span class="input-group-text" id="basic-addon1">
+                                <i class="fas fa-percent"></i>
+                            </span>
+                        </div>
+                        <input type="text" class="form-control" required formControlName="customer_member_percentage"
+                            placeholder="Ingresar Nombre">
+                    </div>
+                    <!-- <small class="form-text text-danger"
+                        *ngIf="!updateForm.get('name').valid && (updateForm.get('name').dirty || updateForm.get('name').touched)">El
+                        nombre es requerido</small> -->
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="email" class="col-sm-2 text-right control-label col-form-label">Puesto:</label>
+                <div class="col-sm-9 ">
+                    <div class="input-group col-sm-12 ">
+                        <div class="input-group-prepend ">
+                            <span class="input-group-text" id="basic-addon1">
+                                <i class="fas fa-briefcase"></i>
+                            </span>
+                        </div>
+                        <input type="text" class="form-control" required formControlName="customer_member_work"
+                            placeholder="Ingresar Nombre">
+                    </div>
+                    <!-- <small class="form-text text-danger"
+                        *ngIf="!updateForm.get('name').valid && (updateForm.get('name').dirty || updateForm.get('name').touched)">El
+                        nombre es requerido</small> -->
+                </div>
+            </div>
+
+            <div class="modal-footer border-top-0">
+                <button type="submit" class="btn btn-raised mr-1 text-white" [disabled]="!updateMember.valid"
+                    style="background-color: #3473da;">Actualizar</button>
+                <button type="button" class="btn btn-raised mr-1 text-white  btn-color-solucredit-secondary"
+                    (click)="closeBtnClick()">Cancelar</button>
+            </div>
+        </form>
+    </div>
+</ng-template>
+
+
+
+
+<ng-template #editDebtor let-modal>
+    <div class="modal-header">
+        <h3 class="modal-title">Editar</h3>
+        <button type="button" class="close" (click)="closeBtnClick()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form class="form-horizontal" [formGroup]="updateDebtor" (ngSubmit)="updateDebtorMethod()">
+            <div class="form-group row">
+                <label for="email" class="col-sm-2 text-right control-label col-form-label">Deudor:</label>
+                <div class="col-sm-9 ">
+                    <div class="input-group col-sm-12 ">
+                        <div class="input-group-prepend ">
+                            <span class="input-group-text" id="basic-addon1">
+                                <i class="fas fa-user"></i>
+                            </span>
+                        </div>
+                        <input type="text" class="form-control" required disabled
+                            [value]="debtorSelected.debtor.business_name" placeholder="Ingresar Nombre">
+                    </div>
+                    <!-- <small class="form-text text-danger"
+                        *ngIf="!updateForm.get('name').valid && (updateForm.get('name').dirty || updateForm.get('name').touched)">El
+                        nombre es requerido</small> -->
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="email" class="col-sm-2 text-right control-label col-form-label">Forma de pago:</label>
+                <div class="col-sm-9 ">
+                    <div class="input-group col-sm-12 ">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">
+                                <i class="fas fa-briefcase"></i>
+                            </span>
+                        </div>
+                        <select name="customPenaltyRate" class="custom-select col-sm-12" id="typeubicacion"
+                            formControlName="id_payment_method">
+                            <option *ngFor="let payment of paymentMethodList" [value]="payment.id_payment">
+                                {{payment.payment_name}}</option>
+                        </select>
+
+                    </div>
+                    <!-- <small class="form-text text-danger"
+                        *ngIf="!updateForm.get('name').valid && (updateForm.get('name').dirty || updateForm.get('name').touched)">El
+                        nombre es requerido</small> -->
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="email" class="col-sm-2 text-right control-label col-form-label">Banco:</label>
+                <div class="col-sm-9 ">
+                    <div class="input-group col-sm-12 ">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">
+                                <i class="fas fa-university"></i>
+                            </span>
+                        </div>
+                        <select name="customPenaltyRate" class="custom-select col-sm-12" id="id_bank"
+                            formControlName="id_bank">
+                            <option *ngFor="let bank of banksList" [ngValue]="bank.id_banks">{{bank.banks_name}}
+                            </option>
+                        </select>
+                    </div>
+                    <!-- <small class="form-text text-danger"
+                        *ngIf="!updateForm.get('name').valid && (updateForm.get('name').dirty || updateForm.get('name').touched)">El
+                        nombre es requerido</small> -->
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="email" class="col-sm-2 text-right control-label col-form-label">Monto a descontar:</label>
+                <div class="col-sm-9 ">
+                    <div class="input-group col-sm-12 ">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">
+                                <i class="fas fa-university"></i>
+                            </span>
+                        </div>
+                        <input currencyMask placeholder="Ej. 1000.00"
+                            [options]="{ prefix: '', thousands: ',', decimal: '.', nullable:true }" class="form-control"
+                            id="required_amount" formControlName="amount">
+                    </div>
+                    <!-- <small class="form-text text-danger"
+                        *ngIf="!updateForm.get('name').valid && (updateForm.get('name').dirty || updateForm.get('name').touched)">El
+                        nombre es requerido</small> -->
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="email" class="col-sm-2 text-right control-label col-form-label">Días de garantía:</label>
+                <div class="col-sm-9 ">
+                    <div class="input-group col-sm-12 ">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">
+                                <i class="fas fa-calendar"></i>
+                            </span>
+                        </div>
+                        <input class="form-control" id="amount" type="number" formControlName="warranty_days">
+                    </div>
+                    <!-- <small class="form-text text-danger"
+                        *ngIf="!updateForm.get('name').valid && (updateForm.get('name').dirty || updateForm.get('name').touched)">El
+                        nombre es requerido</small> -->
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="email" class="col-sm-2 text-right control-label col-form-label">Porcentaje de
+                    participación:</label>
+                <div class="col-sm-9 ">
+                    <div class="input-group col-sm-12 ">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">
+                                <i class="fas fa-percent"></i>
+                            </span>
+                        </div>
+                        <input placeholder="Ej. 100" type="number" min="1" max="100" class="form-control"
+                            formControlName="percentage" id="customPenaltyRate">
+                    </div>
+                    <!-- <small class="form-text text-danger"
+                        *ngIf="!updateForm.get('name').valid && (updateForm.get('name').dirty || updateForm.get('name').touched)">El
+                        nombre es requerido</small> -->
+                </div>
+            </div>
+            <div class="modal-footer border-top-0">
+                <button type="submit" class="btn btn-raised mr-1 text-white" [disabled]="!updateDebtor.valid"
+                    style="background-color: #3473da;">Actualizar</button>
+                <button type="button" class="btn btn-raised mr-1 text-white  btn-color-solucredit-secondary"
+                    (click)="closeBtnClick()">Cancelar</button>
+            </div>
+        </form>
+    </div>
+</ng-template>

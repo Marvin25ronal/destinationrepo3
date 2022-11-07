@@ -1,0 +1,35 @@
+<div class="card-body" [ngSwitch]="pageAnalysisAreaTransfer">
+    <div class="container" *ngSwitchCase="0">
+        <div class="container" *ngIf="disableView(analysis_option.assigmentResponsable)">
+            <app-access-denied-page></app-access-denied-page>
+        </div>
+        <form class="form-horizontal" [formGroup]="initCommercialAnalysisForm"
+            *ngIf="!disableView(analysis_option.assigmentResponsable)" (ngSubmit)="initAnalysisMethod()">
+            <div class="row">
+                <div class="col-lg-4" style="text-align: left;">
+                    <label for="first_name">
+                        Asignación de revisión de Responsable:
+                    </label>
+                </div>
+                <div class="col-lg-8" style="align-items: center;">
+                    <select class="custom-select" id="id_permission" formControlName="id_adviser"
+                        [attr.disabled]="editDefaultAdviser">
+                        <option *ngFor="let advi of listcommercialadviser" [ngValue]="advi.id_adviser"
+                            [selected]="advi.is_default==1?true:false">{{advi.firstname}}
+                            {{advi.lastname}} {{advi.is_default==1?"-- Predeterminado":""}}
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <br>
+            <div class="row" *ngIf="initCommercialAnalysis == false">
+                <button type="submit" class="btn btn ml-auto text-white custom_add1"><i class="fas fa-edit"></i>
+                    Asignación</button>
+            </div>
+            <div class="row" *ngIf="initCommercialAnalysis == true">
+                <button type="submit" class="btn btn ml-auto text-white custom_add1"><i class="fas fa-edit"></i>
+                    Reasignación Analista</button>
+            </div>
+        </form>
+    </div>
+</div>

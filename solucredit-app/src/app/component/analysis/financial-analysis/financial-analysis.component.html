@@ -1,0 +1,444 @@
+<div class="card-body" [ngSwitch]="pageFinancialAnalysis">
+    <div class="container" *ngSwitchCase="0">
+        <div>
+            <div class="row">
+                <div class="col-lg-4" style="text-align:left">
+                    <label for="clienttype">Responsable Análisis Financiero:</label>
+                </div>
+                <div class="col-lg-8" style="text-align:center">
+                    <div class="form-group row">
+                        <div class="input-group ">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">
+                                    <i class="far fa-user"></i>
+                                </span>
+                            </div>
+                            <input type="text" class="form-control" aria-label="Usuario" id="clienttype" disabled
+                                [value]="responsableFinancial == null ?  'No Asignado': responsableFinancial.firstname + ' '+ responsableFinancial.lastname">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-lg-4" style="text-align:left">
+                    <label for="clienttype">Tipo de cliente:</label>
+                </div>
+                <div class="col-lg-8" style="text-align:center">
+                    <div class="form-group row">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">
+                                    <i class="far fa-user"></i>
+                                </span>
+                            </div>
+                            <input type="text" class="form-control" aria-label="Usuario" id="clienttype" disabled
+                                [value]="dataCustomer?.type===0?'Individual':'Juridico'">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-4" style="text-align:left">
+                    <label for="clienttype">Cliente:</label>
+                </div>
+                <div class="col-lg-8" style="text-align:center">
+                    <div class="form-group row">
+
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">
+                                    <i class="far fa-user"></i>
+                                </span>
+                            </div>
+                            <input type="text" class="form-control" aria-label="Usuario" id="user" disabled
+                                [value]="dataCustomer?.type===0?dataCustomer.name:dataCustomer.businessname">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-lg-4" style="text-align: left;">
+                    <label for="first_name">
+                        Descarga de Documentación:
+                    </label>
+                </div>
+                <div class="col-lg-8">
+                    <button type="button" class="btn btn ml-auto btn-info" (click)="downloadFinancialAnalysisDocs()"
+                        [disabled]="!commercialAnalysisSelected"> <i class="fas fa-cloud-download-alt"></i>
+                        Descargar
+                    </button>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-lg-4" style="text-align: left;">
+                    <label for="first_name">
+                        Evidencias/Respaldos:
+                    </label>
+                </div>
+                <div class="col-lg-8">
+                    <button type="button" class="btn btn ml-auto btn-info"
+                        (click)="openModalUploadFinancialAnalysisDoc(modalUploadDocs)"
+                        [disabled]="!commercialAnalysisSelected"> <i class="fas fa-cloud-upload-alt"></i>
+                        Cargar Documentos
+                    </button>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-lg-4" style="text-align: left;">
+                    <label for="first_name">
+
+                    </label>
+                </div>
+                <div class="col-lg-8">
+                    <div class="table-responsive table-hover">
+                        <table class="table table-responsive-lg no-wrap v-middle white-table">
+                            <thead>
+                                <tr>
+                                    <th *ngFor="let header of OperationsAreaReportList.metadata">
+                                        <div style="text-align: center;">
+                                            {{header}}
+                                        </div>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let doc of OperationsAreaReportList.data">
+                                    <td>
+                                        <div style="text-align: justify;">
+                                            {{doc.uploaddocsca_namedoc | namefile | slice:0:20}}
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div style="text-align: justify;">
+                                            {{doc.uploaddocsca_comment}}
+                                        </div>
+                                    </td>
+                                    <td>
+                                <tr>
+                                    <td>
+                                        <i style="cursor: pointer;" class=" icon-eye"
+                                            *ngIf="doc.uploaddocsca_namedoc.includes('jpg')||doc.uploaddocsca_namedoc.includes('pdf')||doc.uploaddocsca_namedoc.includes('png')||doc.uploaddocsca_namedoc.includes('jpeg')"
+                                            (click)="showDocument(doc)"></i>
+                                    </td>
+                                    <td>
+                                        <i style="cursor: pointer;" class="fas fa-cloud-download-alt"
+                                            (click)="downloadDocument(doc)">
+                                        </i>
+                                    </td>
+                                    <td>
+                                        <i style="cursor: pointer;color:red"
+                                            (click)="deleteDocCA(doc,'Gerente Comercial')" class="icon-trash"></i>
+                                    </td>
+
+
+                                </tr>
+                                </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+            <form [formGroup]="updateFinancialAnalysisForm" (ngSubmit)="UpdateAnalysisForm()">
+                <br>
+                <div class="row">
+                    <div class="col-lg-4" style="text-align: left;">
+                        <label for="first_name">
+                            Opinión de análisis:
+                        </label>
+                    </div>
+
+                    <div class="col-lg-8 row" style="align-items: center;">
+                        <textarea type="text" class="form-control " required rows="12"
+                            [placeholder]="'Ej. Descripción de una transacción'" formControlName="comment"></textarea>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-lg-4" style="text-align: left;">
+                        <label for="first_name">
+
+                        </label>
+                    </div>
+                    <div class="col-lg-8" style="align-items: flex-start;">
+                        <button type="submit" class="btn btn ml-auto btn-info">
+                            <i class="fas fa-save"></i>
+                            Guardar</button>
+                    </div>
+                </div>
+            </form>
+            <br>
+            <div class="row">
+                <div class="col-lg-4" style="text-align: left;">
+                    <label for="first_name">
+
+                    </label>
+                </div>
+                <div class="col-lg-8" style="align-items: flex-start;">
+                    <button type="button" class="btn btn ml-auto text-white custom_add1" (click)="showReport()">
+                        <i class="fas fa-check-square"></i>
+                        Validar informe de operaciones </button>
+                    <!-- <button type="button" class="btn btn ml-auto text-white custom_add1"
+                        (click)="openReportChecklist(3)"><i class="fas fa-list"></i> Verificación de informe</button> -->
+                    <!-- <button type="button" class="btn btn ml-auto text-white custom_add1">Verificación de
+                        prospecto</button> -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-xxl" *ngSwitchCase="1">
+        <app-financial-analysis-report (return_view)="returnview2()" [requestIdSelected]="requestIdSelected"
+            [dataCustomer]="dataCustomer" [lastRequest]="lastRequest"
+            [commercialAnalysisSelected]="commercialAnalysisSelected"></app-financial-analysis-report>
+    </div>
+</div>
+
+
+<ng-template #modalUploadDocs let-modal>
+    <div class="modal-header text-center">
+        <h3 class="modal-title" id="editUserLabel">Evidencias y Documentos Respaldo </h3>
+        <button id="updateMemberClose" type="button" class="close" (click)="modal.dismiss('cerrar')" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div style="display: flex; flex-direction: column;">
+
+            <div class="card-block">
+                <form [formGroup]="FormUploadDocumentsCA" class="form-horizontal">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12">
+                                <div class="form-group row">
+                                    <label for="prod_serv_other_signers" class="col-sm-12">Comentario:</label>
+                                    <div class="input-group col-sm-12">
+                                        <textarea type="text" class="form-control .module" aria-label="comment"
+                                            id="comment" formControlName="uploaddocsca_comment" style="width: 50%"
+                                            rows="2">
+                                        </textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div style="display: flex; justify-content: center; align-items: center;">
+                <input type="file" [id]="'exampleInputFile'+i" style="display: none;"
+                    [disabled]="!FormUploadDocumentsCA.valid" (change)="uploadDocsCA($event,doc,'s'+i)"
+                    accept=".doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,.xls,.xlsx,.pdf,image/*" />
+                <button class="btn mb-auto text-white custom_add1 btn-sm" [disabled]="!FormUploadDocumentsCA.valid"
+                    style="display: block;">
+                    <label [for]="'exampleInputFile'+i"> <i class=" far fa-edit mr-3"></i>Subir archivo</label>
+                </button>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+
+<ng-template #modalCheckListAnalysis let-modal>
+    <div class="modal-header">
+        <h5 class="modal-title text-center" id="editUserLabel">Revisión Detallada</h5>
+        <button type="button" class="close" (click)="closeBtnClick()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+    <div class="modal-body">
+        <div class="card-header" style="background-color: #2061c4;">
+            <h4 class="m-b-0 text-white" style="text-align: center;">Check List Revisión Detallada</h4>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+
+                <form class="form-horizontal" [formGroup]="FormCheckListCA">
+                    <div class="form-group row col-md-12" style="align-content: center;">
+                        <table class="table table-responsive-lg v-middle white-table">
+                            <thead class="table-striped">
+                                <tr>
+                                    <th *ngFor="let header of dataChecklistAnalysis.metadata">
+                                        <div style="text-align: center;">
+                                            {{header}}
+                                        </div>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let ver of dataChecklistAnalysis.data">
+                                    <td>
+                                        <div style="text-align: center;">
+                                            <p>{{ver.doc_type|slice:0:50}}</p>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div style="max-width: 400px; text-align: center; column-gap: 50px;">
+                                            <p>{{ver.nombre}}</p>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div style="text-align: center;">
+                                            <label style="margin-right: 10px">
+                                                <input style="align-items: center;" type="checkbox"
+                                                    [checked]="ver.bit_value=='true'"
+                                                    (change)="onChangeStatusCheckList(ver)" /> Si
+                                            </label>
+
+                                            <label>
+                                                <input style="align-items: center;" type="checkbox"
+                                                    [checked]="ver.bit_value=='false'||ver.bit_value=='0'"
+                                                    (change)="onChangeStatusCheckList(ver)" /> No
+                                            </label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div style="max-width: 200px; text-align: center;">
+                                            {{ver.comment == '0' ? 'No se ha agregado' : ver.comment}}
+                                        </div>
+                                    </td>
+                                    <td class="d-flex flex-row align-self-center ">
+                                        <div *ngIf="ver.ad_s3key != 0" style="text-align: center;"
+                                            class="align-self-center">
+                                            <button
+                                                *ngIf="ver.filename.includes('jpg')||ver.filename.includes('pdf')||ver.filename.includes('png')||ver.filename.includes('jpeg')"
+                                                (click)="showChecklistDocumentM(ver)" class="btn btn-info">
+                                                <i style="cursor: pointer;" class=" icon-eye"></i>
+                                            </button>
+                                            <button (click)="DownloadChecklistAnalysisDocument(ver)"
+                                                class="btn btn-primary" style="background-color: #2061c4;">
+                                                <i style="cursor: pointer;" class="fas fa-cloud-download-alt">
+                                                </i>
+                                            </button>
+                                            <button (click)="deleteCheckDocs(ver)" class="btn btn-danger">
+                                                <i style="cursor: pointer;" class="icon-trash "></i>
+                                            </button>
+
+                                        </div>
+                                        <div style="text-align: center;">
+                                            <button *ngIf="ver.ad_s3key == 0" [disabled]="ver.id_checklist == 0"
+                                                type="button" data-toggle="modal" class="btn btn ml-auto btn-info"
+                                                (click)="openModalUploadFinancialAnalysisDoc(modalUploadDocs)">
+                                                <i class="fas fa-cloud-upload-alt"></i>
+                                                Cargar
+                                            </button>
+                                            <button [disabled]="ver.id_checklist == 0" type="button" data-toggle="modal"
+                                                class="btn btn ml-auto btn-secondary"
+                                                (click)="openModalComment(modalEditComment, ver)">
+                                                <i class="fas fa-comment"></i>
+                                                {{ver.comment == '0' ? 'Agregar comentario' : 'Editar comentario'}}
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <hr>
+
+                    <div class="form-group m-b-0 text-right">
+                        <button type="button" class="btn btn-raised mr-1 text-white btn-color-solucredit"
+                            style="align-items: flex-end;" (click)="openReport(targetReport)">
+                            <i class="fas fa-file-alt"></i>
+                            Generar Informe</button>
+                        <button class="btn btn-raised mr-1 text-white btn-color-solucredit-secondary"
+                            (click)="modal.dismiss('cerrar')">
+                            <i class="fas fa-times"></i>
+                            Cancelar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #modalEditComment let-modal>
+    <div class="modal-header text-center">
+        <h3 class="modal-title" id="editUserLabel">Editar comentario</h3>
+        <button id="updateMemberClose" type="button" class="close" (click)="modal.dismiss('cerrar')" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+
+        <div style="display: flex; flex-direction: column;">
+
+            <div class="card-block">
+                <form [formGroup]="FormCheckListCA " class="form-horizontal" (ngSubmit)="saveComment()">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12">
+                                <div class="form-group row">
+                                    <label for="prod_serv_other_signers" class="col-sm-12">Comentario:</label>
+                                    <div class="input-group col-sm-12">
+                                        <textarea type="text" class="form-control .module" aria-label="comment"
+                                            id="comment" formControlName="checklist_comment" style="width: 50%"
+                                            rows="2">
+                                        </textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="display: flex; justify-content: center; align-items: center;">
+                        <button class="btn mb-2 text-white custom_add1 btn-sm" [disabled]="!FormCheckListCA.valid"
+                            type="submit" style="display: block;">
+                            <i class="fas fa-save"></i>
+                            Aceptar
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+
+        </div>
+    </div>
+</ng-template>
+<ng-template #modalUploadDocsCheck let-modal>
+    <div class="modal-header text-center">
+        <h3 class="modal-title" id="editUserLabel">Cargar Documentos</h3>
+        <button id="updateMemberClose" type="button" class="close" (click)="modal.dismiss('cerrar')" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+
+        <div style="display: flex; flex-direction: column;">
+
+            <div class="card-block">
+                <form [formGroup]="FormCheckListCA " class="form-horizontal">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12">
+                                <div class="form-group row">
+                                    <label for="prod_serv_other_signers" class="col-sm-12">Comentario:</label>
+                                    <div class="input-group col-sm-12">
+                                        <textarea type="text" class="form-control .module" aria-label="comment"
+                                            id="comment" formControlName="checklist_comment" style="width: 50%"
+                                            rows="2">
+                                        </textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div style="display: flex; justify-content: center; align-items: center;">
+                <input type="file" [id]="'exampleInputFile'+i" style="display: none;"
+                    [disabled]="!FormCheckListCA.valid" (change)="uploadDocCheckList($event)"
+                    accept=".doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,.xls,.xlsx,.pdf,image/*" />
+                <button class="btn mb-2 text-white custom_add1 btn-sm" [disabled]="!FormCheckListCA.valid"
+                    style="display: block;">
+                    <label [for]="'exampleInputFile'+i"> <i class=" far fa-edit mr-3"></i>Subir archivo</label>
+                </button>
+            </div>
+
+        </div>
+    </div>
+</ng-template>

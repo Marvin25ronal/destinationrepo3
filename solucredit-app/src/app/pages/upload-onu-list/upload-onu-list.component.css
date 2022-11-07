@@ -1,0 +1,25 @@
+.btn-color-solucredit-secondary {
+    background-color: #6C6C6C;
+    color: white;
+}
+.custom_btn1 {
+    background: #2061c4;
+    border-color: #2061c4;
+}
+
+::ng-deep .my-modal .modal-content {
+    border-radius: 15px;
+}
+::ng-deep .my-modal .modal-header {
+    background-color: rgba(225, 229, 234, 0.1);
+    border-top-right-radius: 15px;
+    border-top-left-radius: 15px;
+    opacity: 0.8;
+}
+
+.close {
+    float: left;
+    border-width: 0 !important;
+    border: none;
+    outline: none;
+}

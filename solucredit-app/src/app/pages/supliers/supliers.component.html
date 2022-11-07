@@ -1,0 +1,650 @@
+<div class="col-12">
+    <div class="card card-body">
+        <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#759ee0" type="ball-scale-multiple">
+            <p style="font-size: 20px; color:#fff">Cargando Información...</p>
+        </ngx-spinner>
+        <div class="d-flex mb-3 mt-3">
+
+            <!-- <input type="text" class="form-control w-25" placeholder="Busca a un empleado" [(ngModel)]='searchTerm'> -->
+            <button *ngIf="canCreate()" class="btn btn btn-info ml-auto h-25 btn-color-solucredit" (click)="openModal2(createSupplierModal, null)">Nuevo proveedor</button>
+        </div>
+        <app-reportfilters [config]="config" [(vals)]="vals" (onFilter)="filter($event)" [dataset3]="valsdrop3" [dataset5]="valsdrop5" (onCreateExcel)="createExcel($event)"></app-reportfilters>
+        <div *ngIf="canList()" class="table-responsive table-bordered">
+            <table class="table table-striped mb-0 no-wrap v-middle" style="margin-top: 0.5rem;">
+                <thead>
+                    <tr>
+                        <!-- supplier_id: number;
+                        ruc: string;//CODIGO DE PROVEEDORES
+                        name: string;//NOMBRE DE LA EMPRESA
+                        address: string;//DIRECCION
+                        phone1: string;// TELEFONO
+                        phone2: string;
+                        contact: string;//CONTACTO
+                        cellphone: string;//CELULAR
+                        business: string;//GIRO DE NEGOCIO
+                        
+                        type: Date;
+                        status: number;//BITACORA
+                        fec_creation: Date;
+                     -->
+
+                        <th scope="col">RUC</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Contacto</th>
+                        <th scope="col">Tipo</th>
+                        <th scope="col">Estado</th>
+                        <th scope="col">Acciones</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let supplier of supplierList;let i = index">
+
+
+                        <td>{{supplier.ruc}}</td>
+
+                        <td>{{ supplier.name}}</td>
+                        <td>{{ supplier.contact }}</td>
+                        <td>{{ supplier.type==0?'Individual':'Juridico'}}</td>
+                        <td>
+
+                            <div><span [ngClass]="getStatusClass(supplier.status)">{{getStatusText(supplier.status)}}</span></div>
+
+
+                        </td>
+
+
+
+                        <td>
+                            <div class="div-table-actions">
+                                <button *ngIf="canUpdate()" (click)="openModal(editUserModal, supplier)" class="btn btn-raised mr-1 text-white  btn-color-solucredit" type="button"><span class="btn-label m-r-5"><i class="mdi mdi-eye-outline"></i></span>Ver</button>
+                                <!-- <button *ngIf="canUpdate()" (click)="openModal(editUserModal, supplier)" class="btn btn-raised mr-1 text-white  btn-color-solucredit" type="button"><span class="btn-label m-r-5"><i class="mdi mdi-eye-outline"></i></span>Editar</button> -->
+                                <button *ngIf="canDelete()" ngbTooltip="Eliminar" (click)="deleteUserModal(supplier.supplier_id)" class="btn btn-danger waves-effect waves-light" type="button"><span class="btn-label m-r-5"><i class="mdi mdi-delete"></i></span>Eliminar</button>
+
+                            </div>
+
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <ngb-pagination [collectionSize]="this.suppliersTotal" [pageSize]="pageSize" [(page)]="page" aria-label="Default pagination" (pageChange)="pageChange($event)"></ngb-pagination>
+        </div>
+        <!-- <div class="d-flex justify-content-center mt-5">
+                <ngb-pagination [(page)]="page" [pageSize]="pageSize" [collectionSize]="userList.length"></ngb-pagination>
+            </div> -->
+    </div>
+</div>
+<notifier-container></notifier-container>
+
+<ng-template #createSupplierModal let-modal>
+
+    <div class="modal-header">
+
+        <!-- <h5 class="modal-title" id="editUserLabel">Crea un nuevo provedor</h5> -->
+
+        <button type="button" class="close" (click)="closeBtnClick()" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+
+    </div>
+
+    <div class="modal-body">
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header" style=" background-color: #2061C4;">
+                        <h4 class="m-b-0 text-white">Nuevo proveedor</h4>
+                    </div>
+                    <form [formGroup]="newSupplierForm">
+                        <div class="form-body">
+                            <div class="card-body">
+
+
+                                <div class="row p-t-20">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="control-label">Tipo de proveedor:<code style="font-size: 16px;"><sup>*</sup></code></label>
+                                            <div class="custom-control custom-radio">
+                                                <input formControlName="type" type="radio" [value]="0" id="customRadio1" name="type" class="custom-control-input">
+                                                <label class="custom-control-label custom-label" for="customRadio1">Individual</label>
+                                            </div>
+                                            <div class="custom-control custom-radio">
+                                                <input formControlName="type" type="radio" [value]="1" id="customRadio2" name="type" class="custom-control-input">
+                                                <label class="custom-control-label custom-label" for="customRadio2">Juridico</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--/span-->
+                                    <div class="col-md-6">
+                                        <div class="form-group has-danger">
+                                            <label class="control-label">RUC:<code style="font-size: 16px;"><sup>*</sup></code></label>
+                                            <input formControlName="ruc" type="text" class="form-control" id="run" placeholder="ruc">
+                                            <small class="form-text text-danger" *ngIf="!newSupplierForm.controls.ruc.valid && (newSupplierForm.controls.ruc.dirty || newSupplierForm.controls.ruc.touched)">Ingresa el ruc</small>
+                                        </div>
+                                    </div>
+                                    <!--/span-->
+                                </div>
+                                <!--/row-->
+
+
+                                <div class="row p-t-20">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="control-label">Nombre:<code style="font-size: 16px;"><sup>*</sup></code></label>
+                                            <input formControlName="name" type="text" class="form-control" id="name1" placeholder="Nombre del proveedor">
+                                            <small class="form-text text-danger" *ngIf="!newSupplierForm.controls.name.valid && (newSupplierForm.controls.name.dirty || newSupplierForm.controls.name.touched)">Ingresa el nombre</small>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group has-danger">
+                                            <label class="control-label">Contacto</label>
+                                            <input formControlName="contact" type="text" class="form-control" id="contact1" placeholder="Contacto del proveedor">
+                                            <small class="form-text text-danger" *ngIf="!newSupplierForm.controls.contact.valid && (newSupplierForm.controls.contact.dirty || newSupplierForm.controls.contact.touched)">Ingresa el contacto del proveedor.</small>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="row p-t-20">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="control-label">Dirección:</label>
+                                            <input formControlName="address" type="text" class="form-control" id="address1" placeholder="Direccion del proveedor">
+                                            <small class="form-text text-danger" *ngIf="!newSupplierForm.controls.address.valid && (newSupplierForm.controls.address.dirty || newSupplierForm.controls.address.touched)">Ingresa la direccion</small>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group has-danger">
+                                            <label class="control-label">Teléfono</label>
+                                            <input formControlName="phone1" type="text" class="form-control" id="phone1" placeholder="Teléfono del proveedor">
+                                            <small class="form-text text-danger" *ngIf="newSupplierForm.controls.phone1.errors?.pattern && newSupplierForm.controls.phone1.touched">Formato incorrecto</small>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="row p-t-20">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="control-label">Otro teléfono:</label>
+                                            <input formControlName="phone2" type="text" class="form-control" id="name1" placeholder="Otro teléfono">
+                                            <small class="form-text text-danger" *ngIf="newSupplierForm.controls.phone2.errors?.pattern && newSupplierForm.controls.phone2.touched">Formato incorrecto</small>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group has-danger">
+                                            <label class="control-label">Celular</label>
+                                            <input formControlName="cellphone" type="text" class="form-control" id="cellphone1" placeholder="Numero de celular">
+                                            <small class="form-text text-danger" *ngIf="newSupplierForm.controls.cellphone.errors?.pattern && newSupplierForm.controls.cellphone.touched">Formato incorrecto</small>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12 ">
+                                        <div class="form-group">
+                                            <label>Giro de negocio:<code style="font-size: 16px;"><sup>*</sup></code></label>
+                                            <input formControlName="business" type="text" class="form-control" id="business1" placeholder="Negocio del proveedor">
+                                            <small class="form-text text-danger" *ngIf="!newSupplierForm.controls.business.valid && (newSupplierForm.controls.business.dirty || newSupplierForm.controls.business.touched)">Ingresa el giro de negocio del proveedor.</small>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                            <div class="card-body">
+                                <small class="form-text text-danger" *ngIf="!isUrcUnique() && isRucInputFocus">El correo ya esta registrado</small>
+                                <div class="form-group m-b-0 text-right">
+
+                                    <button class="btn btn-raised mr-1 text-white btn-color-solucredit-secondary" (click)="closeBtnClick()">Cancelar</button>
+                                    <button class="btn btn-raised mr-1 text-white btn-color-solucredit" (click)="submitSupplier()" [disabled]="!isCorrect()">Registrar</button>
+
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</ng-template>
+<ng-template #editUserModal let-modal>
+
+    <div class="modal-header">
+
+        <h5 class="modal-title" id="editUserLabel">Información del Proveedor</h5>
+
+        <button type="button" class="close" (click)="closeBtnClick()" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+
+    </div>
+
+    <div class="modal-body">
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body p-r-0 p-l-0 p-t-0" style="background: #fff;">
+                        <ngb-tabset type="pills" [justify]="currentJustify">
+                            <ngb-tab>
+                                <ng-template ngbTabTitle><b>Mis Datos</b></ng-template>
+                                <ng-template ngbTabContent>
+                                    <div class="card-img-overlay" style="position: relative;">
+                                        <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#759ee0" type="ball-scale-multiple">
+                                            <p style="font-size: 20px; color:#fff">Cargando Información...</p>
+                                        </ngx-spinner>
+                                        <div class="div-grid">
+                                            <div class="grid-botonedit edit-bitbtn-layout">
+                                                <div class="text-white text-right">
+                                                    <a class="custom_btn2_edit" (click)="openModalEditData(editInfo,currentSupplier)">Editar Datos</a>
+                                                </div>
+                                                <div class="text-white text-right">
+                                                    <a class="custom_btn2" (click)="openModalBitacora(bitacoraModal)">Bitacora</a>
+                                                </div>
+                                                <div [hidden]="completedDocs() || (currentSupplier.status  == 2 || currentSupplier.status  == 0)" class="text-white text-right">
+                                                    <a class="custom_btn3" (click)="darDeBaja()">Dar de baja</a>
+                                                </div>
+                                                <div [hidden]=" completedDocs() || (currentSupplier.status  == 1 || currentSupplier.status  == 0)" class="text-white text-right">
+                                                    <a class="custom_btn4" (click)="completarCheckList()">Activar</a>
+                                                </div>
+                                            </div>
+
+                                            <div class="grid-nombre">
+                                                <p class="display-8 font-medium">Nombre: <span *ngIf="currentSupplier"><b>{{ currentSupplier.name}}</b></span></p>
+                                            </div>
+                                            <div class="grid-tel1">
+                                                <p class="display-8 font-medium">Teléfono: <span *ngIf=" currentSupplier"><b>{{ currentSupplier.phone1}}</b></span></p>
+                                            </div>
+
+                                            <div class="grid-ruc">
+                                                <p class="display-8 font-medium">RUC: <span *ngIf=" currentSupplier"><b>{{ currentSupplier.ruc}}</b></span></p>
+                                            </div>
+
+                                            <div class="grid-dir">
+                                                <p class="display-8 font-medium">Dirección: <span *ngIf=" currentSupplier"><b>{{ currentSupplier.address}}</b></span></p>
+                                            </div>
+
+                                            <div class="grid-tel2">
+                                                <p class="display-8 font-medium">Teléfono secundario: <span *ngIf="currentSupplier"><b>{{ currentSupplier.phone2}}</b></span></p>
+                                            </div>
+
+                                            <div class="grid-cel">
+                                                <p class="display-8 font-medium">Celular: <span *ngIf=" currentSupplier"><b>{{ currentSupplier.cellphone}}</b></span></p>
+                                            </div>
+
+                                            <div class="grid-contacto">
+                                                <p class="display-8 font-medium">Contacto: <span *ngIf="currentSupplier"><b>{{ currentSupplier.contact}}</b></span></p>
+                                            </div>
+
+                                            <div class="grid-giro">
+                                                <p class="display-8 font-medium">Giro de negocio: <span *ngIf=" currentSupplier"><b>{{ currentSupplier.business}}</b></span></p>
+                                            </div>
+
+                                            <div class="grid-estado">
+                                                <!-- <div class="badge" data-color="default">
+                                                    <div class="badge-icon">
+                                                       
+                                                    </div>
+                                                    <div class="badge-text">
+                                                        <span><b>Estado:</b></span>
+                                                        <span>Activo</span>
+                                                    </div>
+                                                </div> -->
+                                                <div style="display: flex;">
+                                                    <p class="display-8 font-medium">Estado del proveedor: </p>
+
+                                                    <span style="width: fit-content;" [ngClass]="getStatusClass(currentSupplier.status) ">{{getStatusText(currentSupplier.status)}}</span>
+                                                </div>
+
+
+
+                                            </div>
+                                            <div class="grid-tipo">
+                                                <p class="display-8 font-medium">Tipo: <span *ngIf=" currentSupplier"><b>{{ currentSupplier.type == 0? 'Individual':'Juridico'}}</b></span></p>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+
+
+
+
+
+
+
+
+
+
+                                </ng-template>
+                            </ngb-tab>
+                        </ngb-tabset>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card mb-0">
+            <div class="card-body p-r-0 p-l-0" style="background: #edf4f8;">
+                <ngb-tabset type="pills" [justify]="currentJustify">
+                    <ngb-tab>
+                        <ng-template ngbTabTitle><b>Check List</b></ng-template>
+                        <ng-template ngbTabContent>
+
+                            <div class="row m-t-30 " style="background: #fff; ">
+                                <div class="table-responsive table-bordered ">
+                                    <table class="table table-striped mb-0 no-wrap v-middle ">
+                                        <thead>
+                                            <tr>
+                                                <th style="max-width: 20px;" class="text-center" scope="col">
+                                                    <!-- <input type="checkbox" [checked]="isAllChecked" [value]="0" (change)="onCheckAllForms($event)"> -->
+                                                </th>
+                                                <th scope="col ">Nombre</th>
+                                                <th scope="col ">Estado</th>
+                                                <th scope="col ">Subir</th>
+                                                <th scope="col ">Archivos</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let doc of docsList; let i = index">
+                                                <td style="max-width: 20px;" class="text-center">
+
+
+                                                </td>
+                                                <td><span style="cursor: pointer;color: #2962ff;font-weight: 500; ">{{doc.name}}</span> </td>
+                                                <td style="position: relative;padding-top: 20px;padding-bottom: 20px; ">
+                                                    <ngx-spinner [name]="'cs'+i " bdColor="rgba(0, 0, 0, 0.8) " size="medium " color="#759ee0 " type="ball-atom " [fullScreen]="false ">
+                                                        <p style="color: white "> Cambiando Estatus ... </p>
+                                                    </ngx-spinner>
+                                                    <ng-container>
+                                                        <div class="form-check form-check-inline ">
+
+                                                            <input [disabled]="doc.detail.length == 0" [checked]="formsCheckBoxesData[i].value" [value]="formsCheckBoxesData[i].data.id_supplier_doc" (change)="onCheckChange($event,'cs'+i)" class="form-check-input" type="checkbox">
+
+                                                            <label class="form-check-label">Completar Documento</label>
+                                                        </div>
+                                                    </ng-container>
+
+
+                                                </td>
+                                                <td style="position: relative;padding-top: 20px;padding-bottom: 20px;">
+                                                    <ngx-spinner [name]="'s'+i" bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#759ee0" type="ball-atom" [fullScreen]="false">
+                                                        <p style="color: white"> Subiendo Documento ... </p>
+                                                    </ngx-spinner>
+                                                    <fieldset class="form-group">
+                                                        <input type="file" class="" id="exampleInputFile" (change)="showPreviewImage($event,i+1,'s'+i)" accept="image/gif, image/jpeg, application/pdf, image/png, image/jpg">
+
+                                                    </fieldset>
+                                                </td>
+                                                <td>
+                                                    <ng-container *ngIf="doc.detail">
+                                                        <div *ngFor="let item of doc.detail">
+                                                            <tr>
+                                                                <td [ngbTooltip]="item.name">{{item.name | slice:0:8}}...</td>
+
+                                                                <td><i style="cursor: pointer;" class=" icon-eye" (click)="ViewDocu(viewdocuments,item.id_supplier_doc_detail)"></i></td>
+                                                                <td><i style="cursor: pointer;color:red" (click)="DeleteDocu(item.id_supplier_doc_detail)" class="icon-trash"></i></td>
+                                                            </tr>
+                                                        </div>
+                                                    </ng-container>
+                                                    <!--  -->
+
+                                                </td>
+                                            </tr>
+
+
+
+
+                                        </tbody>
+                                    </table>
+                                    <div class="div-btn-complete">
+                                        <button [hidden]=" completedDocs() " class="btn custom_add1 " (click)="completarCheckList() ">
+                                <i class="icon-check "></i> Completar verificaciones </button>
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+
+                        </ng-template>
+                    </ngb-tab>
+                </ngb-tabset>
+            </div>
+        </div>
+
+
+
+        <div class="card-body ">
+            <div class="div-con-flex ">
+                <!-- [ngClass]="isEditing===t rue? 'btn-hide': 'btn-show' " -->
+                <!-- <button type="submit " class="btn btn-raised mr-1 text-white btn-color-solucredit " (click)="startMod() ">Modificar</button> -->
+                <!-- [ngClass]="isEditing===f alse? 'btn-hide': 'btn-show' " -->
+                <!-- <button type="submit " class="btn btn-raised mr-1 text-white btn-color-solucredit " (click)="saveUserChanges() ">Guardar cambios</button> -->
+                <!-- [ngClass]="isEditing===f alse? 'btn-hide': 'btn-show' " -->
+                <!-- <button type="submit " class="btn btn-raised mr-1 text-white btn-color-solucredit-secondary " (click)="closeBtnClick() ">Cancelar</button> -->
+            </div>
+        </div>
+
+
+
+    </div>
+</ng-template>
+
+<ng-template #modalDelete let-modal>
+
+    <div class="modal-header border-bottom-0 ">
+        <button type="button " class="close " aria-label="Close " (click)="closeBtnClick() ">
+            <span aria-hidden="true ">&times;</span>
+        </button>
+    </div>
+
+    <div class="modal-body ">
+        <div class="row mb-2 ">
+            <div class="col-12 ">
+                <h4 class="ml-4 ">¿Esta seguro de eliminar este registro?</h4>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-footer border-top-0 ">
+        <button type="button " (click)="deleteSupplier() " class="btn btn-danger mr-1 text-white ">Confirmar</button>
+        <button type="button " class="btn btn-raised mr-1 text-white btn-color-solucredit-secondary " (click)="closeBtnClick() ">Cancelar</button>
+    </div>
+</ng-template>
+
+<ng-template #editInfo let-modal>
+
+    <div class="modal-header ">
+
+        <h5 class="modal-title " id="editUserLabel ">Edición</h5>
+
+        <button type="button " class="close " (click)="closeEditDataMod(modal) " aria-label="Close ">
+      <span aria-hidden="true ">&times;</span>
+    </button>
+
+    </div>
+
+    <div class="modal-body ">
+
+        <form [formGroup]="newSupplierForm">
+            <div class="form-body ">
+                <div class="card-body ">
+
+
+                    <div class="row p-t-20 ">
+                        <div class="col-md-6 ">
+                            <div class="form-group ">
+                                <label class="control-label ">Tipo de proveedor:</label>
+                                <div class="custom-control custom-radio">
+                                    <input formControlName="type" type="radio" [value]="0" id="customRadio1" name="type" class="custom-control-input">
+                                    <label class="custom-control-label custom-label" for="customRadio1">Individual</label>
+                                </div>
+                                <div class="custom-control custom-radio">
+                                    <input formControlName="type" type="radio" [value]="1" id="customRadio2" name="type" class="custom-control-input">
+                                    <label class="custom-control-label custom-label" for="customRadio2">Juridico</label>
+                                </div>
+                            </div>
+                        </div>
+                        <!--/span-->
+                        <div class="col-md-6 ">
+                            <div class="form-group has-danger ">
+                                <label class="control-label ">RUC:</label>
+                                <input formControlName="ruc" type="text " class="form-control " id="run " placeholder="ruc ">
+                                <small class="form-text text-danger " *ngIf="!newSupplierForm.controls.ruc.valid && (newSupplierForm.controls.ruc.dirty || newSupplierForm.controls.ruc.touched) ">Ingresa el ruc</small>
+                            </div>
+                        </div>
+                        <!--/span-->
+                    </div>
+                    <!--/row-->
+
+
+                    <div class="row p-t-20 ">
+                        <div class="col-md-6 ">
+                            <div class="form-group ">
+                                <label class="control-label ">Nombre:</label>
+                                <input formControlName="name" type="text " class="form-control " id="name1 " placeholder="Nombre del proveedor ">
+                                <small class="form-text text-danger " *ngIf="!newSupplierForm.controls.name.valid && (newSupplierForm.controls.name.dirty || newSupplierForm.controls.name.touched) ">Ingresa el nombre</small>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 ">
+                            <div class="form-group has-danger ">
+                                <label class="control-label ">Contacto</label>
+                                <input formControlName="contact" type="text " class="form-control " id="contact1 " placeholder="Contacto del proveedor ">
+                                <small class="form-text text-danger " *ngIf="!newSupplierForm.controls.contact.valid && (newSupplierForm.controls.contact.dirty || newSupplierForm.controls.contact.touched) ">Ingresa el contacto del proveedor.</small>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row p-t-20 ">
+                        <div class="col-md-6 ">
+                            <div class="form-group ">
+                                <label class="control-label ">Dirección:</label>
+                                <input formControlName="address" type="text " class="form-control " id="address1 " placeholder="Direccion del proveedor ">
+                                <small class="form-text text-danger " *ngIf="!newSupplierForm.controls.address.valid && (newSupplierForm.controls.address.dirty || newSupplierForm.controls.address.touched) ">Ingresa la direccion</small>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 ">
+                            <div class="form-group has-danger ">
+                                <label class="control-label ">Teléfono</label>
+                                <input formControlName="phone1" type="text " class="form-control " id="phone1 " placeholder="Teléfono del proveedor ">
+                                <small class="form-text text-danger " *ngIf="!newSupplierForm.controls.phone1.valid && (newSupplierForm.controls.phone1.dirty || newSupplierForm.controls.phone1.touched) ">Ingresa el teléfono</small>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row p-t-20 ">
+                        <div class="col-md-6 ">
+                            <div class="form-group ">
+                                <label class="control-label ">Otro teléfono:</label>
+                                <input formControlName="phone2" type="text " class="form-control " id="name1 " placeholder="Otro teléfono ">
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 ">
+                            <div class="form-group has-danger ">
+                                <label class="control-label ">Celular</label>
+                                <input formControlName="cellphone" type="text " class="form-control " id="cellphone1 " placeholder="Numero de celular ">
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row ">
+                        <div class="col-md-12 ">
+                            <div class="form-group ">
+                                <label>Giro de negocio:</label>
+                                <input formControlName="business" type="text " class="form-control " id="business1 " placeholder="Negocio del proveedor ">
+                                <small class="form-text text-danger " *ngIf="!newSupplierForm.controls.business.valid && (newSupplierForm.controls.business.dirty || newSupplierForm.controls.business.touched) ">Ingresa el giro de negocio del proveedor.</small>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="card-body ">
+                    <small class="form-text text-danger " *ngIf="!isUrcUnique() && isRucInputFocus ">El correo ya esta registrado</small>
+                    <div class="form-group m-b-0 text-right ">
+
+                        <button class="btn btn-raised mr-1 text-white btn-color-solucredit-secondary " (click)="closeEditDataMod(modal) ">Cancelar</button>
+                        <button class="btn btn-raised mr-1 text-white btn-color-solucredit " (click)="modSupplier(modal) " [disabled]="!isCorrect() ">Modificar</button>
+
+                    </div>
+                </div>
+
+
+            </div>
+
+
+        </form>
+    </div>
+
+
+</ng-template>
+
+<ng-template #bitacoraModal let-modal>
+    <ngx-spinner #spinnerbit name="spinnerbit " bdColor="rgba(0, 0, 0, 0.8) " size="medium " color="#759ee0 " type="ball-atom " [fullScreen]="false ">
+        <p style="color: white "> Cargando bitácora.. </p>
+    </ngx-spinner>
+    <div class="modal-header ">
+
+        <h5 class="modal-title " id="editUserLabel ">Bitácora</h5>
+
+        <button type="button " class="close " (click)="closeEditDataMod(modal) " aria-label="Close ">
+      <span aria-hidden="true ">&times;</span>
+    </button>
+
+    </div>
+
+    <div class="modal-body ">
+        <div class="table-responsive table-bordered bitacora-layout " style="background-color: #fff !important; ">
+            <table class="table table-striped mb-0 no-wrap v-middle customtp ">
+                <thead>
+                    <tr>
+                        <th scope="col "></th>
+                        <th scope="col ">Accion</th>
+                        <th scope="col ">Elemento</th>
+                        <th scope="col ">Fecha</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="table-hover " *ngFor="let log of logsList;let i=i ndex ">
+                        <td>
+                            {{i}}
+                        </td>
+                        <td>
+                            {{log.action|supplier_log_action}}
+                        </td>
+                        <td>
+                            {{log.doc|supplier_log_doc}}
+                        </td>
+                        <td>
+                            {{log.fec| date: 'dd/MM/yyyy HH:mm a'}}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+
+</ng-template>
+
+<app-documentmodal
+    [imgsrcbase64]="imgsrcbase64"
+    [pdfsrcbase64]="pdfsrcbase64"
+></app-documentmodal>

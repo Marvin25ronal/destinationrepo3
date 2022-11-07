@@ -1,0 +1,445 @@
+<div class="card-body" id='templateInforme'>
+    <div style="text-align: center;">
+        <h1>Informe {{analysisType?.analysistype_name}}</h1>
+        <hr>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12 col-md-6">
+            <div class="form-group row">
+                <label for="name" class="col-sm-3 text-right">Gerente:</label>
+                <div class="input-group col-sm-9">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1">
+                            <i class="far fa-user"></i>
+                        </span>
+                    </div>
+                    <input type="text" class="form-control" aria-label="Username" id="name" required
+                        placeholder="Ej. Roberto" disabled
+                        [value]=" this.analysisResponsable?.firstname+' '+this.analysisResponsable?.lastname">
+                </div>
+
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-6">
+            <div class="form-group row">
+                <label for="nit" class="col-sm-3 text-right">Fecha de Creación:</label>
+                <div class="input-group col-sm-9">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1">
+                            <i class="far fa-address-card"></i>
+                        </span>
+                    </div>
+                    <input type="text" size="8" maxlength="8" class="form-control" id="nit" placeholder="Ingresar NIT"
+                        disabled [value]="this.analysis?.creation_date|date:'M/d/yy, h:mm a'">
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-sm-12 col-md-6">
+            <div class="form-group row">
+                <label for="nit" class="col-sm-3 text-right">Documentación válida:</label>
+                <div class="input-group col-sm-9">
+
+                    <div class="col-lg-12 row" style="align-items: center;">
+                        <div class="col-sm-1" style="padding-right: 10%;">
+                            <div class="custom-control custom-radio">
+                                <input type="radio" id="sipertenece" class="custom-control-input"
+                                    [(ngModel)]="checkDocuments" [value]="1" disabled>
+                                <label class="custom-control-label custom-label" for="sipertenece">Si</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-1">
+                            <div class="custom-control custom-radio">
+                                <input type="radio" id="nopertenece" class="custom-control-input"
+                                    [(ngModel)]="checkDocuments" [value]="0" disabled>
+                                <label class="custom-control-label custom-label" for="nopertenece">No</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-6"></div>
+        <div class="col-sm-12 col-md-12 row">
+            <div class="col-sm-3">
+                <label for="phone" class="col-md-6 text-right">Análisis:</label>
+            </div>
+            <div class="form-group row col-sm-9">
+                <div class="input-group">
+                    <textarea type="text" class="form-control " required rows="12"
+                        [placeholder]="'Ej. Descripción de una transacción'" disabled
+                        [value]="this.analysis?.commercialanalysis_comment"></textarea>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+    <hr class="rounded">
+    <div class="card-block">
+        <div class="row">
+            <div class="col-sm-12 col-md-6">
+                <div class="form-group row">
+                    <label for="name" class="col-sm-3 text-right">Tipo Cliente:</label>
+                    <div class="input-group col-sm-9">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">
+                                <i class="far fa-user"></i>
+                            </span>
+                        </div>
+                        <input type="text" class="form-control" aria-label="Username" id="name" required
+                            placeholder="Ej. Roberto" disabled [value]="this.customerType?.customer_type">
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-6">
+                <div class="form-group row">
+                    <label for="name" class="col-sm-3 text-right">Cliente:</label>
+                    <div class="input-group col-sm-9">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">
+                                <i class="far fa-user"></i>
+                            </span>
+                        </div>
+                        <input type="text" class="form-control" aria-label="Username" id="name" required
+                            placeholder="Ej. Roberto" disabled
+                            [value]="this.customer?.type==0?this.customer?.name:this.customer?.businessname">
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-6">
+                <div class="form-group row">
+                    <label for="name" class="col-sm-3 text-right">Tipo de Gestión:</label>
+                    <div class="input-group col-sm-9">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">
+                                <i class="far fa-user"></i>
+                            </span>
+                        </div>
+                        <input type="text" class="form-control" aria-label="Username" id="name" required
+                            placeholder="Ej. Roberto" disabled [value]="this.request?.doc_type|req_doc_type">
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-6">
+                <div class="form-group row">
+                    <label for="name" class="col-sm-3 text-right">Tipo de solicitud:</label>
+                    <div class="input-group col-sm-9">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">
+                                <i class="far fa-user"></i>
+                            </span>
+                        </div>
+                        <input type="text" class="form-control" aria-label="Username" id="name" required
+                            placeholder="Ej. Roberto" disabled [value]="this.typesRequest?.name">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <hr class="rounded">
+    <div *ngIf="analysisType?.analysistype_name=='Autorización Gerente Comercial'">
+        <div>
+            <div class="col-sm-12 col-md-6">
+                <div class="form-group row">
+                    <label for="name" class=" text-right">Condiciones:</label>
+                </div>
+            </div>
+        </div>
+        <div class="card-block">
+            <div class="row">
+                <table class="table table-responsive-lg no-wrap v-middle white-table">
+                    <thead>
+                        <tr>
+                            <th *ngFor="let header of termsList.metadata">
+                                <div class="text-center">
+                                    {{header}}
+                                </div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngIf="conditionSheetSelected">
+                            <td>
+                                <div class="text-center">
+                                    1
+                                </div>
+                            </td>
+                            <td>
+                                <div class="text-center">
+                                    {{conditionSheetSelected.document_number}}
+                                </div>
+                            </td>
+                            <td>
+                                <div class="text-center">
+                                    {{customer?.name}}
+                                </div>
+                            </td>
+                            <td>
+                                <div class="text-center">
+                                    {{conditionSheetSelected.required_amount}}
+                                </div>
+                            </td>
+                            <td>
+                                <div class="text-center">
+                                    {{conditionSheetSelected.warranty_days}}
+                                </div>
+                            </td>
+                            <td>
+                                <div class="text-center">
+                                    <app-flag
+                                        [check_value]="conditionSheetSelected?.status_condition_sheet==1?true:false">
+                                    </app-flag>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
+        <div>
+            <div class="col-sm-12 col-md-6">
+                <div class="form-group row">
+                    <label for="name" class=" text-right">Estructura Corporativa:</label>
+                </div>
+            </div>
+        </div>
+        <div class="card-block">
+            <div class="row">
+                <table class="table table-responsive-lg no-wrap v-middle white-table">
+                    <thead>
+                        <tr>
+                            <th *ngFor="let header of structureCorp.metadata">
+                                <div class="text-center">
+                                    {{header}}
+                                </div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let request of structureCorp.data;let i=index;">
+                            <td>
+                                {{i+1}}
+                            </td>
+                            <td>
+                                {{request.name}}
+                            </td>
+                            <td>
+                                {{request.position}}
+                            </td>
+                            <td>
+                                {{request.shareholding}}
+                            </td>
+                            <td>
+                                {{request.nationality}}
+                            </td>
+                            <td>
+                                {{request.nit}}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div>
+            <div class="col-sm-12 col-md-6">
+                <div class="form-group row">
+                    <label for="name" class=" text-right">Datos de acta:</label>
+                </div>
+            </div>
+        </div>
+        <div class="card-block" *ngIf="mAct">
+            <div class="row">
+                <table class="table table-responsive-lg no-wrap v-middle white-table">
+                    <thead>
+                        <tr>
+                            <th *ngFor="let header of managementActList.metadata">
+                                <div class="text-center">
+                                    {{header}}
+                                </div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="text-center">
+                                    1
+                                </div>
+                            </td>
+                            <td>
+                                <div class="text-center">
+                                    {{mAct?.registry_act1+mAct?.registry_act2}}
+                                </div>
+                            </td>
+                            <td>
+                                <div class="text-center">
+                                    {{this.customer?.type==0?this.customer?.name:this.customer?.businessname}}
+                                </div>
+                            </td>
+                            <td>
+                                <div class="text-center">
+                                    {{getConditionsName()}}
+                                </div>
+                            </td>
+                            <td>
+                                <div class="text-left" *ngFor="let item of debtorsList">
+                                    {{item.debtor.business_name}}
+                                </div>
+                            </td>
+                            <td>
+                                <div class="text-center">
+                                    {{mAct?.address_act}}
+                                </div>
+                            </td>
+                            <td>
+                                <div class="text-center">
+                                    <app-flag [check_value]="+mAct?.status_act"></app-flag>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="analysisType?.analysistype_name=='Autorización Gerente General'">
+        <div class="card-block">
+            <div class="row">
+                <table class="table table-responsive-lg no-wrap v-middle white-table">
+                    <thead>
+                        <tr>
+                            <th *ngFor="let header of termsList.metadata">
+                                <div class="text-center">
+                                    {{header}}
+                                </div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngIf="conditionSheetSelected">
+                            <td>
+                                <div class="text-center">
+                                    1
+                                </div>
+                            </td>
+                            <td>
+                                <div class="text-center">
+                                    {{conditionSheetSelected.document_number}}
+                                </div>
+                            </td>
+                            <td>
+                                <div class="text-center">
+                                    {{customer?.name}}
+                                </div>
+                            </td>
+                            <td>
+                                <div class="text-center">
+                                    {{conditionSheetSelected.required_amount}}
+                                </div>
+                            </td>
+                            <td>
+                                <div class="text-center">
+                                    {{conditionSheetSelected.warranty_days}}
+                                </div>
+                            </td>
+                            <td>
+                                <div class="text-center">
+                                    <app-flag
+                                        [check_value]="conditionSheetSelected?.status_condition_sheet==1?true:false">
+                                    </app-flag>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <br>
+        <div class="card-block" *ngIf="mAct">
+            <div class="row">
+                <table class="table table-responsive-lg no-wrap v-middle white-table">
+                    <thead>
+                        <tr>
+                            <th *ngFor="let header of managementActList.metadata">
+                                <div class="text-center">
+                                    {{header}}
+                                </div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="text-center">
+                                    1
+                                </div>
+                            </td>
+                            <td>
+                                <div class="text-center">
+                                    {{mAct?.registry_act1+mAct?.registry_act2}}
+                                </div>
+                            </td>
+                            <td>
+                                <div class="text-center">
+                                    {{this.customer?.type==0?this.customer?.name:this.customer?.businessname}}
+                                </div>
+                            </td>
+                            <td>
+                                <div class="text-center">
+                                    {{getConditionsName()}}
+                                </div>
+                            </td>
+                            <td>
+                                <div class="text-left" *ngFor="let item of debtorsList">
+                                    {{item.debtor.business_name}}
+                                </div>
+                            </td>
+                            <td>
+                                <div class="text-center">
+                                    {{mAct?.address_act}}
+                                </div>
+                            </td>
+                            <td>
+                                <div class="text-center">
+                                    <app-flag [check_value]="+mAct?.status_act"></app-flag>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div class="card-footer" style="background-color: white;">
+    <div class="form-group m-b-0 text-right">
+        <button type="button" *ngIf="analysisType?.analysistype_name=='Autorización Gerente General'"
+            ngbTooltip="Descargar Acta" (click)="returnCheck()" class="btn btn-raised mr-1 text-white"
+            style="background-color: #3473da;">
+            <i-feather name="file-text"></i-feather>Descargar Acta de Gerencia
+        </button>
+        <button type="button" ngbTooltip="Generar PDF" (click)="createPDF()" class="btn btn-raised mr-1 text-white"
+            style="background-color: #3473da;">
+            <i-feather name="pen-tool"></i-feather>
+            Firmar
+            Informe
+        </button>
+        <button type="button" (click)="showAlertConfirm()" class="btn btn-raised mr-1 text-white"
+            style="background-color: #3473da;">
+            <i class="fas fa-check"></i>
+            Completar Análisis</button>
+        <button type="submit" class="btn btn-raised mr-1 text-white btn-secondary"
+            ngbTooltip="Volver a Listado Clientes" (click)="returnConditionSheetChecklistMethod()">
+            <i class="fas fa-times"></i>
+            Cerrar</button>
+    </div>
+</div>

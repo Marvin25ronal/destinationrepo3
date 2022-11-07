@@ -1,0 +1,303 @@
+<div class="col-12">
+    <div class="card card-body">
+        <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#759ee0" type="ball-scale-multiple">
+            <p style="font-size: 20px; color:#fff">Cargando Información...</p>
+        </ngx-spinner>
+        <div class="d-flex mb-3 mt-3">
+            <div class="m-t-20">
+                <form [formGroup]="search">
+                    <div class="row">
+                        <div class="col-sm-12 col-lg-12">
+                            <div class="form-group row">
+                                <div class="input-group col-sm-12">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-addon1">
+                                            <i class="ti-search"></i>
+                                        </span>
+                                    </div>
+
+                                    <input class="form-control" formControlName="q" (change)="searchTerm()"
+                                        placeholder="Buscar Regla" type="text" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <button *ngIf="canCreate()" class="btn btn-primary ml-auto h-25 "
+                style="background-color: #3473da;border-color: #3473da; " (click)="openCreate(newDist)">Nuevo
+                Regla</button>
+        </div>
+        <div *ngIf="canList()" class="table-responsive table-hover">
+            <table class="table table-responsive-lg  v-middle white-table">
+                <thead>
+                    <tr>
+                        <th *ngFor="let header of dataList.metadata">
+                            <div class="text-center">
+                                {{header}}
+                            </div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let rules of dataList.data">
+                        <td>
+                            <div class="text-center">
+                                {{rules.id_rule}}
+                            </div>
+                        </td>
+                        <td>
+                            <div class="text-left">
+                                {{rules.rule_name}}
+                            </div>
+                        </td>
+                        <td  style='max-width: 25rem; text-align: left;'>
+                            <div class="text-left">
+                                {{rules.rule_description}}
+                            </div>
+                        </td>
+                        <td>
+                            <div class="text-left">
+                                {{getRuleTypeName(rules.id_rulet)}}
+                            </div>
+                        </td>
+                        <td>
+                            <div class="div-table-actions">
+                                <button *ngIf="canSee()" class="btn btn-raised mr-1 text-white btn-info"
+                                    (click)="show(viewDis,rules)" type="button"><span class="btn-label m-r-5"><i
+                                            class="mdi mdi-eye-outline"></i></span>Ver</button>
+                                <button class="btn btn-raised mr-1 text-white  btn-color-solucredit" type="button"
+                                *ngIf="canEdit()"
+                                    (click)="edit(editModal,rules)"><span class="btn-label m-r-5"><i
+                                            class=" icon-pencil"></i></span>Editar</button>
+                                <button *ngIf="canDelete()" (click)="showAlertDelete(rules)"
+                                    class="btn btn-danger waves-effect waves-light" type="button">
+                                    <span class="btn-label m-r-5"><i class="mdi mdi-delete"></i></span>Eliminar</button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="d-flex justify-content-center p-2">
+                <ngb-pagination [collectionSize]="this.totalData" [pageSize]="pageSize" [(page)]="page"
+                    aria-label="Default pagination" (pageChange)="pageChange($event)" [boundaryLinks]="true"
+                    [maxSize]="7"></ngb-pagination>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #newDist let-modal>
+    <div class="modal-header">
+        <h3 class="modal-title">Crear Nueva Regla</h3>
+        <button type="button" class="close" (click)="closeBtnClick()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form class="form-horizontal" [formGroup]="newRuleForm" (ngSubmit)="onCreate()">
+
+            <div class="form-group row">
+                <label for="rule_name" class="col-sm-3 text-right control-label col-form-label">Nombre Regla</label>
+                <div class="col-sm-9 ">
+                    <div class="input-group col-sm-12 ">
+                        <div class="input-group-prepend ">
+                            <span class="input-group-text " id="basic-addon1">
+                                <i class=" icon-note"></i>
+                            </span>
+                        </div>
+                        <input type="text" class="form-control " id="rule_name" formControlName="rule_name" required
+                            [placeholder]="exampleName">
+                    </div>
+                    <small class="form-text text-danger"
+                        *ngIf="!newRuleForm.get('rule_name').valid && (newRuleForm.get('rule_name').dirty || newRuleForm.get('rule_name').touched)">{{spanNameMessage}}</small>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="first_name" class="col-sm-3 text-right control-label col-form-label">Tipo Regla</label>
+                <div class="col-sm-9 ">
+                    <div class="input-group col-sm-12 ">
+                        <div class="input-group-prepend ">
+                            <span class="input-group-text " id="basic-addon1">
+                                <i class="far fa-hand-pointer"></i>
+                            </span>
+                        </div>
+                        <select class="custom-select" name="id_rulet" id="id_rulet" formControlName="id_rulet">
+                            <option [value]="ruletype.id_ruletype" *ngFor="let ruletype of this.dataRuleType">{{this.ruletype.ruletype_name}}</option>
+                        </select>
+                    </div>
+                    <small class="form-text text-danger"
+                        *ngIf="!newRuleForm.get('id_rulet').valid && (newRuleForm.get('id_rulet').dirty || newRuleForm.get('id_rulet').touched)">{{spanNameMessage}}</small>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="first_name" class="col-sm-3 text-right control-label col-form-label">Descripción</label>
+                <div class="col-sm-9 ">
+                    <div class="input-group col-sm-12 ">
+                        <div class="input-group-prepend ">
+                            <span class="input-group-text " id="basic-addon1">
+                                <i class=" icon-note"></i>
+                            </span>
+                        </div>
+                        <input type="text" class="form-control " id="name" formControlName="rule_description" required
+                            [placeholder]="exampleDesc">
+                    </div>
+                    <small class="form-text text-danger"
+                        *ngIf="!newRuleForm.get('rule_description').valid && (newRuleForm.get('rule_description').dirty || newRuleForm.get('rule_description').touched)">{{spanNameMessage}}</small>
+                </div>
+            </div>
+
+
+            <div class="modal-footer border-top-0">
+                <button type="submit" class="btn btn-raised mr-1 text-white" [disabled]="!newRuleForm.valid"
+                    style="background-color: #3473da;">Agregar
+                    Regla</button>
+                <button type="button" class="btn btn-raised mr-1 text-white  btn-color-solucredit-secondary"
+                    (click)="closeBtnClick()">Cancelar</button>
+            </div>
+        </form>
+    </div>
+</ng-template>
+
+<ng-template #viewDis let-modal>
+    <div class="modal-header">
+        <h3 class="modal-title">Visualización de Regla</h3>
+        <button type="button" class="close" (click)="closeBtnClick()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form class="form-horizontal">
+            <div class="row">
+                <label for="first_name" class="col col-sm-3 text-right control-label col-form-label">
+                    <i class="fas fa-hand-holding "></i>
+                    Regla:
+                </label>
+                <div class="col col-sm-9">
+                    <h5>{{this.actualRule.rule_name}}</h5>
+                </div>
+            </div>
+            <hr class="rounded">
+            <div class="row">
+                <label for="first_name" class="col col-sm-3 text-right control-label col-form-label">
+                    <i class="fas fa-hand-holding "></i>
+                    Descripción:
+                </label>
+                <div class="col col-sm-9">
+                    <h5>{{this.actualRule.rule_description}}</h5>
+                </div>
+            </div>
+            <hr class="rounded">
+            <div class="row">
+                <label for="first_name" class="col col-sm-3 text-right control-label col-form-label">
+                    <i class="fas fa-hand-holding "></i>
+                    Tipo Regla:
+                </label>
+                <div class="col col-sm-9">
+                    <h5>{{getRuleTypeName(this.actualRule.id_rulet)}}</h5>
+                </div>
+            </div>
+            <hr class="rounded">
+            <div class="row">
+                <label for="first_name" class="col col-sm-3 text-right control-label col-form-label">
+                    <i class=" far fa-calendar-plus"></i>
+                    Fecha de Creación:
+                </label>
+                <div class="col input-group col-sm-9">
+                    <h5>{{this.actualRule.creation_date|date:'M/d/yyyy, h:mm a'}}</h5>
+                </div>
+            </div>
+            <hr class="rounded">
+
+            <div class="row">
+
+                <label for="first_name" class="col col-sm-3 text-right control-label col-form-label">
+                    <i class="  far fa-calendar-check"></i>
+                    Fecha de Actualización:
+                </label>
+                <div class="col input-group col-sm-9">
+                    <h5>{{this.actualRule.last_mod|date:'M/d/yyyy, h:mm a'}}</h5>
+                </div>
+            </div>
+            <hr class="rounded">
+
+
+            <div class="modal-footer border-top-0">
+                <button type="submit" class="btn btn-raised mr-1 text-white"
+                *ngIf="canEdit()"
+                    (click)="edit(editModal,this.actualRule)"
+                    style="background-color: #3473da;">Modificar</button>
+            </div>
+        </form>
+    </div>
+</ng-template>
+
+
+<ng-template #editModal let-modal>
+    <div class="modal-header">
+        <h3 class="modal-title">Editar Regla</h3>
+        <button type="button" class="close" (click)="closeBtnClick()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form class="form-horizontal" [formGroup]="newRuleForm" (ngSubmit)="saveChanges()">
+
+            <div class="form-group row">
+                <label for="rule_name" class="col-sm-3 text-right control-label col-form-label">Nombre Regla</label>
+                <div class="col-sm-9 ">
+                    <div class="input-group col-sm-12 ">
+                        <div class="input-group-prepend ">
+                            <span class="input-group-text " id="basic-addon1">
+                                <i class=" icon-note"></i>
+                            </span>
+                        </div>
+                        <input type="text" class="form-control " id="rule_name" formControlName="rule_name" required
+                            [placeholder]="exampleName">
+                    </div>
+                    <small class="form-text text-danger"
+                        *ngIf="!newRuleForm.get('rule_name').valid && (newRuleForm.get('rule_name').dirty || newRuleForm.get('rule_name').touched)">{{spanNameMessage}}</small>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="first_name" class="col-sm-3 text-right control-label col-form-label">Tipo Regla</label>
+                <div class="col-sm-9 ">
+                    <div class="input-group col-sm-12 ">
+                        <div class="input-group-prepend ">
+                            <span class="input-group-text " id="basic-addon1">
+                                <i class="far fa-hand-pointer"></i>
+                            </span>
+                        </div>
+                        <select class="custom-select" name="id_rulet" id="id_rulet" formControlName="id_rulet">
+                            <option [value]="ruletype.id_ruletype" *ngFor="let ruletype of this.dataRuleType">{{this.ruletype.ruletype_name}}</option>
+                        </select>
+                    </div>
+                    <small class="form-text text-danger"
+                        *ngIf="!newRuleForm.get('id_rulet').valid && (newRuleForm.get('id_rulet').dirty || newRuleForm.get('id_rulet').touched)">{{spanNameMessage}}</small>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="first_name" class="col-sm-3 text-right control-label col-form-label">Descripción</label>
+                <div class="col-sm-9 ">
+                    <div class="input-group col-sm-12 ">
+                        <div class="input-group-prepend ">
+                            <span class="input-group-text " id="basic-addon1">
+                                <i class=" icon-note"></i>
+                            </span>
+                        </div>
+                        <input type="text" class="form-control " id="name" formControlName="rule_description" required
+                            [placeholder]="exampleDesc">
+                    </div>
+                    <small class="form-text text-danger"
+                        *ngIf="!newRuleForm.get('rule_description').valid && (newRuleForm.get('rule_description').dirty || newRuleForm.get('rule_description').touched)">{{spanNameMessage}}</small>
+                </div>
+            </div>
+            <div class="modal-footer border-top-0">
+                <button type="submit" class="btn btn-raised mr-1 text-white" [disabled]="!newRuleForm.valid"
+                    style="background-color: #3473da;">Actualizar</button>
+                <button type="button" class="btn btn-raised mr-1 text-white  btn-color-solucredit-secondary"
+                    (click)="closeBtnClick()">Cancelar</button>
+            </div>
+        </form>
+    </div>
+</ng-template>

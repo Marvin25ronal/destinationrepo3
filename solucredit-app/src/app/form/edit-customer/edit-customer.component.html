@@ -1,0 +1,945 @@
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="card-header" style="background: linear-gradient(to right, #2061c4 0%, #4382eb 100%);">
+                <h4 class="card-title mb-0 text-white">Editar Datos</h4>
+            </div>
+            <div class="card-body">
+                <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#759ee0" type="ball-scale-multiple">
+                    <p style="font-size: 20px; color:#fff">Cargando Información...</p>
+                </ngx-spinner>
+
+                <ng-container [ngSwitch]="customerType">
+
+                    <div class="card-block" *ngSwitchCase="0">
+                        <form [formGroup]="createCustomerIndividual" (ngSubmit)="EditUser()" class="form-horizontal">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-sm-12 col-md-3">
+                                        <app-custominput label="Primer nombre" [isrequired]="true"
+                                            [formcontrol]="createCustomerIndividual.get('name1')" id="name1"
+                                            [placeholder]="placeHolders.firstname" iconclass="far fa-user" mode="top"
+                                            type="text" [errorMessages]="errorMessages.firstnameErrorMessages">
+                                        </app-custominput>
+                                        <!-- <div class="form-group row">
+                                            <label for="name" class="col-sm-12">Primer nombre<code
+                                                    style="font-size: 16px;"><sup>*</sup></code></label>
+                                            <div class="input-group col-sm-12">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text" id="basic-addon1">
+                                                        <i class="far fa-user"></i>
+                                                    </span>
+                                                </div>
+                                                <input type="text" class="form-control" aria-label="Username" id="name1"
+                                                    formControlName="name1" required placeholder="Ej. Roberto">
+                                            </div>
+                                      
+                                        </div> -->
+                                    </div>
+                                    <div class="col-sm-12 col-md-3">
+                                        <div class="form-group row">
+                                            <label for="name2" class="col-sm-12">Segundo nombre<code
+                                                    style="font-size: 16px;"></code></label>
+                                            <div class="input-group col-sm-12">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text" id="basic-addon1">
+                                                        <i class="far fa-user"></i>
+                                                    </span>
+                                                </div>
+                                                <input type="text" class="form-control" aria-label="Username" id="name2"
+                                                    formControlName="name2" placeholder="Ej. Roberto">
+                                            </div>
+                                            <!--
+                                            <small class="form-text text-danger col-sm-12" *ngIf="!createCustomer.get('name1').valid && (createCustomer.get('name1').dirty || createCustomer.get('name1').touched)">El
+                                                primer apellido es requerido.</small>-->
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 col-md-3">
+                                        <div class="form-group row">
+                                            <label for="name3" class="col-sm-12">Tercer nombre<code
+                                                    style="font-size: 16px;"></code></label>
+                                            <div class="input-group col-sm-12">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text" id="basic-addon1">
+                                                        <i class="far fa-user"></i>
+                                                    </span>
+                                                </div>
+                                                <input type="text" class="form-control" aria-label="Username" id="name3"
+                                                    formControlName="name3" placeholder="Ej. Roberto">
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 col-md-3">
+                                        <app-custominput label="Primer apellido" [isrequired]="true"
+                                            [formcontrol]="createCustomerIndividual.get('lastname1')" id="lastname1"
+                                            [placeholder]="placeHolders.lastname1" iconclass="far fa-user" mode="top"
+                                            type="text" [errorMessages]="errorMessages.lastnameErrorMessages">
+                                        </app-custominput>
+                                        <!-- <div class="form-group row">
+                                            <label for="lastname2" class="col-sm-12">Primer apellido<code
+                                                    style="font-size: 16px;"><sup>*</sup></code></label>
+                                            <div class="input-group col-sm-12">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text" id="basic-addon1">
+                                                        <i class="far fa-user"></i>
+                                                    </span>
+                                                </div>
+                                                <input type="text" class="form-control" aria-label="Username" id="lastname1"
+                                                    formControlName="lastname1" required placeholder="Ej. Roberto">
+                                            </div>
+                                          
+                                        </div> -->
+                                    </div>
+                                    <div class="col-sm-12 col-md-3">
+                                        <div class="form-group row">
+                                            <label for="lastname2" class="col-sm-12">Segundo apellido<code
+                                                    style="font-size: 16px;"></code></label>
+                                            <div class="input-group col-sm-12">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text" id="basic-addon1">
+                                                        <i class="far fa-user"></i>
+                                                    </span>
+                                                </div>
+                                                <input type="text" class="form-control" aria-label="Username"
+                                                    id="lastname2" formControlName="lastname2"
+                                                    placeholder="Ej. Roberto">
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 col-md-3">
+                                        <div class="form-group row">
+                                            <label for="lastname3" class="col-sm-12">Apellido de casada<code
+                                                    style="font-size: 16px;"></code></label>
+                                            <div class="input-group col-sm-12">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text" id="basic-addon1">
+                                                        <i class="far fa-user"></i>
+                                                    </span>
+                                                </div>
+                                                <input type="text" class="form-control" aria-label="Username"
+                                                    id="lastname3" formControlName="lastname3"
+                                                    placeholder="Ej. Roberto">
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+
+
+
+                                    <div class="col-sm-12 col-md-6">
+                                        <app-custominput label="NIT" [isrequired]="true"
+                                            [formcontrol]="createCustomerIndividual.get('nit')" id="nit"
+                                            [placeholder]="placeHolders.nit" iconclass="far fa-address-card" mode="top"
+                                            type="tel" [errorMessages]="errorMessages.nitErrorMessages"
+                                            [maxLength]="13"></app-custominput>
+                                        <!-- <div class="form-group row">
+                                            <label for="nit" class="col-sm-12">NIT</label>
+                                            <div class="input-group col-sm-12">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text" id="basic-addon1">
+                                                        <i class="far fa-address-card"></i>
+                                                    </span>
+                                                </div>
+                                                <input type="text" size="8" maxlength="13" minlength="8"
+                                                    class="form-control" id="nit" formControlName="nit"
+                                                    placeholder="Ingresar NIT">
+                                            </div>
+                                            <small class="form-text text-danger col-sm-12"
+                                                *ngIf="!createCustomer.get('nit').valid && (createCustomer.get('nit').dirty || createCustomer.get('nit').touched)">El
+                                                nit es requerido.</small>
+                                        </div> -->
+                                    </div>
+                                    <div class="col-sm-12 col-md-6">
+
+                                        <div class="form-group row">
+                                            <label for="nit" class="col-sm-12">DPI</label>
+                                            <div class="input-group col-sm-12">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text" id="basic-addon1">
+                                                        <i class="far fa-address-card"></i>
+                                                    </span>
+                                                </div>
+                                                <input type="text" size="13" maxlength="13" class="form-control"
+                                                    id="dpi" formControlName="DPI" placeholder="Ingresar DPI">
+                                            </div>
+                                            <small class="form-text text-danger col-sm-12"
+                                                *ngIf="!createCustomer.get('DPI').valid && (createCustomer.get('DPI').dirty || createCustomer.get('DPI').touched)">
+                                                El DPI es requerido.</small>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6">
+                                        <div class="form-group row">
+                                            <label for="phone" class="col-sm-12">Número de Teléfono</label>
+                                            <div class="input-group col-sm-12">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text" id="basic-addon1">
+                                                        <i class="fas fa-mobile-alt"></i>
+                                                    </span>
+                                                </div>
+                                                <input type="text" size="8" maxlength="8" class="form-control"
+                                                    id="phone" formControlName="phone" placeholder="Ej. 45826578">
+                                            </div>
+                                            <small class="form-text text-danger col-sm-12"
+                                                *ngIf="!createCustomer.get('phone').valid && (createCustomer.get('phone').dirty || createCustomer.get('phone').touched)">El
+                                                número de celular es requerido.</small>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6">
+                                        <app-custominput label="Correo electrónico" [isrequired]="true"
+                                            [formcontrol]="createCustomerIndividual.get('email')" id="email"
+                                            [placeholder]="placeHolders.email" iconclass="far fa-envelope" mode="top"
+                                            type="email" [errorMessages]="errorMessages.emailErrorMessages">
+                                        </app-custominput>
+                                        <!-- <div class="form-group row">
+                                            <label for="email" class="col-sm-12">Correo Electrónico<code
+                                                    style="font-size: 16px;"><sup>*</sup></code></label>
+                                            <div class="input-group col-sm-12">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text" id="basic-addon1">
+                                                        <i class="fas fa-envelope"></i>
+                                                    </span>
+                                                </div>
+                                                <input type="email" class="form-control" id="email"
+                                                    formControlName="email"  placeholder="Ej. email@email.com">
+                                            </div>
+                                            <small class="form-text text-danger col-sm-12"
+                                                *ngIf="!createCustomer.get('email').valid && (createCustomer.get('email').dirty || createCustomer.get('email').touched)">Ingresar
+                                                un correo electrónico válido.</small>
+                                        </div> -->
+                                    </div>
+                                    <div class="col-sm-12 col-md-6">
+                                        <div class="form-group row">
+                                            <label for="inputPais" class="col-sm-12">Seleccionar País
+                                                <app-asteriskrequired></app-asteriskrequired>
+                                            </label>
+                                            <div class="input-group col-sm-12">
+                                                <div _ngcontent-bpb-c164="" class="input-group-prepend"><label
+                                                        _ngcontent-bpb-c164="" for="inputGroupSelect01"
+                                                        class="input-group-text"><i class="far fa-id-card"></i></label>
+                                                </div>
+                                                <select class="form-control custom-select" [(ngModel)]="selecionCountry"
+                                                    [ngModelOptions]="{standalone: true}"
+                                                    (change)="onCountrySelected($event.target.value)">
+                                                    <option>Selecione una opcion</option>
+                                                    <option *ngFor="let order of optionsCountries"
+                                                        [value]="order.country_id">{{order.name}}</option>
+                                                </select>
+
+                                            </div>
+                                            <small class="form-text text-danger col-sm-12"
+                                                *ngIf="!createCustomer.get('inputPais').valid && (createCustomer.get('inputPais').dirty || createCustomer.get('inputPais').touched)">El
+                                                país es requerido.</small>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-12 col-md-6">
+                                        <div class="form-group row">
+                                            <label for="inputDepartamento" class="col-sm-12">Seleccionar
+                                                Departamento
+                                                <app-asteriskrequired></app-asteriskrequired>
+                                            </label>
+                                            <div class="input-group col-sm-12">
+                                                <div _ngcontent-bpb-c164="" class="input-group-prepend"><label
+                                                        _ngcontent-bpb-c164="" for="inputGroupSelect01"
+                                                        class="input-group-text"><i class="far fa-id-card"></i></label>
+                                                </div>
+                                                <select class="form-control custom-select"
+                                                    [(ngModel)]="selecionDepartment"
+                                                    [ngModelOptions]="{standalone: true}"
+                                                    (change)="onDepartmentSelected($event.target.value)">
+                                                    <option>Selecione una opcion</option>
+                                                    <option *ngFor="let order of optionsDepartments"
+                                                        [value]="order.department_id">{{order.name}}</option>
+                                                </select>
+
+                                            </div>
+                                            <small class="form-text text-danger col-sm-12"
+                                                *ngIf="!createCustomer.get('inputDepartamento').valid && (createCustomer.get('inputDepartamento').dirty || createCustomer.get('inputDepartamento').touched)">El
+                                                departamento es requerido.</small>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-12 col-md-6">
+                                        <div class="form-group row">
+                                            <label for="municipality_id" class="col-sm-12">Seleccionar Municipio
+                                                <app-asteriskrequired></app-asteriskrequired>
+                                            </label>
+                                            <div class="input-group col-sm-12">
+                                                <div _ngcontent-bpb-c164="" class="input-group-prepend"><label
+                                                        _ngcontent-bpb-c164="" for="inputGroupSelect01"
+                                                        class="input-group-text"><i class="far fa-id-card"></i></label>
+                                                </div>
+
+                                                <select class="form-control custom-select"
+                                                    [(ngModel)]="selecionMunicipality"
+                                                    [ngModelOptions]="{standalone: true}"
+                                                    (change)="onMunicipalitySelected($event.target.value)">
+                                                    <option>Selecione una opcion</option>
+                                                    <option *ngFor="let muni of optionsMunicipalities"
+                                                        [value]="muni.municipality_id">{{muni.name}}</option>
+                                                </select>
+                                            </div>
+                                            <small class="form-text text-danger  col-sm-12"
+                                                *ngIf="!createCustomer.get('municipality_id').valid && (createCustomer.get('municipality_id').dirty || createCustomer.get('municipality_id').touched)">El
+                                                municipio es requerido.</small>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6">
+                                        <div class="form-group row">
+                                            <label for="address2" class="col-sm-12">Zona</label>
+                                            <div class="input-group col-sm-12">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text" id="basic-addon1">
+                                                        <i class=" far fa-address-book"></i>
+                                                    </span>
+                                                </div>
+                                                <input type="number" class="form-control" id="zone"
+                                                    formControlName="zone" placeholder="Ej. 10">
+                                            </div>
+                                            <small class="form-text text-danger col-sm-12"
+                                                *ngIf="!createCustomer.get('zone').valid && (createCustomer.get('zone').dirty || createCustomer.get('zone').touched)">La
+                                                zona es requerida.</small>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6">
+                                        <!-- <app-custominput
+                                label="Dirección 1"
+                                [isrequired]="true"
+                                [formcontrol]="createCustomer.get('address1')"
+                                id="address1"
+                                [placeholder]="placeHolders.address"
+                                iconclass="far fa-address-book"
+                                mode="top"
+                                type="text"
+                                [errorMessages]="errorMessages.addressErrorMessages"
+                                ></app-custominput> -->
+                                        <div class="form-group row">
+                                            <label for="address1" class="col-sm-12">Dirección 1</label>
+                                            <div class="input-group col-sm-12">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text" id="basic-addon1">
+                                                        <i class=" far fa-address-book"></i>
+                                                    </span>
+                                                </div>
+                                                <input type="text" class="form-control" id="address1"
+                                                    formControlName="address1"
+                                                    placeholder="Ej. 8va. calle 35-40 zona 4">
+                                            </div>
+                                            <small class="form-text text-danger col-sm-12"
+                                                *ngIf="!createCustomer.get('address1').valid && (createCustomer.get('address1').dirty || createCustomer.get('address1').touched)">La
+                                                dirección es requerida.</small>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6">
+                                        <div class="form-group row">
+                                            <label for="address2" class="col-sm-12">Dirección 2</label>
+                                            <div class="input-group col-sm-12">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text" id="basic-addon1">
+                                                        <i class=" far fa-address-book"></i>
+                                                    </span>
+                                                </div>
+                                                <input type="text" class="form-control" id="address2"
+                                                    formControlName="address2"
+                                                    placeholder="Ej. Ciudad Vieja, Guatemala">
+                                            </div>
+                                            <small class="form-text text-danger col-sm-12"
+                                                *ngIf="!createCustomer.get('address2').valid && (createCustomer.get('address2').dirty || createCustomer.get('address2').touched)">La
+                                                dirección es requerida.</small>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-12 col-lg-6 p-b-40">
+                                        <div class="form-group row">
+                                            <label for="municipality_id" class="col-sm-12">Seleccionar Logo</label>
+                                            <div class="input-group col-sm-12">
+                                                <div _ngcontent-bpb-c164="" class="input-group-prepend"><label
+                                                        _ngcontent-bpb-c164="" for="inputGroupSelect01"
+                                                        class="input-group-text"><i class="far fa-images"></i></label>
+                                                </div>
+                                                <div class="custom-file">
+                                                    <input type="file" class="custom-file-input" id="inputlogo"
+                                                        (change)="showPreviewImage($event)">
+                                                    <img [src]="localUrl" *ngIf="localUrl" class="imgPlaceholder">
+                                                    <label class="custom-file-label" for="inputlogo">Selecciona una
+                                                        imagen</label>
+                                                </div>
+                                            </div>
+                                            <!-- <small class="form-text text-danger  col-sm-12"
+                                                                            *ngIf="!createCustomer.get('municipality_id').valid && (createCustomer.get('municipality_id').dirty || createCustomer.get('municipality_id').touched)">El
+                                                                            municipio es requerido.</small> -->
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                            </div>
+
+                            <div class="card-footer" style="background-color: white;">
+                                <div class="form-group m-b-0 text-right">
+                                    <button type="submit" class="btn btn-raised mr-1 text-white"
+                                        style="background-color: #3473da;"
+                                        [disabled]="!createCustomerIndividual.valid">Actualizar</button>
+
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="card-block" *ngSwitchCase="1">
+                        <form [formGroup]="createCustomer" (ngSubmit)="EditUser()" class="form-horizontal">
+                            <div class="card-body">
+
+                                <div class="row">
+                                    <div class="col-sm-12 col-md-6" *ngIf="createCustomer.controls.type.value == 1">
+                                        <app-custominput label="Razón Social" [isrequired]="true"
+                                            [formcontrol]="createCustomer.get('businessname')" id="businessname"
+                                            [placeholder]="placeHolders.address" iconclass="fas fa-building" mode="top"
+                                            type="text" [errorMessages]="errorMessages.businessNameErrorMessages">
+                                        </app-custominput>
+                                        <!-- <div class="form-group row">
+                                            
+
+                                            <label for="name" class="col-sm-12">Razón Social y Nombre Comercial </label>
+                                            <div class="input-group col-sm-12">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text" id="basic-addon1">
+                                                        <i class="fas fa-building"></i>
+                                                    </span>
+                                                </div>
+                                                <input type="text" class="form-control" aria-label="businessname"
+                                                    id="businessname" formControlName="businessname" required
+                                                    placeholder="Ej. Solucredit S.A.">
+                                            </div>
+                                            <small class="form-text text-danger col-sm-12"
+                                                *ngIf="!createCustomer.get('businessname').valid && (createCustomer.get('businessname').dirty || createCustomer.get('businessname').touched)">La
+                                                razón social y nombre comercial son requeridos.</small>
+                                        </div> -->
+                                    </div>
+                                    <div class="col-sm-12 col-md-6" *ngIf="createCustomer.controls.type.value == 1">
+                                        <app-custominput label=" Nombre Comercial" [isrequired]="false"
+                                            [formcontrol]="createCustomer.get('commercialname')" id="commercialname"
+                                            [placeholder]="placeHolders.commercialName" iconclass="fas fa-building" mode="top"
+                                            type="text" >
+                                        </app-custominput>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6" *ngIf="createCustomer.controls.type.value == 1">
+                                        <div class="form-group row">
+                                            <label for="name" class="col-sm-12">Nombre de la Central, Sucursal o Agencia
+                                                donde se Solicita el Producto o Servicio</label>
+                                            <div class="input-group col-sm-12">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text" id="basic-addon1">
+                                                        <i class="fas fa-warehouse"></i>
+                                                    </span>
+                                                </div>
+                                                <input type="text" class="form-control" aria-label="branchoffice"
+                                                    id="branchoffice" formControlName="branchoffice"
+                                                    placeholder="Ej. Central">
+                                            </div>
+                                            <small class="form-text text-danger col-sm-12"
+                                                *ngIf="!createCustomer.get('branchoffice').valid && (createCustomer.get('branchoffice').dirty || createCustomer.get('branchoffice').touched)">El
+                                                nombre donde se solicita el producto o servicio es requerido.</small>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6" *ngIf="createCustomer.controls.type.value == 1">
+                                        <div class="form-group row">
+                                            <label for="name" class="col-sm-12">Código de la Agencia o Sucursal</label>
+                                            <div class="input-group col-sm-12">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text" id="basic-addon1">
+                                                        <i class="fas fa-barcode"></i>
+                                                    </span>
+                                                </div>
+                                                <input type="text" class="form-control" aria-label="branchofficecode"
+                                                    id="branchofficecode" formControlName="branchofficecode"
+                                                    placeholder="Ej. S23">
+                                            </div>
+                                            <small class="form-text text-danger col-sm-12"
+                                                *ngIf="!createCustomer.get('branchofficecode').valid && (createCustomer.get('branchofficecode').dirty || createCustomer.get('branchofficecode').touched)">El
+                                                codigo de la agencia o sucursal es requerido.</small>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 col-md-3">
+                                        <app-custominput label="Primer nombre" [isrequired]="true"
+                                            [formcontrol]="createCustomer.get('name1')" id="name1"
+                                            [placeholder]="placeHolders.firstname" iconclass="far fa-user" mode="top"
+                                            type="text" [errorMessages]="errorMessages.firstnameErrorMessages">
+                                        </app-custominput>
+                                        <!-- <div class="form-group row">
+                                            <label for="name" class="col-sm-12">Primer nombre<code
+                                                    style="font-size: 16px;"><sup>*</sup></code></label>
+                                            <div class="input-group col-sm-12">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text" id="basic-addon1">
+                                                        <i class="far fa-user"></i>
+                                                    </span>
+                                                </div>
+                                                <input type="text" class="form-control" aria-label="Username" id="name1"
+                                                    formControlName="name1" required placeholder="Ej. Roberto">
+                                            </div>
+                                      
+                                        </div> -->
+                                    </div>
+                                    <div class="col-sm-12 col-md-3">
+                                        <div class="form-group row">
+                                            <label for="name2" class="col-sm-12">Segundo nombre<code
+                                                    style="font-size: 16px;"></code></label>
+                                            <div class="input-group col-sm-12">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text" id="basic-addon1">
+                                                        <i class="far fa-user"></i>
+                                                    </span>
+                                                </div>
+                                                <input type="text" class="form-control" aria-label="Username" id="name2"
+                                                    formControlName="name2" placeholder="Ej. Roberto">
+                                            </div>
+                                            <!--
+                                            <small class="form-text text-danger col-sm-12" *ngIf="!createCustomer.get('name1').valid && (createCustomer.get('name1').dirty || createCustomer.get('name1').touched)">El
+                                                primer apellido es requerido.</small>-->
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 col-md-3">
+                                        <div class="form-group row">
+                                            <label for="name3" class="col-sm-12">Tercer nombre<code
+                                                    style="font-size: 16px;"></code></label>
+                                            <div class="input-group col-sm-12">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text" id="basic-addon1">
+                                                        <i class="far fa-user"></i>
+                                                    </span>
+                                                </div>
+                                                <input type="text" class="form-control" aria-label="Username" id="name3"
+                                                    formControlName="name3" placeholder="Ej. Roberto">
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 col-md-3">
+                                        <app-custominput label="Primer apellido" [isrequired]="true"
+                                            [formcontrol]="createCustomer.get('lastname1')" id="lastname1"
+                                            [placeholder]="placeHolders.lastname1" iconclass="far fa-user" mode="top"
+                                            type="text" [errorMessages]="errorMessages.lastnameErrorMessages">
+                                        </app-custominput>
+                                        <!-- <div class="form-group row">
+                                            <label for="lastname2" class="col-sm-12">Primer apellido<code
+                                                    style="font-size: 16px;"><sup>*</sup></code></label>
+                                            <div class="input-group col-sm-12">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text" id="basic-addon1">
+                                                        <i class="far fa-user"></i>
+                                                    </span>
+                                                </div>
+                                                <input type="text" class="form-control" aria-label="Username" id="lastname1"
+                                                    formControlName="lastname1" required placeholder="Ej. Roberto">
+                                            </div>
+                                          
+                                        </div> -->
+                                    </div>
+                                    <div class="col-sm-12 col-md-3">
+                                        <div class="form-group row">
+                                            <label for="lastname2" class="col-sm-12">Segundo apellido<code
+                                                    style="font-size: 16px;"></code></label>
+                                            <div class="input-group col-sm-12">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text" id="basic-addon1">
+                                                        <i class="far fa-user"></i>
+                                                    </span>
+                                                </div>
+                                                <input type="text" class="form-control" aria-label="Username"
+                                                    id="lastname2" formControlName="lastname2"
+                                                    placeholder="Ej. Roberto">
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 col-md-3">
+                                        <div class="form-group row">
+                                            <label for="lastname3" class="col-sm-12">Apellido de casada<code
+                                                    style="font-size: 16px;"></code></label>
+                                            <div class="input-group col-sm-12">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text" id="basic-addon1">
+                                                        <i class="far fa-user"></i>
+                                                    </span>
+                                                </div>
+                                                <input type="text" class="form-control" aria-label="Username"
+                                                    id="lastname3" formControlName="lastname3"
+                                                    placeholder="Ej. Roberto">
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <!-- <div class="col-sm-12 col-md-6">
+                                        <div class="form-group row">
+                                            <label for="name" class="col-sm-12">Nombre Completo<code
+                                                    style="font-size: 16px;"><sup>*</sup></code></label>
+                                            <div class="input-group col-sm-12">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text" id="basic-addon1">
+                                                        <i class="far fa-user"></i>
+                                                    </span>
+                                                </div>
+                                                <input type="text" class="form-control" aria-label="Username" id="name"
+                                                    formControlName="name" required placeholder="Ej. Roberto">
+                                            </div>
+                                            <small class="form-text text-danger col-sm-12"
+                                                *ngIf="!createCustomer.get('name').valid && (createCustomer.get('name').dirty || createCustomer.get('name').touched)">El
+                                                nombre es requerido.</small>
+                                        </div>
+                                    </div> -->
+
+
+                                    <!--
+
+                                <div class="row">
+                                    <div class="col-sm-12 col-lg-4">
+                                        <div class="form-group row">
+                                            <label for="name" class="col-sm-12">Primer Apellido<code style="font-size: 16px;"><sup>*</sup></code></label>
+                                            <div class="input-group col-sm-12">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text" id="basic-addon1">
+                                                        <i class="far fa-user"></i>
+                                                    </span>
+                                                </div>
+                                                <input type="text" class="form-control" aria-label="Last Name" id="lastname1" formControlName="lastname1" required placeholder="Ej.Perez ">
+                                            </div>
+                                            <small class="form-text text-danger col-sm-12" *ngIf="!createCustomer.get('lastname1').valid && (createCustomer.get('lastname1').dirty || createCustomer.get('lastname1').touched)">El
+                                                primer apellido es requerido.</small>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 col-lg-4">
+                                        <div class="form-group row">
+                                            <label for="name" class="col-sm-12">Segundo Apellido<code style="font-size: 16px;"><sup>*</sup></code></label>
+                                            <div class="input-group col-sm-12">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text" id="basic-addon1">
+                                                        <i class="far fa-user"></i>
+                                                    </span>
+                                                </div>
+                                                <input type="text" class="form-control" aria-label="second Last name" id="lastname2" formControlName="lastname2" required placeholder="Ej. Ramirez">
+                                            </div>
+                                            <small class="form-text text-danger col-sm-12" *ngIf="!createCustomer.get('lastname2').valid && (createCustomer.get('lastname2').dirty || createCustomer.get('lastname2').touched)">El
+                                                segundo apellido es requerido.</small>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 col-lg-4">
+                                        <div class="form-group row">
+                                            <label for="name" class="col-sm-12">Apellido de casada</label>
+                                            <div class="input-group col-sm-12">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text" id="basic-addon1">
+                                                        <i class="far fa-user"></i>
+                                                    </span>
+                                                </div>
+                                                <input type="text" class="form-control" aria-label="Last name" id="lastname3" formControlName="lastname3" placeholder="Ej. Ramirez">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-4">
+                                    <div class="col-sm-12 col-lg-4">
+                                        <div class="form-group row">
+                                            <label for="name" class="col-sm-12">Primer Nombre<code style="font-size: 16px;"><sup>*</sup></code></label>
+                                            <div class="input-group col-sm-12">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text" id="basic-addon1">
+                                                        <i class="far fa-user"></i>
+                                                    </span>
+                                                </div>
+                                                <input type="text" class="form-control" aria-label="Username" id="name1" formControlName="name1" required placeholder="Ej. Roberto">
+                                            </div>
+                                            <small class="form-text text-danger col-sm-12" *ngIf="!createCustomer.get('name1').valid && (createCustomer.get('name1').dirty || createCustomer.get('name1').touched)">El
+                                                primer apellido es requerido.</small>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 col-lg-4">
+                                        <div class="form-group row">
+                                            <label for="name" class="col-sm-12">Segundo Nombre</label>
+                                            <div class="input-group col-sm-12">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text" id="basic-addon1">
+                                                        <i class="far fa-user"></i>
+                                                    </span>
+                                                </div>
+                                                <input type="text" class="form-control" aria-label="Username" id="name2" formControlName="name2" placeholder="Ej. Elias">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 col-lg-4">
+                                        <div class="form-group row">
+                                            <label for="name" class="col-sm-12">Otro nombre</label>
+                                            <div class="input-group col-sm-12">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text" id="basic-addon1">
+                                                        <i class="far fa-user"></i>
+                                                    </span>
+                                                </div>
+                                                <input type="text" class="form-control" aria-label="Username" id="name3" formControlName="name3" placeholder="Ej. Roberto Elias">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>-->
+
+
+                                    <div class="col-sm-12 col-md-6">
+                                        <app-custominput label="NIT" [isrequired]="true"
+                                            [formcontrol]="createCustomer.get('nit')" id="nit"
+                                            [placeholder]="placeHolders.nit" iconclass="far fa-address-card" mode="top"
+                                            type="tel" [errorMessages]="errorMessages.nitErrorMessages"
+                                            [maxLength]="13"></app-custominput>
+                                        <!-- <div class="form-group row">
+                                            <label for="nit" class="col-sm-12">NIT<code
+                                                    style="font-size: 16px;"><sup>*</sup></code></label>
+                                            <div class="input-group col-sm-12">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text" id="basic-addon1">
+                                                        <i class="far fa-address-card"></i>
+                                                    </span>
+                                                </div>
+                                                <input type="text" size="8" maxlength="13" minlength="8"
+                                                    class="form-control" id="nit" formControlName="nit"
+                                                    placeholder="Ej. 12345678">
+                                            </div>
+                                            <small class="form-text text-danger col-sm-12"
+                                                *ngIf="!createCustomer.get('nit').valid && (createCustomer.get('nit').dirty || createCustomer.get('nit').touched)">El
+                                                nit es requerido.</small>
+                                        </div> -->
+                                    </div>
+                                    <div class="col-sm-12 col-md-6">
+                                        <div class="form-group row">
+                                            <label for="nit" class="col-sm-12">DPI</label>
+                                            <div class="input-group col-sm-12">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text" id="basic-addon1">
+                                                        <i class="far fa-address-card"></i>
+                                                    </span>
+                                                </div>
+                                                <input type="text" size="13" maxlength="13" class="form-control"
+                                                    id="dpi" formControlName="DPI" placeholder="Ej. 2057309840101">
+                                            </div>
+                                            <small class="form-text text-danger col-sm-12"
+                                                *ngIf="!createCustomer.get('DPI').valid && (createCustomer.get('DPI').dirty || createCustomer.get('DPI').touched)">
+                                                El DPI es requerido.</small>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6">
+                                        <div class="form-group row">
+                                            <label for="phone" class="col-sm-12">Número de Teléfono<code
+                                                    style="font-size: 16px;"><sup>*</sup></code></label>
+                                            <div class="input-group col-sm-12">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text" id="basic-addon1">
+                                                        <i class="fas fa-mobile-alt"></i>
+                                                    </span>
+                                                </div>
+                                                <input type="text" size="8" maxlength="8" class="form-control"
+                                                    id="phone" formControlName="phone" required
+                                                    placeholder="Ej. 45826578">
+                                            </div>
+                                            <small class="form-text text-danger col-sm-12"
+                                                *ngIf="!createCustomer.get('phone').valid && (createCustomer.get('phone').dirty || createCustomer.get('phone').touched)">El
+                                                número de celular es requerido.</small>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6">
+                                        <app-custominput label="Correo electrónico" [isrequired]="true"
+                                            [formcontrol]="createCustomer.get('email')" id="email"
+                                            [placeholder]="placeHolders.email" iconclass="far fa-envelope" mode="top"
+                                            type="email" [errorMessages]="errorMessages.emailErrorMessages">
+                                        </app-custominput>
+                                        <!-- <div class="form-group row">
+                                            <label for="email" class="col-sm-12">Correo Electrónico<code
+                                                    style="font-size: 16px;"><sup>*</sup></code></label>
+                                            <div class="input-group col-sm-12">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text" id="basic-addon1">
+                                                        <i class="fas fa-envelope"></i>
+                                                    </span>
+                                                </div>
+                                                <input type="email" class="form-control" id="email"
+                                                    formControlName="email" required placeholder="Ej. email@email.com">
+                                            </div>
+                                            <small class="form-text text-danger col-sm-12"
+                                                *ngIf="!createCustomer.get('email').valid && (createCustomer.get('email').dirty || createCustomer.get('email').touched)">Ingresar
+                                                un correo electrónico válido.</small>
+                                        </div> -->
+                                    </div>
+                                    <div class="col-sm-12 col-md-6">
+                                        <div class="form-group row">
+                                            <label for="inputPais" class="col-sm-12">Seleccionar País
+                                                <app-asteriskrequired></app-asteriskrequired>
+                                            </label>
+                                            <div class="input-group col-sm-12">
+                                                <div _ngcontent-bpb-c164="" class="input-group-prepend"><label
+                                                        _ngcontent-bpb-c164="" for="inputGroupSelect01"
+                                                        class="input-group-text"><i class="far fa-id-card"></i></label>
+                                                </div>
+                                                <select class="form-control custom-select" [(ngModel)]="selecionCountry"
+                                                    [ngModelOptions]="{standalone: true}"
+                                                    (change)="onCountrySelected($event.target.value)">
+                                                    <option>Selecione una opcion</option>
+                                                    <option *ngFor="let order of optionsCountries"
+                                                        [value]="order.country_id">{{order.name}}</option>
+                                                </select>
+
+                                            </div>
+                                            <small class="form-text text-danger col-sm-12"
+                                                *ngIf="!createCustomer.get('inputPais').valid && (createCustomer.get('inputPais').dirty || createCustomer.get('inputPais').touched)">El
+                                                país es requerido.</small>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-12 col-md-6">
+                                        <div class="form-group row">
+                                            <label for="inputDepartamento" class="col-sm-12">Seleccionar
+                                                Departamento<app-asteriskrequired></app-asteriskrequired></label>
+                                            <div class="input-group col-sm-12">
+                                                <div _ngcontent-bpb-c164="" class="input-group-prepend"><label
+                                                        _ngcontent-bpb-c164="" for="inputGroupSelect01"
+                                                        class="input-group-text"><i class="far fa-id-card"></i></label>
+                                                </div>
+                                                <select class="form-control custom-select"
+                                                    [(ngModel)]="selecionDepartment"
+                                                    [ngModelOptions]="{standalone: true}"
+                                                    (change)="onDepartmentSelected($event.target.value)">
+                                                    <option>Selecione una opcion</option>
+                                                    <option *ngFor="let order of optionsDepartments"
+                                                        [value]="order.department_id">{{order.name}}</option>
+                                                </select>
+
+                                            </div>
+                                            <small class="form-text text-danger col-sm-12"
+                                                *ngIf="!createCustomer.get('inputDepartamento').valid && (createCustomer.get('inputDepartamento').dirty || createCustomer.get('inputDepartamento').touched)">El
+                                                departamento es requerido.</small>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-12 col-md-6">
+                                        <div class="form-group row">
+                                            <label for="municipality_id" class="col-sm-12">Seleccionar Municipio
+                                                <app-asteriskrequired></app-asteriskrequired></label>
+                                            <div class="input-group col-sm-12">
+                                                <div _ngcontent-bpb-c164="" class="input-group-prepend"><label
+                                                        _ngcontent-bpb-c164="" for="inputGroupSelect01"
+                                                        class="input-group-text"><i class="far fa-id-card"></i></label>
+                                                </div>
+
+                                                <select class="form-control custom-select"
+                                                    [(ngModel)]="selecionMunicipality"
+                                                    [ngModelOptions]="{standalone: true}"
+                                                    (change)="onMunicipalitySelected($event.target.value)">
+                                                    <option>Selecione una opcion</option>
+                                                    <option *ngFor="let muni of optionsMunicipalities"
+                                                        [value]="muni.municipality_id">{{muni.name}}</option>
+                                                </select>
+                                            </div>
+                                            <small class="form-text text-danger  col-sm-12"
+                                                *ngIf="!createCustomer.get('municipality_id').valid && (createCustomer.get('municipality_id').dirty || createCustomer.get('municipality_id').touched)">El
+                                                municipio es requerido.</small>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6">
+                                        <div class="form-group row">
+                                            <label for="address2" class="col-sm-12">Zona</label>
+                                            <div class="input-group col-sm-12">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text" id="basic-addon1">
+                                                        <i class=" far fa-address-book"></i>
+                                                    </span>
+                                                </div>
+                                                <input type="number" class="form-control" id="zone"
+                                                    formControlName="zone" placeholder="Ej. 10">
+                                            </div>
+                                            <small class="form-text text-danger col-sm-12"
+                                                *ngIf="!createCustomer.get('zone').valid && (createCustomer.get('zone').dirty || createCustomer.get('zone').touched)">La
+                                                zona es requerida.</small>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6">
+                                        <div class="form-group row">
+                                            <label for="address1" class="col-sm-12">Dirección 1</label>
+                                            <div class="input-group col-sm-12">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text" id="basic-addon1">
+                                                        <i class=" far fa-address-book"></i>
+                                                    </span>
+                                                </div>
+                                                <input type="text" class="form-control" id="address1"
+                                                    formControlName="address1"
+                                                    placeholder="Ej. 8va. calle 35-40 zona 4">
+                                            </div>
+                                            <small class="form-text text-danger col-sm-12"
+                                                *ngIf="!createCustomer.get('address1').valid && (createCustomer.get('address1').dirty || createCustomer.get('address1').touched)">La
+                                                dirección es requerida.</small>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6">
+                                        <div class="form-group row">
+                                            <label for="address2" class="col-sm-12">Dirección 2</label>
+                                            <div class="input-group col-sm-12">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text" id="basic-addon1">
+                                                        <i class=" far fa-address-book"></i>
+                                                    </span>
+                                                </div>
+                                                <input type="text" class="form-control" id="address2"
+                                                    formControlName="address2"
+                                                    placeholder="Ej. Ciudad Vieja, Guatemala">
+                                            </div>
+                                            <small class="form-text text-danger col-sm-12"
+                                                *ngIf="!createCustomer.get('address2').valid && (createCustomer.get('address2').dirty || createCustomer.get('address2').touched)">La
+                                                dirección es requerida.</small>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6 p-b-40">
+                                        <div class="form-group row">
+                                            <label for="municipality_id" class="col-sm-12">Seleccionar Logo</label>
+                                            <div class="input-group col-sm-12">
+                                                <div _ngcontent-bpb-c164="" class="input-group-prepend"><label
+                                                        _ngcontent-bpb-c164="" for="inputGroupSelect01"
+                                                        class="input-group-text"><i class="far fa-images"></i></label>
+                                                </div>
+                                                <div class="custom-file">
+                                                    <input type="file" class="custom-file-input" id="inputlogo"
+                                                        (change)="showPreviewImage($event)">
+                                                    <img [src]="localUrl" *ngIf="localUrl" class="imgPlaceholder">
+                                                    <label class="custom-file-label" for="inputlogo">Selecciona una
+                                                        imagen</label>
+                                                </div>
+                                            </div>
+                                            <!-- <small class="form-text text-danger  col-sm-12"
+                                                                            *ngIf="!createCustomer.get('municipality_id').valid && (createCustomer.get('municipality_id').dirty || createCustomer.get('municipality_id').touched)">El
+                                                                            municipio es requerido.</small> -->
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                            </div>
+
+                            <div class="card-footer" style="background-color: white;">
+                                <div class="form-group m-b-0 text-right">
+                                    <button type="submit" class="btn btn-raised mr-1 text-white"
+                                        style="background-color: #3473da;">Actualizar</button>
+
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </ng-container>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Reactive Form Validaton Ends -->

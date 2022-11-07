@@ -1,0 +1,85 @@
+<div class="row">
+    <div class="col-md-12">
+        <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#759ee0" type="ball-scale-multiple">
+            <p style="font-size: 20px; color:#fff">Cargando Información...</p>
+        </ngx-spinner>
+        <!--- pagination Table -->
+        <div class="card">
+            <div class="card-body">
+
+
+                <app-reportfilters (onFilter)="search($event)" (onCreateExcel)="xlsxDownload($event)" [config]="config" [(vals)]="vals" [dataset1]='valores1' [dataset3]='valores2' (onChange1)="onfilterChange1($event)" (onChange3)="onfilterChange2($event)"></app-reportfilters>
+
+                <table class="table table-striped border mt-4">
+                    <thead>
+                        <tr>
+                            <th *ngFor="let header of dataList.metadata">
+                                <div class="text-center">
+                                    {{header}}
+                                </div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let req of dataList.data">
+                            <td>
+                                <div class="text-center">
+                                    {{req.customer_id}}
+                                </div>
+                            </td>
+                            <td>{{req.name}}</td>
+                            <td>
+                                <div class="text-center">
+                                    {{req.nit}}
+                                </div>
+                            </td>
+                            <td>
+                                <div class="text-center">
+                                    {{req.request_id}}
+                                </div>
+                            </td>
+                            <td>
+                                <div class="text-center">
+                                    {{req.documents | reqreportdocs}}
+                                </div>
+                            </td>
+                            <td>
+                                <div class="text-center">    
+                                    {{req.warranties |reqreportdocs}}
+                                </div>        
+                            </td>
+                            <td>
+                                    <div class="text-center">
+                                    {{req.status| reqreportstatus }}
+                                    </div>
+                            </td>
+                            <td>
+                                <div class="text-center">
+                                    {{req.type | reqreporttype}}
+                                </div>
+                            </td>
+                            <td>
+                                <div class="text-center">
+                                    {{req.create_date | date: 'dd/MM/yyyy'}}
+                                </div>
+                            </td>
+                            <td>
+                                <div class="text-center">        
+                                    {{req.verifications |reqreportdocs}}
+                                </div>
+                            </td>
+
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="d-flex justify-content-center p-2">
+                    <ngb-pagination [collectionSize]="this.totalData" [pageSize]="pageSize" [(page)]="page" aria-label="Default pagination" (pageChange)="pageChange($event)" [boundaryLinks]="true" [maxSize]="7"></ngb-pagination>
+                </div>
+            </div>
+        </div>
+        <!--- End pagination Table -->
+
+    </div>
+</div>
+<notifier-container></notifier-container>

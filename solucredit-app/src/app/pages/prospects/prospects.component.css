@@ -1,0 +1,17 @@
+.tooltip{
+    position: relative;
+    z-index: 9999;
+}
+
+.font-400{
+ font-weight: 400;
+}
+
+
+.taskboard-task{
+    opacity: 0.8;
+}
+.taskboard-task:hover{
+    opacity: 1;
+    box-shadow: rgb(100 100 111 / 20%) 0px 7px 29px 0px;
+}

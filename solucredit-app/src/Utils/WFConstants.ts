@@ -1,0 +1,4 @@
+export const TransitionTargetEventConditionName='Condición'
+export const TransitionTargetEventValidationName='Validación'
+export const TransitionTargetEventTriggerName='Disparador'
+export const TransitionTargetEventConfirmationName='Confirmación'

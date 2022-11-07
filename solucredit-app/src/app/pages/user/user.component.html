@@ -1,0 +1,441 @@
+<div class="col-12">
+    <div class="card card-body">
+        <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#759ee0" type="ball-scale-multiple">
+            <p style="font-size: 20px; color:#fff">Cargando Información...</p>
+        </ngx-spinner>
+        <div style="margin-top: 0.5 rem;" class="d-flex mb-3 mt-3">
+
+            <!-- <input type="text" class="form-control w-25" placeholder="Busca a un empleado" [(ngModel)]='searchTerm'> -->
+            <button *ngIf="canCreate()" class="btn btn btn-info ml-auto h-25 btn-color-solucredit" (click)="openModal2(createUserModal, null)">Nuevo Usuario</button>
+
+
+        </div>
+
+        <app-reportfilters [config]="config" [(vals)]="vals" (onFilter)="filter($event)"></app-reportfilters>
+        <div *ngIf="canList()" class="table-responsive table-bordered">
+            <table class="table table-striped mb-0 no-wrap v-middle">
+                <thead>
+                    <tr>
+                        <!-- <th class="text-center" scope="col">#</th> -->
+                        <th scope="col" style="text-align: center;">Nombres</th>
+                        <th scope="col" style="text-align: center;">Apellidos</th>
+                        <th scope="col" style="text-align: center;">Correo</th>
+                        <th scope="col" style="text-align: center;">Acciones</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let user of userList;let i = index">
+
+                        <!-- <td class="text-center">
+                            {{i}}
+                        </td> -->
+
+
+                        <!-- <div class="d-flex align-items-center">
+                                <img class="rounded-circle" src="https://wrappixel.com/demos/angular-admin-templates/monster-angular/main/assets/images/users/2.jpg" height=" 50px" width="50px" alt="profile-image-generic">
+                                <div class="ml-3">
+                                    <p class="mb-0">{{ user.firstname }}</p>
+                                    <small class="rol-section">
+                                            <span class="label label-rol">Administrador</span>
+                                             <span class="label label-rol">Contador</span>
+                                        </small>
+                                </div>
+                            </div> -->
+                        <td style="text-align: center;">{{user.firstname}}</td>
+                        <td style="text-align: center;">{{ user.lastname}}</td>
+                        <td style="text-align: center;">{{ user.email }}</td>
+
+
+                        <td>
+                            <div class="div-table-actions">
+                                <button *ngIf="canUpdate()" (click)="openModal(editUserModal, user)" class="btn btn-raised mr-1 text-white  btn-color-solucredit" type="button"><span class="btn-label m-r-5"><i class="mdi mdi-eye-outline"></i></span>Editar</button>
+                                <button *ngIf="canEditPass()" ngbTooltip="Cambio de contraseña" (click)="changePwd(user.user_id,modalChangePassword)" class="btn   btn-color-solucredit" type="button"><span class="btn-label m-r-5"><i class=" icon-lock"></i></span>Editar Contraseña</button>
+                                <button [disabled]="getCurrentuser() == user.email" *ngIf="canDelete()" ngbTooltip="Eliminar" (click)="deleteUserModal(user.user_id)" class="btn btn-danger waves-effect waves-light" type="button"><span class="btn-label m-r-5"><i class="mdi mdi-delete"></i></span>Eliminar</button>
+
+                            </div>
+
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <ngb-pagination [collectionSize]="this.usersTotal" [pageSize]="pageSize" [(page)]="page" aria-label="Default pagination" (pageChange)="pageChange($event)"></ngb-pagination>
+        </div>
+        <!-- <div class="d-flex justify-content-center mt-5">
+                <ngb-pagination [(page)]="page" [pageSize]="pageSize" [collectionSize]="userList.length"></ngb-pagination>
+            </div> -->
+    </div>
+</div>
+<notifier-container></notifier-container>
+
+<ng-template #createUserModal let-modal>
+
+    <div class="modal-header">
+
+        <h3 class="modal-title" id="editUserLabel">Crea un nuevo usuario</h3>
+
+        <button type="button" class="close" (click)="closeBtnClick()" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+
+    </div>
+
+    <div class="modal-body">
+        <!-- Navbar for Wizard Starts -->
+        <ul class="wizard-navbar">
+            <div class="liner"></div>
+
+            <li class="active flex-fill">
+                <a [ngClass]="(pageName==='Personal')?'nav-link active':'nav-link'" uiSrefActive="active" uiSref="personal" data-toggle="tab" title="personal">
+                    <span class="round-tabs one">
+                    <i class="icon-user"></i>
+                </span>
+                </a>
+            </li>
+            <li class="flex-fill">
+                <a [ngClass]="(pageName==='Rol')?'nav-link active':'nav-link'" uiSrefActive="active" uiSref="work" data-toggle="tab" title="work">
+                    <span class="round-tabs two">
+                    <i class="icon-notebook"></i>
+                </span>
+                </a>
+            </li>
+
+        </ul>
+
+        <div [ngSwitch]="pageName">
+            <div *ngSwitchCase="'Personal'">
+                <form class="form-horizontal" [formGroup]="newUserForm">
+                    <div class="card-body">
+                        <h4 class="card-title">Información Requerida</h4>
+                        <div class="form-group row">
+                            <label for="fname" class="col-sm-3 text-right control-label col-form-label">Nombres: </label>
+                            <div class="col-sm-9">
+                                <input formControlName="FirstName" type="text" class="form-control" id="fname" placeholder="Nombres del Nuevo Usuario">
+                                <small class="form-text text-danger" *ngIf="!newUserForm.controls.FirstName.valid && (newUserForm.controls.FirstName.dirty || newUserForm.controls.FirstName.touched)">Ingresa los nombre</small>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="lname" class="col-sm-3 text-right control-label col-form-label">Apellidos: </label>
+                            <div class="col-sm-9">
+                                <input formControlName="LastName" type="text" class="form-control" id="lname" placeholder="Apellidos del Nuevo Usuario">
+                                <small class="form-text text-danger" *ngIf="!newUserForm.controls.LastName.valid && (newUserForm.controls.LastName.dirty || newUserForm.controls.LastName.touched)">Ingresa los apellidos</small>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="email1" class="col-sm-3 text-right control-label col-form-label">Correo: </label>
+                            <div class="col-sm-9">
+                                <input (focus)="emailFocus()" formControlName="Email" type="email" class="form-control" id="email1" placeholder="Correo Electrónico">
+                                <small class="form-text text-danger" *ngIf="!newUserForm.controls.Email.valid && (newUserForm.controls.Email.dirty || newUserForm.controls.Email.touched)">Ingresa un correo valido</small>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="cono1" class="col-sm-3 text-right control-label col-form-label">Género: </label>
+                            <div class="col-sm-9">
+                                <ng-multiselect-dropdown formControlName="Gen" placeholder="Selecciona" name="genero" [data]="generos" [settings]="singledropdownSettings" (onSelect)="onItemSelect($event)">
+
+                                </ng-multiselect-dropdown>
+                                <small class="form-text text-danger" *ngIf="!newUserForm.controls.Gen.valid && (newUserForm.controls.Gen.dirty || newUserForm.controls.Gen.touched)">Selecciona un género</small>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="card-body">
+                        <h4 class="card-title">Información Opcional</h4>
+                        <details class="default square">
+                            <summary><span class="open">Ver más</span><span class="close"></span></summary>
+                            <div class="form-group row">
+                                <label for="com1" class="col-sm-3 text-right control-label col-form-label">Teléfono</label>
+                                <div class="col-sm-9">
+                                    <input formControlName="Phone" type="text" class="form-control" id="com1" placeholder="celular">
+                                </div>
+                                <small class="form-text text-danger" *ngIf="!newUserForm.controls.Phone.valid && (newUserForm.controls.Phone.dirty || newUserForm.controls.Phone.touched)">Ingresa un telefono valido</small>
+                            </div>
+                            <!-- <div class="form-group row">
+                                <label for="com1" class="col-sm-3 text-right control-label col-form-label">Telefono casa</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" id="com1" placeholder="Numero casa">
+                                </div>
+                            </div> -->
+                            <div class="form-group row">
+                                <label for="com1" class="col-sm-3 text-right control-label col-form-label">Dirección Residencia</label>
+                                <div class="col-sm-9">
+                                    <input formControlName="Address" type="text" class="form-control" id="com1" placeholder="dirección residencia">
+                                </div>
+                            </div>
+
+
+                        </details>
+
+
+
+                    </div>
+                    <hr>
+                    <div class="card-body">
+                        <small class="form-text text-danger" *ngIf="!isEmailUnique && isEmailInputFocus">El correo ya esta registrado</small>
+                        <div class="form-group m-b-0 text-right">
+
+                            <button class="btn btn-raised mr-1 text-white btn-color-solucredit-secondary" (click)="closeBtnClick()">Cancelar</button>
+                            <button class="btn btn-raised mr-1 text-white btn-color-solucredit" (click)="siguiente()" [disabled]="isCorrect()">Siguiente</button>
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div *ngSwitchCase="'Rol'">
+                <form [formGroup]="newUserForm2">
+                    <div class="card-body">
+                        <h4 class="card-title">Agrega roles al nuevo usuario</h4>
+                        <!-- <div class="alert alert-info alert-dismissible fade show m-t-25" role="alert">
+                            <span class="badge badge-info">
+                            <i class="fas fa-info"></i>
+                        </span>
+                            <strong>Form Action at mulitple space top,bottom and left,right.</strong>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        </div> -->
+                        <h6 class="card-subtitle">Los roles tienen definidos las acciones que los usuarios pueden realizar en la plataforma.
+                            <code>Para mas información ir a la seccion de roles</code>
+                        </h6>
+
+                    </div>
+                    <hr>
+                    <div class="card-body">
+                        <div class="row m-auto">
+                            <div class="col-12">
+
+
+                                <label for="fname3" class="control-label col-form-label">Roles disponibles</label>
+                                <ng-multiselect-dropdown formControlName="Rols" [settings]="multidropdownSettings" placeholder="Selecciona" name="roles" [data]="rolesitems" (onSelect)="onItemSelect($event)">
+
+                                </ng-multiselect-dropdown>
+
+
+
+
+
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="card-body">
+                            <div class="d-flex no-block align-items-center">
+                                <div class="action-form">
+                                    <div class="form-group m-b-0 text-center">
+                                        <button (click)="atras()" type="submit" class="btn btn-raised mr-1 text-white btn-color-solucredit-secondary">Atras</button>
+                                        <button (click)="onSubmit()" class="btn btn-raised mr-1 text-white  btn-color-solucredit">Crear usuario</button>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+
+    </div>
+</ng-template>
+<ng-template #editUserModal let-modal>
+
+    <div class="modal-header">
+
+        <h4 class="modal-title" id="editUserLabel">Edición de Usuario</h4>
+
+        <button type="button" class="close" (click)="closeBtnClick()" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+
+    </div>
+
+    <div class="modal-body">
+        <form class="form-horizontal" [formGroup]="editUser">
+            <div class="form-group row col-md-12">
+                <div class="col-md-2">
+                    <label for="fname" class="text-center control-label col-form-label">Nombres: </label>
+                </div>
+                <div class="col-md-4">
+                    <input formControlName="FirstName" type="text" class="form-control" id="fname" placeholder="nombres del nuevo usuario" [disabled]="!isEditing">
+                    <small class="form-text text-danger" *ngIf="!editUser.controls.FirstName.valid && (editUser.controls.FirstName.dirty || editUser.controls.FirstName.touched)">Ingresa un Nombre</small>
+                </div>
+                <div class="col-md-2">
+                    <label for="lname" class="col-lg-12 text-center control-label col-form-label">Apellidos: </label>
+                </div>
+                <div class="col-md-4">
+                    <input formControlName="LastName" type="text" class="form-control" id="lname" placeholder="apellidos del nuevo usuario" [disabled]="!isEditing">
+                    <small class="form-text text-danger" *ngIf="!editUser.controls.LastName.valid && (editUser.controls.LastName.dirty || editUser.controls.LastName.touched)">Ingresa los Apellidos</small>
+                </div>
+            </div>
+            <div class="form-group row col-md-12">
+                <div class="col-md-2">
+                    <label for="email1" class="col-lg-12 text-center control-label col-form-label">Correo: </label>
+                </div>
+                <div class="col-md-4">
+                    <input formControlName="Email" type="email" class="form-control" id="email1" placeholder="correo">
+                </div>
+                <div class="col-md-2">
+                    <label for="cono1" class="col-lg-12 text-center control-label col-form-label">Género: </label>
+                </div>
+                <div class="col-md-4">
+                     <div *ngIf="!isEditing" class="col-lg-12">
+                        <input formControlName="GenFalso" type="email" class="form-control" id="email1" placeholder="genero" [disabled]="!isEditing">
+                    </div>
+                    <div *ngIf="isEditing" class="col-lg-12">
+                        <ng-multiselect-dropdown formControlName="Gen" placeholder="Escoge un Género" name="genero" [data]="generos" [(ngModel)]="singleselectedItems" [settings]="singledropdownSettings" (onSelect)="onItemSelect($event)">
+
+                        </ng-multiselect-dropdown>
+                        <small class="form-text text-danger" *ngIf="!editUser.controls.Gen.valid && (editUser.controls.Gen.dirty || editUser.controls.Gen.touched)">Selecciona un Género</small>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+
+        <div class="card-body div-con-flex-col">
+            <h4>Roles</h4>
+            <app-spinner *ngIf="isLoadingInEdition"></app-spinner>
+            <div *ngIf="!isEditing && !isLoadingInEdition" class="col-sm-9">
+                <div *ngFor="let rol of rolesactuales" class="card card-roles ">
+
+                    <div class="card-body card" style="text-align: center;">
+                        <h4 class="card-text">{{rol.name}}</h4>
+
+                    </div>
+                </div>
+
+            </div>
+            <div *ngIf="isEditing" class="col-sm-9">
+                <h4 *ngIf="isCalculatingRoles">.....CARGANDO....</h4>
+
+                <div  *ngFor="let rol of rolesModificados; let i=index">
+                    <label>
+                        <!-- <input type="checkbox" [(ngModel)]="rol.value" (change)="onCheckChange($event)"> -->
+                        <input type="checkbox" [checked]= "rol.value" [value]="rol.rol.rol_id" (change)="onCheckChange($event)">
+                            {{rol.rol.name}}
+                    </label>
+                </div>
+            </div>
+
+
+
+
+
+
+
+
+
+        </div>
+        <div class="card-body">
+            <div class="div-con-flex">
+                <button [ngClass]="isEditing === true?'btn-hide':'btn-show'" type="submit" class="btn btn-raised mr-1 text-white  btn-color-solucredit" (click)="startMod()">Modificar</button>
+                <button [ngClass]="isEditing === false?'btn-hide':'btn-show'" type="submit" class="btn btn-raised mr-1 text-white  btn-color-solucredit" (click)="saveUserChanges()">Guardar Cambios</button>
+                <button [ngClass]="isEditing === false?'btn-hide':'btn-show'" type="submit" class="btn btn-raised mr-1 text-white  btn-color-solucredit-secondary" (click)="closeBtnClick()">Cancelar</button>
+            </div>
+        </div>
+
+
+
+    </div>
+</ng-template>
+
+<ng-template #modalDelete let-modal>
+
+    <div class="modal-header border-bottom-0">
+        <button type="button" class="close" aria-label="Close" (click)="closeBtnClick()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+    <div class="modal-body">
+        <ng-container [ngSwitch]="IdUsertoDelete">
+            <ng-container *ngSwitchCase="null">
+                <h6>Cargando</h6>
+            </ng-container>
+            <ng-container *ngSwitchDefault>
+                <div class="row mb-2">
+                    <div class="col-12">
+                        <h4 class="ml-4">¿Esta seguro de eliminar este registro?</h4>
+                    </div>
+                </div>
+            </ng-container>
+        </ng-container>
+    </div>
+
+    <div class="modal-footer border-top-0">
+        <button type="button" (click)="deleteUser()" class="btn btn-danger mr-1 text-white">Confirmar</button>
+        <button type="button" class="btn btn-raised mr-1 text-white  btn-color-solucredit-secondary" (click)="closeBtnClick()">Cancelar</button>
+    </div>
+</ng-template>
+
+<ng-template #modalChangePassword let-modal>
+
+    <div class="modal-header border-bottom-0">
+        <h4 class="modal-title">Cambiar contraseña</h4>
+        <button type="button" class="close" aria-label="Close" (click)="closeBtnClick()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+    <div class="modal-body">
+        <form class="form-horizontal" [formGroup]="editPassword">
+            <div class="form-group row">
+                <label for="fname" class="col-sm-3 text-right control-label col-form-label">Nueva Contraseña:</label>
+                <div class="col-sm-9">
+                    <div class="input-group col-sm-12">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">
+                                <i class="fas fa-lock"></i>
+                            </span>
+                        </div>
+                        <input formControlName="newPassword" class="form-control" id="realnew" placeholder="nueva contraseña" type="password" autocomplete="current-password"
+                        (keyup)="validate_auth0.checkPasswordRules($event.target.value)"
+                        >
+                    </div>
+                    <small class="form-text text-danger" *ngIf="!editPassword.controls.newPassword.valid && (editPassword.controls.newPassword.dirty || editPassword.controls.newPassword.touched)">Ingresa una contraseña.</small>
+                    <div class="progress col-sm-12 mt-2">
+                        <div id="password-strength" class="progress-bar"
+                            role="progressbar" aria-valuenow="40"
+                            aria-valuemin="0" aria-valuemax="100"
+                            [style]="validate_auth0.getProgress()"
+                        >
+                        </div>
+                    </div>
+                    <div class="row col-sm-12 mt-2" style="justify-content:flex-end; ">
+                        <label for="fname" class="control-label" [style]="validate_auth0.getProgress(true)">{{validate_auth0.statusProgressBar}}</label>
+                    </div>
+                    
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="lname" class="col-sm-3 text-right control-label col-form-label">Confirmar contraseña:</label>
+                <div class="col-sm-9">
+                    <div class="input-group col-sm-12">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">
+                                <i class="fa fa-lock"></i>
+                            </span>
+                        </div>
+                        <input formControlName="confirm" class="form-control" id="fconfirm" placeholder="confirmar nueva contraseña" type="password">
+                    </div>
+                    <small class="form-text text-danger" *ngIf="(editPassword.controls.confirm.dirty || editPassword.controls.confirm.touched)&&editPassword.getError('mismatch')">Las contraseñas no coinciden.</small>
+                    <ul class="list-unstyled mt-5">
+                        <li *ngFor="let item of validate_auth0.checkrules">
+                            <span class="lower-upper-case">
+                                <div style="font-size: 1rem;">
+                                    <i  [ngClass]="item.status?'fas icon-check':'fas icon-close'" [style]="item.status?'color:green;':'color: red;'" aria-hidden="true"></i>
+                                    {{item.rule}}
+                                </div>
+                            </span>
+                        </li>
+                </ul>
+                </div>
+            </div>
+
+        </form>
+    </div>
+
+    <div class="modal-footer border-top-0">
+        <button [disabled]="!editPassword.valid || (validate_auth0.getRulesCorrect()==false)" type="button" (click)="changePassword()" class="btn btn btn-info ml-auto h-25 btn-color-solucredit">Cambiar</button>
+        <button type="button" class="btn btn-raised mr-1 text-white  btn-color-solucredit-secondary" (click)="closeBtnClick()">Cancelar</button>
+    </div>
+</ng-template>

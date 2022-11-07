@@ -1,0 +1,173 @@
+<ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#759ee0" type="ball-scale-multiple">
+    <p style="font-size: 20px; color:#fff">Cargando Información...</p>
+</ngx-spinner>
+<ngb-alert type="custom" [ngClass]="class" [dismissible]="false" *ngIf="getButtonsArray().length>0">
+    <div class="row ">
+        <div class="col-lg-12 row align-items-center">
+            <div class="col-lg-2">
+                <h3>
+                    <strong>
+                        {{docCode}}
+                    </strong>
+                </h3>
+            </div>
+            <div class="col-lg-4">
+                <div class="col-sm-12">
+                    <h3>
+                        <strong>
+                            {{description}}
+                        </strong>
+                    </h3>
+                </div>
+            </div>
+            <div class="col-lg-6" style="display: flex; align-items: flex-start; justify-content: flex-end;">
+                <div style="display: flex; align-items: flex-start;" id="directivebuttons">
+                    <button *ngFor="let btn of getButtonsArray()" [ngClass]="'btn '+btn.class"
+                        (click)="llamar(btn.name_function,btn)" [ngbTooltip]="btn.description">{{btn.text}}</button>
+                </div>
+            </div>
+        </div>
+        <hr class="solid col-lg-12">
+    </div>
+    <div class="row">
+        <div class="col-lg-12 row">
+            <div class="col-md-2">
+                <strong>
+                    <h4>
+                        Observaciones:
+                    </h4>
+                </strong>
+            </div>
+            <div class="col-lg-4">
+                <div class="col-sm-12" style="margin-top: 5px ;">
+                    <h5>{{note}}</h5>
+                </div>
+            </div>
+            <div class="col-lg-6" style="display: flex; align-items: flex-start; justify-content: flex-end;">
+                <div class="col-sm-9">
+                    <select class="custom-select" aria-label="Default select example" #select
+                        [(ngModel)]="selectedStatus" (change)="changeOption(select.value)"
+                        *ngIf="options&&options.length>0">
+                        <option [value]="-1" disabled>Seleccione una opción</option>
+                        <option *ngFor="let option of options" [value]="option.id">{{option.text}}</option>
+                    </select>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</ngb-alert>
+
+<ng-template #historymodal let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="editUserLabel">Traza FDT, Generada: {{date | date:'M/d/yyyy, h:mm:ss a'}}</h4>
+        <button type="button" class="close" (click)="closeBtnClick()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <label for="">Cliente:</label> {{info?.full_name}}
+                    </div>
+                    <div class="col-lg-6">
+                        <label for="">Solicitud: </label> {{info?.request_id}}
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <label for="">Flujo de Trabajo: </label> {{info?.worflow_name}}
+                    </div>
+                    <div class="col-lg-6">
+                        <label for="">Actividad Actual: </label> {{info?.current_activity}}
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <label for="">Estado Actual: </label> {{info?.activity_status}}
+                    </div>
+                    <div class="col-lg-6">
+                        <label for="">Número FDT: </label> {{info?.document_number}}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="table-responsive" style="align-content: center;">
+            <table class="table table-responsive-lg v-middle white-table">
+                <thead>
+                    <tr>
+                        <th *ngFor="let header of dataList.metadata">
+                            <div class="text-center">
+                                {{header}}
+                            </div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let data of dataList.data">
+                        <td style="max-width: 300px; text-align: justify; text-align: center;">
+                            <div>
+                                {{data.creation_date | date:'d/M/yyyy, h:mm a'}}
+                            </div>
+                        </td>
+                        <td style="max-width: 200px; text-align: justify; text-align: center;">
+                            <div>
+                                {{data.wf_activity_name}}
+                            </div>
+                        </td>
+                        <td style="max-width: 200px; text-align: justify; text-align: center;">
+                            <div>
+                                {{data.event_name}}
+                            </div>
+                        </td>
+                        <td style="max-width: 300px; text-align: justify; text-align: center;">
+                            <div>
+                                {{data.event_type}}
+                            </div>
+                        </td>
+                        <td style="max-width: 300px; text-align: justify; text-align: center;">
+                            <div>
+                                {{data.event_result}}
+                            </div>
+                        </td>
+                        <td style="max-width: 300px; text-align: justify; text-align: center;">
+                            <div *ngIf="data.event_result_type == 'éxito'">
+                                <i class="fas fa-check" style="color: yellowgreen;"></i>
+                            </div>
+                            <div *ngIf="data.event_result_type == 'error'">
+                                <i class="fas fa-times" style="color: red;"></i>
+                            </div>
+                            <div *ngIf="data.event_result_type == 'advertencia'">
+                                <i class="fas fa-exclamation" style="color: yellow;"></i>
+                            </div>
+                        </td>
+                        <td style="max-width: 300px; text-align: justify; text-align: center;">
+                            <div *ngIf="data.event_is_mandatory == 1">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            <div *ngIf="data.event_is_mandatory == 0">
+                                <i class="fas fa-times"></i>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="modal-footer border-top-0">
+        <button type="button" class="btn btn-raised mr-1 text-white  btn-color-solucredit-secondary"
+            (click)="closeBtnClick()">Cancelar</button>
+        <button type="button" class="btn btn mr-1 btn-info" (click)="generateCSV()">Generar CSV</button>
+    </div>
+    <div class="d-flex justify-content-center p-2">
+        <ngb-pagination [collectionSize]="this.totalData" [pageSize]="pageSize" [(page)]="page"
+            aria-label="Default pagination" (pageChange)="pageChange($event)" [boundaryLinks]="true" [maxSize]="10">
+        </ngb-pagination>
+    </div>
+</ng-template>

@@ -1,0 +1,6 @@
+projectKey=monster-admin-angular
+serverUrl=http://sonar-qb-prod.isoft-ste.com
+serverVersion=9.3.0.51899
+dashboardUrl=http://sonar-qb-prod.isoft-ste.com/dashboard?id=monster-admin-angular
+ceTaskId=AYOQCgU6c_OLjpxltSIS
+ceTaskUrl=http://sonar-qb-prod.isoft-ste.com/api/ce/task?id=AYOQCgU6c_OLjpxltSIS

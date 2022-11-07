@@ -1,0 +1,472 @@
+<div class="col-12">
+    <div class="card card-body">
+        <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#759ee0" type="ball-scale-multiple">
+            <p style="font-size: 20px; color:#fff">{{spinnerMessage}}</p>
+        </ngx-spinner>
+
+        <div class="d-flex mb-3 mt-3 col-lg-12">
+            <!-- <input type="text" class="form-control w-25" placeholder="Busca a un empleado" [(ngModel)]='searchTerm'> -->
+            <div class="col-lg-3">
+                <form [formGroup]="search">
+                    <div class="row">
+                        <div class="col-sm-12 col-lg-12">
+                            <div class="form-group row">
+                                <div class="input-group col-sm-12">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-addon1">
+                                            <i class="ti-search"></i>
+                                        </span>
+                                    </div>
+
+                                    <input class="form-control" formControlName="q" (change)="filter()"
+                                        [placeholder]="placeholder" type="text" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <button *ngIf="canCreate()" class="btn btn btn-info ml-auto h-25 btn-color-solucredit"
+                (click)="openModal(createModal,null)">Nuevo rol</button>
+
+        </div>
+
+        <!-- <div class="d-flex mb-3 mt-3 p-1"> -->
+        <!-- <app-reportfilters [config]="config" [(vals)]="vals" (onFilter)="filter($event)"></app-reportfilters> -->
+        <div *ngIf="canList()" class="table-responsive table-hover">
+            <table class="table table-responsive-lg  v-middle white-table">
+                <thead>
+                    <tr>
+                        <!-- <th *ngIf="marcarvarios" class="text-center" scope="col">#</th> -->
+                        <th scope="col" class="text-center">Nombres</th>
+                        <th scope="col" class="text-center">Usuarios</th>
+                        <th scope="col" class="text-center">Permisos</th>
+                        <th scope="col" class="text-center">Acciones</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let rol of roles">
+
+                        <!--  <td *ngIf="marcarvarios" class="text-center">
+                            {{rol.rol_id}}
+                        </td> -->
+
+                        <td class="text-left">
+                            {{rol.name}}
+                        </td>
+                        <td>
+                            <div class="text-right">
+                                {{rol.usercount}}
+                            </div>
+
+
+
+                        </td>
+                        <td>
+                            <div class="text-right">
+                                {{rol.permissioncount}}
+                            </div>
+
+
+
+                        </td>
+
+                        <td>
+                            <div class="div-table-actions">
+                                <button *ngIf="canUpdate()" (click)="editar(rol)" class="btn  btn-color-solucredit"
+                                    type="button"><span class="btn-label m-r-5"><i
+                                            class="mdi mdi-eye-outline"></i></span>Editar</button>
+
+                                <button *ngIf="canDelete()" ngbTooltip="Eliminar" (click)="deleteRolModal(rol.rol_id)"
+                                    class="btn btn-danger waves-effect waves-light" type="button"><span
+                                        class="btn-label m-r-5"><i class="mdi mdi-delete"></i></span>Eliminar</button>
+                            </div>
+
+
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="d-flex justify-content-center p-2">
+
+                <ngb-pagination [collectionSize]="this.rolesTotal" [pageSize]="pageSize" [(page)]="page"
+                    aria-label="Default pagination" (pageChange)="pageChange($event)"></ngb-pagination>
+            </div>
+            <!-- <div class="d-flex justify-content-center mt-5">
+                <ngb-pagination [(page)]="page" [pageSize]="pageSize" [collectionSize]="userList.length"></ngb-pagination>
+            </div> -->
+        </div>
+    </div>
+    <notifier-container></notifier-container>
+
+    <ng-template #createModal let-modal>
+
+        <div class="modal-header">
+
+            <h5 class="modal-title" id="editUserLabel">Crea un nuevo rol</h5>
+
+            <button (click)="closeBtnClick()" type="button" class="close" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+
+        </div>
+
+        <div class="modal-body">
+            <form class="form" [formGroup]="newRolForm">
+                <div class="card-body">
+
+                    <div class="form-group row">
+                        <label for="fname" class="col-sm-3 text-right control-label col-form-label">Nombre</label>
+                        <div class="col-sm-9">
+                            <input formControlName="RolName" type="text" class="form-control" id="fname"
+                                placeholder="nombre del nuevo rol">
+                            <small class="form-text text-danger"
+                                *ngIf="!newRolForm.controls.RolName.valid && (newRolForm.controls.RolName.dirty || newRolForm.controls.RolName.touched)">Ingresa
+                                un nombre para el rol!</small>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="cono1" class="col-sm-3 text-right control-label col-form-label">Permisos</label>
+                        <div class="col-sm-9">
+
+                            <ng-multiselect-dropdown formControlName="Permissions" [settings]="dropdownSettings"
+                                [placeholder]="'Permisos'" [data]="dropdownList" [settings]="dropdownSettings"
+                                (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)"
+                                (onFilterChange)="onFilterChange($event)" (click)="onPermisosClick()">
+                            </ng-multiselect-dropdown>
+                            <small class="form-text text-danger"
+                                *ngIf="!newRolForm.controls.Permissions.valid && (newRolForm.controls.Permissions.dirty || newRolForm.controls.Permissions.touched)">Selecciona
+                                un permiso al menos.</small>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="cono1" class="col-sm-3 text-right control-label col-form-label">Usuarios</label>
+                        <div class="col-sm-9">
+                            <ng-multiselect-dropdown formControlName="Users" [settings]="dropdownSettings"
+                                [placeholder]="'Usuarios'" [data]="dropdownListUser" (onSelect)="onItemSelect($event)"
+                                (onSelectAll)="onSelectAll($event)" (click)="onUsersClick()">
+                            </ng-multiselect-dropdown>
+                        </div>
+                    </div>
+                    <!-- <app-loader-button (click)="onSubmit()" [spin]="spinLoader">Aprietame porfi</app-loader-button> -->
+                </div>
+                <hr>
+                <div class="card-body">
+                    <div class="form-group m-b-0 text-right">
+                        <button type="submit" class="btn btn-raised mr-1 text-white btn-color-solucredit"
+                            (click)="crearRol()" [disabled]="escorrecto1()">Guardar</button>
+                        <button type="submit" class="btn btn-raised mr-1 text-white btn-color-solucredit-secondary"
+                            (click)="crearRol()" [disabled]="isCancelCreationAbailable">Cancelar</button>
+
+                    </div>
+                </div>
+            </form>
+        </div>
+    </ng-template>
+    <ng-template #modalMod let-modal>
+        <div class="modal-header">
+
+            <h5 class="modal-title" id="editUserLabel">Edicion de rol</h5>
+
+            <button type="button" class="close" aria-label="Close" (click)="closeBtnClick()">
+                <span aria-hidden="true">&times;</span>
+            </button>
+
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-12">
+                    <ngx-spinner [name]="'spnn'" bdColor="rgba(0, 0, 0, 0.8) " size="medium " color="#759ee0 "
+                        type="ball-atom " [fullScreen]="false ">
+                        <p style="color: white "> Cambiando Estatus ... </p>
+                    </ngx-spinner>
+                    <ng-container [ngSwitch]="actualRol">
+                        <ng-container *ngSwitchCase="null">
+                            <h6>Cargando</h6>
+                        </ng-container>
+                        <ng-container *ngSwitchDefault>
+                            <form [formGroup]="RolForm">
+                                <div class="form-group row">
+                                    <label for="fname"
+                                        class="col-sm-3 text-right control-label col-form-label">Nombre</label>
+                                    <div class="col-sm-9">
+                                        <div class="input-group col-sm-12">
+                                            <div class="input-group-prepend ">
+                                                <span class="input-group-text " id="basic-addon1">
+                                                    <i class=" icon-note"></i>
+                                                </span>
+                                            </div>
+
+                                            <input [value]="actualRol.name" formControlName="RolName" type="text"
+                                                class="form-control" id="fname" placeholder="nombre del nuevo rol">
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </form>
+                            <div class="card-body">
+
+                                <!--  <div class="div-con-flex">
+                                <h4>Permisos</h4>
+                            </div> -->
+                                <div class="card-body div-con-flex-col">
+
+
+
+
+                                    <app-spinner *ngIf="isLoadingInEdition"></app-spinner>
+
+                                    <div *ngIf="!isEditing &&!isLoadingInEdition" class="col-sm-12">
+                                        <h3>Permisos</h3>
+                                        <nz-tabset nzSize="large">
+                                            <nz-tab [nzTitle]="dat.name"
+                                                *ngFor="let dat of permisosActualesV2|grouppiperoles;let i = index ">
+                                                <div class="bitacora-layout">
+
+                                                    <div class="table-responsive table-hover">
+                                                        <table class="table table-responsive-lg v-middle white-table">
+
+                                                            <tbody>
+                                                                <tr *ngFor="let permission of dat.permissions">
+                                                                    <td *ngIf="isEditing && !isCalculatinPermissions"
+                                                                        width="50" class="text-center">
+                                                                        <label>
+                                                                            <input type="checkbox"
+                                                                                [checked]="permissionsMap[permission.permission_id].value"
+                                                                                [value]="permissionsMap[permission.permission_id].permission.permission_id"
+                                                                                (change)="onCheckChange($event)">
+
+                                                                        </label>
+
+                                                                    </td>
+                                                                    <td width="150">
+                                                                        <div class="text-left">
+                                                                            <label style="font-size:16px">
+                                                                                {{permission.name}}
+                                                                            </label>
+                                                                        </div>
+                                                                    </td>
+
+
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </nz-tab>
+                                        </nz-tabset>
+                                        <!-- <ngb-tabset [justify]="currentJustify" class="tabbable">
+                                            <ngb-tab
+                                                *ngFor="let dat of permisosActualesV2|grouppiperoles;let i = index ">
+                                                <ng-template ngbTabTitle><b>{{dat.name}}</b></ng-template>
+                                                <ng-template ngbTabContent>
+                                                    <div class="bitacora-layout">
+
+                                                        <div class="table-responsive table-hover">
+                                                            <table
+                                                                class="table table-responsive-lg v-middle white-table">
+
+                                                                <tbody>
+                                                                    <tr *ngFor="let permission of dat.permissions">
+                                                                        <td *ngIf="isEditing && !isCalculatinPermissions"
+                                                                            width="50" class="text-center">
+                                                                            <label>
+                                                                                <input type="checkbox"
+                                                                                    [checked]="permissionsMap[permission.permission_id].value"
+                                                                                    [value]="permissionsMap[permission.permission_id].permission.permission_id"
+                                                                                    (change)="onCheckChange($event)">
+
+                                                                            </label>
+
+                                                                        </td>
+                                                                        <td width="150">
+
+                                                                            {{permission.name}}
+                                                                        </td>
+
+
+                                                                    </tr>
+
+
+
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+
+                                                    </div>
+
+
+                                                </ng-template>
+                                            </ngb-tab>
+
+                                        </ngb-tabset> -->
+
+                                    </div>
+
+                                    <div *ngIf="isEditing &&!isCalculatinPermissions" class="col-sm-12">
+                                        <h3>Permisos</h3>
+                                        <nz-tabset nzSize="large">
+                                            <nz-tab [nzTitle]="dat.name"
+                                                *ngFor="let dat of permisosActualesV2|grouppiperoles;let i = index ">
+                                                <div class="bitacora-layout">
+
+                                                    <div class="table-responsive table-hover">
+                                                        <table
+                                                            class="table table-responsive-lg no-wrap v-middle white-table">
+                                                            <tbody>
+                                                                <tr *ngFor="let data of dat.data">
+                                                                    <td *ngIf="isEditing && !isCalculatinPermissions"
+                                                                        width="50" class="text-center">
+                                                                        <label>
+                                                                            <input type="checkbox"
+                                                                                [checked]="data.value"
+                                                                                [value]="data.permission.permission_id"
+                                                                                (change)="onCheckChange($event)">
+
+                                                                        </label>
+
+                                                                    </td>
+                                                                    <td width="150">
+                                                                        <div class="text-left">
+                                                                            <label style="font-size:16px">
+                                                                                {{data.permission.name}}
+                                                                            </label>
+                                                                        </div>
+                                                                    </td>
+
+
+                                                                </tr>
+
+
+
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+
+                                                </div>
+                                            </nz-tab>
+                                        </nz-tabset>
+                                        <!-- <ngb-tabset [justify]="currentJustify">
+                                            <ngb-tab
+                                                *ngFor="let dat of permisosActualesV2|grouppiperoles;let i = index ">
+                                                <ng-template ngbTabTitle><b>{{dat.name}}</b></ng-template>
+                                                <ng-template ngbTabContent>
+                                                    <div class="bitacora-layout">
+
+                                                        <div class="table-responsive table-hover">
+                                                            <table
+                                                                class="table table-responsive-lg no-wrap v-middle white-table">
+
+                                                                <tbody>
+                                                                    <tr *ngFor="let data of dat.data">
+                                                                        <td *ngIf="isEditing && !isCalculatinPermissions"
+                                                                            width="50" class="text-center">
+                                                                            <label>
+                                                                                <input type="checkbox"
+                                                                                    [checked]="data.value"
+                                                                                    [value]="data.permission.permission_id"
+                                                                                    (change)="onCheckChange($event)">
+
+                                                                            </label>
+
+                                                                        </td>
+                                                                        <td width="150">
+
+                                                                            {{data.permission.name}}
+                                                                        </td>
+
+
+                                                                    </tr>
+
+
+
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+
+                                                    </div>
+
+
+                                                </ng-template>
+                                            </ngb-tab>
+
+                                        </ngb-tabset> -->
+
+                                    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+                                </div>
+
+
+
+                            </div>
+                            <div class="card-body">
+                                <div class="form-group m-b-0 text-right">
+                                    <button *ngIf="!isEditing" type="submit" class="btn btn-color-solucredit"
+                                        (click)="startMod()">Modificar</button>
+                                    <button *ngIf="isEditing" type="submit" class="btn btn-color-solucredit"
+                                        (click)="saveChanges()">Guardar cambios</button>
+                                    <button *ngIf="isEditing" type="button"
+                                        class="btn btn-raised mr-1 text-white btn-color-solucredit-secondary"
+                                        (click)="closeBtnClick()">Cancelar</button>
+
+                                </div>
+                            </div>
+
+
+
+
+
+
+                        </ng-container>
+                    </ng-container>
+
+
+                </div>
+            </div>
+        </div>
+    </ng-template>
+
+
+    <ng-template #modalDelete let-modal>
+
+        <div class="modal-header border-bottom-0">
+            <button type="button" class="close" aria-label="Close" (click)="closeBtnClick()">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+        <div class="modal-body">
+            <ng-container [ngSwitch]="IdRoltoDelete">
+                <ng-container *ngSwitchCase="null">
+                    <h6>Cargando</h6>
+                </ng-container>
+                <ng-container *ngSwitchDefault>
+                    <div class="row mb-2">
+                        <div class="col-12">
+                            <h4 class="ml-4">¿Esta seguro de eliminar este registro?</h4>
+                        </div>
+                    </div>
+                </ng-container>
+            </ng-container>
+        </div>
+
+        <div class="modal-footer border-top-0">
+            <button type="button" (click)="deleteRol()" class="btn btn-danger mr-1 text-white">Confirmar</button>
+            <button type="button" class="btn btn-raised mr-1 text-white  btn-color-solucredit-secondary"
+                (click)="closeBtnClick()">Cancelar</button>
+        </div>
+    </ng-template>

@@ -1,0 +1,192 @@
+<div class="col-12">
+    <div class="card card-body">
+        <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#759ee0" type="ball-scale-multiple">
+            <p style="font-size: 20px; color:#fff">Cargando Información...</p>
+        </ngx-spinner>
+        <ngx-spinner name="busuario" bdColor="rgba(51,51,51,0.8)" size="medium" color="#759ee0" type="ball-atom">
+            <p style="font-size: 20px;color: white"> Bloqueando usuario ... </p>
+        </ngx-spinner>
+        <ngx-spinner name="dusuario" bdColor="rgba(51,51,51,0.8)" size="medium" color="#759ee0" type="ball-atom">
+            <p style="font-size: 20px;color: white"> Desbloqueando usuario ... </p>
+        </ngx-spinner>
+        <div class="d-flex mb-3 mt-3">
+            <form class="m-t-20">
+                <div class="row">
+                    <div class="col-sm-12 col-lg-12">
+                        <div class="form-group row">
+                            <div class="input-group col-sm-12">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1">
+                                            <i class="ti-search"></i>
+                                        </span>
+                                </div>
+                                <input [(ngModel)]="searchTerm" class="form-control" name="buscador" placeholder="Buscar" type="text" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="table-responsive table-bordered">
+            <table class="table table-striped mb-0 v-middle">
+                <thead>
+                    <tr>
+                        <th scope="col">Código cliente</th>
+                        <th scope="col">Nombre Completo</th>
+                        <th scope="col">Validación</th>
+                        <th scope="col">DATAID</th>
+                        <th scope="col">FIRST_NAME</th>
+                        <th scope="col">SECOND_NAME</th>
+                        <th scope="col">COMMENT</th>
+                        <th scope="col">COMENTARIO</th>
+                        <th scope="col">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let user of data | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize" [hidden]="user.customer == null">
+                        <td>
+                            <ngb-highlight [result]="user.customer.customer_id" [term]="searchTerm"></ngb-highlight>
+                        </td>
+                        <td>
+                            <div style="max-width: 150px; width:150px;word-wrap: break-word;">
+                                <ngb-highlight *ngIf="user.customer.customer_id" [result]="user.customer.name" [term]="searchTerm"></ngb-highlight>
+
+                                <ngb-highlight style="padding-right: 4px; " *ngIf="user.customer.person_id" [result]="user.customer.first_name " [term]="searchTerm"></ngb-highlight>
+                                <ngb-highlight *ngIf="user.customer.person_id" [result]=" user.customer.last_name " [term]="searchTerm"></ngb-highlight>
+
+                                <!-- <ngb-highlight style="padding-right: 4px; " *ngIf="user.customer.id_fiduciary" [result]="user.customer.name1 " [term]="searchTerm"></ngb-highlight>
+                                <ngb-highlight style="padding-right: 4px; " *ngIf="user.customer.id_fiduciary" [result]="user.customer.name2 " [term]="searchTerm"></ngb-highlight>
+                                <ngb-highlight style="padding-right: 4px; " *ngIf="user.customer.id_fiduciary" [result]="user.customer.name3 " [term]="searchTerm"></ngb-highlight>
+                                <ngb-highlight style="padding-right: 4px; " *ngIf="user.customer.id_fiduciary" [result]="user.customer.lastname1 " [term]="searchTerm"></ngb-highlight>
+                                <ngb-highlight style="padding-right: 4px;" *ngIf="user.customer.id_fiduciary" [result]="user.customer.lastname2 " [term]="searchTerm"></ngb-highlight>
+                                <ngb-highlight *ngIf="user.customer.id_fiduciary" [result]="user.customer.lastname3 " [term]="searchTerm"></ngb-highlight> -->
+                            </div>
+
+                        </td>
+                        <td>
+                            {{user.date | date: 'dd/MM/yyyy'}}
+                        </td>
+                        <td>
+                            <ngb-highlight [result]="user.onu.DATAID" [term]="searchTerm"></ngb-highlight>
+                        </td>
+                        <td>
+                            <ngb-highlight [result]="user.onu.FIRST_NAME" [term]="searchTerm"></ngb-highlight>
+                        </td>
+                        <td>
+                            <ngb-highlight [result]="user.onu.SECOND_NAME" [term]="searchTerm"></ngb-highlight>
+                        </td>
+                        <td style="width: 200px !important;white-space: normal !important;">
+                            <ngb-highlight [result]="user.onu.COMMENTS1"></ngb-highlight>
+                        </td>
+                        <!-- <td style="width: 200px !important;white-space: normal !important;" *ngIf="user.customer.customer_id">
+                            <span *ngIf="user.customer.status_id === 1">{{user.description_lock}}</span>
+                            <span *ngIf="user.customer.status_id === 0">{{user.description_unlock}}</span>
+                        </td> -->
+                        <td style="width: 200px !important;white-space: normal !important;" *ngIf="user.customer.person_id">
+                            <span>{{user.description_lock}}</span>
+                        </td>
+                        <td style="width: 200px !important;white-space: normal !important;" *ngIf="user.customer.id_fiduciary">
+                            <span>{{user.description_lock}}</span>
+                        </td>
+                        <td>
+                            <div style="display: flex;flex-direction: column;">
+                                <ng-container style="flex-grow: 1" *ngIf="canBlock()">
+                                    <button class="btn text-white btn-danger btn-sm" type="button" (click)="openModal2(this.confirmblock,user)"><span class="btn-label m-r-5"><i
+                                            class="far fa-times-circle" ></i></span>Bloquear</button>
+                                </ng-container>
+                                <ng-container style="flex-grow: 1" *ngIf="canUnblock()">
+                                    <button class="btn text-white custom_btn1 btn-sm" type="button" (click)="openModal2(this.unlockcustomer,user)"><span class="btn-label m-r-5" ><i
+                                            class=" far fa-check-circle" ></i></span>Desbloquear</button>
+                                </ng-container>
+                            </div>
+
+
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="d-flex justify-content-center p-2">
+                <ngb-pagination *ngIf="data" [maxSize]="5" [collectionSize]="data.length" [(page)]="page" [pageSize]="pageSize">
+                </ngb-pagination>
+            </div>
+        </div>
+    </div>
+</div>
+<ng-template #confirmblock let-modal>
+    <div class="modal-header">
+
+        <h5 class="modal-title" id="editUserLabel">Confirmación de bloqueo</h5>
+
+        <button type="button" class="close" (click)="closeBtnClick()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+
+    </div>
+    <div class="modal-body">
+        <h4 class="text-center">¿Desea Bloquear al usuario: {{nameCustomerBlock}}?</h4>
+        <form [formGroup]="cambiarEstadoUsuario" class="form-horizontal" (ngSubmit)="BlockUser()">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-12 col-lg-12">
+                        <div class="form-group row">
+                            <label for="description" class="col-sm-12">Descripción</label>
+                            <div class="input-group col-sm-12">
+                                <textarea class="form-control" style="width: 100%;" id="description" formControlName="description"></textarea>
+                            </div>
+                            <small class="form-text text-danger col-sm-12" *ngIf="!cambiarEstadoUsuario.get('description').valid && (cambiarEstadoUsuario.get('description').dirty || cambiarEstadoUsuario.get('description').touched)">La
+                                                                        información es requerida.</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="card-body">
+                <div class="form-group m-b-0 text-left">
+                    <button type="submit" class="btn btn-raised mr-1 text-white" style="background-color: #3473da;" [disabled]="!cambiarEstadoUsuario.valid">Confirmar</button>
+                    <button type="button" class="btn btn-raised mr-1 text-white  btn-color-solucredit-secondary" (click)="closeBtnClick()">Cancelar</button>
+                </div>
+            </div>
+        </form>
+        <!-- <div class="card-body div-con-flex-col div-confirmation">
+            <button type="submit" class="btn btn-raised mr-1 text-white" style="background-color: #3473da;" (click)="BlockUser()">Confirmar Bloqueo</button>
+            <button type="button" class="btn btn-raised mr-1 text-white  btn-color-solucredit-secondary" (click)="closeBtnClick()">Regresar</button>
+        </div> -->
+    </div>
+</ng-template>
+
+
+<ng-template #unlockcustomer let-modal>
+    <div class="modal-header">
+        <h5 class="modal-title" id="editUserLabel">Desbloquear usuario</h5>
+        <button type="button" class="close" (click)="closeBtnClick()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="card-block">
+            <form [formGroup]="cambiarEstadoUsuario" class="form-horizontal" (ngSubmit)="UnlockUser()">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-12 col-lg-12">
+                            <div class="form-group row">
+                                <label for="description" class="col-sm-12">Descripción</label>
+                                <div class="input-group col-sm-12">
+                                    <textarea class="form-control" style="width: 100%;" id="description" formControlName="description"></textarea>
+                                </div>
+                                <small class="form-text text-danger col-sm-12" *ngIf="!cambiarEstadoUsuario.get('description').valid && (cambiarEstadoUsuario.get('description').dirty || cambiarEstadoUsuario.get('description').touched)">La
+                                                                            información es requerida.</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div class="card-body">
+                    <div class="form-group m-b-0 text-left">
+                        <button type="submit" class="btn btn-raised mr-1 text-white" style="background-color: #3473da;" [disabled]="!cambiarEstadoUsuario.valid">Confirmar</button>
+                        <button type="button" class="btn btn-raised mr-1 text-white  btn-color-solucredit-secondary" (click)="closeBtnClick()">Cancelar</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</ng-template>

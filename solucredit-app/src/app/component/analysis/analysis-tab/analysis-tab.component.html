@@ -1,0 +1,276 @@
+<div class="main-part" *ngIf="document_serie_id==1">
+    <div class="left-part bg-white overflow-auto fixed-left-part " [ngClass]="{ 'show-panel': true} ">
+        <div class="position-relative">
+            <div>
+                <div class="notes-list ">
+                    <div *ngFor='let process of pageAnalysis' class="notes-item" (click)="onSelectAnalysis(process);"
+                        [class.selected]="process === selectAnalysis" [class.disabled]="disableView(process)">
+                        <div class="d-flex py-3 border-bottom pr-3 position-relative">
+                            <div>
+                                <span class="note-color bg-info"></span>
+                                <span class="note-title text-truncate">{{process}}</span>
+                                <small class="note-time">{{process}}</small>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr rounded>
+    <div class="right-part bg-white overflow-auto" [ngSwitch]="selectAnalysis">
+        <div class="card-body" *ngSwitchCase="analysis_type.commercial_assistant_analysis">
+            <app-commercial-assistant-analysis-tab [showViews]="showViews"
+                [pageCommercialAnalysis]="pageCommercialAnalysis" (changePage)="changePageCommercialAnalysis($event)"
+                [requestIdSelected]="requestIdSelected" [dataCustomer]="dataCustomer"
+                (targetUploadDocuments)="changeTargetUploadDocuments($event)"
+                (showDocuments)="ViewAnalysisDocument($event)" (downloadDocuments)="DownloadAnalysisDocument($event)"
+                (showChecklistDocument)="ViewAnalysisDocumentChecklist($event)"
+                (downloadChecklistDocument)="DownloadChecklistAnalysisDocument($event)"
+                (showVerificationDocument)="showCommercialVerificationDocument($event)"
+                (downloadVerificationDocument)="downloadCommercialVerificationDocument($event)"
+                (addLastView)="addLastView($event)" (returnview)="returnview()"></app-commercial-assistant-analysis-tab>
+
+        </div>
+        <div class="card-body" *ngSwitchCase="analysis_type.legal_analysis">
+            <app-legal-analysis-tab [showViews]="showViews" [pageLegalAnalysis]="pageLegalAnalysis"
+                (changePage)="changePageLegalAnalysis($event)" [requestIdSelected]="requestIdSelected"
+                [dataCustomer]="dataCustomer" (targetUploadDocuments)="changeTargetUploadDocuments($event)"
+                (showDocuments)="ViewAnalysisDocument($event)" (downloadDocuments)="DownloadAnalysisDocument($event)"
+                (showChecklistDocument)="ViewAnalysisDocumentChecklist($event)"
+                (downloadChecklistDocument)="DownloadChecklistAnalysisDocument($event)"
+                (showLegalVerificationDocument)="showLegalVerificationDocument($event)"
+                (downloadVerificationDocument)="downloadLegalVerificationDocument($event)"
+                (addLastView)="addLastView($event)" (returnview)="returnview()"></app-legal-analysis-tab>
+        </div>
+        <div class="card-body" *ngSwitchCase="analysis_type.compliance_verification">
+            <app-compliance-verification-tab [showViews]="showViews"
+                [pageComplianceVerification]="pageComplianceVerification" [dataCustomer]="dataCustomer"
+                [requestIdSelected]="requestIdSelected" (targetUploadDocuments)="changeTargetUploadDocuments($event)"
+                (showDocuments)="ViewAnalysisDocument($event)" (downloadDocuments)="DownloadAnalysisDocument($event)"
+                (showChecklistDocument)="ViewAnalysisDocumentChecklist($event)"
+                (downloadChecklistDocument)="DownloadChecklistAnalysisDocument($event)"
+                (showVerificationDocument)="showComplianceVerificationDocument($event)"
+                (downloadVerificationDocument)="downloadComplianceVerificationDocument($event)"
+                (addLastView)="addLastView($event)" (returnview)="returnview()"
+                (changePage)="changePageComplianceVerification($event)"></app-compliance-verification-tab>
+        </div>
+        <div class="card-body" *ngSwitchCase="analysis_type.commercial_manager_authorization">
+            <app-commercial-manager-authorization-tab [showViews]="showViews"
+                [pageCommercialManagerAuthorization]="pageCommercialManagerAuthorization" [dataCustomer]="dataCustomer"
+                [lastRequest]="lastRequest" [requestIdSelected]="requestIdSelected"
+                [groupSubjectList]="groupSubjectList"
+                [requestAvalsInfo]="requestAvalsInfo" (changeAnalysis)="changeAnalysis($event)"
+                (changeLegalPage)="changePageLegalAnalysis($event)"
+                (changeComplianceVerification)="changePageComplianceVerification($event)"
+                (addLastView)="addLastView($event)" (showDocuments)="ViewAnalysisDocument($event)"
+                (downloadDocuments)="DownloadAnalysisDocument($event)"
+                (changePage)="changeComercialManagerAuthorization($event)" (returnview)="returnview()"
+                (changeCommercialAnalysis)="changePageCommercialAnalysis($event)">
+            </app-commercial-manager-authorization-tab>
+        </div>
+        <div class="card-body" *ngSwitchCase="analysis_type.gerencial_manager_authorization">
+            <app-gerencial-manager-authorization-tab [showViews]="showViews"
+                [pageGerencialManagerAuthorization]="pageGerencialManagerAuthorization" [dataCustomer]="dataCustomer"
+                [lastRequest]="lastRequest" [requestIdSelected]="requestIdSelected"
+                [requestAvalsInfo]="requestAvalsInfo" (changeAnalysis)="changeAnalysis($event)"
+                (changeCommercialPage)="changePageCommercialAnalysis($event)"
+                (changeLegalPage)="changePageLegalAnalysis($event)"
+                (changeComplianceVerification)="changePageComplianceVerification($event)"
+                (changeCommercialManagerAuthorization)="changeCommercialManagerAuthorization($event)"
+                (changeGerencialManagerAuthorization)="changeGerencialManagerAuthorization($event)"
+                (addLastView)="addLastView($event)" (showDocuments)="ViewAnalysisDocument($event)"
+                (downloadDocuments)="DownloadAnalysisDocument($event)"
+                (changePage)="changeGerencialManagerAuthorization($event)" (returnview)="returnview()">
+            </app-gerencial-manager-authorization-tab>
+        </div>
+        <div class="card-body" *ngSwitchCase="analysis_type.customer_registration">
+            <div *ngIf="disableView(analysis_type.compliance_verification)" class="container-xxl">
+                <app-access-denied-page></app-access-denied-page>
+            </div>
+            <app-customer-registration-tab [dataCustomer]="dataCustomer" [lastRequest]="lastRequest"
+                [requestIdSelected]="requestIdSelected" [pageCustomerRegistration]="pageCustomerRegistration"
+                (changeAnalysis)="changeAnalysis($event)" (changePage)="changeCustomerRegistration($event)"
+                (addLastView)="addLastView($event)"
+                (changeCommercialManagerAuthorization)="changeCommercialManagerAuthorization($event)"
+                (changeGerencialManagerAuthorization)="changeGerencialManagerAuthorization($event)"
+                (showDocuments)="ViewAnalysisDocument($event)" (downloadDocuments)="DownloadAnalysisDocument($event)"
+                (changeLegalAnalisis)="changePageLegalAnalysis($event)"
+                (changeComplianceVerification)="changePageComplianceVerification($event)" (returnview)="returnview()"
+                (changeCommercialAssistantAnalysis)="changePageCommercialAnalysis($event)">
+            </app-customer-registration-tab>
+        </div>
+    </div>
+</div>
+<div class="main-part" *ngIf="document_serie_id==2">
+    <div class="left-part bg-white overflow-auto fixed-left-part " [ngClass]="{ 'show-panel': true} ">
+        <div class="position-relative">
+            <div>
+                <div class="notes-list ">
+                    <div *ngFor='let process of pageCupoConfiguration' class="notes-item"
+                        (click)="onSelectAnalysis(process);" [class.selected]="process === selectAnalysis"
+                        [class.disabled]="disableView(process)">
+                        <div class="d-flex py-3 border-bottom pr-3 position-relative">
+                            <div>
+                                <span class="note-color bg-info"></span>
+                                <span class="note-title text-truncate">{{process}}</span>
+                                <small class="note-time">{{process}}</small>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr rounded>
+    <div class="right-part bg-white overflow-auto" [ngSwitch]="selectAnalysis">
+        <div class="card-body" *ngSwitchCase="analysis_type.legal_analysis">
+            <app-legal-analysis-tab [showViews]="showViews" [pageLegalAnalysis]="pageLegalAnalysis"
+                (changePage)="changePageLegalAnalysis($event)" [requestIdSelected]="requestIdSelected"
+                [dataCustomer]="dataCustomer" (targetUploadDocuments)="changeTargetUploadDocuments($event)"
+                (showDocuments)="ViewAnalysisDocument($event)" (downloadDocuments)="DownloadAnalysisDocument($event)"
+                (showChecklistDocument)="ViewAnalysisDocumentChecklist($event)"
+                (downloadChecklistDocument)="DownloadChecklistAnalysisDocument($event)"
+                (showLegalVerificationDocument)="showLegalVerificationDocument($event)"
+                (downloadVerificationDocument)="downloadLegalVerificationDocument($event)"
+                (addLastView)="addLastView($event)" (returnview)="returnview()"></app-legal-analysis-tab>
+        </div>
+        <div class="card-body" *ngSwitchCase="analysis_type.compliance_verification">
+            <app-compliance-verification-tab [showViews]="showViews"
+                [pageComplianceVerification]="pageComplianceVerification" [dataCustomer]="dataCustomer"
+                [requestIdSelected]="requestIdSelected" (targetUploadDocuments)="changeTargetUploadDocuments($event)"
+                (showDocuments)="ViewAnalysisDocument($event)" (downloadDocuments)="DownloadAnalysisDocument($event)"
+                (showChecklistDocument)="ViewAnalysisDocumentChecklist($event)"
+                (downloadChecklistDocument)="DownloadChecklistAnalysisDocument($event)"
+                (addLastView)="addLastView($event)" (returnview)="returnview()"
+                (changePage)="changePageComplianceVerification($event)"></app-compliance-verification-tab>
+        </div>
+        <div class="card-body" *ngSwitchCase="analysis_type.gerencial_manager_authorization">
+            <app-gerencial-manager-authorization-tab [showViews]="showViews"
+                [groupSubjectList]="groupSubjectList"
+                [pageGerencialManagerAuthorization]="pageGerencialManagerAuthorization" [dataCustomer]="dataCustomer"
+                [lastRequest]="lastRequest" [requestIdSelected]="requestIdSelected"
+                [requestAvalsInfo]="requestAvalsInfo" (changeAnalysis)="changeAnalysis($event)"
+                (changeCommercialPage)="changePageCommercialAnalysis($event)"
+                (changeLegalPage)="changePageLegalAnalysis($event)"
+                (changeComplianceVerification)="changePageComplianceVerification($event)"
+                (changeCommercialManagerAuthorization)="changeCommercialManagerAuthorization($event)"
+                (changeGerencialManagerAuthorization)="changeGerencialManagerAuthorization($event)"
+                (addLastView)="addLastView($event)" (showDocuments)="ViewAnalysisDocument($event)"
+                (downloadDocuments)="DownloadAnalysisDocument($event)"
+                (changePage)="changeGerencialManagerAuthorization($event)" (returnview)="returnview()">
+            </app-gerencial-manager-authorization-tab>
+        </div>
+        <div class="card-body" *ngSwitchCase="analysis_type.commercial_manager_authorization">
+            <app-commercial-manager-authorization-tab [showViews]="showViews"
+                [groupSubjectList]="groupSubjectList"
+                [pageCommercialManagerAuthorization]="pageCommercialManagerAuthorization" [dataCustomer]="dataCustomer"
+                [lastRequest]="lastRequest" [requestIdSelected]="requestIdSelected" [showDeedButton]="true"
+                [requestAvalsInfo]="requestAvalsInfo" (changeAnalysis)="changeAnalysis($event)"
+                (changeLegalPage)="changePageLegalAnalysis($event)"
+                (changeComplianceVerification)="changePageComplianceVerification($event)"
+                (addLastView)="addLastView($event)" (showDocuments)="ViewAnalysisDocument($event)"
+                (downloadDocuments)="DownloadAnalysisDocument($event)"
+                (changePage)="changeComercialManagerAuthorization($event)" (returnview)="returnview()"
+                (changeCommercialAnalysis)="changePageCommercialAnalysis($event)">
+            </app-commercial-manager-authorization-tab>
+        </div>
+        <div class="card-body" *ngSwitchCase="analysis_type.analysis_area_transfer">
+            <app-analysis-area-transfer [showViews]="showViews" [pageAnalysisAreaTransfer]="pageAnalysisAreaTransfer"
+                [dataCustomer]="dataCustomer" [requestIdSelected]="requestIdSelected"></app-analysis-area-transfer>
+        </div>
+        <div class="card-body" *ngSwitchCase="analysis_type.operations_area_report">
+            <app-operations-area-report-tab [pageOperationsAreaReport]="pageOperationsAreaReport"
+                [showViews]="showViews" [dataCustomer]="dataCustomer" [lastRequest]="lastRequest"
+                [requestIdSelected]="requestIdSelected" (addLastView)="addLastView($event)"
+                (showDocuments)="ViewAnalysisDocument($event)" (downloadDocuments)="DownloadAnalysisDocument($event)"
+                (returnview)="returnview()" (changePage)="changePageOperationsAreaReport($event)">
+            </app-operations-area-report-tab>
+        </div>
+        <div class="card-body" *ngSwitchCase="analysis_type.financial_analysis">
+            <app-financial-analysis
+                [showViews]="showViews"
+                [pageFinancialAnalysis]="pageFinancialAnalysis"
+                [dataCustomer]="dataCustomer"
+                [requestIdSelected]="requestIdSelected"
+                [lastRequest]="lastRequest"
+                (addLastView)="addLastView($event)"
+                (showDocuments)="ViewAnalysisDocument($event)" 
+                (downloadDocuments)="DownloadAnalysisDocument($event)"
+                (returnview)="returnview()"
+                (changePage)="changePageFinancialAnalysis($event)">
+            </app-financial-analysis>
+        </div>
+        <div class="card-body" *ngSwitchCase="analysis_type.council_approval">
+            <app-council-approval-tab [lastRequest]="lastRequest" [pageCouncilApproval]="pageCouncilApproval"
+                [requestIdSelected]="requestIdSelected" (showDocuments)="ViewAnalysisDocument($event)"
+                (downloadDocuments)="DownloadAnalysisDocument($event)" [dataCustomer]="dataCustomer"
+                (addLastView)="addLastView($event)" (returnview)="returnview()"
+                (changeAnalysis)="changeAnalysis($event)" (changeLegalAnalisis)="changePageLegalAnalysis($event)"
+                (changeComplianceVerification)="changePageComplianceVerification($event)"
+                (changeOperationsAreaReport)="changePageOperationsAreaReport($event)"
+                (changeCommercialManagerAuthorization)="changeCommercialManagerAuthorization($event)"
+                (changeGerencialManagerAuthorization)="changeGerencialManagerAuthorization($event)"
+                (changePage)="changePageCouncilApproval($event)"
+                (changePageFinancialAnalysis)="changePageFinancialAnalysis($event)"></app-council-approval-tab>
+        </div>
+        <div class="card-body" *ngSwitchCase="analysis_type.formalization">
+            <app-formalization 
+                [pageFormalization]="pageFormalization" 
+                [lastRequest]="lastRequest"
+                [requestIdSelected]="requestIdSelected" 
+                [dataCustomer]="dataCustomer"
+                (changePage)="changePageFormalization($event)"
+                (addLastView)="addLastView($event)" 
+                (returnview)="returnview()"
+                (showDocuments)="ViewAnalysisDocument($event)"
+                (changeAnalysis)="changeAnalysis($event)"
+                (downloadDocuments)="DownloadAnalysisDocument($event)" 
+                (changeLegalAnalisis)="changePageLegalAnalysis($event)"
+                (changeComplianceVerification)="changePageComplianceVerification($event)"
+                (changeOperationsAreaReport)="changePageOperationsAreaReport($event)"
+                (changeCommercialManagerAuthorization)="changeCommercialManagerAuthorization($event)"
+                (changeGerencialManagerAuthorization)="changeGerencialManagerAuthorization($event)"
+                (changeCouncilApproval)="changePageCouncilApproval($event)"
+                (changePageFinancialAnalysis)="changePageFinancialAnalysis($event)"
+          ></app-formalization>
+
+        </div>
+        <div class="card-body" *ngSwitchCase="analysis_type.customer_registration">
+            <div *ngIf="disableView(analysis_type.compliance_verification)" class="container-xxl">
+                <app-access-denied-page></app-access-denied-page>
+            </div>
+            <app-customer-registration-tab 
+                [dataCustomer]="dataCustomer" 
+                [lastRequest]="lastRequest"
+                [requestIdSelected]="requestIdSelected" 
+                [pageCustomerRegistration]="pageCustomerRegistration"
+                (changeAnalysis)="changeAnalysis($event)" (changePage)="changeCustomerRegistration($event)"
+                (addLastView)="addLastView($event)"
+                (changeGerencialManagerAuthorization)="changeGerencialManagerAuthorization($event)"
+                (showDocuments)="ViewAnalysisDocument($event)" (downloadDocuments)="DownloadAnalysisDocument($event)"
+                (changeLegalAnalisis)="changePageLegalAnalysis($event)"
+                (changeComplianceVerification)="changePageComplianceVerification($event)" (returnview)="returnview()"
+                (changeCommercialAssistantAnalysis)="changePageCommercialAnalysis($event)"
+                (changePageFinancialAnalysis)="changePageFinancialAnalysis($event)"
+                (changeCommercialManagerAuthorization)="changeCommercialManagerAuthorization($event)"
+                >
+            </app-customer-registration-tab>
+        </div>
+        
+        <div class="card-body" *ngSwitchDefault>
+            
+        </div>
+    </div>
+</div>
+
+
+
+<app-documentmodal
+    [imgsrcbase64]="imgsrcbase64"
+    [pdfsrcbase64]="pdfsrcbase64"
+></app-documentmodal>

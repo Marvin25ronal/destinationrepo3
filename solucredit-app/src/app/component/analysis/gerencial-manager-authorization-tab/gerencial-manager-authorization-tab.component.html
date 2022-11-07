@@ -1,0 +1,501 @@
+<div class="card-body" [ngSwitch]="pageGerencialManagerAuthorization">
+
+    <div class="container-xxl" *ngSwitchCase="0">
+        <div class="container-xxl" *ngSwitchCase="0">
+            <div class="row">
+                <div class="col-sm-12 col-md-6">
+                    <div class="form-group row">
+                        <label for="clienttype" class="col-sm-3 text-right">Tipo de cliente:</label>
+                        <div class="input-group col-sm-9">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">
+                                    <i class="far fa-user"></i>
+                                </span>
+                            </div>
+                            <input type="text" class="form-control" aria-label="Usuario" id="clienttype"
+                                [value]="dataCustomer?.type===0?'Individual':'Juridico'" disabled>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-6">
+                    <div class="form-group row">
+                        <label for="user" class="col-sm-3 text-right">Cliente:</label>
+                        <div class="input-group col-sm-9">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">
+                                    <i class="far fa-user"></i>
+                                </span>
+                            </div>
+                            <input type="text" class="form-control" aria-label="Usuario" id="user" disabled
+                                [value]="dataCustomer?.type===0?(dataCustomer?.lastname1===null?dataCustomer?.name:dataCustomer?.name+' '+dataCustomer?.lastname1):dataCustomer?.businessname">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12 col-md-6">
+                    <div class="form-group row">
+                        <label for="clienttype" class="col-sm-3 text-right">Tipo de Gestión:</label>
+                        <div class="input-group col-sm-9">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">
+                                    <i class="far fa-file"></i>
+                                </span>
+                            </div>
+                            <input type="text" class="form-control" aria-label="Usuario" id="clienttype" disabled
+                                [value]="lastRequest?.warranty_type|req_warranty_type">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-6">
+                    <div class="form-group row">
+                        <label for="user" class="col-sm-3 text-right">Tipo de solicitud:</label>
+                        <div class="input-group col-sm-9">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">
+                                    <i class="far fa-file"></i>
+                                </span>
+                            </div>
+                            <input type="text" class="form-control" aria-label="Usuario" id="user" disabled
+                                [value]="lastRequest.type|req_type">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="table-responsive table-hover">
+                <table class="table table-responsive-lg no-wrap v-middle white-table">
+                    <thead>
+                        <tr>
+                            <th *ngFor="let header of gerencial_manager_authorization_dataList.metadata">
+                                <div class="text-center">
+                                    {{header}}
+                                </div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let request of gerencial_manager_authorization_dataList.data;let i=index;">
+                            <td>
+                                {{i+1}}
+                            </td>
+                            <td>
+                                <div style="text-align: center;">
+                                    {{request.uploaddocsca_comment}}
+                                </div>
+
+                            </td>
+                            <td>
+                                <div style="text-align: center;" *ngIf="request.responsable">
+                                    {{request.responsable}}
+                                </div>
+                                <div style="text-align: center;" *ngIf="!request.responsable">
+                                    Cargando...
+                                </div>
+
+                            </td>
+                            <td>
+                                {{request.approval_date?(request.approval_date|date:'M/d/yy, h:mm a'):'Sin aprobar'}}
+                            </td>
+                            <td>
+                                <div style="text-align: center;">
+                                    <app-flag [check_value]="+request.check">
+                                    </app-flag>
+                                </div>
+                            </td>
+                            <td>
+                        <tr>
+                            <td>
+                                <i style="cursor: pointer;" class=" icon-eye"
+                                    (click)="openReportGerencialManagerAuthorization(request.uploaddocsca_comment)"></i>
+                            </td>
+                            <td>
+                                <i style="cursor: pointer;" class="fas fa-cloud-download-alt"
+                                    (click)="downloadDocument(request)">
+                                </i>
+                            </td>
+                        </tr>
+                        </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="card-footer" style="background-color: white;">
+                <div class="form-group m-b-0 text-right">
+                    <button type="button" (click)="downloadAllReports()" class="btn btn-raised mr-1 text-white"
+                        style="background-color: #3473da;">
+                        <i class="fas fa-cloud-download-alt"></i>
+                        Descargar Expediente (ZIP)</button>
+                    <button type="submit" class="btn btn-raised mr-1 text-white" style="background-color: #3473da;"
+                        (click)="changeView(1)">
+                        <i class="fas fa-list"></i>
+                        Realizar Verificación Gerencial</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="container" *ngSwitchCase="1">
+        <div class="row">
+            <div class="col-lg-4" style="text-align: left;">
+                <label for="first_name">
+                    Descargar Documentación:
+                </label>
+            </div>
+            <div class="col-lg-8" style="align-items: center;">
+                <button type="button" class="btn btn ml-auto btn-info" (click)="openModal(ChooseDownloadModal)"><i
+                        class="fas fa-cloud-download-alt"></i> Documentos (ZIP)
+                </button>
+                <button type="button" class="btn btn ml-auto btn-info" (click)="changeView(0)"><i
+                        class="fas fa-undo-alt"></i> Volver a Resumen
+                    Gerencial
+                </button>
+            </div>
+        </div>
+        <br>
+        <form [formGroup]="updateGerencialManagerAuthorizationForm"
+            (ngSubmit)="saveVerificationsDocsGerencialManagerAuthorizationForm()">
+            <div class="row">
+                <div class="col-lg-4" style="text-align: left;">
+                    <label for="first_name">
+                        Documentación válida:
+                    </label>
+                </div>
+
+                <div class="col-lg-8 row" style="align-items: center;">
+                    <div class="col-sm-1">
+                        <div class="custom-control custom-radio">
+                            <input type="radio" id="sipertenece"
+                                [(ngModel)]="gerencial_manager_authorization_docs_valid"
+                                (change)="changeVerificationsDocsLegalAnalysis(1)" [value]="1"
+                                class="custom-control-input" formControlName="valid_documents">
+                            <label class="custom-control-label custom-label" for="sipertenece">Si</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-1">
+                        <div class="custom-control custom-radio">
+                            <input type="radio" id="nopertenece"
+                                [(ngModel)]="gerencial_manager_authorization_docs_valid" [value]="0"
+                                class="custom-control-input" (change)="changeVerificationsDocsLegalAnalysis(0)"
+                                formControlName="valid_documents">
+                            <label class="custom-control-label custom-label" for="nopertenece">No</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <br>
+            <div class="row">
+                <div class="col-lg-4" style="text-align: left;">
+                    <label for="first_name">
+                        Condiciones:
+                    </label>
+                </div>
+
+                <div class="col-lg-8" style="align-items: center;">
+                    <button type="button" class="btn btn ml-auto btn-info"
+                        [disabled]="!gerencialManagerAuthorizationSelected"
+                        (click)="showCommercialManagerAuthorization()">
+                        <i class="fas fa-check-square"></i> Revisar Condiciones
+                    </button>
+                </div>
+            </div>
+            <br>
+
+            <div class="row">
+                <div class="col-lg-4" style="text-align: left;">
+                    <label for="first_name">
+                        Opinión de análisis:
+                    </label>
+                </div>
+
+                <div class="col-lg-8 row" style="align-items: center;">
+                    <textarea type="text" class="form-control " required rows="12"
+                        [placeholder]="'Ej. Descripción de una transacción'" formControlName="comment"></textarea>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-lg-4" style="text-align: left;">
+                    <label for="first_name">
+
+                    </label>
+                </div>
+                <div class="col-lg-8" style="align-items: flex-start;">
+                    <button type="submit" class="btn btn ml-auto btn-info">
+                        <i class="fas fa-save"></i>
+                        Guardar</button>
+                </div>
+            </div>
+        </form>
+        <br>
+        <div class="row">
+            <div class="col-lg-4" style="text-align: left;">
+                <label for="first_name">
+                    Cargar documentos de respaldo:
+                </label>
+            </div>
+            <div class="col-lg-8" style="align-items: center;">
+                <button type="button" class="btn btn ml-auto btn-info"
+                    (click)="openModalUploadlGeneralManagerAuthorization(modalUploadDocs)"
+                    [disabled]="!gerencialManagerAuthorizationSelected"> <i class="fas fa-cloud-upload-alt"></i> Cargar
+                </button>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-lg-4" style="text-align: left;">
+                <label for="first_name">
+
+                </label>
+            </div>
+            <div class="col-lg-8">
+                <div class="table-responsive table-hover">
+                    <table class="table table-responsive-lg no-wrap v-middle white-table">
+                        <thead>
+                            <tr>
+                                <th *ngFor="let header of gerencialManagerAuthorizationList.metadata">
+                                    <div style="text-align: center;">
+                                        {{header}}
+                                    </div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let doc of gerencialManagerAuthorizationList.data">
+                                <td>
+                                    <div style="text-align: justify;">
+                                        {{doc.uploaddocsca_namedoc | namefile | slice:0:20}}
+                                    </div>
+                                </td>
+                                <td>
+                                    <div style="text-align: justify;">
+                                        {{doc.uploaddocsca_comment}}
+                                    </div>
+                                </td>
+                                <td>
+                            <tr>
+                                <td>
+                                    <i style="cursor: pointer;" class=" icon-eye"
+                                        *ngIf="doc.uploaddocsca_namedoc.includes('jpg')||doc.uploaddocsca_namedoc.includes('pdf')||doc.uploaddocsca_namedoc.includes('png')||doc.uploaddocsca_namedoc.includes('jpeg')"
+                                        (click)="showDocument(doc)"></i>
+                                </td>
+                                <td>
+                                    <i style="cursor: pointer;" class="fas fa-cloud-download-alt"
+                                        (click)="downloadDocument(doc)">
+                                    </i>
+                                </td>
+                                <td>
+                                    <i style="cursor: pointer;color:red" (click)="deleteDocCA(doc,'Gerente General')"
+                                        class="icon-trash"></i>
+                                </td>
+
+
+                            </tr>
+                            </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-lg-4" style="text-align: left;">
+                <label for="first_name">
+
+                </label>
+            </div>
+            <div class="col-lg-8" style="align-items: flex-start;">
+                <button type="button" class="btn btn ml-auto text-white custom_add1"
+                    [disabled]="!conditionSheetSelected" (click)="downloadConditionSheet()">
+                    <i class="fas fa-download"></i>
+                    Hoja de condiciones</button>
+                <button type="button" class="btn btn ml-auto text-white custom_add1" (click)="openReportChecklist(3)"
+                    [disabled]="!gerencialManagerAuthorizationSelected"><i class="fas fa-list"></i> Checklist informe
+                    Gerencial</button>
+                <!-- <button type="button" class="btn btn ml-auto text-white custom_add1">Verificación de
+                    prospecto</button> -->
+            </div>
+        </div>
+        <br>
+    </div>
+    <div class="container-xxl" *ngSwitchCase="2">
+        <app-condition-sheet *ngIf="gerencialManagerAuthorizationSelected" (returnView)="returnVIEW()"
+            [page_visible]='pageGerencialManagerAuthorization'
+            [customer_name]="dataCustomer?(dataCustomer.type===1?dataCustomer.businessname:(dataCustomer.lastname1 === null ? dataCustomer.name : dataCustomer.name + ' ' + dataCustomer.lastname1 )):'cargando'"
+            [amount]="dataCustomer?dataCustomer.amount_interests:0" [customer_id]="dataCustomer.customer_id"
+            [requestAvalsInfo]="requestAvalsInfo"
+            [analysis_id]="gerencialManagerAuthorizationSelected?gerencialManagerAuthorizationSelected.id_commercialanalysis:-1">
+        </app-condition-sheet>
+    </div>
+    <div class="container-xxl" *ngSwitchCase="3">
+        <app-condition-sheet-checklist *ngIf="gerencialManagerAuthorizationSelected"
+        [groupSubjectList]="groupSubjectList"
+            [request_id]="gerencialManagerAuthorizationSelected?gerencialManagerAuthorizationSelected.id_commercialanalysis:-1"
+            (returnConditionSheetChecklist)="returnVIEW($event)" (addLastViewAux)="addLastViewAux($event)"
+            (changePage)="changePageAux($event)" (changePage)="changePageReturn($event)">
+        </app-condition-sheet-checklist>
+    </div>
+    <div class="container-xxl" *ngSwitchCase="4">
+        <div class="d-flex justify-content-center"  *ngIf="!loadingcomponent">
+            <div class="spinner-grow  text-primary" role="status" style="width: 3rem; height: 3rem;" >
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+        <app-management-act *ngIf='gerencialManagerAuthorizationSelected'
+            [id_commercialanalysis]="gerencialManagerAuthorizationSelected?gerencialManagerAuthorizationSelected.id_commercialanalysis:1"
+            (returnView)="returnVIEW($event)"
+            (loading)="changeLoading()">
+            
+        </app-management-act>
+
+    </div>
+    <div class="container" *ngSwitchDefault>
+        <div class="row">
+            <div class="col-lg-4" style="text-align: left;">
+                <label for="first_name">
+                    Descargar Documentación:
+                </label>
+            </div>
+            <div class="col-lg-8" style="align-items: center;">
+                <button type="button" class="btn btn ml-auto btn-info" (click)="openModal(ChooseDownloadModal)"><i
+                        class="fas fa-cloud-download-alt"></i> Documentos (ZIP)
+                </button>
+                <button type="button" class="btn btn ml-auto btn-info" (click)="changeView(0)"><i
+                        class="fas fa-undo-alt"></i> Volver a Resumen
+                    Gerencial
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #ChooseDownloadModal let-modal>
+    <div class="modal-header">
+        <h3 class="modal-title" id="editUserLabel">Descarga de documentos</h3>
+        <button type="button" class="close" (click)="modal.dismiss('cerrar')" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-12">
+                <div class="table-responsive table-hover">
+
+                    <table class="table table-responsive-lg no-wrap v-middle white-table">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <div class="text-center">
+                                        #
+                                    </div>
+                                </th>
+                                <th>
+                                    <div class="text-center">
+                                        Nombre
+                                    </div>
+                                </th>
+                                <th>
+                                    <div class="text-center">
+                                        Acciones
+                                    </div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    1
+                                </td>
+                                <td>
+                                    Documentación Inicial
+                                </td>
+                                <td style=" justify-content: center; align-items: center;">
+                                    <div class="div-table-actions" style="justify-content: center; z-index: 1;">
+                                        <button type="button" (click)="downloadDocIR()"
+                                            class="btn btn-raised mr-1 text-white"
+                                            style="background-color: #3473da;">Descargar</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    2
+                                </td>
+                                <td>
+                                    Requisitos
+                                </td>
+                                <td style=" justify-content: center; align-items: center;">
+                                    <div class="div-table-actions" style="justify-content: center; z-index: 1;">
+                                        <button type="button" (click)="downloadDocRequirements()"
+                                            class="btn btn-raised mr-1 text-white"
+                                            style="background-color: #3473da;">Descargar</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    3
+                                </td>
+                                <td>
+                                    Formularios
+                                </td>
+                                <td style=" justify-content: center; align-items: center;">
+                                    <div class="div-table-actions" style="justify-content: center; z-index: 1;">
+                                        <button type="button" (click)="downloadDocForms()"
+                                            class="btn btn-raised mr-1 text-white"
+                                            style="background-color: #3473da;">Descargar</button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #modalUploadDocs let-modal>
+    <div class="modal-header text-center">
+        <h3 class="modal-title" id="editUserLabel">Evidencias y Documentos Respaldo </h3>
+        <button id="updateMemberClose" type="button" class="close" (click)="modal.dismiss('cerrar')" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div style="display: flex; flex-direction: column;">
+
+            <div class="card-block">
+                <form [formGroup]="FormUploadDocumentsCA" class="form-horizontal">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12">
+                                <div class="form-group row">
+                                    <label for="prod_serv_other_signers" class="col-sm-12">Comentario:</label>
+                                    <div class="input-group col-sm-12">
+                                        <textarea type="text" class="form-control .module" aria-label="comment"
+                                            id="comment" formControlName="uploaddocsca_comment" style="width: 50%"
+                                            rows="2">
+                                        </textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div style="display: flex; justify-content: center; align-items: center;">
+                <input type="file" [id]="'exampleInputFile'+i" style="display: none;"
+                    [disabled]="!FormUploadDocumentsCA.valid" (change)="uploadDocsCA($event,doc,'s'+i)"
+                    accept=".doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,.xls,.xlsx,.pdf,image/*" />
+                <button class="btn mb-2 text-white custom_add1 btn-sm" [disabled]="!FormUploadDocumentsCA.valid"
+                    style="display: block;">
+                    <label [for]="'exampleInputFile'+i"> <i class=" far fa-edit mr-3"></i>Subir archivo</label>
+                </button>
+            </div>
+        </div>
+    </div>
+</ng-template>

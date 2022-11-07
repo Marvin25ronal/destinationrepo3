@@ -1,0 +1,246 @@
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="card-header " style="background-color: #3473da;">
+                <h4 class="card-title mb-0 text-white">Crear una nueva solicitud al cliente </h4>
+            </div>
+            <div class="card-body">
+                <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#759ee0" type="ball-scale-multiple">
+                    <p style="font-size: 20px; color:#fff">Cargando Información...</p>
+                </ngx-spinner>
+                <div class="card-block">
+                    <form [formGroup]="createRequest" class="form-horizontal" (ngSubmit)="CreateRequest()">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-12 col-lg-6">
+                                    <div class="form-group row">
+                                        <label for="name" class="col-sm-12">Nombre Completo</label>
+                                        <div class="input-group col-sm-12">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="basic-addon1">
+                                                    <i class="far fa-user"></i>
+                                                </span>
+                                            </div>
+                                            <input type="text" class="form-control" aria-label="Username" id="name"
+                                                formControlName="name" required
+                                                placeholder="Ej. Roberto Elias Peres Ramirez">
+                                        </div>
+                                        <small class="form-text text-danger col-sm-12"
+                                            *ngIf="!createRequest.get('name').valid && (createRequest.get('name').dirty || createRequest.get('name').touched)">El
+                                            nombre es requerido.</small>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-lg-6">
+                                    <div class="form-group row">
+                                        <label for="nit" class="col-sm-12">Nit</label>
+                                        <div class="input-group col-sm-12">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="basic-addon1">
+                                                    <i class="far fa-address-card"></i>
+                                                </span>
+                                            </div>
+                                            <input type="number" class="form-control" id="nit" maxlength="13"  formControlName="nit"
+                                                required placeholder="Ej. 12345678">
+                                        </div>
+                                        <small class="form-text text-danger col-sm-12"
+                                            *ngIf="!createRequest.get('nit').valid && (createRequest.get('nit').dirty || createRequest.get('nit').touched)">El
+                                            nit es requerido.</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12 col-lg-6">
+                                    <div class="form-group row">
+                                        <label for="address1" class="col-sm-12">Dirección 1</label>
+                                        <div class="input-group col-sm-12">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="basic-addon1">
+                                                    <i class=" far fa-address-book"></i>
+                                                </span>
+                                            </div>
+                                            <input type="text" class="form-control" id="address1"
+                                                formControlName="address1" required
+                                                placeholder="Ej. 8va. calle 35-40 zona 4">
+                                        </div>
+                                        <small class="form-text text-danger col-sm-12"
+                                            *ngIf="!createRequest.get('address1').valid && (createRequest.get('address1').dirty || createRequest.get('address1').touched)">La
+                                            dirección es requerida.</small>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-lg-6">
+                                    <div class="form-group row">
+                                        <label for="address2" class="col-sm-12">Dirección 2</label>
+                                        <div class="input-group col-sm-12">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="basic-addon1">
+                                                    <i class=" far fa-address-book"></i>
+                                                </span>
+                                            </div>
+                                            <input type="text" class="form-control" id="address2"
+                                                formControlName="address2" placeholder="Ej. Ciudad Vieja, Guatemala">
+                                        </div>
+                                        <small class="form-text text-danger col-sm-12"
+                                            *ngIf="!createRequest.get('address2').valid && (createRequest.get('address2').dirty || createRequest.get('address2').touched)">La
+                                            dirección es requerida.</small>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-lg-6">
+                                    <div class="form-group row">
+                                        <label for="phone" class="col-sm-12">Número de celular</label>
+                                        <div class="input-group col-sm-12">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="basic-addon1">
+                                                    <i class="fas fa-mobile-alt"></i>
+                                                </span>
+                                            </div>
+                                            <input type="number" class="form-control" id="phone" formControlName="phone"
+                                                required placeholder="Ej. 45826578">
+                                        </div>
+                                        <small class="form-text text-danger col-sm-12"
+                                            *ngIf="!createRequest.get('phone').valid && (createRequest.get('phone').dirty || createRequest.get('phone').touched)">El
+                                            número de celular es requerido.</small>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-lg-6">
+                                    <div class="form-group row">
+                                        <label for="email" class="col-sm-12">Correo electrónico</label>
+                                        <div class="input-group col-sm-12">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="basic-addon1">
+                                                    <i class="fas fa-envelope"></i>
+                                                </span>
+                                            </div>
+                                            <input type="email" class="form-control" id="email" formControlName="email"
+                                                required placeholder="Ej. email@email.com">
+                                        </div>
+                                        <small class="form-text text-danger col-sm-12"
+                                            *ngIf="!createRequest.get('email').valid && (createRequest.get('email').dirty || createRequest.get('email').touched)">Ingresar
+                                            un correo electrónico válido.</small>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-lg-6">
+                                    <label for="type" class="col-sm-12">Seleccionar Tipo de Negocio</label>
+                                    <div class="form-group row">
+                                        <div class="input-group col-sm-12">
+                                            <div _ngcontent-bpb-c164="" class="input-group-prepend"><label
+                                                    _ngcontent-bpb-c164="" for="inputGroupSelect01"
+                                                    class="input-group-text"><i class="far fa-building"></i></label>
+                                            </div>
+                                            <select class="custom-select col-sm-12" id="type" formControlName="type">
+                                                <option value="" selected disabled>Selecionar...</option>
+                                                <option value="0">Individual</option>
+                                                <option value="1">Jurídico</option>
+                                            </select>
+                                        </div>
+                                        <small class="form-text text-danger col-sm-12"
+                                            *ngIf="!createRequest.get('type').valid && (createRequest.get('type').dirty || createRequest.get('type').touched)">Seleccione
+                                            un tipo de negocio valido.</small>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-lg-6">
+                                    <div class="form-group row">
+                                        <label for="inputPais" class="col-sm-12">Seleccionar país</label>
+                                        <div class="input-group col-sm-12">
+                                            <div _ngcontent-bpb-c164="" class="input-group-prepend"><label
+                                                    _ngcontent-bpb-c164="" for="inputGroupSelect01"
+                                                    class="input-group-text"><i class="far fa-id-card"></i></label>
+                                            </div>
+                                            <select #mySelect class="custom-select col-sm-12" id="inputPais"
+                                                formControlName="inputPais" [(ngModel)]="selecionCountry"
+                                               >
+                                                <option value="" selected disabled>Seleccionar...</option>
+                                                <option *ngFor="let order of optionsCountries; let i = index"
+                                                   [value]="order.country_id">{{order.name}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                        <small class="form-text text-danger col-sm-12"
+                                            *ngIf="!createRequest.get('inputPais').valid && (createRequest.get('inputPais').dirty || createRequest.get('inputPais').touched)">El
+                                            país es requerido.</small>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-lg-6">
+                                    <div class="form-group row">
+                                        <label for="inputDepartamento" class="col-sm-12">Seleccionar
+                                            departamento</label>
+                                        <div class="input-group col-sm-12">
+                                            <div _ngcontent-bpb-c164="" class="input-group-prepend"><label
+                                                    _ngcontent-bpb-c164="" for="inputGroupSelect01"
+                                                    class="input-group-text"><i class="far fa-id-card"></i></label>
+                                            </div>
+                                            <select #mySelectDepartment class="custom-select col-sm-12"
+                                                id="inputDepartamento" formControlName="inputDepartamento"
+                                                [(ngModel)]="selecionDepartment"
+                                                (change)='onDepartmentSelected(mySelectDepartment.value)'>
+                                                <option value="" selected disabled>Selecionar...</option>
+                                                <ng-container *ngFor="let order of optionsDepartments; let i = index">
+                                                    <option *ngIf="selecionCountry==order.country_id" [value]="order.department_id">
+                                                        {{order.name}}</option>
+                                                </ng-container>
+                                            </select>
+                                        </div>
+                                        <small class="form-text text-danger col-sm-12"
+                                            *ngIf="!createRequest.get('inputDepartamento').valid && (createRequest.get('inputDepartamento').dirty || createRequest.get('inputDepartamento').touched)">El
+                                            departamento es requerido.</small>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-lg-6">
+                                    <div class="form-group row">
+                                        <label for="municipality_id" class="col-sm-12">Seleccionar Municipio</label>
+                                        <div class="input-group col-sm-12">
+                                            <div _ngcontent-bpb-c164="" class="input-group-prepend"><label
+                                                    _ngcontent-bpb-c164="" for="inputGroupSelect01"
+                                                    class="input-group-text"><i class="far fa-id-card"></i></label>
+                                            </div>
+                                            <select class="custom-select col-sm-12" id="municipality_id"
+                                                formControlName="municipality_id" [(ngModel)]="selecionMunicipality">
+                                                <option value="" selected disabled>Selecionar...</option>
+                                                <ng-container
+                                                    *ngFor="let order of optionsMunicipalities; let i = index">
+                                                    <option *ngIf="selecionDepartment==order.department_id" [value]="order.municipality_id">
+                                                        {{order.name}}</option>
+                                                </ng-container>
+                                            </select>
+                                        </div>
+                                        <small class="form-text text-danger  col-sm-12"
+                                            *ngIf="!createRequest.get('municipality_id').valid && (createRequest.get('municipality_id').dirty || createRequest.get('municipality_id').touched)">El
+                                            municipio es requerido.</small>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-lg-6">
+                                    <div class="form-group row">
+                                        <label for="inputTipoSolicitud" class="col-sm-12">Tipo de solicitud</label>
+                                        <div class="input-group col-sm-12">
+                                            <div _ngcontent-bpb-c164="" class="input-group-prepend"><label _ngcontent-bpb-c164=""
+                                                    for="inputGroupSelect01" class="input-group-text"><i class="far fa-id-card"></i></label>
+                                            </div>
+                                            <select class="custom-select col-sm-12" id="inputTipoSolicitud" formControlName="inputTipoSolicitud">
+                                                <option value="" selected disabled>Seleccionar...</option>
+                                                <option *ngFor="let order of optionsTypeRequest; let i = index" [value]="order.type_id">
+                                                    {{order.name}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                        <small class="form-text text-danger col-sm-12"
+                                            *ngIf="!createRequest.get('inputTipoSolicitud').valid && (createRequest.get('inputTipoSolicitud').dirty || createRequest.get('inputTipoSolicitud').touched)">El
+                                            El tipo de solicitud es requerido.</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="card-body">
+                            <div class="form-group m-b-0 text-left">
+                                <button type="submit" class="btn btn-raised mr-1 text-white"
+                                    style="background-color: #3473da;"
+                                    [disabled]="!createRequest.valid">Crear Solicitud</button>
+                                <button (click)="BackCustomer()" class="btn btn-gray waves-effect waves-light">Regresar</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Reactive Form Validaton Ends -->

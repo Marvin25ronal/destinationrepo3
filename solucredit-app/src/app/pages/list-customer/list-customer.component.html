@@ -1,0 +1,158 @@
+<div class="col-12">
+    <div class="card card-body">
+        <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#759ee0" type="ball-scale-multiple">
+            <p style="font-size: 20px; color:#fff">Cargando Información...</p>
+        </ngx-spinner>
+        <div class="d-flex mb-3 mt-3">
+            <form class="m-t-20" [formGroup]="search">
+                <div class="row">
+                    <div class="col-sm-12 col-lg-6">
+                        <div class="form-group row">
+                            <div class="input-group col-sm-12">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1">
+                                        <i class="ti-search"></i>
+                                    </span>
+                                </div>
+                                <input formControlName="q" class="form-control" placeholder="Buscar Cliente" type="text"
+                                    (change)="searchTermM()" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-lg-6">
+                        <div class="form-group row">
+                            <div class="input-group col-sm-12">
+                                <div _ngcontent-bpb-c164="" class="input-group-prepend"><label _ngcontent-bpb-c164=""
+                                        for="inputGroupSelect01" class="input-group-text"><i
+                                            class="far fa-id-card"></i></label></div>
+                                <select class="custom-select col-sm-12" id="category" name="category"
+                                    [(ngModel)]="selectcategory" (change)="onChangeCategory($event.target.value)"
+                                    [ngModelOptions]="{standalone: true}">
+                                    <option value="" selected disabled>Selecionar Categoría</option>
+                                    <option value="0">Todos</option>
+                                    <option *ngFor="let order of optionsCategories" [value]="order.category_id">
+                                        {{order.name}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <button *ngIf="canCreate()" (click)="NewCustomer()"
+                class="btn btn ml-auto h-25 text-white custom_btn1">Nuevo prospecto</button>
+        </div>
+        <div *ngIf="canList()" class="table-responsive table-hover">
+            <table class="table table-responsive-lg no-wrap v-middle">
+                <thead>
+                    <tr>
+                        <th scope="col" class="text-center">Tipo de Cliente</th>
+                        <th scope="col" class="text-center">Nombre Completo</th>
+                        <!--<th scope="col" width="160px">NIT</th>-->
+                        <th scope="col" class="text-center">Dirección</th>
+                        <th scope="col" class="text-center">Categoría</th>
+                       
+                        <!-- <th scope="col" class="text-center">No. de Solicitudes</th> -->
+                        <th scope="col" class="text-center">Acciones</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr
+                        *ngFor="let user of dataAllCustomer">
+                         <!--TIPO DE CLIENTE-->
+                         <td *ngIf="user.type === 0">
+                            <div class="text-center">
+                                <ngb-highlight result="Individual" [term]="searchTerm"></ngb-highlight>
+                            </div>
+                        </td>
+                        <td *ngIf="user.type === 1">
+                            <div class="text-center">
+                                <ngb-highlight result="Jurídico" [term]="searchTerm"></ngb-highlight>
+                            </div>
+                        </td>
+                        <!--NOMBRE COMPLETO-->
+                        <td width="250px">
+                            <div>
+                                <ngb-highlight *ngIf="user.type === 0"
+                                    [result]="user.name"
+                                    [term]="searchTerm"></ngb-highlight>
+                                <ngb-highlight *ngIf="user.type === 1" [result]="user.businessname" [term]="searchTerm">
+                                </ngb-highlight>
+                            </div>
+
+                        </td>
+                        <!-- <td>
+                            <ngb-highlight [result]="user.nit" [term]="searchTerm"></ngb-highlight>
+                        </td>-->
+                        <!--DIRECCIÓN-->
+                        <td>
+
+                            <div>
+                                <div class="text-left">
+                                    <ngb-highlight [result]="(user.address1 === null ? 'No Registrada' : user.address1)"
+                                        ngbTooltip="Dirección 1" [term]="searchTerm"></ngb-highlight>
+                                </div>
+                                <div class="text-left">
+                                    <ngb-highlight [result]="user.address2" ngbTooltip="Dirección 2"></ngb-highlight>
+                                </div>
+                            </div>
+                        </td>
+                        <!--CATEGORIA-->
+                        <td *ngIf="user.category_id === 1">
+                            <div class="text-center">
+                                <ngb-highlight result="Prospecto" [term]="searchTerm"></ngb-highlight>
+                            </div>
+                        </td>
+                        <td *ngIf="user.category_id === 2">
+                            <div class="text-center">
+                                <ngb-highlight result="VIP" [term]="searchTerm"></ngb-highlight>
+                            </div>
+                        </td>
+                        <td *ngIf="user.category_id === 3">
+                            <div class="text-center">
+                                <ngb-highlight result="Tradicional" [term]="searchTerm"></ngb-highlight>
+                            </div>
+                        </td>
+                        <td *ngIf="user.category_id === 4">
+                            <div class="text-center">
+                                <ngb-highlight result="Otros" [term]="searchTerm"></ngb-highlight>
+                            </div>
+                        </td>
+                        <td *ngIf="user.category_id === 5">
+                            <div class="text-center">
+                                <ngb-highlight result="Cliente Tradicional" [term]="searchTerm"></ngb-highlight>
+                            </div>
+                        </td>
+                       
+                        <!--NO DE SOLICITUDES-->
+                        <!-- <td class="text-center">
+                            <ngb-highlight [result]="dataCountRequest[user.customer_id]"></ngb-highlight>
+                        </td> -->
+                        <!--BOTONES-->
+                        <td style="margin:auto;">
+                            <div class="text-center">
+                                <button *ngIf="canSee()" class="btn text-white custom_btn1 text-center" type="button"
+                                    (click)="ViewCliente(user.customer_id)"><span class="btn-label m-r-5"><i
+                                            class="mdi mdi-eye-outline"></i></span>Ver</button>
+                                <!-- <button *ngIf="canAddRepresentative()" class="btn text-white custom_btn1" type="button" (click)="addnewPerson(user.customer_id)"><i
+                                                        class="fas fa-user-plus text-white m-r-10"></i> Agregar un nuevo
+                                                    representante.</button> -->
+                                <button *ngIf="canEdit()" class="btn text-white custom_btn1"
+                                    (click)="EditCliente(user.customer_id)" type="button"><span
+                                        class="btn-label m-r-5"><i class=" icon-pencil"></i></span>Editar</button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="d-flex justify-content-center p-2">
+                <ngb-pagination *ngIf="dataAllCustomer" [maxSize]="7" [collectionSize]="this.totalData"
+                    [(page)]="page" [pageSize]="pageSize"
+                    (pageChange)="pageChange($event)"
+                    [boundaryLinks]="true"
+                    >
+                </ngb-pagination>
+            </div>
+        </div>
+    </div>
+</div>

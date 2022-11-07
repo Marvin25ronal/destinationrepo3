@@ -1,0 +1,954 @@
+<div class="main">
+    <div *ngIf="options && options.header" class="header">
+        <nav class="navbar navbar-expand-md navbar-light bg-light nav-styles">
+            <span class="navbar-brand"></span>
+            <button class="navbar-toggler" type="button" aria-controls="navbarContent" [attr.aria-expanded]="!collapsed" aria-label="Toggle navigation" (click)="collapsed = !collapsed">
+					    <span class="navbar-toggler-icon"></span>
+					</button>
+
+            <div class="navbar-collapse" [class.collapse]="collapsed" id="navbarContent">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item" ngbDropdown>
+                        <a class="nav-link" style="cursor: pointer" ngbDropdownToggle id="navbarDropdown1" role="button">
+					          			Opciones
+					        		</a>
+                        <div ngbDropdownMenu aria-labelledby="navbarDropdown1" class="dropdown-menu">
+                            <a ngbDropdownItem (click)="createPdf()">Generar pdf</a>
+                            <a ngbDropdownItem (click)="createExcel()">Generar excel</a>
+
+                        </div>
+                    </li>
+
+
+                </ul>
+            </div>
+        </nav>
+    </div>
+    <div class="header">
+        <span class="badge  badge-filters">Filtros Disponibles: {{config.length}}</span>
+    </div>
+
+
+    <div class="controls">
+
+        <!-- ################################//FILTRO1 ########################################-->
+
+        <div *ngIf="config.length > 0" class="bodycontrol">
+            <ng-container *ngIf="config[0].range; else norange">
+                <div class="grid-element1">
+                    <h5 class="">{{config[0].labelsAux[0]?config[0].labelsAux[0]:''}}</h5>
+                </div>
+                <div class="grid-element12">
+                    <h5 class="">{{config[0].labelsAux[1]?config[0].labelsAux[1]:''}}</h5>
+                </div>
+
+                <div class="grid-element2">
+                    <label>{{config[0].label}}</label>
+                </div>
+
+
+                <ng-container [ngSwitch]="config[0].tipo">
+                    <ng-container *ngSwitchCase="'DROP_TEXT'">
+                        <div class="grid-element3">
+
+                            <select class="custom-select form-control" id="drop11" name="drop11" [(ngModel)]="valsNgModel[0]" (change)="change1($event.target.value)">
+                            <option value="" selected disabled>Selecciona</option>
+                            <option value="">Todos</option>
+                            <option *ngFor="let op of dataset1" [value]="op.value">{{op.text}}</option>
+                        </select>
+                        </div>
+                        <div class="grid-element4">
+                            <input type="text" class="form-control" [(ngModel)]="valsNgModel[1]" name="text12">
+                        </div>
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'DROPDOWN'">
+                        <div class="grid-element3">
+
+                            <select class="custom-select form-control" id="drop11" name="drop11" [(ngModel)]="valsNgModel[0]" (change)="change1($event.target.value)">
+                            <option value="" selected disabled>Selecciona</option>
+                            <option value="">Todos</option>
+                            <option *ngFor="let op of dataset1" [value]="op.value">{{op.text}}</option>
+                        </select>
+                        </div>
+                        <div class="grid-element4">
+                            <select class="custom-select " id="drop12" name="drop12" [(ngModel)]="valsNgModel[1]" (change)="change2($event.target.value)">
+                                <option value="" selected disabled>Selecciona</option>
+                                <option value="">Todos</option>
+                                <option *ngFor="let op of dataset2" [value]="op.value">{{op.text}}</option>
+                            </select>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'NUMERIC'">
+                        <div class="grid-element3">
+
+                            <input type="number" class="form-control" [(ngModel)]="valsNgModel[0]" name="num11">
+                        </div>
+                        <div class="grid-element4">
+                            <input type="number" class="form-control" [(ngModel)]="valsNgModel[1]" name="num12">
+                        </div>
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'DATE'">
+                        <div class="grid-element3">
+                            <div class="input-group">
+                                <input class="form-control" placeholder="yyyy-mm-dd" name="dp11" [(ngModel)]="valsNgModel[0]" ngbDatepicker #d11="ngbDatepicker">
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary no-shadow" (click)="d11.toggle()" type="button">
+                                            <i class="fa fa-calendar"></i>
+                                        </button>
+
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="grid-element4">
+                            <div class="input-group">
+                                <input class="form-control" placeholder="yyyy-mm-dd" name="dp12" [(ngModel)]="valsNgModel[1]" ngbDatepicker #d12="ngbDatepicker">
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary no-shadow" (click)="d12.toggle()" type="button">
+                                            <i class="fa fa-calendar"></i>
+                                        </button>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'TEXT'">
+                        <div class="grid-element3">
+
+                            <input type="text" class="form-control" [(ngModel)]="valsNgModel[0]" name="text11">
+                        </div>
+                        <div class="grid-element4">
+                            <input type="text" class="form-control" [(ngModel)]="valsNgModel[1]" name="text12">
+                        </div>
+                    </ng-container>
+
+
+
+
+
+
+                </ng-container>
+
+
+
+            </ng-container>
+            <!-- AQUI TERMINA EL IF DE CUANDO ES RANGE -->
+            <ng-template #norange>
+                <div class="grid-elementt1">
+                    <h5 class="">{{config[0].labelsAux[0]?config[0].labelsAux[0]:''}}</h5>
+                </div>
+
+
+                <div class="grid-elementt2">
+                    <label>{{config[0].label}}</label>
+                </div>
+
+                <ng-container [ngSwitch]="config[0].tipo">
+                    <ng-container *ngSwitchCase="'DROPDOWN'">
+                        <div class="grid-elementt3">
+
+                            <select class="custom-select form-control" id="drop1" name="drop1" [(ngModel)]="valsNgModel[0]" (change)="change1($event.target.value)">
+                            <option value="" selected disabled>Selecciona</option>
+                            <option value="">Todos</option>
+                            <option *ngFor="let op of dataset1" [value]="op.value">{{op.text}}</option>
+                        </select>
+                        </div>
+
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'NUMERIC'">
+                        <div class="grid-elementt3">
+
+                            <input type="number" class="form-control" [(ngModel)]="valsNgModel[0]" name="numeric1">
+                        </div>
+
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'DATE'">
+                        <div class="grid-elementt3">
+                            <div class="input-group">
+                                <input class="form-control" placeholder="yyyy-mm-dd" name="dp1" [(ngModel)]="valsNgModel[0]" ngbDatepicker #d11="ngbDatepicker">
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary no-shadow" (click)="d11.toggle()" type="button">
+                                            <i class="fa fa-calendar"></i>
+                                        </button>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'TEXT'">
+                        <div class="grid-elementt3">
+
+                            <input type="text" class="form-control" [(ngModel)]="valsNgModel[0]" name="text11">
+                        </div>
+
+                    </ng-container>
+
+
+
+
+
+
+                </ng-container>
+
+
+
+
+            </ng-template>
+        </div>
+        <!--  <div *ngIf="config.length >0" class="line"></div> -->
+
+
+        <!-- ####################################################################################### -->
+
+
+        <i type="checkbox" (click)="clickShowFilters()" style="align-self: flex-start;" [ngClass]="showFilters?'fas fa-minus summary-less':'fas fa-plus summary-more'">Filtros avanzados</i>
+
+
+        <!-- ################################//FILTRO2 ########################################-->
+
+        <div *ngIf="config.length > 1 && showFilters" [@inOutAnimation] class="bodycontrol">
+            <ng-container *ngIf="config[1].range; else norange">
+                <div class="grid-element1">
+                    <h5 class="">{{config[1].labelsAux[0]?config[1].labelsAux[0]:''}}</h5>
+                </div>
+                <div class="grid-element12">
+                    <h5 class="">{{config[1].labelsAux[1]?config[1].labelsAux[1]:''}}</h5>
+                </div>
+
+                <div class="grid-element2">
+                    <label>{{config[1].label}}</label>
+                </div>
+
+
+                <ng-container [ngSwitch]="config[1].tipo">
+                    <ng-container *ngSwitchCase="'DROP_TEXT'">
+                        <div class="grid-element3">
+
+                            <select class="custom-select form-control" id="drop21" name="drop21" [(ngModel)]="valsNgModel[2]" (change)="change3($event.target.value)">
+                            <option value="" selected disabled>Selecciona</option>
+                            <option value="">Todos</option>
+                            <option *ngFor="let op of dataset3" [value]="op.value">{{op.text}}</option>
+                        </select>
+                        </div>
+                        <div class="grid-element4">
+                            <div class="grid-element4">
+                                <input type="text" class="form-control" [(ngModel)]="valsNgModel[3]" name="text22">
+                            </div>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'DROPDOWN'">
+                        <div class="grid-element3">
+
+                            <select class="custom-select form-control" id="drop21" name="drop21" [(ngModel)]="valsNgModel[2]" (change)="change3($event.target.value)">
+                            <option value="" selected disabled>Selecciona</option>
+                            <option value="">Todos</option>
+                            <option *ngFor="let op of dataset3" [value]="op.value">{{op.text}}</option>
+                        </select>
+                        </div>
+                        <div class="grid-element4">
+                            <select class="custom-select " id="drop22" name="drop22" [(ngModel)]="valsNgModel[3]" (change)="change4($event.target.value)">
+                                <option value="" selected disabled>Selecciona</option>
+                                <option value="">Todos</option>
+                                <option *ngFor="let op of dataset4" [value]="op.value">{{op.text}}</option>
+                            </select>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'NUMERIC'">
+                        <div class="grid-element3">
+
+                            <input type="number" class="form-control" [(ngModel)]="valsNgModel[2]" name="num21">
+                        </div>
+                        <div class="grid-element4">
+                            <input type="number" class="form-control" [(ngModel)]="valsNgModel[3]" name="num22">
+                        </div>
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'DATE'">
+                        <div class="grid-element3">
+                            <div class="input-group">
+                                <input class="form-control" placeholder="yyyy-mm-dd" name="dp21" [(ngModel)]="valsNgModel[2]" ngbDatepicker #d21="ngbDatepicker">
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary no-shadow" (click)="d21.toggle()" type="button">
+                                            <i class="fa fa-calendar"></i>
+                                        </button>
+
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="grid-element4">
+                            <div class="input-group">
+                                <input class="form-control" placeholder="yyyy-mm-dd" name="dp22" [(ngModel)]="valsNgModel[3]" ngbDatepicker #d22="ngbDatepicker">
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary no-shadow" (click)="d22.toggle()" type="button">
+                                            <i class="fa fa-calendar"></i>
+                                        </button>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'TEXT'">
+                        <div class="grid-element3">
+
+                            <input type="text" class="form-control" [(ngModel)]="valsNgModel[2]" name="text21">
+                        </div>
+                        <div class="grid-element4">
+                            <input type="text" class="form-control" [(ngModel)]="valsNgModel[3]" name="text22">
+                        </div>
+                    </ng-container>
+
+
+
+
+
+
+                </ng-container>
+
+
+
+            </ng-container>
+            <!-- AQUI TERMINA EL IF DE CUANDO ES RANGE -->
+            <ng-template #norange>
+                <div class="grid-elementt1">
+                    <h5 class="">{{config[1].labelsAux[0]?config[1].labelsAux[0]:''}}</h5>
+                </div>
+
+
+                <div class="grid-elementt2">
+                    <label>{{config[1].label}}</label>
+                </div>
+
+                <ng-container [ngSwitch]="config[1].tipo">
+                    <ng-container *ngSwitchCase="'DROPDOWN'">
+                        <div class="grid-elementt3">
+
+                            <select class="custom-select form-control" id="drop3" name="drop3" [(ngModel)]="valsNgModel[2]" (change)="change3($event.target.value)">
+                            <option value="" selected disabled>Selecciona</option>
+                            <option value="">Todos</option>
+                            <option *ngFor="let op of dataset3" [value]="op.value">{{op.text}}</option>
+                        </select>
+                        </div>
+
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'NUMERIC'">
+                        <div class="grid-elementt3">
+
+                            <input type="number" class="form-control" [(ngModel)]="valsNgModel[2]" name="numeric3">
+                        </div>
+
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'DATE'">
+                        <div class="grid-elementt3">
+                            <div class="input-group">
+                                <input class="form-control" placeholder="yyyy-mm-dd" name="dp3" [(ngModel)]="valsNgModel[2]" ngbDatepicker #d21="ngbDatepicker">
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary no-shadow" (click)="d21.toggle()" type="button">
+                                            <i class="fa fa-calendar"></i>
+                                        </button>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'TEXT'">
+                        <div class="grid-elementt3">
+
+                            <input type="text" class="form-control" [(ngModel)]="valsNgModel[2]" name="text21">
+                        </div>
+
+                    </ng-container>
+
+
+
+
+
+
+                </ng-container>
+
+
+
+
+            </ng-template>
+        </div>
+        <div *ngIf="config.length >1 && showFilters" class="line"></div>
+
+
+        <!-- ####################################################################################### -->
+
+
+
+
+        <!-- ################################//FILTRO3 ########################################-->
+
+        <div *ngIf="config.length > 2 && showFilters" [@inOutAnimation] class="bodycontrol">
+            <ng-container *ngIf="config[2].range; else norange">
+                <div class="grid-element1">
+                    <h5 class="">{{config[2].labelsAux[0]?config[2].labelsAux[0]:''}}</h5>
+                </div>
+                <div class="grid-element12">
+                    <h5 class="">{{config[2].labelsAux[1]?config[2].labelsAux[1]:''}}</h5>
+                </div>
+
+                <div class="grid-element2">
+                    <label>{{config[2].label}}</label>
+                </div>
+
+
+                <ng-container [ngSwitch]="config[2].tipo">
+                    <ng-container *ngSwitchCase="'DROP_TEXT'">
+                        <div class="grid-element3">
+
+                            <select class="custom-select form-control" id="drop31" name="drop31" [(ngModel)]="valsNgModel[4]" (change)="change5($event.target.value)">
+                            <option value="" selected disabled>Selecciona</option>
+                            <option value="">Todos</option>
+                            <option *ngFor="let op of dataset5" [value]="op.value">{{op.text}}</option>
+                        </select>
+                        </div>
+                        <div class="grid-element4">
+                            <div class="grid-element4">
+                                <input type="text" class="form-control" [(ngModel)]="valsNgModel[5]" name="text32">
+                            </div>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'DROPDOWN'">
+                        <div class="grid-element3">
+
+                            <select class="custom-select form-control" id="drop31" name="drop31" [(ngModel)]="valsNgModel[4]" (change)="change5($event.target.value)">
+                            <option value="" selected disabled>Selecciona</option>
+                            <option value="">Todos</option>
+                            <option *ngFor="let op of dataset5" [value]="op.value">{{op.text}}</option>
+                        </select>
+                        </div>
+                        <div class="grid-element4">
+                            <select class="custom-select " id="drop32" name="drop32" [(ngModel)]="valsNgModel[5]" (change)="change6($event.target.value)">
+                                <option value="" selected disabled>Selecciona</option>
+                                <option value="">Todos</option>
+                                <option *ngFor="let op of dataset6" [value]="op.value">{{op.text}}</option>
+                            </select>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'NUMERIC'">
+                        <div class="grid-element3">
+
+                            <input type="number" class="form-control" [(ngModel)]="valsNgModel[4]" name="num31">
+                        </div>
+                        <div class="grid-element4">
+                            <input type="number" class="form-control" [(ngModel)]="valsNgModel[5]" name="num32">
+                        </div>
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'DATE'">
+                        <div class="grid-element3">
+                            <div class="input-group">
+                                <input class="form-control" placeholder="yyyy-mm-dd" name="dp31" [(ngModel)]="valsNgModel[4]" ngbDatepicker #d31="ngbDatepicker">
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary no-shadow" (click)="d31.toggle()" type="button">
+                                            <i class="fa fa-calendar"></i>
+                                        </button>
+
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="grid-element4">
+                            <div class="input-group">
+                                <input class="form-control" placeholder="yyyy-mm-dd" name="dp32" [(ngModel)]="valsNgModel[5]" ngbDatepicker #d32="ngbDatepicker">
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary no-shadow" (click)="d32.toggle()" type="button">
+                                            <i class="fa fa-calendar"></i>
+                                        </button>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'TEXT'">
+                        <div class="grid-element3">
+
+                            <input type="text" class="form-control" [(ngModel)]="valsNgModel[4]" name="text31">
+                        </div>
+                        <div class="grid-element4">
+                            <input type="text" class="form-control" [(ngModel)]="valsNgModel[5]" name="text32">
+                        </div>
+                    </ng-container>
+
+
+
+
+
+
+                </ng-container>
+
+
+
+            </ng-container>
+            <!-- AQUI TERMINA EL IF DE CUANDO ES RANGE -->
+            <ng-template #norange>
+                <div class="grid-elementt1">
+                    <h5 class="">{{config[2].labelsAux[0]?config[2].labelsAux[0]:''}}</h5>
+                </div>
+
+
+                <div class="grid-elementt2">
+                    <label>{{config[2].label}}</label>
+                </div>
+
+                <ng-container [ngSwitch]="config[2].tipo">
+                    <ng-container *ngSwitchCase="'DROPDOWN'">
+                        <div class="grid-elementt3">
+
+                            <select class="custom-select form-control" id="drop31" name="drop31" [(ngModel)]="valsNgModel[4]" (change)="change5($event.target.value)">
+                            <option value="" selected disabled>Selecciona</option>
+                            <option value="">Todos</option>
+                            <option *ngFor="let op of dataset5" [value]="op.value">{{op.text}}</option>
+                        </select>
+                        </div>
+
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'NUMERIC'">
+                        <div class="grid-elementt3">
+
+                            <input type="number" class="form-control" [(ngModel)]="valsNgModel[4]" name="numeric31">
+                        </div>
+
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'DATE'">
+                        <div class="grid-elementt3">
+                            <div class="input-group">
+                                <input class="form-control" placeholder="yyyy-mm-dd" name="dp31" [(ngModel)]="valsNgModel[4]" ngbDatepicker #d31="ngbDatepicker">
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary no-shadow" (click)="d31.toggle()" type="button">
+                                            <i class="fa fa-calendar"></i>
+                                        </button>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'TEXT'">
+                        <div class="grid-elementt3">
+
+                            <input type="text" class="form-control" [(ngModel)]="valsNgModel[4]" name="text31">
+                        </div>
+
+                    </ng-container>
+
+
+
+
+
+
+                </ng-container>
+
+
+
+
+            </ng-template>
+        </div>
+        <div *ngIf="config.length >2 && showFilters" class="line"></div>
+
+
+        <!-- ####################################################################################### -->
+
+
+
+        <!-- ################################//FILTRO4 ########################################-->
+
+        <div *ngIf="config.length > 3 && showFilters" [@inOutAnimation] class="bodycontrol">
+            <ng-container *ngIf="config[3].range; else norange">
+                <div class="grid-element1">
+                    <h5 class="">{{config[3].labelsAux[0]?config[3].labelsAux[0]:''}}</h5>
+                </div>
+                <div class="grid-element12">
+                    <h5 class="">{{config[3].labelsAux[1]?config[3].labelsAux[1]:''}}</h5>
+                </div>
+
+                <div class="grid-element2">
+                    <label>{{config[3].label}}</label>
+                </div>
+
+
+                <ng-container [ngSwitch]="config[3].tipo">
+                    <ng-container *ngSwitchCase="'DROP_TEXT'">
+                        <div class="grid-element3">
+
+                            <select class="custom-select form-control" id="drop41" name="drop41" [(ngModel)]="valsNgModel[6]" (change)="change7($event.target.value)">
+                            <option value="" selected disabled>Selecciona</option>
+                            <option value="">Todos</option>
+                            <option *ngFor="let op of dataset7" [value]="op.value">{{op.text}}</option>
+                        </select>
+                        </div>
+                        <div class="grid-element4">
+                            <div class="grid-element4">
+                                <input type="text" class="form-control" [(ngModel)]="valsNgModel[7]" name="text42">
+                            </div>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'DROPDOWN'">
+                        <div class="grid-element3">
+
+                            <select class="custom-select form-control" id="drop41" name="drop41" [(ngModel)]="valsNgModel[6]" (change)="change7($event.target.value)">
+                            <option value="" selected disabled>Selecciona</option>
+                            <option value="">Todos</option>
+                            <option *ngFor="let op of dataset7" [value]="op.value">{{op.text}}</option>
+                        </select>
+                        </div>
+                        <div class="grid-element4">
+                            <select class="custom-select " id="drop42" name="drop42" [(ngModel)]="valsNgModel[7]" (change)="change8($event.target.value)">
+                                <option value="" selected disabled>Selecciona</option>
+                                <option value="">Todos</option>
+                                <option *ngFor="let op of dataset8" [value]="op.value">{{op.text}}</option>
+                            </select>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'NUMERIC'">
+                        <div class="grid-element3">
+
+                            <input type="number" class="form-control" [(ngModel)]="valsNgModel[6]" name="num41">
+                        </div>
+                        <div class="grid-element4">
+                            <input type="number" class="form-control" [(ngModel)]="valsNgModel[7]" name="num42">
+                        </div>
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'DATE'">
+                        <div class="grid-element3">
+                            <div class="input-group">
+                                <input class="form-control" placeholder="yyyy-mm-dd" name="dp41" [(ngModel)]="valsNgModel[6]" ngbDatepicker #d41="ngbDatepicker">
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary no-shadow" (click)="d41.toggle()" type="button">
+                                            <i class="fa fa-calendar"></i>
+                                        </button>
+
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="grid-element4">
+                            <div class="input-group">
+                                <input class="form-control" placeholder="yyyy-mm-dd" name="dp42" [(ngModel)]="valsNgModel[7]" ngbDatepicker #d42="ngbDatepicker">
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary no-shadow" (click)="d42.toggle()" type="button">
+                                            <i class="fa fa-calendar"></i>
+                                        </button>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'TEXT'">
+                        <div class="grid-element3">
+
+                            <input type="text" class="form-control" [(ngModel)]="valsNgModel[6]" name="text41">
+                        </div>
+                        <div class="grid-element4">
+                            <input type="text" class="form-control" [(ngModel)]="valsNgModel[7]" name="text42">
+                        </div>
+                    </ng-container>
+
+
+
+
+
+
+                </ng-container>
+
+
+
+            </ng-container>
+            <!-- AQUI TERMINA EL IF DE CUANDO ES RANGE -->
+            <ng-template #norange>
+                <div class="grid-elementt1">
+                    <h5 class="">{{config[3].labelsAux[0]?config[3].labelsAux[0]:''}}</h5>
+                </div>
+
+
+                <div class="grid-elementt2">
+                    <label>{{config[3].label}}</label>
+                </div>
+
+                <ng-container [ngSwitch]="config[3].tipo">
+                    <ng-container *ngSwitchCase="'DROPDOWN'">
+                        <div class="grid-elementt3">
+
+                            <select class="custom-select form-control" id="drop41" name="drop41" [(ngModel)]="valsNgModel[6]" (change)="change7($event.target.value)">
+                            <option value="" selected disabled>Selecciona</option>
+                            <option value="">Todos</option>
+                            <option *ngFor="let op of dataset7" [value]="op.value">{{op.text}}</option>
+                        </select>
+                        </div>
+
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'NUMERIC'">
+                        <div class="grid-elementt3">
+
+                            <input type="number" class="form-control" [(ngModel)]="valsNgModel[6]" name="numeric41">
+                        </div>
+
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'DATE'">
+                        <div class="grid-elementt3">
+                            <div class="input-group">
+                                <input class="form-control" placeholder="yyyy-mm-dd" name="dp41" [(ngModel)]="valsNgModel[6]" ngbDatepicker #d41="ngbDatepicker">
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary no-shadow" (click)="d41.toggle()" type="button">
+                                            <i class="fa fa-calendar"></i>
+                                        </button>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'TEXT'">
+                        <div class="grid-elementt3">
+
+                            <input type="text" class="form-control" [(ngModel)]="valsNgModel[6]" name="text41">
+                        </div>
+
+                    </ng-container>
+
+
+
+
+
+
+                </ng-container>
+
+
+
+
+            </ng-template>
+        </div>
+        <div *ngIf="config.length >3 && showFilters" class="line"></div>
+
+
+
+        <!-- ####################################################################################### -->
+
+
+
+        <!-- ################################//FILTRO 5 ########################################-->
+
+        <div *ngIf="config.length > 4 && showFilters" [@inOutAnimation] class="bodycontrol">
+            <ng-container *ngIf="config[4].range; else norange">
+                <div class="grid-element1">
+                    <h5 class="">{{config[4].labelsAux[0]?config[4].labelsAux[0]:''}}</h5>
+                </div>
+                <div class="grid-element12">
+                    <h5 class="">{{config[4].labelsAux[1]?config[4].labelsAux[1]:''}}</h5>
+                </div>
+
+                <div class="grid-element2">
+                    <label>{{config[4].label}}</label>
+                </div>
+
+
+                <ng-container [ngSwitch]="config[4].tipo">
+                    <ng-container *ngSwitchCase="'DROP_TEXT'">
+                        <div class="grid-element3">
+
+                            <select class="custom-select form-control" id="drop51" name="drop51" [(ngModel)]="valsNgModel[8]" (change)="change9($event.target.value)">
+                            <option value="" selected disabled>Selecciona</option>
+                            <option value="">Todos</option>
+                            <option *ngFor="let op of dataset9" [value]="op.value">{{op.text}}</option>
+                        </select>
+                        </div>
+                        <div class="grid-element4">
+                            <div class="grid-element4">
+                                <input type="text" class="form-control" [(ngModel)]="valsNgModel[9]" name="text52">
+                            </div>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'DROPDOWN'">
+                        <div class="grid-element3">
+
+                            <select class="custom-select form-control" id="drop51" name="drop51" [(ngModel)]="valsNgModel[8]" (change)="change9($event.target.value)">
+                            <option value="" selected disabled>Selecciona</option>
+                            <option value="">Todos</option>
+                            <option *ngFor="let op of dataset9" [value]="op.value">{{op.text}}</option>
+                        </select>
+                        </div>
+                        <div class="grid-element4">
+                            <select class="custom-select " id="drop52" name="drop52" [(ngModel)]="valsNgModel[9]" (change)="change10($event.target.value)">
+                                <option value="" selected disabled>Selecciona</option>
+                                <option value="">Todos</option>
+                                <option *ngFor="let op of dataset10" [value]="op.value">{{op.text}}</option>
+                            </select>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'NUMERIC'">
+                        <div class="grid-element3">
+
+                            <input type="number" class="form-control" [(ngModel)]="valsNgModel[8]" name="num51">
+                        </div>
+                        <div class="grid-element4">
+                            <input type="number" class="form-control" [(ngModel)]="valsNgModel[7]" name="num52">
+                        </div>
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'DATE'">
+                        <div class="grid-element3">
+                            <div class="input-group">
+                                <input class="form-control" placeholder="yyyy-mm-dd" name="dp51" [(ngModel)]="valsNgModel[8]" ngbDatepicker #d51="ngbDatepicker">
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary no-shadow" (click)="d51.toggle()" type="button">
+                                            <i class="fa fa-calendar"></i>
+                                        </button>
+
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="grid-element4">
+                            <div class="input-group">
+                                <input class="form-control" placeholder="yyyy-mm-dd" name="dp52" [(ngModel)]="valsNgModel[9]" ngbDatepicker #d52="ngbDatepicker">
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary no-shadow" (click)="d52.toggle()" type="button">
+                                            <i class="fa fa-calendar"></i>
+                                        </button>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'TEXT'">
+                        <div class="grid-element3">
+
+                            <input type="text" class="form-control" [(ngModel)]="valsNgModel[8]" name="text51">
+                        </div>
+                        <div class="grid-element4">
+                            <input type="text" class="form-control" [(ngModel)]="valsNgModel[9]" name="text52">
+                        </div>
+                    </ng-container>
+
+
+
+
+
+
+                </ng-container>
+
+
+
+            </ng-container>
+            <!-- AQUI TERMINA EL IF DE CUANDO ES RANGE -->
+            <ng-template #norange>
+                <div class="grid-elementt1">
+                    <h5 class="">{{config[4].labelsAux[0]?config[4].labelsAux[0]:''}}</h5>
+                </div>
+
+
+                <div class="grid-elementt2">
+                    <label>{{config[4].label}}</label>
+                </div>
+
+                <ng-container [ngSwitch]="config[4].tipo">
+                    <ng-container *ngSwitchCase="'DROPDOWN'">
+                        <div class="grid-elementt3">
+
+                            <select class="custom-select form-control" id="drop51" name="drop51" [(ngModel)]="valsNgModel[8]" (change)="change9($event.target.value)">
+                            <option value="" selected disabled>Selecciona</option>
+                            <option value="">Todos</option>
+                            <option *ngFor="let op of dataset9" [value]="op.value">{{op.text}}</option>
+                        </select>
+                        </div>
+
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'NUMERIC'">
+                        <div class="grid-elementt3">
+
+                            <input type="number" class="form-control" [(ngModel)]="valsNgModel[8]" name="numeric51">
+                        </div>
+
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'DATE'">
+                        <div class="grid-elementt3">
+                            <div class="input-group">
+                                <input class="form-control" placeholder="yyyy-mm-dd" name="dp51" [(ngModel)]="valsNgModel[8]" ngbDatepicker #d51="ngbDatepicker">
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary no-shadow" (click)="d51.toggle()" type="button">
+                                            <i class="fa fa-calendar"></i>
+                                        </button>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'TEXT'">
+                        <div class="grid-elementt3">
+
+                            <input type="text" class="form-control" [(ngModel)]="valsNgModel[8]" name="text51">
+                        </div>
+
+                    </ng-container>
+
+
+
+
+
+
+                </ng-container>
+
+
+
+
+            </ng-template>
+        </div>
+        <div *ngIf="config.length > 4 && showFilters" class="line"></div>
+
+
+        <!-- ####################################################################################### -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </div>
+
+
+
+
+
+    <div class="button">
+        <div class="form-group m-b-0 text-right">
+            <button style="margin-bottom: 0.3rem;" (click)="filter()" class="btn  btn-info ml-auto  btn-color-solucredit">Filtrar</button>
+            <button style="margin-bottom: 0.3rem;" *ngIf="options && options.restart" (click)="reiniciar()" class="btn  btn-info ml-auto  btn-color-solucredit-secondary">Limpiar</button>
+
+        </div>
+    </div>
+</div>

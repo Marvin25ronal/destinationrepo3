@@ -1,0 +1,84 @@
+<!-- <h1>AQUI ESTAN LOS LOGS</h1>
+<app-pagination-table [dataList]="logsData"></app-pagination-table> -->
+
+
+<div class="row">
+    <div class="col-md-12">
+        <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#759ee0" type="ball-scale-multiple">
+            <p style="font-size: 20px; color:#fff">Cargando Información...</p>
+        </ngx-spinner>
+        <!--- pagination Table -->
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title mb-0"><span class="lstick"></span>Bitácora del sistema </h4>
+                <!-- <span class="card-subtitle">A continuacion de muestran las entradas en la bitacora del sistema</span> -->
+                <app-reportfilters [config]="config" [(vals)]="vals" (onFilter)="filter($event)" [dataset3]="usersData"></app-reportfilters>
+
+                <table class="table table-striped border mt-4">
+                    <thead>
+                        <tr>
+                            <th *ngFor="let header of dataList.metadata">
+
+                                {{header}}
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let log of dataList.data">
+                            <td>{{log.user_email}}</td>
+                            <td>{{log.time | date: 'dd/MM/yyyy'}}</td>
+                            <td>{{log.time | date: 'h:mm a'}}</td>
+                            <td>{{log.action | logaction}} {{log.resourcee}}</td>
+                            <td>{{log.ip}}</td>
+                            <td (click)="openModal(infologs,log.user_log_id)">
+                                <b ngbTooltip="Dar click para ver más información." style="cursor: pointer;color: #2162c4;text-decoration: underline;">{{log.description}}</b>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="d-flex justify-content-center p-2">
+                    <ngb-pagination [collectionSize]="this.totalData" [pageSize]="pageSize" [(page)]="page" aria-label="Default pagination" (pageChange)="pageChange($event)" [boundaryLinks]="true" [maxSize]="7"></ngb-pagination>
+                </div>
+            </div>
+        </div>
+        <!--- End pagination Table -->
+
+    </div>
+</div>
+<notifier-container></notifier-container>
+
+<ng-template #infologs let-modal>
+    <div class="modal-header">
+        <h5 class="modal-title" id="editUserLabel">Información</h5>
+        <button type="button" class="close" (click)="closeBtnClick()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="card-block">
+            <table class="table table-striped border mt-4">
+                <thead>
+                    <tr>
+                        <th>Información actual</th>
+                        <th>Información anterior</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="max-width: 220px;white-space: pre-wrap;">
+                            <p *ngFor="let datanew of newdatacurrentLog">
+                                <span><b>{{datanew.key}}</b>: {{datanew.value}}</span>
+                            </p>
+                        </td>
+                        <td style="max-width: 220px;white-space: pre-wrap;">
+                            <p *ngFor="let dataold of olddatacurrentLog">
+                               <span><b>{{dataold.key}}</b>: {{dataold.value}}</span>
+                            </p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</ng-template>

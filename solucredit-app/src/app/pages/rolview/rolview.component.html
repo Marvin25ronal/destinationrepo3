@@ -1,0 +1,267 @@
+<div class="col-12">
+    <div class="card card-body">
+        <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#759ee0" type="ball-scale-multiple">
+            <p style="font-size: 20px; color:#fff">{{spinnerMessage}}</p>
+        </ngx-spinner>
+
+        <div class="d-flex mb-3 mt-3 col-lg-12">
+            <!-- <input type="text" class="form-control w-25" placeholder="Busca a un empleado" [(ngModel)]='searchTerm'> -->
+            <div class="col-lg-3">
+                <form [formGroup]="search">
+                    <div class="row">
+                        <div class="col-sm-12 col-lg-12">
+                            <div class="form-group row">
+                                <div class="input-group col-sm-12">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-addon1">
+                                            <i class="ti-search"></i>
+                                        </span>
+                                    </div>
+
+                                    <input class="form-control" formControlName="q" (change)="filter()"
+                                        [placeholder]="placeholder" type="text" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div *ngIf="canList()" class="table-responsive table-hover">
+            <table class="table table-responsive-lg  v-middle white-table">
+                <thead>
+                    <tr>
+                        <th class="text-center" scope="col">#</th>
+                        <th scope="col" class="text-center">Actividades</th>
+                        <th scope="col" class="text-center">Proceso</th>
+                        <th scope="col" class="text-center">Roles asignados</th>
+                        <th scope="col" class="text-center">Vistas asignadas</th>
+                        <th scope="col" class="text-center">Vista predeterminada</th>
+                        <th scope="col" class="text-center">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let activity of dataActivities;let i=index;">
+
+                        <!--  <td *ngIf="marcarvarios" class="text-center">
+                            {{rol.rol_id}}
+                        </td> -->
+                        <td class="text-center">
+                            {{i+1}}
+                        </td>
+                        <td class="text-left">
+                            {{activity.name}}
+                        </td>
+                        <td>
+                            {{activity.wf_workflow_id==1?'Pagaré':'Cupo'}}
+                        </td>
+                        <td>
+                            {{activity.rols}}
+                        </td>
+                        <td>
+                            {{activity.views}}
+                        </td>
+                        <td>
+                            {{getDefault(activity)}}
+                        </td>
+                        <td>
+                            <div class="div-table-actions">
+                                <button *ngIf="canEdit()" (click)="editar(activity,createModal)"
+                                    class="btn  btn-color-solucredit" type="button"><span class="btn-label m-r-5"><i
+                                            class="mdi mdi-eye-outline"></i></span>Editar</button>
+                                <button *ngIf="canEdit()" (click)="editar(activity,editview)"
+                                    class="btn  btn-color-solucredit" type="button"><span class="btn-label m-r-5"><i
+                                            class="fas fa-edit"></i></span>Predeterminada</button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="d-flex justify-content-center p-2">
+
+                <ngb-pagination [collectionSize]="this.countActivities" [pageSize]="pageSize" [(page)]="page"
+                    aria-label="Default pagination" (pageChange)="pageChange($event)"></ngb-pagination>
+            </div>
+            <!-- <div class="d-flex justify-content-center mt-5">
+                <ngb-pagination [(page)]="page" [pageSize]="pageSize" [collectionSize]="userList.length"></ngb-pagination>
+            </div> -->
+        </div>
+
+    </div>
+</div>
+<ng-template #editview let-modal>
+    <div class="modal-header">
+        <h5 class="modal-title" id="editUserLabel">Vista predeterminada</h5>
+        <button type="button" class="close" aria-label="Close" (click)="closeBtnClick()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+
+    </div>
+    <div class="modal-body">
+        <div *ngIf="canList()" class="table-responsive table-hover">
+            <table class="table table-responsive-lg  v-middle white-table">
+                <thead>
+                    <tr>
+                        <th class="text-center" scope="col">#</th>
+                        <th scope="col" class="text-center">Vista</th>
+                        <th scope="col" class="text-center">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let activity of actualActivity.dataviews;let i=index;">
+
+                        <!--  <td *ngIf="marcarvarios" class="text-center">
+                            {{rol.rol_id}}
+                        </td> -->
+                        <td class="text-center">
+                            {{i+1}}
+                        </td>
+                        <td class="text-left">
+                            {{getNameView(activity)}}
+                        </td>
+                        <td>
+                            <div class="div-table-actions">
+                                <button *ngIf="canEdit() && activity.is_default==0" (click)="changeDefault(activity,1)"
+                                    class="btn  btn-color-solucredit" type="button"><span class="btn-label m-r-5"><i
+                                            class="fas fa-plus"></i></span>Agregar</button>
+                                <button *ngIf="canEdit()&& activity.is_default==1" (click)="changeDefault(activity,0)"
+                                    class="btn btn-danger" type="button"><span class="btn-label m-r-5"><i
+                                            class="fas fa-times"></i></span>Remover</button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</ng-template>
+<ng-template #createModal let-modal>
+    <div class="modal-header">
+
+        <h5 class="modal-title" id="editUserLabel">Edicion de actividad</h5>
+
+        <button type="button" class="close" aria-label="Close" (click)="closeBtnClick()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-12">
+                <ngx-spinner [name]="'spnn'" bdColor="rgba(0, 0, 0, 0.8) " size="medium " color="#759ee0 "
+                    type="ball-atom " [fullScreen]="false ">
+                    <p style="color: white "> Cambiando Estatus ... </p>
+                </ngx-spinner>
+                <ng-container [ngSwitch]="actualActivity">
+                    <ng-container *ngSwitchCase="null">
+                        <h6>Cargando</h6>
+                    </ng-container>
+                    <ng-container *ngSwitchDefault>
+                        <form [formGroup]="RolForm">
+                            <div class="form-group row">
+                                <label for="fname"
+                                    class="col-sm-3 text-right control-label col-form-label">Nombre</label>
+                                <div class="col-sm-9">
+                                    <div class="input-group col-sm-12">
+                                        <div class="input-group-prepend ">
+                                            <span class="input-group-text " id="basic-addon1">
+                                                <i class=" icon-note"></i>
+                                            </span>
+                                        </div>
+
+                                        <input [value]="actualActivity.name" formControlName="RolName" type="text"
+                                            class="form-control" id="fname" placeholder="nombre del nuevo rol">
+                                    </div>
+                                </div>
+                            </div>
+
+                        </form>
+                        <div class="card-body">
+                            <div class="card-body div-con-flex-col">
+                                <app-spinner *ngIf="isLoadingInEdition"></app-spinner>
+                                <div *ngIf="!isEditing &&!isLoadingInEdition" class="col-sm-12">
+                                    <h3>Permisos</h3>
+                                    <nz-tabset nzSize="large">
+                                        <nz-tab [nzTitle]="dat.name" *ngFor="let dat of showViews;let i = index ">
+                                            <div class="bitacora-layout">
+
+                                                <div class="table-responsive table-hover">
+                                                    <table class="table table-responsive-lg v-middle white-table">
+                                                        <tbody>
+                                                            <tr *ngFor="let permission of dat.rol">
+
+                                                                <td width="150">
+                                                                    <div class="text-left">
+                                                                        <label style="font-size:16px">
+                                                                            {{permission.rol==null?'Usuario':permission.rol.name}}
+                                                                        </label>
+                                                                    </div>
+                                                                </td>
+
+
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </nz-tab>
+                                    </nz-tabset>
+
+                                </div>
+                                <div *ngIf="isEditing &&!isCalculatinPermissions" class="col-sm-12">
+                                    <h3>Permisos</h3>
+                                    <nz-tabset nzSize="large">
+                                        <nz-tab [nzTitle]="dat.name" *ngFor="let dat of allCheckForm;let i = index ">
+                                            <div class="bitacora-layout">
+
+                                                <div class="table-responsive table-hover">
+                                                    <table
+                                                        class="table table-responsive-lg no-wrap v-middle white-table">
+                                                        <tbody>
+                                                            <tr *ngFor="let data of dat.checks">
+                                                                <td *ngIf="isEditing && !isCalculatinPermissions"
+                                                                    width="50" class="text-center">
+                                                                    <label>
+                                                                        <input type="checkbox" [checked]="data.value"
+                                                                            [value]="data.id"
+                                                                            (change)="onCheckChange($event,dat,data)">
+                                                                    </label>
+
+                                                                </td>
+                                                                <td width="150">
+                                                                    <div class="text-left">
+                                                                        <label style="font-size:16px">
+                                                                            {{data.name==null?'USUARIO':data.name}}
+                                                                        </label>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </nz-tab>
+                                    </nz-tabset>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group m-b-0 text-right">
+                                <button *ngIf="!isEditing" type="submit" class="btn btn-color-solucredit"
+                                    (click)="startMod()">Modificar</button>
+                                <button *ngIf="isEditing" type="button" class="btn btn-color-solucredit"
+                                    (click)="saveChanges()">Guardar cambios</button>
+                                <button *ngIf="isEditing" type="button"
+                                    class="btn btn-raised mr-1 text-white btn-color-solucredit-secondary"
+                                    (click)="closeBtnClick()">Cancelar</button>
+
+                            </div>
+                        </div>
+
+                    </ng-container>
+                </ng-container>
+            </div>
+        </div>
+    </div>
+</ng-template>

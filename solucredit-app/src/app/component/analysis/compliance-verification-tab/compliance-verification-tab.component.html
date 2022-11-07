@@ -1,0 +1,859 @@
+<div class="card-body" [ngSwitch]="pageComplianceVerification">
+    <div class="container" *ngSwitchCase="0">
+        <div class="container" *ngIf="disableView(analysis_option.assigmentResponsable)">
+            <app-access-denied-page></app-access-denied-page>
+        </div>
+
+        <form class="form-horizontal" [formGroup]="initComplianceVerificationForm"
+            *ngIf="!disableView(analysis_option.assigmentResponsable)" (ngSubmit)="initComplianceVerificationMethod()">
+            <div class="row">
+                <div class="col-lg-4" style="text-align: left;">
+                    <label for="first_name">
+                        Asignación de revisión de Responsable:
+                    </label>
+                </div>
+                <div class="col-lg-8" style="align-items: center;">
+                    <select class="custom-select" id="id_permission" formControlName="id_adviser"
+                        [attr.disabled]="editDefaultAdviser">
+                        <option *ngFor="let advi of listcomplianceverificationadviser" [ngValue]="advi.id_adviser"
+                            [selected]="advi.is_default==1?true:false">{{advi.firstname}}
+                            {{advi.lastname}} {{advi.is_default==1?"-- Predeterminado":""}} </option>
+                    </select>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-lg-4" style="text-align: left;">
+                    <label for="first_name">
+                        Comentario de Asignación:
+                    </label>
+                </div>
+                <div class="col-lg-8" style="align-items: center;">
+                    <textarea type="text" class="form-control " required rows="12"
+                        [placeholder]="'Ej. Descripción de una transacción'" formControlName="comment"></textarea>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <button type="submit" class="btn btn ml-auto text-white custom_add1"><i class="fas fa-edit"></i>
+                    Asignación</button>
+                <button type="button" *ngIf="showMoveToForm&&initComplianceVerification"
+                    class="btn btn text-white custom_add1" (click)="changeView(1)">
+                    <i class="fas fa-file-alt"></i>
+                    Ir a
+                    formulario</button>
+            </div>
+        </form>
+    </div>
+    <div class="container" *ngSwitchCase="1">
+        <div class="container" *ngIf="disableView(analysis_option.form)">
+            <app-access-denied-page></app-access-denied-page>
+        </div>
+        <div class="container" *ngIf="!disableView(analysis_option.form)">
+            <div class="row">
+                <div class="col-lg-4" style="text-align: left;">
+                    <label for="first_name">
+                        Descargar Documentación:
+                    </label>
+                </div>
+                <div class="col-lg-8" style="align-items: center;">
+                    <button type="button" class="btn btn ml-auto btn-info" (click)="downloadDocIR()"><i
+                            class="fas fa-cloud-download-alt"></i> Inicio de relación(ZIP)
+                    </button>
+                    <button type="button" class="btn btn ml-auto btn-info" (click)="downloadDocRequirements()"> <i
+                            class="fas fa-cloud-download-alt"></i> Requisitos (ZIP)
+                    </button>
+                    <button type="button" class="btn btn ml-auto btn-info" (click)="downloadDocForms()">
+                        <i class="fas fa-cloud-download-alt"></i>
+                        Formularios
+                        (ZIP)
+                    </button>
+                </div>
+            </div>
+
+            <br>
+            <div class="row">
+                <div class="col-lg-4" style="text-align: left;">
+                    <label for="first_name">
+                        Asignación de revisión de Responsable:
+                    </label>
+                </div>
+
+                <div class="col-lg-8" style="align-items: center;">
+                    <input type="email" class="form-control " disabled
+                        [placeholder]="responsibleComplianceAnalysis?.firstname+ ' '+ responsibleComplianceAnalysis?.lastname">
+                </div>
+            </div>
+            <br>
+            <form [formGroup]="updateComplianceVerificationForm" (ngSubmit)="saveUpdateComplianceVerificationForm()">
+                <div class="row">
+                    <div class="col-lg-4" style="text-align: left;">
+                        <label for="first_name">
+                            Documentación válida
+                        </label>
+                    </div>
+
+                    <div class="col-lg-8 row" style="align-items: center;">
+                        <div class="col-sm-1">
+                            <div class="custom-control custom-radio">
+                                <input type="radio" id="sipertenece" [(ngModel)]="compliance_verification_docs_valid"
+                                    (change)="changeVerificationsDocsLegalAnalysis(1)" [value]="1"
+                                    class="custom-control-input" formControlName="valid_documents">
+                                <label class="custom-control-label custom-label" for="sipertenece">Si</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-1">
+                            <div class="custom-control custom-radio">
+                                <input type="radio" id="nopertenece" [(ngModel)]="compliance_verification_docs_valid"
+                                    [value]="0" class="custom-control-input"
+                                    (change)="changeVerificationsDocsLegalAnalysis(0)"
+                                    formControlName="valid_documents">
+                                <label class="custom-control-label custom-label" for="nopertenece">No</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-lg-4" style="text-align: left;">
+                        <label for="first_name">
+                            Opinión de análisis:
+                        </label>
+                    </div>
+
+                    <div class="col-lg-8 row" style="align-items: center;">
+                        <textarea type="text" class="form-control " required rows="12"
+                            [placeholder]="'Ej. Descripción de una transacción'" formControlName="comment"></textarea>
+                    </div>
+
+                </div>
+
+
+
+                <br>
+                <div class="row">
+                    <div class="col-lg-4" style="text-align: left;">
+                        <label for="first_name">
+
+                        </label>
+                    </div>
+                    <div class="col-lg-8 text-right">
+                        <button type="submit" class="btn btn ml-auto btn-info">
+                            <i class="fas fa-save"></i>
+                            Guardar</button>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-lg-4" style="text-align: left;">
+                        <label for="first_name">
+                            Coincidencias en Listas Internacionales:
+                        </label>
+                    </div>
+                </div>
+
+                <br>
+                <div class="row">
+                    <div class="col-lg-4" style="text-align: left;">
+                        <label for="first_name">
+
+                        </label>
+                    </div>
+                    <div class="col-lg-8">
+                        <div class="table-responsive table-hover">
+                            <table class="table table-responsive-lg no-wrap v-middle white-table">
+                                <thead>
+                                    <tr>
+                                        <th *ngFor="let header of complianceVerificationOnuList.metadata">
+                                            <div style="text-align: center;">
+                                                {{header}}
+                                            </div>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let doc of getONUListCumplianceVerification()">
+                                        <td>
+                                            {{doc.name}}
+                                        </td>
+                                        <td>
+                                            <div style="text-align: center;">
+                                                {{doc.values.length}}
+                                            </div>
+                                        </td>
+                                        <td style="justify-content: right;">
+                                            <div style="justify-content: right;">
+                                                <button class="btn btn-raised mr-1 text-white btn-info"
+                                                    (click)="openOnuListDetail(modalOnuDetail,doc)" type="button"><span
+                                                        class="btn-label m-r-5"><i
+                                                            class="mdi mdi-eye-outline"></i></span>Ver</button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-lg-4" style="text-align: left;">
+                        <label for="first_name">
+                            Cargar documentos de respaldo:
+                        </label>
+                    </div>
+                    <div class="col-lg-8" style="align-items: center;">
+                        <button type="button" class="btn btn ml-auto btn-info"
+                            (click)="openModalUploadComplianceVerificationDoc(modalUploadDocs)">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            Cargar
+                        </button>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-lg-4" style="text-align: left;">
+                        <label for="first_name">
+
+                        </label>
+                    </div>
+                    <div class="col-lg-8">
+                        <div class="table-responsive table-hover">
+                            <table class="table table-responsive-lg no-wrap v-middle white-table">
+                                <thead>
+                                    <tr>
+                                        <th *ngFor="let header of complianceVerificationDataList.metadata">
+                                            <div style="text-align: center;">
+                                                {{header}}
+                                            </div>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let doc of complianceVerificationDataList.data">
+                                        <td>
+                                            <div style="text-align: justify;">
+                                                {{doc.uploaddocsca_namedoc|namefile|slice:0:20}}
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div style="text-align: justify;">
+                                                {{doc.uploaddocsca_comment}}
+                                            </div>
+                                        </td>
+                                        <td>
+                                    <tr>
+                                        <td>
+                                            <i style="cursor: pointer;" class=" icon-eye"
+                                                *ngIf="doc.uploaddocsca_namedoc.includes('jpg')||doc.uploaddocsca_namedoc.includes('pdf')||doc.uploaddocsca_namedoc.includes('png')||doc.uploaddocsca_namedoc.includes('jpeg')"
+                                                (click)="showDocument(doc)"></i>
+                                        </td>
+                                        <td>
+                                            <i style="cursor: pointer;" class="fas fa-cloud-download-alt"
+                                                (click)="downloadDocument(doc)">
+                                            </i>
+                                        </td>
+                                        <td>
+                                            <i style="cursor: pointer;color:red"
+                                                (click)="deleteDocCA(doc,'Cumplimiento')" class="icon-trash"></i>
+                                        </td>
+
+
+                                    </tr>
+                                    </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+                <br>
+
+            </form>
+            <br>
+            <div class="row">
+                <div class="col-lg-4" style="text-align: left;">
+                    <label for="first_name">
+
+                    </label>
+                </div>
+                <div class="col-lg-8" style="align-items: flex-start;">
+                    <button type="button" class="btn btn ml-auto text-white custom_add1"
+                        (click)="openChecklistModal(modalCheckListAnalysis,'Cumplimiento')">
+                        <i class="fas fa-check-square"></i>
+                        Checklist Revisión
+                        Cumplimiento</button>
+                    <button type="button" class="btn btn ml-auto text-white custom_add1" *ngIf="showMoveToAssigment"
+                        (click)="changeView(0)"><i class="fas fa-user"></i> Asignación de responsable</button>
+                </div>
+            </div>
+            <br>
+        </div>
+    </div>
+    <div class="container-xxl" *ngSwitchCase="2">
+        <app-access-denied-page *ngIf="disableView(analysis_option.report)" (return_view)="returnview2()"
+            [return]="true"></app-access-denied-page>
+        <app-analysis-report *ngIf="!disableView(analysis_option.report)&&complianceVerificationSelected"
+            [analysis_id]="complianceVerificationSelected?.id_commercialanalysis" (return_view)="returnview2()">
+        </app-analysis-report>
+    </div>
+</div>
+
+<ng-template #modalUploadDocs let-modal>
+    <div class="modal-header text-center">
+        <h3 class="modal-title" id="editUserLabel">Evidencias y Documentos Respaldo </h3>
+        <button id="updateMemberClose" type="button" class="close" (click)="modal.dismiss('cerrar')" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div style="display: flex; flex-direction: column;">
+
+            <div class="card-block">
+                <form [formGroup]="FormUploadDocumentsCA" class="form-horizontal">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12">
+                                <div class="form-group row">
+                                    <label for="prod_serv_other_signers" class="col-sm-12">Comentario:</label>
+                                    <div class="input-group col-sm-12">
+                                        <textarea type="text" class="form-control .module" aria-label="comment"
+                                            id="comment" formControlName="uploaddocsca_comment" style="width: 50%"
+                                            rows="2">
+                                        </textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div style="display: flex; justify-content: center; align-items: center;">
+                <input type="file" [id]="'exampleInputFile'+i" style="display: none;"
+                    [disabled]="!FormUploadDocumentsCA.valid" (change)="uploadDocsCA($event,doc,'s'+i)"
+                    accept=".doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,.xls,.xlsx,.pdf,image/*" />
+                <button class="btn mb-2 text-white custom_add1 btn-sm" [disabled]="!FormUploadDocumentsCA.valid"
+                    style="display: block;">
+                    <label [for]="'exampleInputFile'+i"> <i class=" far fa-edit mr-3"></i>Subir archivo</label>
+                </button>
+            </div>
+        </div>
+    </div>
+</ng-template>
+<ng-template #showTextModal let-modal>
+    <div class="modal-header text-center">
+        <h3 class="modal-title" id="editUserLabel">
+            Descripción
+        </h3>
+        <button id="updateMemberClose" type="button" class="close" (click)="modal.dismiss('cerrar')" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+    <div class="modal-body">
+        <div style="display: flex; flex-direction: column;">
+            <div class="card-block">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            <div class="form-group row">
+                                <h4>
+                                    Descripción
+                                </h4>
+                                <div class="input-group col-sm-12">
+                                    <h5>
+                                        {{showDescription}}
+                                    </h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>
+<ng-template #modalCheckListAnalysis let-modal>
+    <div class="modal-header">
+        <h5 class="modal-title text-center" id="editUserLabel">Revisión Detallada</h5>
+        <button type="button" class="close" (click)="closeBtnClick()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="col-md-12" style="align-content: center;">
+                    <nz-tabset nzSize="large">
+                        <nz-tab [nzTitle]="tab" *ngFor="let tab of tabs;">
+                            <div class="bitacora-layout">
+                                <div class="table-responsive table-hover">
+                                    <table class="table table-responsive-lg v-middle white-table">
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                    #
+                                                </th>
+                                                <th>
+                                                    Nombre de persona
+                                                </th>
+                                                <th>
+                                                    Nombre de documento
+                                                </th>
+                                                <th>
+                                                    Tipo de persona
+                                                </th>
+                                                <th>
+                                                    Descripción
+                                                </th>
+                                                <th>
+                                                    Verificado
+                                                </th>
+                                                <th>
+                                                    Documento
+                                                </th>
+                                                <th>
+                                                    Verificación
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let doc of groupData(tab); let i = index">
+                                                <td>
+                                                    {{i+1}}
+                                                </td>
+                                                <td>
+                                                    {{doc.name}}
+                                                </td>
+                                                <td>
+                                                    <h4>
+                                                        <strong *ngIf="doc.document_name==null">
+                                                            DOCUMENTO NO SUBIDO
+                                                        </strong>
+                                                    </h4>
+                                                    {{doc.document_name}}
+                                                </td>
+                                                <td>
+                                                    {{doc.user_type}}
+                                                </td>
+                                                <td>
+                                                    <button (click)="openShowDescription(showTextModal,doc.description)"
+                                                        class="btn btn-info"
+                                                        [disabled]="!(doc.description!=''&&doc.description!=null)">
+                                                        <i style="cursor: pointer;" class=" icon-eye"></i>
+                                                    </button>
+                                                </td>
+                                                <td>
+                                                    <div style="text-align: center;">
+                                                        <label style="margin-right: 10px">
+                                                            {{doc.verification==1?'SI':'NO'}}
+
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td class="d-flex flex-row align-self-center ">
+                                                    <div *ngIf="doc.key != null" style="text-align: center;"
+                                                        class="align-self-center">
+                                                        <button *ngIf="showButton(doc.document_name)"
+                                                            (click)="showChecklistDocumentM(doc)" class="btn btn-info">
+                                                            <i style="cursor: pointer;" class=" icon-eye"></i>
+                                                        </button>
+                                                        <button (click)="DownloadChecklistAnalysisDocument(doc)"
+                                                            class="btn btn-primary" style="background-color: #2061c4;">
+                                                            <i style="cursor: pointer;"
+                                                                class="fas fa-cloud-download-alt">
+                                                            </i>
+                                                        </button>
+                                                        
+                                                    </div>
+
+                                                </td>
+                                                <td>
+                                                    <button (click)="openCreateVerification(createVerification,doc)"
+                                                        *ngIf="doc.document_name!=null" class="btn btn-success">
+                                                        <i class="far fa-pen">
+                                                        </i>
+                                                        Crear
+                                                        Verificación
+                                                    </button>
+                                                    <!-- <div style="text-align: center;">
+                                                        <button *ngIf="doc.checklist_document_key == null" type="button"
+                                                            data-toggle="modal" class="btn btn ml-auto btn-info"
+                                                            (click)="openModalUploadDocCheck(modalUploadDocsCheck, ver)">
+                                                            <i class="fas fa-cloud-upload-alt"></i>
+                                                            Cargar
+                                                        </button>
+                                                        <button type="button" data-toggle="modal"
+                                                            class="btn btn ml-auto btn-secondary"
+                                                            (click)="openModalComment(modalEditComment, ver)">
+                                                            <i class="fas fa-comment"></i>
+                                                            {{doc.comment == null ? 'Agregar comentario' : 'Editar comentario'}}
+                                                        </button>
+                                                    </div> -->
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </nz-tab>
+                    </nz-tabset>
+                    <!-- <table class="table table-responsive-lg v-middle white-table">
+                            <thead class="table-striped">
+                                <tr>
+                                    <th *ngFor="let header of dataChecklistAnalysis.metadata">
+                                        <div style="text-align: center;">
+                                            {{header}}
+                                        </div>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let ver of dataChecklistAnalysis.data">
+                                    <td>
+                                        <div style="text-align: center;">
+                                            <p>{{ver.doc_type|slice:0:50}}</p>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div style="max-width: 400px; text-align: center; column-gap: 50px;">
+                                            <p>{{ver.nombre}}</p>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div style="text-align: center;">
+                                            <label style="margin-right: 10px">
+                                                <input style="align-items: center;" type="checkbox"
+                                                    [checked]="ver.bit_value=='true'"
+                                                    (change)="onChangeStatusCheckList(ver)" /> Si
+                                            </label>
+
+                                            <label>
+                                                <input style="align-items: center;" type="checkbox"
+                                                    [checked]="ver.bit_value=='false'||ver.bit_value=='0'"
+                                                    (change)="onChangeStatusCheckList(ver)" /> No
+                                            </label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div style="max-width: 200px; text-align: center;">
+                                            {{ver.comment == '0' ? 'No se ha agregado' : ver.comment}}
+                                        </div>
+                                    </td>
+                                    <td class="d-flex flex-row align-self-center ">
+                                        <div *ngIf="ver.ad_s3key != 0" style="text-align: center;"
+                                            class="align-self-center">
+                                            <button  *ngIf="ver.filename.includes('jpg')||ver.filename.includes('pdf')||ver.filename.includes('png')||ver.filename.includes('jpeg')" (click)="showChecklistDocumentM(ver)" class="btn btn-info">
+                                                <i style="cursor: pointer;" class=" icon-eye"
+                                                   ></i>
+                                            </button>
+                                            <button (click)="DownloadChecklistAnalysisDocument(ver)"
+                                                class="btn btn-primary" style="background-color: #2061c4;">
+                                                <i style="cursor: pointer;" class="fas fa-cloud-download-alt">
+                                                </i>
+                                            </button>
+                                            <button (click)="deleteCheckDocs(ver)" class="btn btn-danger">
+                                                <i style="cursor: pointer;" class="icon-trash "></i>
+                                            </button>
+
+                                        </div>
+                                        <div style="text-align: center;">
+                                            <button *ngIf="ver.ad_s3key == 0" [disabled]="ver.id_checklist == 0"
+                                                type="button" data-toggle="modal" class="btn btn ml-auto btn-info"
+                                                (click)="openModalUploadDocCheck(modalUploadDocsCheck, ver)">
+                                                <i class="fas fa-cloud-upload-alt"></i>
+                                                Cargar
+                                            </button>
+                                            <button [disabled]="ver.id_checklist == 0" type="button" data-toggle="modal"
+                                                class="btn btn ml-auto btn-secondary"
+                                                (click)="openModalComment(modalEditComment, ver)">
+                                                <i class="fas fa-comment"></i>
+                                                {{ver.comment == '0' ? 'Agregar comentario' : 'Editar comentario'}}
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table> -->
+                </div>
+                <hr>
+
+                <div class="form-group m-b-0 text-right">
+                    <button type="button" class="btn btn-raised mr-1 text-white btn-color-solucredit"
+                        style="align-items: flex-end;" (click)="openReport(targetReport)">
+                        <i class="fas fa-file-alt"></i>
+                        Generar Informe</button>
+                    <button class="btn btn-raised mr-1 text-white btn-color-solucredit-secondary"
+                        (click)="modal.dismiss('cerrar')">
+                        <i class="fas fa-times"></i>
+                        Cancelar</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</ng-template>
+<ng-template #createVerification let-modal>
+    <div class="modal-header text-center">
+        <h3 class="modal-title" id="editUserLabel">
+            Verificación de Documentos
+        </h3>
+        <button id="updateMemberClose" type="button" class="close" (click)="closeBtnClick()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+    <div class="modal-body">
+        <div style="display: flex; flex-direction: column;">
+            <div class="card-block">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            <div class="card-block">
+                                <form [formGroup]="FormCheckListCA " class="form-horizontal"
+                                    (ngSubmit)="saveVerification()">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-lg-12 col-md-12 col-sm-12">
+                                                <div style="text-align: center;" class="form-group">
+                                                    <label for="prod_serv_other_signers" class="col-sm-12">Verificado
+                                                        :</label>
+                                                    <label style="margin-right: 10px">
+                                                        <input style="align-items: center;" type="checkbox"
+                                                            (change)="checkSelectedCommercialItem(true)"
+                                                            [checked]="selectedComplianceItem.verification==1" /> Si
+                                                    </label>
+
+                                                    <label>
+                                                        <input style="align-items: center;" type="checkbox"
+                                                            (change)="checkSelectedCommercialItem(false)"
+                                                            [checked]="selectedComplianceItem.verification==0||selectedComplianceItem.verification==null" />
+                                                        No
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12 col-md-12 col-sm-12">
+                                                <div class="form-group row">
+                                                    <label for="prod_serv_other_signers"
+                                                        class="col-sm-12">Comentario:</label>
+                                                    <div class="input-group col-sm-12">
+                                                        <textarea type="text" class="form-control .module"
+                                                            aria-label="comment" id="comment"
+                                                            formControlName="checklist_comment" style="width: 50%"
+                                                            rows="2">
+                                                            </textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div style="display: flex; justify-content: center; align-items: center;">
+                                                <input type="file" [id]="'exampleInputFile'+i" style="display: none;"
+                                                    (change)="uploadVerificationDoc($event)"
+                                                    accept=".doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,.xls,.xlsx,.pdf,image/*" />
+
+                                                <button class="btn mb-2 text-white custom_add1 btn-sm" type="button"
+                                                   >
+                                                    <label [for]="'exampleInputFile'+i"> <i
+                                                            class=" far fa-edit mr-3"></i>Subir archivo</label>
+                                                </button>
+                                                <button class="btn mb-2 mr-2 btn-info" type="button" *ngIf="selectedComplianceItem.checklist_document_name"
+                                                    (click)="showVerificationDoc()"
+                                                >
+                                                    <label>
+                                                        Ver documento
+                                                    </label>
+                                                </button>
+
+                                                <button class="btn mb-2 mr-2 btn-info" type="button" *ngIf="selectedComplianceItem.checklist_document_name"
+                                                (click)="downloadVerification()"
+                                            >
+                                                <label>
+                                                    Descargar documento
+                                                </label>
+                                            </button>
+                                            </div>
+                                            
+                                            <br>
+                                        </div>
+                                    </div>
+                                    <div style="display: flex; justify-content: center; align-items: center;">
+                                        <button class="btn mb-2 text-white custom_add1 btn-sm" style="display: block;">
+                                            <i class="fas fa-save"></i>
+                                            Aceptar
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+
+<ng-template #modalUploadDocsCheck let-modal>
+    <div class="modal-header text-center">
+        <h3 class="modal-title" id="editUserLabel">Cargar Documentos</h3>
+        <button id="updateMemberClose" type="button" class="close" (click)="modal.dismiss('cerrar')" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+
+        <div style="display: flex; flex-direction: column;">
+
+            <div class="card-block">
+                <form [formGroup]="FormCheckListCA " class="form-horizontal">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12">
+                                <div class="form-group row">
+                                    <label for="prod_serv_other_signers" class="col-sm-12">Comentario:</label>
+                                    <div class="input-group col-sm-12">
+                                        <textarea type="text" class="form-control .module" aria-label="comment"
+                                            id="comment" formControlName="checklist_comment" style="width: 50%"
+                                            rows="2">
+                                        </textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div style="display: flex; justify-content: center; align-items: center;">
+                <input type="file" [id]="'exampleInputFile'+i" style="display: none;"
+                    [disabled]="!FormCheckListCA.valid" (change)="uploadDocCheckList($event)"
+                    accept=".doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,.xls,.xlsx,.pdf,image/*" />
+                <button class="btn mb-2 text-white custom_add1 btn-sm" [disabled]="!FormCheckListCA.valid"
+                    style="display: block;">
+                    <label [for]="'exampleInputFile'+i"> <i class=" far fa-edit mr-3"></i>Subir archivo</label>
+                </button>
+            </div>
+
+        </div>
+    </div>
+</ng-template>
+
+
+<ng-template #modalEditComment let-modal>
+    <div class="modal-header text-center">
+        <h3 class="modal-title" id="editUserLabel">Editar comentario</h3>
+        <button id="updateMemberClose" type="button" class="close" (click)="modal.dismiss('cerrar')" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+
+        <div style="display: flex; flex-direction: column;">
+
+            <div class="card-block">
+                <form [formGroup]="FormCheckListCA " class="form-horizontal" (ngSubmit)="saveComment()">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12">
+                                <div class="form-group row">
+                                    <label for="prod_serv_other_signers" class="col-sm-12">Comentario:</label>
+                                    <div class="input-group col-sm-12">
+                                        <textarea type="text" class="form-control .module" aria-label="comment"
+                                            id="comment" formControlName="checklist_comment" style="width: 50%"
+                                            rows="2">
+                                        </textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="display: flex; justify-content: center; align-items: center;">
+                        <button class="btn mb-2 text-white custom_add1 btn-sm" [disabled]="!FormCheckListCA.valid"
+                            type="submit" style="display: block;">
+                            <i class="fas fa-save"></i>
+                            Aceptar
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #modalOnuDetail let-modal>
+    <div class="modal-header">
+        <h5 class="modal-title text-center" id="editUserLabel">Revisión Detallada</h5>
+        <button type="button" class="close" (click)="closeBtnClick()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body scroll">
+        <div class="card-header" style="background-color: #2061c4;">
+            <h4 class="m-b-0 text-white" style="text-align: center;">Concurrencias en Listas ONU</h4>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+
+                
+                    <div class="form-group row col-md-12">
+                        <table class="table table-responsive-lg table-hover no-wrap v-middle white-table">
+                            <thead class="table-striped">
+                                <tr>
+                                    <th scope="col">Código cliente</th>
+                                    <th scope="col">Nombre Completo</th>
+                                    <th scope="col">Validación</th>
+                                    <th scope="col">FIRST_NAME</th>
+                                    <th scope="col">SECOND_NAME</th>
+                                    <th scope="col">COMMENT</th>
+                                    <th scope="col">COMENTARIO</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let user of selectedOnuList">
+                                    <td>
+                                        {{user.customer.customer_id}}
+                                    </td>
+                                    <td>
+                                        <ngb-highlight *ngIf="user.customer.customer_id" [result]="user.customer.name" ></ngb-highlight>
+
+                                        <ngb-highlight style="padding-right: 4px; " *ngIf="user.customer.person_id" [result]="user.customer.first_name " ></ngb-highlight>
+                                        <ngb-highlight *ngIf="user.customer.person_id" [result]=" user.customer.last_name "></ngb-highlight>
+        
+                                        <ngb-highlight style="padding-right: 4px; " *ngIf="user.customer.id_fiduciary" [result]="user.customer.name1 " ></ngb-highlight>
+                                        <ngb-highlight style="padding-right: 4px; " *ngIf="user.customer.id_fiduciary" [result]="user.customer.name2 "></ngb-highlight>
+                                        <ngb-highlight style="padding-right: 4px; " *ngIf="user.customer.id_fiduciary" [result]="user.customer.name3 " ></ngb-highlight>
+                                        <ngb-highlight style="padding-right: 4px; " *ngIf="user.customer.id_fiduciary" [result]="user.customer.lastname1 " ></ngb-highlight>
+                                        <ngb-highlight style="padding-right: 4px;" *ngIf="user.customer.id_fiduciary" [result]="user.customer.lastname2 "></ngb-highlight>
+                                        <ngb-highlight *ngIf="user.customer.id_fiduciary" [result]="user.customer.lastname3 " ></ngb-highlight>
+                                    </td>
+                                    <td>
+                                        {{user.date | date: 'dd/MM/yyyy'}}
+                                    </td>
+                                    <td>
+                                        <ngb-highlight [result]="user.onu.FIRST_NAME" ></ngb-highlight>
+                                    </td>
+                                    <td>
+                                        <ngb-highlight [result]="user.onu.SECOND_NAME"></ngb-highlight>
+                                    </td>
+                                    <td style="width: 200px !important;white-space: normal !important;">
+                                        <ngb-highlight [result]="user.onu.COMMENTS1"></ngb-highlight>
+                                    </td>
+                                    <td style="width: 200px !important;white-space: normal !important;" *ngIf="user.customer.person_id">
+                                        <span>{{user.description_lock}}</span>
+                                    </td>
+                                    <td style="width: 200px !important;white-space: normal !important;" *ngIf="user.customer.id_fiduciary">
+                                        <span>{{user.description_lock}}</span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <hr>
+                
+            </div>
+        </div>
+    </div>
+</ng-template>

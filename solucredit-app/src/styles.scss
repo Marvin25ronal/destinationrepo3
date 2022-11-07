@@ -1,0 +1,57 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import url("https://fonts.googleapis.com/css?family=Nunito+Sans:300,400,600,700,800");
+@import "~@circlon/angular-tree-component/css/angular-tree-component.css";
+
+.page-breadcrumb .breadcrumb .breadcrumb-item + .breadcrumb-item::before {
+    font-size: 15px !important;
+}
+.page-breadcrumb .breadcrumb {
+    font-size: 15px !important;
+}
+.btn-gray {
+    background-color: #6c6c6c !important;
+    border: #6c6c6c !important;
+    color: #fff !important;
+}
+
+.card {
+    border-radius: 10px !important;
+}
+
+.br-t-20 {
+    border-top-left-radius: 20px !important;
+    border-top-right-radius: 20px !important;
+}
+.btn {
+    border-radius: 7px !important;
+}
+.solucredit-base-card {
+    background-color: #eef5f9 !important;
+}
+
+.solucredit-base-card:hover {
+    background-color: #dbe2e6 !important;
+}
+
+.solucredit-secondary-card {
+    background-color: #b3c7d1 !important;
+    color: black;
+}
+
+.solucredit-secondary-card:hover {
+    background-color: #9baeb8 !important;
+    color: white;
+}
+
+.solucredit-client-process-step-done {
+    background-color: #39c449 !important;
+    color: white !important;
+}
+.solucredit-client-process-step-done:hover {
+    background-color: #2fa83e !important;
+    color: white !important;
+}
+.hover-blue:hover {
+    background-color: #53bbf9 !important;
+}

@@ -1,0 +1,139 @@
+<div class="col-12">
+    <div class="card card-body">
+        <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#759ee0" type="ball-scale-multiple">
+            <p style="font-size: 20px; color:#fff">Cargando Información...</p>
+        </ngx-spinner>
+        <div class="d-flex mb-3 mt-3">
+            <div class="m-t-20">
+                <form [formGroup]="search">
+                    <div class="row">
+                        <div class="col-sm-12 col-lg-12">
+                            <div class="form-group row">
+                                <div class="input-group col-sm-12">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-addon1">
+                                            <i class="ti-search"></i>
+                                        </span>
+                                    </div>
+
+                                    <input class="form-control" formControlName="q" (change)="searchTerm()"
+                                        [placeholder]="placeholder" type="text" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+        <div *ngIf="canList()" class="table-responsive ">
+            <table class="table table-responsive-lg  v-middle white-table">
+                <thead>
+                    <tr>
+                        <th *ngFor="let header of dataList.metadata">
+                            <div class="text-center">
+                                {{header}}
+                            </div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let request of dataList.data;let i=index;">
+                        <td>
+                            <div class="text-center">
+                                {{i+1}}
+                            </div>
+                        </td>
+                        <td class="text-center">
+                            {{request.name}}
+                        </td>
+                        <td style='max-width: 25rem;' class="text-left">
+                            {{request.description}}
+                        </td>
+
+                        <td class="text-center">
+                            <div class="div-table-actions">
+                                <button *ngIf="canSee()" class="btn btn-raised mr-1 text-white btn-info"
+                                    (click)="goLink(request)" type="button"><span class="btn-label m-r-5"><i
+                                            class="fas fa-link"></i></span>Ver</button>
+                                <button class="btn btn-raised mr-1 text-white  btn-color-solucredit" type="button"
+                                    *ngIf="canEdit()" (click)="edit(editModal,request)"><span class="btn-label m-r-5"><i
+                                            class=" icon-pencil"></i></span>Editar</button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="d-flex justify-content-center p-2">
+                <ngb-pagination [collectionSize]="this.totalData" [pageSize]="pageSize" [(page)]="page"
+                    aria-label="Default pagination" (pageChange)="pageChange($event)" [boundaryLinks]="true"
+                    [maxSize]="7"></ngb-pagination>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #editModal let-modal>
+    <div class="modal-header">
+        <h3 class="modal-title">Editar tipo de {{title}}</h3>
+        <button type="button" class="close" (click)="closeBtnClick()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form class="form-horizontal" [formGroup]="newDoc" (ngSubmit)="saveChanges()">
+            <div class="form-group row">
+                <label for="first_name" class="col-sm-3 text-right control-label col-form-label">{{title}}</label>
+                <div class="col-sm-9 ">
+                    <div class="input-group col-sm-12 ">
+                        <div class="input-group-prepend ">
+                            <span class="input-group-text " id="basic-addon1">
+                                <i class=" icon-note"></i>
+                            </span>
+                        </div>
+                        <input type="text" class="form-control " formControlName="name" required
+                            [placeholder]="exampleName" readonly>
+                    </div>
+                    <small class="form-text text-danger"
+                        *ngIf="!newDoc.get('name').valid && (newDoc.get('name').dirty || newDoc.get('name').touched)">{{spanNameMessage}}</small>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="first_name" class="col-sm-3 text-right control-label col-form-label">Descripción</label>
+                <div class="col-sm-9 ">
+                    <div class="input-group col-sm-12 ">
+
+                        <textarea type="text" class="form-control " formControlName="description" required rows="12"
+                            [placeholder]="'Ej. Descripción de una transacción'"></textarea>
+                    </div>
+                    <small class="form-text text-danger"
+                        *ngIf="!newDoc.get('description').valid && (newDoc.get('description').dirty || newDoc.get('description').touched)">La
+                        descripción es requerida</small>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="first_name" class="col-sm-3 text-right control-label col-form-label">{{title}}</label>
+                <div class="col-sm-9 ">
+                    <div class="input-group col-sm-12 ">
+                        <div class="input-group-prepend ">
+                            <span class="input-group-text " id="basic-addon1">
+                                <i class=" icon-note"></i>
+                            </span>
+                        </div>
+                        <input type="text" class="form-control " formControlName="link" required
+                            [placeholder]="'https://ejemplo'" editable="false">
+                    </div>
+                    <small class="form-text text-danger"
+                        *ngIf="!newDoc.get('link').valid && (newDoc.get('link').dirty || newDoc.get('link').touched)">{{spanNameMessage}}</small>
+                </div>
+            </div>
+            <div class="modal-footer border-top-0">
+                <button type="submit" class="btn btn-raised mr-1 text-white" [disabled]="!newDoc.valid"
+                    style="background-color: #3473da;">Actualizar</button>
+                <button type="button" class="btn btn-raised mr-1 text-white  btn-color-solucredit-secondary"
+                    (click)="closeBtnClick()">Cancelar</button>
+            </div>
+        </form>
+    </div>
+</ng-template>

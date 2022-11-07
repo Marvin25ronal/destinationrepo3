@@ -1,0 +1,5 @@
+jmeter{
+    logFile: "./jmeter/Salida.csv",
+    webReport: "./jmeter/salida-html",
+    jmeterFile: "./jmeter/Ejemplo.jmx"
+}

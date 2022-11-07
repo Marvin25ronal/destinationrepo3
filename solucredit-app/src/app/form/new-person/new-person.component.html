@@ -1,0 +1,293 @@
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="card-header" style="background: linear-gradient(to right, #2061c4 0%, #4382eb 100%);">
+                <h4 class="card-title mb-0 text-white">Registrar un Nuevo Representante</h4>
+            </div>
+            <div class="card-body">
+                <div class="card-block">
+                    <form [formGroup]="createPerson" (ngSubmit)="CreateUser()" class="form-horizontal">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-12 col-lg-3">
+                                    <app-custominput
+                                    label="Primer nombre"
+                                    [isrequired]="true"
+                                    [formcontrol]="createPerson.get('first_name')"
+                                    id="first_name"
+                                    [placeholder]="placeHolders.firstname"
+                                    iconclass="far fa-user"
+                                    mode="top"
+                                    type="text"
+                                    [errorMessages]="errorMessages.firstnameErrorMessages"
+                                ></app-custominput>
+                                    <!-- <div class="form-group row">
+                                        <label for="first_name" class="col-sm-12">Primer nombre
+                                            <code style="font-size: 16px;"><sup>*</sup></code>
+                                        </label>
+                                        <div class="input-group col-sm-12">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="basic-addon1">
+                                                    <i class="far fa-user"></i>
+                                                </span>
+                                            </div>
+                                            <input type="text" class="form-control" aria-label="Username" id="first_name" formControlName="first_name" required placeholder="Ej. Roberto Ariel">
+                                        </div>
+                                        <small class="form-text text-danger col-sm-12" *ngIf="!createPerson.get('first_name').valid && (createPerson.get('first_name').dirty || createPerson.get('first_name').touched)">El
+                                            nombre es requerido.</small>
+                                    </div> -->
+                                </div>
+
+                                <div class="col-sm-12 col-lg-3">
+                                    <div class="form-group row">
+                                        <label for="name2" class="col-sm-12">Segundo nombre
+                                           
+                                        </label>
+                                        <div class="input-group col-sm-12">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="basic-addon1">
+                                                    <i class="far fa-user"></i>
+                                                </span>
+                                            </div>
+                                            <input type="text" class="form-control" aria-label="Username" id="name2" formControlName="name2"  placeholder="Ej. Roberto">
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-lg-3">
+                                    <div class="form-group row">
+                                        <label for="first_name" class="col-sm-12">Tercer nombre
+                                           
+                                        </label>
+                                        <div class="input-group col-sm-12">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="basic-addon1">
+                                                    <i class="far fa-user"></i>
+                                                </span>
+                                            </div>
+                                            <input type="text" class="form-control" aria-label="Username" id="name3" formControlName="name3"  placeholder="Ej. Ariel">
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-lg-3">
+                                    <app-custominput
+                                    label="Primer apellido"
+                                    [isrequired]="true"
+                                    [formcontrol]="createPerson.get('last_name')"
+                                    id="last_name"
+                                    [placeholder]="placeHolders.lastname1"
+                                    iconclass="far fa-user"
+                                    mode="top"
+                                    type="text"
+                                    [errorMessages]="errorMessages.lastnameErrorMessages"
+                                ></app-custominput>
+                                    <!-- <div class="form-group row">
+                                        <label for="last_name" class="col-sm-12">Primer Apellido
+                                            <code style="font-size: 16px;"><sup>*</sup></code>
+                                        </label>
+                                        <div class="input-group col-sm-12">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="basic-addon1">
+                                                    <i class="far fa-user"></i>
+                                                </span>
+                                            </div>
+                                            <input type="text" class="form-control" aria-label="Username" id="last_name" formControlName="last_name" required placeholder="Ej. Jimenez Ramirez">
+                                        </div>
+                                        <small class="form-text text-danger col-sm-12" *ngIf="!createPerson.get('last_name').valid && (createPerson.get('last_name').dirty || createPerson.get('last_name').touched)">El
+                                            apellido es requerido.</small>
+                                    </div> -->
+                                </div>
+                                <div class="col-sm-12 col-lg-3">
+                                    <div class="form-group row">
+                                        <label for="first_name" class="col-sm-12">Segundo apellido
+                                           
+                                        </label>
+                                        <div class="input-group col-sm-12">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="basic-addon1">
+                                                    <i class="far fa-user"></i>
+                                                </span>
+                                            </div>
+                                            <input type="text" class="form-control" aria-label="Username" id="lastname2" formControlName="lastname2"  placeholder="Ej. Jimenez">
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-lg-3">
+                                    <div class="form-group row">
+                                        <label for="lastname3" class="col-sm-12">Apellido de casada
+                                           
+                                        </label>
+                                        <div class="input-group col-sm-12">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="basic-addon1">
+                                                    <i class="far fa-user"></i>
+                                                </span>
+                                            </div>
+                                            <input type="text" class="form-control" aria-label="Username" id="lastname3" formControlName="lastname3"  placeholder="Ej. Jimenez">
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-lg-6">
+                                    <app-custominput
+                                    label="DPI"
+                                    [isrequired]="true"
+                                    [formcontrol]="createPerson.get('DPI')"
+                                    id="dpi"
+                                    [placeholder]="placeHolders.dpi"
+                                    iconclass="far fa-address-card"
+                                    mode="top"
+                                    type="tel"
+                                    [errorMessages]="errorMessages.dpiErrorMessages"
+                                    [maxLength]="13"
+                                ></app-custominput> 
+                                    <!-- <div class="form-group row">
+                                        <label for="DPI" class="col-sm-12">DPI</label>
+                                        <div class="input-group col-sm-12">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="basic-addon1">
+                                                    <i class="far fa-address-card"></i>
+                                                </span>
+                                            </div>
+                                            <input type="text" maxlength="13" size="13" class="form-control" aria-label="Username" id="DPI" formControlName="DPI" placeholder="Ej. 2743984710101">
+                                        </div>
+                                        <small class="form-text text-danger col-sm-12" *ngIf="!createPerson.get('DPI').valid && (createPerson.get('DPI').dirty || createPerson.get('DPI').touched)">El
+                                            DPI es requerido.</small>
+                                    </div> -->
+                                </div>
+                                <div class="col-sm-12 col-lg-6">
+                                    
+                                    <label for="gender" class="col-sm-12">Seleccionar Género</label>
+                                    <div class="form-group row">
+                                        <div class="input-group col-sm-12">
+                                            <div _ngcontent-bpb-c164="" class="input-group-prepend"><label _ngcontent-bpb-c164="" for="inputGroupSelect01" class="input-group-text"><i class="fas fa-venus-mars"></i></label></div>
+                                            <select class="custom-select col-sm-12" id="gender" formControlName="gender">
+                                                <option value="" selected disabled>Selecionar...</option>
+                                                <option value="0">Femenino</option>
+                                                <option value="1">Masculino</option>
+                                            </select>
+                                        </div>
+                                        <small class="form-text text-danger col-sm-12" *ngIf="!createPerson.get('gender').valid && (createPerson.get('gender').dirty || createPerson.get('gender').touched)">Seleccione
+                                            un genero.</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12 col-lg-6">
+                                    <div class="form-group row">
+                                        <label for="birthdate" class="col-sm-12">Fecha de Nacimiento</label>
+                                        <div class="input-group col-sm-12">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="basic-addon1">
+                                                    <i class="fas fa-calendar-alt"></i>
+                                                </span>
+                                            </div>
+                                            <input type="date" class="form-control" id="birthdate" formControlName="birthdate">
+                                        </div>
+                                        <small class="form-text text-danger col-sm-12" *ngIf="!createPerson.get('birthdate').valid && (createPerson.get('birthdate').dirty || createPerson.get('birthdate').touched)">La fecha de nacimiento es requerida.</small>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-lg-6">
+                                    <div class="form-group row">
+                                        <label for="email" class="col-sm-12">Correo Electrónico</label>
+                                        <div class="input-group col-sm-12">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="basic-addon1">
+                                                    <i class="fas fa-envelope"></i>
+                                                </span>
+                                            </div>
+                                            <input type="email" class="form-control" id="email" formControlName="email" placeholder="Ej. email@email.com">
+                                        </div>
+                                        <small class="form-text text-danger col-sm-12" *ngIf="!createPerson.get('email').valid && (createPerson.get('email').dirty || createPerson.get('email').touched)">Ingresar un correo electrónico válido.</small>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-lg-6">
+                                    <div class="form-group row">
+                                        <label for="mobile_phone" class="col-sm-12">Número de Celular</label>
+                                        <div class="input-group col-sm-12">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="basic-addon1">
+                                                    <i class="fas fa-mobile-alt"></i>
+                                                </span>
+                                            </div>
+                                            <input type="text" maxlength="8" size="8" class="form-control" id="mobile_phone" formControlName="mobile_phone" placeholder="Ej. 45826578">
+                                        </div>
+                                        <small class="form-text text-danger col-sm-12" *ngIf="!createPerson.get('mobile_phone').valid && (createPerson.get('mobile_phone').dirty || createPerson.get('mobile_phone').touched)">El número de celular es requerido.</small>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-lg-6">
+                                    <div class="form-group row">
+                                        <label for="home_phone" class="col-sm-12">Número de Casa</label>
+                                        <div class="input-group col-sm-12">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="basic-addon1">
+                                                    <i class="fas fa-phone"></i>
+                                                </span>
+                                            </div>
+                                            <input type="text" maxlength="8" size="8" class="form-control" id="home_phone" formControlName="home_phone" minlength="8" maxlength="8" placeholder="Ej. 24536987">
+                                        </div>
+                                        <small class="form-text text-danger col-sm-12" *ngIf="!createPerson.get('home_phone').valid && (createPerson.get('home_phone').dirty || createPerson.get('home_phone').touched)">El número debe contener 8 digitos.</small>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-lg-6">
+                                    <div class="form-group row">
+                                        <label for="office_home" class="col-sm-12">Número de Oficina</label>
+                                        <div class="input-group col-sm-12">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="basic-addon1">
+                                                    <i class="fas fa-phone"></i>
+                                                </span>
+                                            </div>
+                                            <input type="text" maxlength="8" size="8" class="form-control" id="office_home" formControlName="office_home" minlength="8" maxlength="8" placeholder="Ej. 24536987">
+                                        </div>
+                                        <small class="form-text text-danger col-sm-12" *ngIf="!createPerson.get('office_home').valid && (createPerson.get('office_home').dirty || createPerson.get('office_home').touched)">El número debe contener 8 digitos.</small>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-lg-6">
+                                    <div class="form-group row">
+                                        <label for="address" class="col-sm-12">Dirección</label>
+                                        <div class="input-group col-sm-12">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="basic-addon1">
+                                                    <i class=" far fa-address-book"></i>
+                                                </span>
+                                            </div>
+                                            <input type="text" class="form-control" id="address" formControlName="address" placeholder="Ej. 8va. calle 35-40 zona 4, Mixco, Guatemala">
+                                        </div>
+                                        <small class="form-text text-danger col-sm-12" *ngIf="!createPerson.get('address').valid && (createPerson.get('address').dirty || createPerson.get('address').touched)">La
+                                            dirección es requerida.</small>
+                                    </div>
+                                </div>
+
+                                <div style="display: flex; ">
+
+                                    <label for="feic_source_income" class="col-sm-12">Marcar el Representante como Socio:</label>
+                                    <div class="col-lg-12 col-md-12 col-sm-12">
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" value="1" id="associate" class="custom-control-input" formControlName="associate" />
+                                            <label class="custom-control-label" for="associate">
+                                                </label>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="card-body">
+                            <div class="form-group m-b-0 text-left">
+                                <button type="submit" class="btn btn-raised mr-1 text-white" style="background-color: #3473da;" [disabled]="!createPerson.valid">Registrar</button>
+                                <button type="button"(click)="returnBack()" class="btn btn-gray waves-effect waves-light">Regresar</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Reactive Form Validaton Ends -->

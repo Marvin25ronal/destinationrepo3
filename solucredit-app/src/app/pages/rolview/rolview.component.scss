@@ -1,0 +1,361 @@
+
+.numbers-right {
+    display: flex;
+    justify-content: flex-end;
+    font-weight: 600;
+}
+
+.div-table-actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.div-con-flex {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.div-con-flex-col {
+    display: flex;
+    flex-direction: column;
+    /*  justify-content: space-evenly; */
+    align-items: center;
+    overflow: scroll;
+    max-height: 50vh;
+    margin-top: 1rem;
+    border-radius: 10px;
+    /* box-shadow: 0.2rem 0.2rem rgba(0, 0, 0, 0.2); */
+}
+
+.div-con-flex-col::-webkit-scrollbar {
+    width: 6px;
+    border-left: 1px solid #E6ECF8;
+}
+
+.div-con-flex-col::-webkit-scrollbar-thumb {
+    background-color: #2061C4;
+}
+
+.card-roles {
+    max-height: 2rem;
+}
+
+.btn-color-solucredit-drop {
+    /* background-color: #2061C4; */
+    color: #2061C4;
+    border-color: #2061C4;
+}
+
+.btn-color-solucredit-secondary {
+    background-color: #6C6C6C;
+    color: white;
+}
+
+.btn-color-solucredit-drop:hover {
+    background-color: #2061C4;
+    color: white;
+}
+
+.btn-color-solucredit {
+    background-color: #2061C4;
+    color: white;
+}
+
+.card-shadow {
+    border-radius: 10px;
+    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.2);
+    /* display: flex; */
+    max-width: 100%;
+    margin: 20px;
+    overflow: hidden;
+    width: 100%;
+    max-height: 70vh;
+    overflow: scroll;
+    /* background-color: yellow; */
+}
+
+.card-shadow::-webkit-scrollbar {
+    display: none;
+}
+
+.rol-item {
+    border-radius: 10px;
+    box-shadow: 0 3px 3px rgba(0, 0, 0, 0.2);
+}
+
+.titlerol {
+    text-align: center;
+    font-size: 20px;
+    line-height: 20px;
+    font-weight: 500;
+    padding: 16px 0 17px 0;
+    transition: all 0.3s ease-in-out;
+    min-width: 33%;
+}
+
+.price {
+    text-align: center;
+    font-size: 30px;
+    line-height: 30px;
+    font-weight: 500;
+    padding: 16px 0 17px 0;
+    transition: all 0.3s ease-in-out;
+}
+
+.price span {
+    display: block;
+    font-size: 12px;
+    line-height: 12px;
+    font-weight: 250;
+}
+
+.line {
+    height: 3px;
+    background: #E4E4E4;
+    margin: 0 auto 7px auto;
+}
+
+::ng-deep .my-class2 .modal-dialog {
+    min-width: 50%;
+    max-width: fit-content;
+    overflow: hidden;
+}
+
+/*SUPLIER CSS*/
+$border_modal: 15px;
+$border_input: 5px;
+
+
+
+
+
+
+/*The body of the lock*/
+
+
+/*The keyhole*/
+
+
+/*The arm of the lock*/
+
+
+
+.white-table {
+    text-align: center;
+    border: 1px solid #eef5f9;
+
+}
+.white-table tbody tr:hover {
+    background-color: #4180e91a;
+    font-weight: 500;
+
+}
+
+::ng-deep .my-modal .modal-content {
+    border-radius: $border_modal;
+}
+::ng-deep .my-modal .modal-header {
+    background-color: rgba(225, 229, 234, 0.1);
+    border-top-right-radius: $border_modal;
+    border-top-left-radius: $border_modal;
+    opacity: 0.8;
+}
+
+.close {
+    float: left;
+    border-width: 0 !important;
+    border: none;
+    outline: none;
+}
+.tabbable .nav-tabs {
+    overflow-x: auto;
+    overflow-y:hidden;
+    flex-wrap: nowrap;
+ }
+ .tabbable .nav-tabs .nav-link {
+   white-space: nowrap;
+ }
+
+
+
+ 
+.numbers-right {
+    display: flex;
+    justify-content: flex-end;
+    font-weight: 600;
+}
+
+.div-table-actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.div-con-flex {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.div-con-flex-col {
+    display: flex;
+    flex-direction: column;
+    /*  justify-content: space-evenly; */
+    align-items: center;
+    overflow: scroll;
+    max-height: 50vh;
+    margin-top: 1rem;
+    border-radius: 10px;
+    /* box-shadow: 0.2rem 0.2rem rgba(0, 0, 0, 0.2); */
+}
+
+.div-con-flex-col::-webkit-scrollbar {
+    width: 6px;
+    border-left: 1px solid #E6ECF8;
+}
+
+.div-con-flex-col::-webkit-scrollbar-thumb {
+    background-color: #2061C4;
+}
+
+.card-roles {
+    max-height: 2rem;
+}
+
+.btn-color-solucredit-drop {
+    /* background-color: #2061C4; */
+    color: #2061C4;
+    border-color: #2061C4;
+}
+
+.btn-color-solucredit-secondary {
+    background-color: #6C6C6C;
+    color: white;
+}
+
+.btn-color-solucredit-drop:hover {
+    background-color: #2061C4;
+    color: white;
+}
+
+.btn-color-solucredit {
+    background-color: #2061C4;
+    color: white;
+}
+
+.card-shadow {
+    border-radius: 10px;
+    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.2);
+    /* display: flex; */
+    max-width: 100%;
+    margin: 20px;
+    overflow: hidden;
+    width: 100%;
+    max-height: 70vh;
+    overflow: scroll;
+    /* background-color: yellow; */
+}
+
+.card-shadow::-webkit-scrollbar {
+    display: none;
+}
+
+.rol-item {
+    border-radius: 10px;
+    box-shadow: 0 3px 3px rgba(0, 0, 0, 0.2);
+}
+
+.titlerol {
+    text-align: center;
+    font-size: 20px;
+    line-height: 20px;
+    font-weight: 500;
+    padding: 16px 0 17px 0;
+    transition: all 0.3s ease-in-out;
+    min-width: 33%;
+}
+
+.price {
+    text-align: center;
+    font-size: 30px;
+    line-height: 30px;
+    font-weight: 500;
+    padding: 16px 0 17px 0;
+    transition: all 0.3s ease-in-out;
+}
+
+.price span {
+    display: block;
+    font-size: 12px;
+    line-height: 12px;
+    font-weight: 250;
+}
+
+.line {
+    height: 3px;
+    background: #E4E4E4;
+    margin: 0 auto 7px auto;
+}
+
+::ng-deep .my-class2 .modal-dialog {
+    min-width: 50%;
+    max-width: fit-content;
+    overflow: hidden;
+}
+
+/*SUPLIER CSS*/
+$border_modal: 15px;
+$border_input: 5px;
+
+
+
+
+
+
+/*The body of the lock*/
+
+
+/*The keyhole*/
+
+
+/*The arm of the lock*/
+
+
+
+.white-table {
+    text-align: center;
+    border: 1px solid #eef5f9;
+
+}
+.white-table tbody tr:hover {
+    background-color: #4180e91a;
+    font-weight: 500;
+
+}
+
+::ng-deep .my-modal .modal-content {
+    border-radius: $border_modal;
+}
+::ng-deep .my-modal .modal-header {
+    background-color: rgba(225, 229, 234, 0.1);
+    border-top-right-radius: $border_modal;
+    border-top-left-radius: $border_modal;
+    opacity: 0.8;
+}
+
+.close {
+    float: left;
+    border-width: 0 !important;
+    border: none;
+    outline: none;
+}
+.tabbable .nav-tabs {
+    overflow-x: auto;
+    overflow-y:hidden;
+    flex-wrap: nowrap;
+ }
+ .tabbable .nav-tabs .nav-link {
+   white-space: nowrap;
+ }

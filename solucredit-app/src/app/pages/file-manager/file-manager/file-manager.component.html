@@ -1,0 +1,1050 @@
+<div class="container-xxl " style="height: 100%;">
+  <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#759ee0" type="ball-scale-multiple">
+    <p style="font-size: 20px; color:#fff">Cargando Información...</p>
+  </ngx-spinner>
+  <div class="d-flex justify-content-end mb-3 mt-3">
+    <button class="btn btn-primary h-25 " style="background-color: #3473da;border-color: #3473da; "
+      *ngIf="canCreateFolder()" (click)="openCreate(createFolder)">Crear
+      Carpeta</button>
+
+    <label for="files" class="btn btn-primary  h-25 " style="background-color: #3473da;border-color: #3473da; "
+      *ngIf="canUploadFile()">Subir
+      Archivos</label>
+    <input id="files" style="display: none;" type="file" class="form-control" multiple (change)="showFiles($event)">
+
+
+  </div>
+
+  <div class="row align-content-stretch p-3">
+    <div class="col-lg-3 col-md-6 ">
+      <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-body" style="height: 400px;">
+              <h4 class="card-title">Carpetas</h4>
+              <div class="d-flex flex-row">
+                <tree-root #tree [nodes]="nodes" [focused]="true" [options]="options1"
+                  style="width: 100%; height: 320px;">
+                  <!-- Node wrapper template to control wrapper classes and cursor behaviour -->
+                  <ng-template #treeNodeWrapperTemplate let-node let-index="index" *ngIf="canList()">
+                    <tree-node-expander [node]="node"></tree-node-expander>
+                    <div class="node-content-wrapper" [class.node-content-wrapper-focused]="node.isFocused"
+                      (click)="node.toggleActivated(true)" (click)="openFolder(node)"
+                      (dblclick)="node.mouseAction('dblClick', $event)">
+
+                      <span *ngIf="!(node.data.data&&node.data.data.info_shared)"
+                        style="font-size: 1.5em; color: rgb(255, 225, 0);">
+                        <i [class]="node.isFocused||node.isExpanded?'fas fa-folder-open mr-2':'fas fa-folder mr-2'"></i>
+                      </span>
+                      <span *ngIf="node.data.data&&node.data.data.info_shared"
+                        style="font-size: 1.5em; color: rgb(0, 217, 255);">
+                        <i [class]="node.isFocused||node.isExpanded?'fas fa-folder-open mr-2':'fas fa-folder mr-2'"></i>
+                      </span>
+                      <span [class.title]="true">{{node.data.name}}</span>
+
+                    </div>
+                  </ng-template>
+                </tree-root>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-12" *ngIf="canListSharedFolders()">
+          <div class="card">
+            <div class="card-body" style="height: 400px;">
+              <h4 class="card-title">Carpetas Compartidas</h4>
+              <div class="d-flex flex-row">
+                <tree-root #tree_shared [nodes]="sharednodes" [focused]="true" [options]="options2"
+                  style="width: 100%; height: 320px;">
+                  <!-- Node wrapper template to control wrapper classes and cursor behaviour -->
+                  <ng-template #treeNodeWrapperTemplate let-node let-index="index">
+                    <tree-node-expander [node]="node"></tree-node-expander>
+                    <div class="node-content-wrapper" [class.node-content-wrapper-focused]="node.isFocused"
+                      (click)="node.toggleActivated(true)" (click)="openSharedFolder(node)"
+                      (dblclick)="node.mouseAction('dblClick', $event)">
+                      <span style="font-size: 1.5em; color: rgb(0, 217, 255);">
+                        <i [class]="node.isFocused||node.isExpanded?'fas fa-folder-open mr-2':'fas fa-folder mr-2'"></i>
+                      </span>
+                      <span [class.title]="true">{{node.data.name}}</span>
+                    </div>
+                  </ng-template>
+                </tree-root>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+    <div class="col-lg-6 col-md-6 ">
+      <div class="card " style="height: 823px;">
+        <div class="card-body">
+          <h4 class="card-title">Archivos {{currentNode?currentNode.name:''}}</h4>
+          <div class="table-responsive table-hover">
+            <table class="table table-responsive-lg no-wrap  v-middle white-table">
+              <thead>
+                <tr>
+                  <th *ngFor="let header of dataList.metadata">
+                    <div class="text-center">
+                      {{header}}
+                    </div>
+                  </th>
+                </tr>
+              </thead>
+              <tbody *ngIf="canListFiles()">
+                <tr *ngFor="let request of dataList.data;let i=index;">
+                  <td (click)="showInformation(request)">
+                    <div class="text-center">
+                      {{i+1}}
+                    </div>
+                  </td>
+                  <td (click)="showInformation(request)">
+                    <div class="text-left">
+                      <file-icon set="vivid" [type]="request.document_name.split('.').pop()" size="md" class="mr-2">
+                      </file-icon>
+                      {{request.document_name}}
+                    </div>
+
+                  </td>
+                  <td (click)="showInformation(request)">
+                    {{request.last_mod|date:'M/d/yy, h:mm a'}}
+                  </td>
+                  <td>
+                    <div class="div-table-actions" style="justify-content: end; z-index: 1;">
+                      <button class="btn btn-raised mr-1 text-white btn-secondary" type="button" data-toggle="tooltip"
+                        data-placement="top" title="Visualizar documento"
+                        (click)="ViewReqDoc(viewdocumentsclose,request)"
+                        *ngIf="(request.document_name.includes('jpg')||request.document_name.includes('pdf')||request.document_name.includes('png')||request.document_name.includes('jpeg')) && canSeeDocument()"><span
+                          class="btn-label"><i class="mdi mdi-eye-outline"></i></span></button>
+                      <button class="btn btn-raised mr-1 text-white btn-info" type="button" data-toggle="tooltip"
+                        *ngIf="canDownloadFile()" (click)="download(request)" data-placement="top"
+                        title="Descargar documento"><span class="btn-label"><i
+                            class="fas fa-download"></i></span></button>
+                      <button class="btn btn-raised mr-1 text-white btn-color-solucredit" type="button"
+                        data-toggle="tooltip" data-placement="top" title="Editar nombre" *ngIf="canEdit()"
+                        (click)="openEdit(1,request,edit)"><span class="btn-label"><i
+                            class="fas fa-edit"></i></span></button>
+                      <button class="btn btn-raised mr-1 text-white btn-warning" type="button" data-toggle="tooltip"
+                        *ngIf="canShareFile()" data-placement="top" title="Compartir documento"
+                        (click)="shareDocument(request,shareFile)"><span class="btn-label"><i
+                            class="fas fa-share-alt"></i></span></button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="d-flex justify-content-center p-2">
+              <ngb-pagination [collectionSize]="this.totalData" [pageSize]="pageSize" [(page)]="page"
+                aria-label="Default pagination" (pageChange)="pageChange($event)" [boundaryLinks]="true" [maxSize]="7">
+              </ngb-pagination>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-3 col-md-12 " *ngIf="canReadInformation()">
+      <div class="card">
+        <div class="card-body">
+          <div class="row d-flex justify-content-between">
+
+            <h3 class="card-title"> <i class="fas fa-info-circle mr-2"></i>Información</h3>
+            <div class="" *ngIf="(currentNode && currentNode.data)||(currentType==1)">
+              <button class="btn btn-raised mr-1 text-white btn-color-solucredit" type="button" data-toggle="tooltip"
+                data-placement="top" title="Editar Carpeta" *ngIf="currentType==0;"
+                (click)="openEdit(0,currentNode,edit)"><span class="btn-label"><i
+                    class="fas fa-edit"></i></span></button>
+              <button class="btn btn-danger ml-auto " data-toggle="tooltip" data-placement="top"
+                title="Eliminar carpeta" (click)="deleteObject()"><i class="fas fa-trash"></i></button>
+
+            </div>
+          </div>
+
+          <div class="piechart ml-2" *ngIf="currentNode||currentDocument">
+            <div *ngIf="currentType==1;else elseBlock" class="row d-flex align-items-end">
+              <div class="row d-flex align-items-end">
+                <file-icon set="vivid" [type]="currentDocument.document_name.split('.').pop()" size="xl"
+                  class="mr-2 ml-2"></file-icon>
+                <h4 class="card-title">
+                  <strong>
+                    <h4>
+
+
+                      {{currentDocument.document_name}}
+                    </h4>
+                  </strong>
+                </h4>
+              </div>
+              <div class="container">
+                <div class="row">
+                  <div class="col-lg-12">
+                    <div class="row" style="align-items: center;">
+                      <div class="col-sm ">
+                        <label for="first_name" class="col col-sm text-left control-label col-form-label">
+                          Fecha de creación:
+                        </label>
+
+                      </div>
+                      <div class="col-sm">
+                        {{currentDocument.creation_date|date:'M/d/yy, h:mm a'}}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="container">
+                <div class="row">
+                  <div class="col-lg-12">
+                    <div class="row" style="align-items: center;">
+                      <div class="col-sm ">
+                        <label for="first_name" class="col col-sm text-left control-label col-form-label">
+                          Fecha de última modificación:
+                        </label>
+                      </div>
+                      <div class="col-sm">
+                        <h5>
+                          {{currentDocument.last_mod|date:'M/d/yy, h:mm a'}}
+                        </h5>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="container">
+                <div class="row" *ngIf="currentNode&&currentNode.data">
+                  <div class="col-lg-12">
+                    <div class="row" style="align-items: center;">
+                      <div class="col-sm ">
+                        <label for="first_name" class="col col-sm text-left control-label col-form-label">
+                          Autor:
+                        </label>
+                      </div>
+                      <div class="col-sm">
+                        <h5>
+                          {{userName(currentDocument.user_id)}}
+                        </h5>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="container">
+                <div class="row" *ngIf="currentNode&&currentNode.data">
+                  <button class="btn btn-primary h-25 " style="background-color: #3473da;border-color: #3473da; "
+                    (click)="openEditPermissions(currentDocument,editPermissions)">Editar permisos</button>
+                </div>
+              </div>
+            </div>
+            <ng-template #elseBlock>
+              <div class="row d-flex align-items-center">
+                <span *ngIf="currentNode&&currentNode.data&&currentNode.data.info_shared"
+                  style="font-size: 4em; color: rgb(0, 217, 255);">
+                  <i [class]="  'fas fa-folder mr-2'"></i>
+                </span>
+                <file-icon *ngIf="!(currentNode&&currentNode.data&&currentNode.data.info_shared)" set="vivid"
+                  type="folder" size="xl" class="mr-2"></file-icon>
+                <h4 class="card-title">
+                  <strong>
+                    <h4>
+                      {{currentNode.name}}
+                    </h4>
+                  </strong>
+                </h4>
+              </div>
+              <div class="container">
+                <div class="row" *ngIf="currentNode&&currentNode.data">
+                  <div class="col-lg-12">
+                    <div class="row" style="align-items: center;">
+                      <div class="col-sm ">
+                        <label for="first_name" class="col col-sm text-left control-label col-form-label">
+                          Fecha de creación:
+                        </label>
+
+                      </div>
+                      <div class="col-sm">
+                        {{currentNode.data.creation_date|date:'M/d/yy, h:mm a'}}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="container">
+                <div class="row" *ngIf="currentNode&&currentNode.data">
+                  <div class="col-lg-12">
+                    <div class="row" style="align-items: center;">
+                      <div class="col-sm ">
+                        <label for="first_name" class="col col-sm text-left control-label col-form-label">
+                          Fecha de última modificación:
+                        </label>
+                      </div>
+                      <div class="col-sm">
+                        <h5>
+                          {{currentNode.data.last_mod|date:'M/d/yy, h:mm a'}}
+                        </h5>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="container">
+                <div class="row" *ngIf="currentNode&&currentNode.data">
+                  <div class="col-lg-12">
+                    <div class="row" style="align-items: center;">
+                      <div class="col-sm ">
+                        <label for="first_name" class="col col-sm text-left control-label col-form-label">
+                          Autor:
+                        </label>
+                      </div>
+                      <div class="col-sm">
+                        <h5>
+                          {{userName(currentNode.data.user_id)}}
+                        </h5>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="container">
+                <div class="row" *ngIf="currentNode.data">
+                  <button class="btn btn-primary h-25 " style="background-color: #3473da;border-color: #3473da; "
+                    (click)="openEditPermissions(currentNode,editPermissions)">Editar permisos</button>
+                </div>
+              </div>
+
+            </ng-template>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<ng-template #edit let-modal>
+  <div class="modal-header">
+    <h3 class="modal-title">Editar {{currentType==1?'Archivo':'Carpeta'}}:
+      {{currentType==1?currentDocument.document_name:currentNode.data.name}}</h3>
+    <button type="button" class="close" (click)="closeBtnClick()" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+
+
+
+    <form class="form-horizontal" [formGroup]="updateForm" (ngSubmit)="update()">
+      <div class="form-group row">
+        <label for="email" class="col-sm-2 text-right control-label col-form-label">Nombre:</label>
+        <div class="col-sm-9 ">
+
+          <div class="input-group col-sm-12 ">
+            <div class="input-group-prepend ">
+              <file-icon set="vivid" [type]="currentDocument.document_name.split('.').pop()" size="md"
+                *ngIf="currentType==1" class="mr-2 ml-2"></file-icon>
+              <file-icon set="vivid" type="folder" size="md" class="mr-2" *ngIf="currentType==0"></file-icon>
+
+            </div>
+
+            <input type="text" class="form-control " formControlName="name" required placeholder="Ingresar Nombre">
+          </div>
+          <small class="form-text text-danger"
+            *ngIf="!updateForm.get('name').valid && (updateForm.get('name').dirty || updateForm.get('name').touched)">El
+            nombre es requerido</small>
+        </div>
+      </div>
+
+
+      <div class="modal-footer border-top-0">
+        <button type="submit" class="btn btn-raised mr-1 text-white" [disabled]="!updateForm.valid"
+          style="background-color: #3473da;">Actualizar</button>
+        <button type="button" class="btn btn-raised mr-1 text-white  btn-color-solucredit-secondary"
+          (click)="closeBtnClick()">Cancelar</button>
+      </div>
+    </form>
+  </div>
+</ng-template>
+<ng-template #createFolder let-modal>
+  <div class="modal-header">
+    <h3 class="modal-title">Creación de Carpetas</h3>
+    <button type="button" class="close" (click)="closeBtnClick()" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form class="form-horizontal" [formGroup]="newFolderForm" (ngSubmit)="onCreate()">
+      <div class="form-group row">
+        <label for="email" class="col-sm-2 text-right control-label col-form-label">Nombre de la carpeta</label>
+        <div class="col-sm-9 ">
+          <div class="input-group col-sm-12 ">
+            <div class="input-group-prepend ">
+              <span class="input-group-text " id="basic-addon1">
+                <i class=" icon-note"></i>
+              </span>
+            </div>
+            <input type="text" class="form-control " formControlName="name" required placeholder="Ingresar Nombre">
+          </div>
+          <small class="form-text text-danger"
+            *ngIf="!newFolderForm.get('name').valid && (newFolderForm.get('name').dirty || newFolderForm.get('name').touched)">El
+            nombre es requerido</small>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="email" class="col-sm-2 text-right control-label col-form-label">¿Quienes pueden acceder?</label>
+        <div class="col-sm-9 ">
+          <div class="input-group col-sm-12" style="margin-top: 1.40%;">
+            <div [ngClass]="'col-sm-2'">
+              <div class="custom-control custom-radio">
+                <input type="radio" id="sipertenece" [(ngModel)]="shared" [value]="0" class="custom-control-input"
+                  [ngModelOptions]="{standalone: true}" (change)="changeOutsorcing(0)">
+                <label class="custom-control-label custom-label" for="sipertenece">Solo tú</label>
+              </div>
+            </div>
+            <div [ngClass]="'col-sm-6'">
+              <div class="custom-control custom-radio">
+                <input type="radio" id="nopertenece" [(ngModel)]="shared" [value]="1" class="custom-control-input"
+                  [ngModelOptions]="{standalone: true}" (change)="changeOutsorcing(1)">
+                <label class="custom-control-label custom-label" for="nopertenece">Personas específicas</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group row" *ngIf="shared==1">
+        <label for="email" class="col-sm-2 text-right control-label col-form-label">Tipos de permisos</label>
+        <div class="col-sm-9 ">
+          <div class="input-group col-sm-12 ">
+            <div class="d-flex justify-content-center align-items-center">
+              <button type="button" class="btn btn-primary  " style="background-color: #3473da;border-color: #3473da; "
+                *ngIf="canShareRolFolder()" (click)="openRol(permissionRol)">Permisos por Roles</button>
+              <button type="button" class="btn btn-primary  " style="background-color: #3473da;border-color: #3473da; "
+                *ngIf="canShareUserFolder()" (click)="openUser(permissionUser)">Permisos por Usuario</button>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="table-responsive table-hover" *ngIf="shared==1">
+        <table class="table table-responsive-lg no-wrap  v-middle white-table">
+          <thead>
+            <tr>
+              <th *ngFor="let header of permissionList.metadata">
+                <div class="text-center">
+                  {{header}}
+                </div>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let request of permissionList.data;let i=index;">
+              <td>
+                <div class="text-center">
+                  {{i+1}}
+                </div>
+              </td>
+              <td>
+                <div class="text-center">
+
+                  {{request.permission}}
+                </div>
+
+              </td>
+              <td>
+                {{request.value}}
+              </td>
+              <td>
+                {{request.rule.name}}
+              </td>
+              <td>
+                {{getDate(request)}}
+              </td>
+              <td>
+                <div class="div-table-actions" style="justify-content: end; z-index: 1;">
+                  <button class="btn btn-raised mr-1 text-white btn-color-solucredit" type="button"
+                    data-toggle="tooltip" data-placement="top" title="Editar"
+                    (click)="editPermission(i,editPermissionRol,editPermissionUser)"><span class="btn-label"><i
+                        class="fas fa-edit"></i></span></button>
+                  <button class="btn btn-danger " data-toggle="tooltip" data-placement="top" title="Eliminar"
+                    (click)="removePermission(i)"><i class="fas fa-trash"></i></button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer border-top-0">
+        <button type="submit" class="btn btn-raised mr-1 text-white" [disabled]="!newFolderForm.valid"
+          style="background-color: #3473da;">Crear</button>
+        <button type="button" class="btn btn-raised mr-1 text-white  btn-color-solucredit-secondary"
+          (click)="closeBtnClick()">Cancelar</button>
+      </div>
+    </form>
+  </div>
+</ng-template>
+
+
+<app-documentmodal
+    [imgsrcbase64]="imgsrcbase64"
+    [pdfsrcbase64]="pdfsrcbase64"
+></app-documentmodal>
+
+<ng-template #editPermissionRol let-modal>
+  <div class="modal-header">
+    <h3 class="modal-title">Editar Permisos por Roles</h3>
+    <button type="button" class="close" (click)="closeBtnClick()" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form class="form-horizontal" [formGroup]="permissionRolForm" (ngSubmit)="editRolPermissionList()">
+      <div class="row">
+        <label for="email" class="col-sm-2 text-right control-label col-form-label">Tipo de Rol</label>
+        <div class="container">
+          <div class="row">
+            <div class="col-sm">
+              <div class="row m-3" *ngFor="let group of groupsRol">
+                <div class="col-sm" *ngFor="let option of group">
+                  <input type="checkbox" [checked]="ischecked(option)"
+                    (change)="checkPermission2($event.target.checked,option)" />
+                  {{option.name}}
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="email" class="col-sm-2 text-right control-label col-form-label">Permisos</label>
+        <div class="col-sm-9 ">
+          <div class="input-group col-sm-12 ">
+            <div class="input-group-prepend ">
+              <span class="input-group-text " id="basic-addon1">
+                <i class=" icon-note"></i>
+              </span>
+            </div>
+            <select class="custom-select" formControlName="id_permission" id="id_permission">
+              <option [ngValue]="currency.id" *ngFor="let currency of this.dataPermissions">
+                {{currency.name}}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="email" class="col-sm-2 text-right control-label col-form-label">Expiración</label>
+        <div class="col-sm-9 ">
+          <div class="input-group col-sm-12 justify-content-center">
+            <div class="input-group-prepend ">
+              <span class="input-group-text " id="basic-addon1">
+                <i class=" icon-note"></i>
+              </span>
+            </div>
+            <select class="custom-select" id="id_duration" formControlName="id_duration">
+              <option value="0">Sin Expiración</option>
+              <option value="1">Expiración en días</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="form-group row" *ngIf="permissionRolForm.controls['id_duration'].value=='1'">
+        <label for="email" class="col-sm-2 text-right control-label col-form-label">Fecha</label>
+        <div class="col-sm-9 ">
+          <div class="input-group col-sm-12 justify-content-center">
+            <ngb-datepicker #dp [ngModelOptions]="{standalone: true}" [(ngModel)]="model"
+              (navigate)="date = $event.next" [minDate]="{year: year, month:month, day: day}"></ngb-datepicker>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="modal-footer border-top-0">
+        <button type="submit" class="btn btn-raised mr-1 text-white" [disabled]="!permissionRolForm.valid"
+          style="background-color: #3473da;">Cambiar</button>
+        <button type="button" class="btn btn-raised mr-1 text-white  btn-color-solucredit-secondary"
+          (click)="closeBtnClick()">Cancelar</button>
+      </div>
+    </form>
+  </div>
+</ng-template>
+
+<ng-template #permissionRol let-modal>
+  <div class="modal-header">
+    <h3 class="modal-title">Permisos por Roles</h3>
+    <button type="button" class="close" (click)="closeBtnClick()" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form class="form-horizontal" [formGroup]="permissionRolForm" (ngSubmit)="addRolPermissionList()">
+      <div class="row">
+        <label for="email" class="col-sm-2 text-right control-label col-form-label">Tipo de Rol</label>
+        <div class="container">
+          <div class="row">
+            <div class="col-sm">
+              <div class="row m-3" *ngFor="let group of groupsRol">
+                <div class="col-sm" *ngFor="let option of group">
+                  <input type="checkbox" [checked]=false (change)="checkPermission($event.target.checked,option)" />
+                  {{option.name}}
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="email" class="col-sm-2 text-right control-label col-form-label">Permisos</label>
+        <div class="col-sm-9 ">
+          <div class="input-group col-sm-12 ">
+            <div class="input-group-prepend ">
+              <span class="input-group-text " id="basic-addon1">
+                <i class=" icon-note"></i>
+              </span>
+            </div>
+            <select class="custom-select" id="id_adviser_type" (change)="setRule($event.target.value)">
+              <option value="" selected disabled hidden>Seleccionar</option>
+              <option [value]="currency.id" *ngFor="let currency of this.dataPermissions">
+                {{currency.name}}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="email" class="col-sm-2 text-right control-label col-form-label">Expiración</label>
+        <div class="col-sm-9 ">
+          <div class="input-group col-sm-12 justify-content-center">
+            <div class="input-group-prepend ">
+              <span class="input-group-text " id="basic-addon1">
+                <i class=" icon-note"></i>
+              </span>
+            </div>
+            <select class="custom-select" id="id_duration" formControlName="id_duration">
+              <option value="0">Sin Expiración</option>
+              <option value="1">Expiración en días</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="form-group row" *ngIf="permissionRolForm.controls['id_duration'].value=='1'">
+        <label for="email" class="col-sm-2 text-right control-label col-form-label">Fecha</label>
+        <div class="col-sm-9 ">
+          <div class="input-group col-sm-12 justify-content-center">
+            <ngb-datepicker #dp [ngModelOptions]="{standalone: true}" [(ngModel)]="model"
+              (navigate)="date = $event.next" [minDate]="{year: year, month:month, day: day}"></ngb-datepicker>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="modal-footer border-top-0">
+        <button type="submit" class="btn btn-raised mr-1 text-white"
+          [disabled]="!permissionRolForm.valid||tmpDataPermissionRol.length<=0"
+          style="background-color: #3473da;">Agregar</button>
+        <button type="button" class="btn btn-raised mr-1 text-white  btn-color-solucredit-secondary"
+          (click)="closeBtnClick()">Cancelar</button>
+      </div>
+    </form>
+  </div>
+</ng-template>
+
+
+<ng-template #permissionUser let-modal>
+  <div class="modal-header">
+    <h3 class="modal-title">Permisos por Usuarios</h3>
+    <button type="button" class="close" (click)="closeBtnClick()" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form class="form-horizontal" [formGroup]="permissionUserForm" (ngSubmit)="addUserPermissionList()">
+      <div class="form-group row">
+        <label for="email" class="col-sm-2 text-right control-label col-form-label">Correo Electrónico</label>
+        <div class="col-sm-9 ">
+          <div class="input-group col-sm-12 ">
+            <div class="input-group-prepend ">
+              <span class="input-group-text " id="basic-addon1">
+                <i class=" icon-note"></i>
+              </span>
+            </div>
+            <input type="email" class="form-control " formControlName="email" required placeholder="Ingresar Correo"
+              (change)="searchEmail($event.target.value)">
+          </div>
+          <small class="form-text text-danger"
+            *ngIf="!permissionUserForm.get('email').valid && (permissionUserForm.get('email').dirty || permissionUserForm.get('email').touched)">El
+            correo es requerido</small>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="email" class="col-sm-2 text-right control-label col-form-label">Permisos</label>
+        <div class="col-sm-9 ">
+          <div class="input-group col-sm-12 ">
+            <div class="input-group-prepend ">
+              <span class="input-group-text " id="basic-addon1">
+                <i class=" icon-note"></i>
+              </span>
+            </div>
+            <select class="custom-select" id="id_adviser_type" (change)="setUserRule($event.target.value)"
+              [disabled]="!this.permissionUserForm.get('id_permission').enabled">
+              <option value="" selected disabled hidden>Seleccionar</option>
+              <option [value]="currency.id" *ngFor="let currency of this.dataPermissions">
+                {{currency.name}}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="email" class="col-sm-2 text-right control-label col-form-label">Expiración</label>
+        <div class="col-sm-9 ">
+          <div class="input-group col-sm-12 justify-content-center">
+            <div class="input-group-prepend ">
+              <span class="input-group-text " id="basic-addon1">
+                <i class=" icon-note"></i>
+              </span>
+            </div>
+            <select class="custom-select" id="id_duration" formControlName="id_duration"
+              [disabled]="!this.permissionUserForm.get('id_permission').enabled">
+              <option value="0">Sin Expiración</option>
+              <option value="1">Expiración en días</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="form-group row" *ngIf="permissionUserForm.controls['id_duration'].value=='1'">
+        <label for="email" class="col-sm-2 text-right control-label col-form-label">Fecha</label>
+        <div class="col-sm-9 ">
+          <div class="input-group col-sm-12 justify-content-center">
+            <ngb-datepicker #dp [ngModelOptions]="{standalone: true}" [(ngModel)]="model"
+              (navigate)="date = $event.next" [minDate]="{year: year, month:month, day: day}"></ngb-datepicker>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="modal-footer border-top-0">
+        <button type="submit" class="btn btn-raised mr-1 text-white"
+          [disabled]="!permissionUserForm.valid||!this.permissionUserForm.get('id_permission').enabled"
+          style="background-color: #3473da;">Agregar</button>
+        <button type="button" class="btn btn-raised mr-1 text-white  btn-color-solucredit-secondary"
+          (click)="closeBtnClick()">Cancelar</button>
+      </div>
+    </form>
+  </div>
+</ng-template>
+
+
+
+
+
+
+<ng-template #editPermissionUser let-modal>
+  <div class="modal-header">
+    <h3 class="modal-title">Editar Permisos por Usuarios</h3>
+    <button type="button" class="close" (click)="closeBtnClick()" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form class="form-horizontal" [formGroup]="permissionUserForm" (ngSubmit)="editUserPermissionList()">
+      <div class="form-group row">
+        <label for="email" class="col-sm-2 text-right control-label col-form-label">Correo Electrónico</label>
+        <div class="col-sm-9 ">
+          <div class="input-group col-sm-12 ">
+            <div class="input-group-prepend ">
+              <span class="input-group-text " id="basic-addon1">
+                <i class=" icon-note"></i>
+              </span>
+            </div>
+            <input type="email" class="form-control " formControlName="email" required placeholder="Ingresar Correo"
+              (change)="searchEmail($event.target.value)">
+          </div>
+
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="email" class="col-sm-2 text-right control-label col-form-label">Permisos</label>
+        <div class="col-sm-9 ">
+          <div class="input-group col-sm-12 ">
+            <div class="input-group-prepend ">
+              <span class="input-group-text " id="basic-addon1">
+                <i class=" icon-note"></i>
+              </span>
+            </div>
+            <select class="custom-select" formControlName="id_permission" id="id_permission"
+              [disabled]="!this.permissionUserForm.get('id_permission').enabled">
+              <option [value]="currency.id" *ngFor="let currency of this.dataPermissions">
+                {{currency.name}}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="email" class="col-sm-2 text-right control-label col-form-label">Expiración</label>
+        <div class="col-sm-9 ">
+          <div class="input-group col-sm-12 justify-content-center">
+            <div class="input-group-prepend ">
+              <span class="input-group-text " id="basic-addon1">
+                <i class=" icon-note"></i>
+              </span>
+            </div>
+            <select class="custom-select" id="id_duration" formControlName="id_duration"
+              [disabled]="!this.permissionUserForm.get('id_permission').enabled">
+              <option value="0">Sin Expiración</option>
+              <option value="1">Expiración en días</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="form-group row" *ngIf="permissionUserForm.controls['id_duration'].value=='1'">
+        <label for="email" class="col-sm-2 text-right control-label col-form-label">Fecha</label>
+        <div class="col-sm-9 ">
+          <div class="input-group col-sm-12 justify-content-center">
+            <ngb-datepicker #dp [ngModelOptions]="{standalone: true}" [(ngModel)]="model"
+              (navigate)="date = $event.next" [minDate]="{year: year, month:month, day: day}"></ngb-datepicker>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="modal-footer border-top-0">
+        <button type="submit" class="btn btn-raised mr-1 text-white" style="background-color: #3473da;">Editar</button>
+        <button type="button" class="btn btn-raised mr-1 text-white  btn-color-solucredit-secondary"
+          (click)="closeBtnClick()">Cancelar</button>
+      </div>
+    </form>
+  </div>
+</ng-template>
+
+
+
+
+
+
+
+<ng-template #shareFile let-modal>
+  <div class="modal-header">
+    <h3 class="modal-title">Compartir documento</h3>
+    <button type="button" class="close" (click)="closeBtnClick()" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form class="form-horizontal" [formGroup]="newFolderForm" (ngSubmit)="onShareFile()">
+      <div class="form-group row">
+        <label for="email" class="col-sm-2 text-right control-label col-form-label">Tipos de permisos</label>
+        <div class="col-sm-9 ">
+          <div class="input-group col-sm-12 ">
+            <div class="d-flex justify-content-center align-items-center">
+              <button type="button" class="btn btn-primary  " style="background-color: #3473da;border-color: #3473da; "
+                (click)="openRol(permissionRol)">Permisos por Roles</button>
+              <button type="button" class="btn btn-primary  " style="background-color: #3473da;border-color: #3473da; "
+                (click)="openUser(permissionUser)">Permisos por Usuario</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="table-responsive table-hover">
+        <table class="table table-responsive-lg no-wrap  v-middle white-table">
+          <thead>
+            <tr>
+              <th *ngFor="let header of permissionList.metadata">
+                <div class="text-center">
+                  {{header}}
+                </div>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let request of permissionList.data;let i=index;">
+              <td>
+                <div class="text-center">
+                  {{i+1}}
+                </div>
+              </td>
+              <td>
+                <div class="text-center">
+
+                  {{request.permission}}
+                </div>
+
+              </td>
+              <td>
+                {{request.value}}
+              </td>
+              <td>
+                {{request.rule.name}}
+              </td>
+              <td>
+                {{getDate(request)}}
+              </td>
+              <td>
+                <div class="div-table-actions" style="justify-content: end; z-index: 1;">
+                  <button class="btn btn-raised mr-1 text-white btn-color-solucredit" type="button"
+                    data-toggle="tooltip" data-placement="top" title="Editar"
+                    (click)="editPermission(i,editPermissionRol,editPermissionUser)"><span class="btn-label"><i
+                        class="fas fa-edit"></i></span></button>
+                  <button class="btn btn-danger " data-toggle="tooltip" data-placement="top" title="Eliminar"
+                    (click)="removePermission(i)"><i class="fas fa-trash"></i></button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer border-top-0">
+        <button type="submit" class="btn btn-raised mr-1 text-white" style="background-color: #3473da;"
+          *ngIf="!write">Compartir</button>
+        <button type="button" class="btn btn-raised mr-1 text-white  btn-color-solucredit-secondary"
+          (click)="closeBtnClick()">Cancelar</button>
+      </div>
+    </form>
+  </div>
+</ng-template>
+
+
+
+<ng-template #editPermissions let-modal>
+  <div class="modal-header">
+    <h3 class="modal-title">Editar Permisos</h3>
+    <button type="button" class="close" (click)="closeBtnClick()" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form class="form-horizontal" [formGroup]="newFolderForm" (ngSubmit)="onShareFile()">
+      <div class="form-group row">
+        <label for="email" class="col-sm-2 text-right control-label col-form-label">Tipos de permisos</label>
+        <div class="col-sm-9 ">
+          <div class="input-group col-sm-12 ">
+            <div class="d-flex justify-content-center align-items-center">
+              <button type="button" class="btn btn-primary  " style="background-color: #3473da;border-color: #3473da; "
+                *ngIf="canShareRolFolder()" (click)="openRol2(permissionRol)">Permisos por Roles</button>
+              <button type="button" class="btn btn-primary  " style="background-color: #3473da;border-color: #3473da; "
+                *ngIf="canShareUserFolder()" (click)="openUser(permissionUser)">Permisos por Usuario</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="table-responsive table-hover">
+        <table class="table table-responsive-lg no-wrap  v-middle white-table">
+          <thead>
+            <tr>
+              <th *ngFor="let header of editpermissionList.metadata">
+                <div class="text-center">
+                  {{header}}
+                </div>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let request of editpermissionList.data;let i=index;">
+              <td>
+                <div class="text-center">
+                  {{i+1}}
+                </div>
+              </td>
+              <td>
+                <div class="text-center">
+
+                  {{request.permission}}
+                </div>
+
+              </td>
+              <td>
+                {{request.value}}
+              </td>
+              <td>
+                {{request.rule}}
+              </td>
+              <td>
+                {{request.expiration==null?'Sin expiración':request.expiration|date:'M/d/yy, h:mm a'}}
+              </td>
+              <td>
+                <div class="div-table-actions" style="justify-content: end; z-index: 1;">
+                  <button class="btn btn-raised mr-1 text-white btn-color-solucredit" type="button"
+                    data-toggle="tooltip" data-placement="top" title="Editar"
+                    (click)="openEditPermission(request,editpermission)"><span class="btn-label"><i
+                        class="fas fa-edit"></i></span></button>
+                  <button class="btn btn-danger " data-toggle="tooltip" data-placement="top" title="Eliminar"
+                    (click)="deletePermission(request)"><i class="fas fa-trash"></i></button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer border-top-0">
+
+        <button type="button" class="btn btn-raised mr-1 text-white  btn-color-solucredit-secondary"
+          (click)="closeBtnClick()">Cancelar</button>
+      </div>
+    </form>
+  </div>
+</ng-template>
+
+
+<ng-template #editpermission let-modal>
+  <div class="modal-header">
+    <h3 class="modal-title">Editar Permiso</h3>
+    <button type="button" class="close" (click)="closeBtnClick()" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form class="form-horizontal" [formGroup]="permissionEditForm" (ngSubmit)="updatePermission()">
+      <div class="row">
+        <label for="first_name" class="col col-sm-2 text-right control-label col-form-label">
+          <i class="fas fa-user "></i>
+          Permiso:
+        </label>
+        <div class="col col-sm-9">
+          <h5>{{this.selectedFile.value}}</h5>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="email" class="col-sm-2 text-right control-label col-form-label">Permisos</label>
+        <div class="col-sm-9 ">
+          <div class="input-group col-sm-12 ">
+            <div class="input-group-prepend ">
+              <span class="input-group-text " id="basic-addon1">
+                <i class=" icon-note"></i>
+              </span>
+            </div>
+            <select class="custom-select" formControlName="id_permission" id="id_permission"
+              [disabled]="!this.permissionEditForm.get('id_permission').enabled">
+              <option [value]="currency.id" *ngFor="let currency of this.dataPermissions">
+                {{currency.name}}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="email" class="col-sm-2 text-right control-label col-form-label">Expiración</label>
+        <div class="col-sm-9 ">
+          <div class="input-group col-sm-12 justify-content-center">
+            <div class="input-group-prepend ">
+              <span class="input-group-text " id="basic-addon1">
+                <i class=" icon-note"></i>
+              </span>
+            </div>
+            <select class="custom-select" id="id_duration" formControlName="id_duration"
+              [disabled]="!this.permissionEditForm.get('id_permission').enabled">
+              <option value="0">Sin Expiración</option>
+              <option value="1">Expiración en días</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="form-group row" *ngIf="permissionEditForm.controls['id_duration'].value=='1'">
+        <label for="email" class="col-sm-2 text-right control-label col-form-label">Fecha</label>
+        <div class="col-sm-9 ">
+          <div class="input-group col-sm-12 justify-content-center">
+            <ngb-datepicker #datepicker [ngModelOptions]="{standalone: true}" [(ngModel)]="model"
+              [minDate]="{year: year, month:month, day: day}" (navigate)="date = $event.next"></ngb-datepicker>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer border-top-0">
+        <button type="submit" class="btn btn-raised mr-1 text-white" style="background-color: #3473da;">Editar</button>
+        <button type="button" class="btn btn-raised mr-1 text-white  btn-color-solucredit-secondary"
+          (click)="closeBtnClick()">Cancelar</button>
+      </div>
+    </form>
+  </div>
+</ng-template>

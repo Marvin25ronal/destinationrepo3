@@ -1,0 +1,252 @@
+<!-- Row -->
+<div class="row">
+    <div class="col-12">
+        <!-- You can find this in the dashboard-component -->
+         <app-income-counter></app-income-counter>
+    </div>
+</div>
+<!-- Row -->
+<!-- Row -->
+<div class="row">
+    <!-- Column -->
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="d-flex flex-wrap">
+                            <div>
+                                <h4>Ingresos Acumulados Anuales</h4>
+
+                            </div>
+                            <div class="ml-auto ">
+                                <ul class="list-inline">
+                                    <li class="list-inline-item">
+                                        <h6 class="text-muted">
+                                            <i class="fa fa-circle m-r-5 text-success"></i>Cobros GTQ
+                                        </h6>
+                                    </li>
+                                    <li class="list-inline-item">
+                                        <h6 class="text-muted">
+                                            <i class="fa fa-circle m-r-5 text-info"></i>Cobros en USD
+                                        </h6>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div style="height:370px;">
+                            <canvas baseChart height="130" [datasets]="lineChartData" [labels]="lineChartLabels"
+                                [options]="lineChartOptions" [colors]="lineChartColors" [legend]="lineChartLegend"
+                                [chartType]="lineChartType">
+                            </canvas>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 m-b-30 m-t-20 text-center">
+                        <h2 class=" font-weight-normal">$20,000.00</h2>
+                        <h6 class="text-muted">Total de Ingresos</h6>
+                    </div>
+                    <div class="col-lg-3 col-md-6 m-b-30 m-t-20 text-center">
+                        <h2 class=" font-weight-normal">80,000.00</h2>
+                        <h6 class="text-muted">Créditos</h6>
+                    </div>
+                    <div class="col-lg-3 col-md-6 m-b-30 m-t-20 text-center">
+                        <h2 class=" font-weight-normal">1.2M</h2>
+                        <h6 class="text-muted">Cobros GTQ</h6>
+                    </div>
+                    <div class="col-lg-3 col-md-6 m-b-30 m-t-20 text-center">
+                        <h2 class=" font-weight-normal">0.5M</h2>
+                        <h6 class="text-muted">Cobros USD</h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Row -->
+<!-- Row -->
+<div class="row align-content-stretch">
+    <div class="col-lg-4 col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Facturación del mes</h4>
+                <div class="piechart">
+                    <x-chartist class="" [data]="donuteChart1.data" [type]="donuteChart1.type"
+                        [options]="donuteChart1.options" [responsiveOptions]="donuteChart1.responsiveOptions"
+                        [events]="donuteChart1.events"> </x-chartist>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4 col-md-6">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Predicciones de Ingresos</h4>
+                        <div class="d-flex flex-row">
+                            <div class="align-self-center">
+                                <span class="display-6 font-weight-normal">Q.35,000.00</span>
+                                <h6 class="text-muted">(150-165 Clientes)</h6>
+                            </div>
+                            <div class="ml-auto m-t-15">
+                                <canvas baseChart width="118px" height="118px" [data]="doughnutChartData"
+                                    [labels]="doughnutChartLabels" [chartType]="doughnutChartType"
+                                    [legend]="lineChartLegend"
+                                    [colors]="[{backgroundColor: ['#55ce63', '#009efb', '#90a4ae'], borderColor:['#fff', '#fff', '#fff']}]">
+                                </canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Impuestos</h4>
+                        <div class="d-flex flex-row">
+                            <div class="align-self-center">
+                                <span class="display-6 font-weight-normal">Q.45,000.00</span>
+                                <h6 class="text-muted">(150-165 Facturas declaradas)</h6>
+                            </div>
+                            <div class="ml-auto m-t-15">
+                                <canvas baseChart width="118px" height="118px" [data]="pieChartData"
+                                    [labels]="pieChartLabels" [chartType]="pieChartType" [legend]="lineChartLegend"
+                                    [colors]="[{backgroundColor: ['#55ce63', '#009efb', '#90a4ae'], borderColor:['#fff', '#fff', '#fff'] }]">
+                                </canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4 col-md-12">
+        <!-- You can find this in the dashboard-component -->
+        <app-profile-box></app-profile-box>
+    </div>
+</div>
+<!-- Row -->
+<!-- Row -->
+<div class="row">
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">TOP 10 de Clientes</h4>
+                <div class="table-responsive m-t-30">
+                    <table class="table stylish-table v-middle no-wrap mb-0">
+                        <thead>
+                            <tr>
+                                <th>Cliente</th>
+                                <th>Asesor</th>
+                                <th>Categoría</th>
+                                <th>Ingresos</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <button class="btn btn-circle btn-lg text-white btn-success">LP</button>
+                                        <div class="ml-2">
+                                            <h6 class="mb-0 font-medium">Luis Pérez</h6>
+                                            <small class="text-muted">Industrias Stark</small>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>Marielos Leal</td>
+                                <td>
+                                    <span class="badge badge-light-success text-success">Tradicional</span>
+                                </td>
+                                <td>Q.8,000.00</td>
+                            </tr>
+                            <tr class="active">
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <span class="round">
+                                            <img src="assets/images/users/2.jpg" alt="user" width="50" />
+                                        </span>
+                                        <div class="ml-2">
+                                            <h6 class="mb-0 font-medium">Carolina Rodas</h6>
+                                            <small class="text-muted">iSOFT STE</small>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>Marielos Leal</td>
+                                <td>
+                                    <span class="badge badge-light-info text-info">Tradicional</span>
+                                </td>
+                                <td>Q.6,000.00</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <button class="btn btn-circle btn-lg btn-danger">AR</button>
+                                        <div class="ml-2">
+                                            <h6 class="mb-0 font-medium">Axel Rodas</h6>
+                                            <small class="text-muted">Proservi</small>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>Marielos Leal</td>
+                                <td>
+                                    <span class="badge badge-light-danger text-danger">VIP</span>
+                                </td>
+                                <td>Q.5,000.00</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <button class="btn btn-circle btn-lg btn-info">DV</button>
+                                        <div class="ml-2">
+                                            <h6 class="mb-0 font-medium">Dora Vásquez</h6>
+                                            <small class="text-muted">Allisson Beuty Spa</small>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>Marielos Leal</td>
+                                <td>
+                                    <span class="badge badge-light-success text-success">Otros</span>
+                                </td>
+                                <td>Q.4,000.00</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <button class="btn btn-circle btn-lg btn-warning">JG</button>
+                                        <div class="ml-2">
+                                            <h6 class="mb-0 font-medium">José Gálvez</h6>
+                                            <small class="text-muted">iSOFT STE</small>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>Marielos Leal</td>
+                                <td>
+                                    <span class="badge badge-light-danger text-danger">VIP</span>
+                                </td>
+                                <td>Q.3.000.00</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <button class="btn btn-circle btn-lg btn-dark">EM</button>
+                                        <div class="ml-2">
+                                            <h6 class="mb-0 font-medium">Eduardo Mejicanos</h6>
+                                            <small class="text-muted">iSOFT STE</small>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>Marielos Leal</td>
+                                <td>
+                                    <span class="badge badge-light-danger text-danger">VIP</span>
+                                </td>
+                                <td>Q.2,000.00</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

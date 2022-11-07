@@ -1,0 +1,17 @@
+.imgPlaceholder {
+    position: absolute;
+    right: -181px;
+    top: -20px;
+    width: 140px;
+}
+
+
+.card-select{
+    width: 105px;
+    height: 100px;
+}
+
+.selected-card{
+    border-color: #009efb !important;
+    color: #009efb !important;
+}

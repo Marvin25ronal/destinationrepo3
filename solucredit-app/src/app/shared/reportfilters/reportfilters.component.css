@@ -1,0 +1,264 @@
+.main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-radius: 2px;
+    box-shadow: 1px 2px 10px 0px rgba(0, 0, 0, 0.3);
+    /* max-height: 30vh; */
+    /* background-color: cyan; */
+}
+
+.header {
+    margin-top: 0.2rem;
+    margin-bottom: 1rem;
+}
+
+.controls {
+    display: flex;
+    flex-direction: column;
+    /*  justify-content: space-evenly; */
+    align-items: center;
+    overflow: visible;
+    /* max-height: 25vh; */
+    /* margin-top: 0.5rem; */
+    /* background-color: yellow; */
+}
+
+.controls2 {
+    display: flex;
+    flex-direction: column;
+    /*  justify-content: space-evenly; */
+    align-items: center;
+    overflow: visible;
+    /* max-height: 25vh; */
+    /* margin-top: 0.5rem; */
+    background-color: purple;
+}
+
+.controls::-webkit-scrollbar {
+    width: 6px;
+    border-left: 1px solid #E6ECF8;
+}
+
+.controls::-webkit-scrollbar-thumb {
+    background-color: #2061C4;
+}
+
+.btn-color-solucredit {
+    background-color: #2061C4;
+}
+
+.btn-color-solucredit-secondary {
+    background-color: #6C6C6C;
+    color: white;
+}
+
+.divfor {
+    min-width: 80%;
+    max-width: 80%;
+    /*  background-color: coral; */
+}
+
+.bodycontrol {
+    /* display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+    background-color: red;
+    margin-top: 0.2rem; */
+    display: grid;
+    grid-template-columns: repeat(5, fr);
+    gap: 0.2rem;
+    grid-template-rows: 20% 80%;
+    min-width: 80%;
+}
+
+.bodycontrol2 {
+    /* display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+    background-color: red;
+    margin-top: 0.2rem; */
+    display: grid;
+    grid-template-columns: repeat(5, fr);
+    gap: 0.2rem;
+    grid-template-rows: 20% 80%;
+    min-width: 100%;
+}
+
+.labelfilter {
+    align-self: flex-start;
+    /* background-color: peru; */
+}
+
+.filtercontrols {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+    /* background-color: yellow; */
+    margin-top: 0.2rem;
+}
+
+.line {
+    min-height: 2px;
+    background: #E4E4E4;
+    margin: 1rem;
+    min-width: 80%;
+    max-width: 80%;
+}
+
+.grid-element1 {
+    grid-column: 2/3;
+    grid-row: 1/2;
+    /* background-color: red; */
+}
+
+.grid-element12 {
+    grid-column: 4/5;
+    grid-row: 1/2;
+    /* background-color: blue; */
+}
+
+.grid-element2 {
+    grid-column: 1/2;
+    grid-row: 2/3;
+    /* width: fit-content; */
+    /* background-color: green; */
+}
+
+.grid-element3 {
+    grid-column: 2/4;
+    grid-row: 2/3;
+    /* background-color: yellow; */
+}
+
+.grid-element4 {
+    grid-column: 4/6;
+    grid-row: 2/3;
+    /* background-color: aqua; */
+}
+
+.grid-elementt1 {
+    grid-column: 2/3;
+    grid-row: 1/2;
+    /* background-color: yellowgreen; */
+}
+
+.grid-elementt2 {
+    grid-column: 1/2;
+    grid-row: 2/3;
+    /* width: fit-content; */
+    /* background-color: gray; */
+}
+
+.grid-elementt3 {
+    grid-column: 2/6;
+    grid-row: 2/3;
+    /* background-color: orange; */
+}
+
+.badge-filters {
+    color: white;
+    background-color: #2061C4;
+    margin-bottom: 2px;
+}
+
+details {
+    overflow: visible;
+    /* border-color: #878d99; */
+    /* color: rgba(255, 255, 255, 0.9); */
+    /* background: #878d99; */
+    /*  border: 1px solid; */
+    cursor: pointer;
+    transition: background 2s;
+    border-radius: 4px;
+    /* min-height: 48px;
+    max-height: 60px; */
+    transform-origin: top center;
+    transform: rotate(0.1deg);
+    transition: all 2s;
+}
+
+
+/* details::-webkit-scrollbar {
+    display: none;
+}
+
+details ::-webkit-details-marker {
+    display: none;
+} */
+
+details+details {
+    margin-top: 10px;
+}
+
+.ocultar {
+    display: none;
+}
+
+details.square {
+    border-radius: 0;
+}
+
+details[open] {
+    transition: all 0.6s;
+    min-height: 100px;
+    max-height: 200px;
+}
+
+summary {
+    outline: none;
+    /* font-size: 16px; */
+    padding: 13px;
+}
+
+summary:selection {
+    background: transparent;
+}
+
+summary .close {
+    display: none;
+}
+
+[open] summary .close {
+    display: inline;
+}
+
+summary .open {
+    display: inline;
+}
+
+[open] summary .open {
+    display: none;
+}
+
+[open] summary {
+    display: inline;
+}
+
+.summary-more {
+    margin-top: 2px;
+    margin-left: 2rem;
+    /* content: "➕"; */
+    float: left;
+    margin-right: 11px;
+    text-align: center;
+    /* font-size: 11px; */
+}
+
+.summary-less {
+    margin-left: 2rem;
+    padding: 0 0 12px 0;
+    /* ontent: "➖"; */
+}
+
+
+/* COSAS PARA EL VAL Y LAS OPCIONES */
+
+.nav-styles {
+    height: 1.5rem;
+    background-color: #2061C4;
+    color: white;
+}

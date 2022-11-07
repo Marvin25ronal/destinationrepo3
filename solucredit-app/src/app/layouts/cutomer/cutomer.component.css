@@ -1,0 +1,232 @@
+.custom_btn1 {
+    width: 117px;
+    background: #2061c4;
+    border-color: #2061c4;
+}
+
+.custom_add1 {
+    background: #2061c4;
+    border-color: #2061c4;
+}
+
+.custom_btndanger {
+    width: 117px !important;
+}
+
+.custom_btn1:hover,
+.custom_add1:hover {
+    background: #4376c4;
+    border-color: #4376c4;
+}
+
+.custom_btn2 {
+    background-color: white;
+    padding: 10px;
+    border-radius: 5px;
+    font-weight: 500;
+    border: 1px solid #2061c4;
+    cursor: pointer;
+}
+
+.custom_btn2:hover {
+    background-color: white;
+    padding: 10px;
+    border-radius: 5px;
+    font-weight: 500;
+    border: 1px solid #2061c4;
+    color: #2061c4;
+    opacity: 0.8;
+}
+
+.container-file {
+    display: block;
+    margin: auto;
+    text-align: center;
+    position: relative;
+    padding: 20px;
+}
+::ng-deep .modal1 .modal-dialog {
+    max-width: 80%;
+    width: 80%;
+}
+.custom-file {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    z-index: 10;
+    width: 100%;
+    right: 0;
+    opacity: 0;
+}
+
+.custom-color-icon {
+    color: #2061c4;
+}
+
+.custom-fontsize1 {
+    font-size: 1.5rem;
+}
+
+::ng-deep .my-tabs .nav-pills .nav-link.active {
+    background-color: #2061c4;
+    color: white;
+}
+
+::ng-deep .nav-tabs .nav-link.active {
+    border-bottom: 2px solid #2061c4 !important;
+    background-color: #4180e91a;
+    border-left: 2px solid #2061c4;
+    color: black;
+}
+
+::ng-deep #ngb-tab-5-panel {
+    margin-top: 20px !important;
+}
+
+::ng-deep #ngb-tab-3 {
+    cursor: default;
+}
+
+.div-button-mail-customer {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    background-color: whitesmoke;
+    margin-top: 1.2rem;
+}
+
+.btn-color-solucredit {
+    background-color: #2061c4;
+    color: white;
+}
+
+.btn-color-solucredit-secondary {
+    background-color: #6c6c6c;
+    color: white;
+}
+
+.div-confirmation {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    /* background-color: whitesmoke;
+    margin-top: 1.2rem; */
+}
+
+.logotipo_customer {
+    position: absolute;
+    top: -110px;
+    right: 40px;
+    height: 135px;
+    object-fit: cover;
+}
+.customa1 {
+    cursor: pointer;
+    color: #2962ff;
+}
+.table.customtp td {
+    padding: 0 5px;
+}
+
+.table-hover tbody tr:hover {
+    background-color: #4180e91a;
+}
+
+.modal-header {
+    border-bottom: none !important;
+}
+
+.black {
+    color: black;
+    font-weight: 400;
+}
+
+.btn-hover-gray:hover {
+    background-color: #e6ecf8;
+    color: black;
+}
+
+.absolute-alert-div {
+    /* background: $theme-light; */
+    position: fixed;
+    width: 500px;
+    top: 70px;
+    right: 20px;
+    z-index: 100;
+    /* &.show-service-panel {
+      right: 0px;
+    }
+    .customizer-body {
+      position: relative;
+      height: 100%;
+    } */
+}
+
+.absolute-alert {
+    box-shadow: 10px 9px 4px -4px rgba(0, 0, 0, 0.14);
+    -webkit-box-shadow: 10px 9px 4px -4px rgba(0, 0, 0, 0.14);
+    -moz-box-shadow: 10px 9px 4px -4px rgba(0, 0, 0, 0.14);
+    transition: 0.3s ease-in;
+}
+.csdsabsolute-alert {
+    /* background: $danger; */
+    padding: 12px 20px;
+    /* color: $white; */
+    position: absolute;
+    top: 30%;
+    left: -54px;
+}
+
+.close {
+    float: left;
+    border-width: 0 !important;
+    border: none;
+    outline: none;
+}
+::ng-deep .my-modal .modal-content {
+    border-radius: 15px;
+}
+::ng-deep .my-modal .modal-header {
+    background-color: rgba(225, 229, 234, 0.1);
+    border-top-right-radius: 15px;
+    border-top-left-radius: 15px;
+    opacity: 0.8;
+}
+
+::ng-deep .modal1 .modal-dialog {
+    max-width: 80%;
+    width: 80%;
+    border-radius: 15px;
+}
+
+::ng-deep .modal1 .modal-content {
+    border-radius: 15px;
+}
+::ng-deep .modal1 .modal-header {
+    background-color: rgba(225, 229, 234, 0.1);
+    border-top-right-radius: 15px;
+    border-top-left-radius: 15px;
+    opacity: 0.8;
+}
+.my-badge {
+    background-color: #3db2ff;
+    margin-left: 9px;
+    font-weight: 500;
+    color: white;
+    height: 20px;
+    width: 20px;
+    font-size: 14px;
+    justify-content: center;
+    align-items: center;
+}
+td .cell {
+    word-break: break-all;
+    max-width: 10px !important;
+    min-width: 10px;
+    width: 30px;
+    overflow: hidden;
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    table-layout: fixed;
+}

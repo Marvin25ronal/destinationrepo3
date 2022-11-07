@@ -1,0 +1,1096 @@
+<div class="row mt-4">
+    <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#759ee0" type="ball-scale-multiple">
+        <p style="font-size: 20px; color:#fff">Cargando Información...</p>
+    </ngx-spinner>
+    <div class="col-md-6">
+        <img class="ml-5" src="/assets/images/logo.png" alt="solucredits" width="auto" height="80%">
+    </div>
+    <div class="col-md-6">
+        <h2>SOLUCIONES CREDITICIAS S.A.</h2>
+        <p>
+            Avenida Las Américas, 8-42 Zona 13, Edificio Américas 10, Nivel 9, Oficina 902 <br> Guatemala, Guatemala <br> PBX.: 2301 4400
+        </p>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="card-header" style="background-color: #3473da;">
+                <h3 class="card-title mb-0 text-white">Solicitud Empresarial</h3>
+            </div>
+        </div>
+        <form class="form-horizontal">
+
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">CRÉDITO SOLICITADO</h4>
+
+                    <div class="row form-group mt-4 pl-2">
+
+                        <div class="col-lg-4 col-md-4 col-sm-12">
+                            <div class="custom-control custom-radio">
+                                <input type="radio" id="customRadio1" name="inputType" class="custom-control-input" [value]="valuesType[0]" [(ngModel)]="requestForm.credit_type_id" name="request-credit_type_id">
+                                <label class="custom-control-label custom-label" for="customRadio1">Nueva Solicitud</label>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4 col-md-4 col-sm-12">
+                            <div class="custom-control custom-radio">
+                                <input type="radio" id="customRadio2" name="inputType" class="custom-control-input" [value]="valuesType[1]" [(ngModel)]="requestForm.credit_type_id" name="request-prorroga">
+                                <label class="custom-control-label custom-label" for="customRadio2">Prórroga</label>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4 col-md-4 col-sm-12">
+                            <div class="custom-control custom-radio">
+                                <input type="radio" id="customRadio3" name="inputType" class="custom-control-input" [value]="valuesType[2]" [(ngModel)]="requestForm.credit_type_id" name="request-ampliacion">
+                                <label class="custom-control-label custom-label" for="customRadio3">Ampliacíon o modificacíon</label>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    <div class="row form-group">
+                        <div class="col-lg-6">
+                            <label for="inputMonto" class="col-sm-12 custom-label">Monto</label>
+                            <div class="col-sm-12">
+                                <input type="number" class="form-control" aria-label="Monto" id="inputMonto" required [(ngModel)]="requestForm.amount" name="amount">
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <label for="inputDestino" class="col-sm-12 custom-label">Destino</label>
+                            <div class="col-sm-12">
+                                <input type="text" class="form-control" aria-label="Destino" id="inputDestino" required [(ngModel)]="requestForm.destination" name="destination">
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+
+
+                    <div class="row form-group">
+                        <div class="col-lg-12">
+                            <label for="inputNombre" class="col-sm-12 custom-label">Plazo en meses</label>
+                            <div class="col-sm-12">
+                                <input type="number" class="form-control" aria-label="Plazo" id="inputPlazo" required [(ngModel)]="requestForm.month_duration" name="month_duration">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row form-group">
+                        <div class="col-lg-12">
+                            <label for="inputGarantia" class="col-sm-12 custom-label">Garantía</label>
+                            <div class="row pl-4">
+                                <div class="col-lg-4 col-md-4 col-sm-12">
+                                    <div class="custom-control custom-radio">
+                                        <input type="radio" id="customRadio11" class="custom-control-input" name="inputGarantia" [value]="valuesWarranty[0]" [(ngModel)]="requestForm.warranty_type_id">
+                                        <label class="custom-control-label custom-label" for="customRadio11">Hipotecario</label>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-12">
+                                    <div class="custom-control custom-radio">
+                                        <input type="radio" id="customRadio12" class="custom-control-input" name="inputGarantia" [value]="valuesWarranty[1]" [(ngModel)]="requestForm.warranty_type_id">
+                                        <label class="custom-control-label custom-label" for="customRadio12">Prendario</label>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-12">
+                                    <div class="custom-control custom-radio">
+                                        <input type="radio" id="customRadio13" class="custom-control-input" name="inputGarantia" [value]="valuesWarranty[2]" [(ngModel)]="requestForm.warranty_type_id">
+                                        <label class="custom-control-label custom-label" for="customRadio13">Fiduciario en Cta. Corriente</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">DATOS GENERALES DE LA EMPRESA</h4>
+                    <div class="row form-group mt-4">
+                        <div class="col-lg-12">
+                            <label for="inputRazonSocial" class="col-sm-12">Razon Social</label>
+                            <div class="col-sm-12">
+                                <input type="text" class="form-control" aria-label="Nombre propietario" id="inputRazonSocial" required [(ngModel)]="requestForm.business_reason" name="business_reason">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row form-group">
+                        <div class="col-lg-8">
+                            <label for="inputNombreComercial" class="col-sm-12 custom-label">Nombre comercial de su empresa</label>
+                            <div class="col-sm-12">
+                                <input type="text" class="form-control" aria-label="Nombre comercial" id="inputNombreComercial" required [(ngModel)]="requestForm.comercial_name" name="comercial_name">
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <label for="inputNit" class="col-sm-12 custom-label">NIT</label>
+                            <div class="col-sm-12">
+                                <input type="text" maxlength="13" minlength="8" class="form-control" aria-label="NIT" id="inputNit" required [(ngModel)]="requestForm.nit" name="nit">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row form-group">
+                        <div class="col-lg-12">
+                            <label for="inputSector" class="col-sm-12 custom-label">Sector económico</label>
+                            <div class="col-sm-12">
+                                <input type="text" class="form-control" aria-label="Sector económico" id="inputSector" required [(ngModel)]="requestForm.economic_sector" name="economic_sector">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row form-group">
+                        <div class="col-lg-12">
+                            <label for="inputDireccion" class="col-sm-12 custom-label">Dirección</label>
+                            <div class="col-sm-12">
+                                <input type="text" class="form-control" aria-label="Direccion" required [(ngModel)]="requestForm.address" name="address">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row form-group">
+                        <div class="col-lg-12">
+                            <label for="inputTelefono" class="col-sm-12 custom-label">Teléfonos</label>
+                            <div class="col-sm-12">
+                                <input type="tel" class="form-control" aria-label="Teléfonos" required [(ngModel)]="requestForm.phones" name="phones">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row form-group">
+                        <div class="col-lg-8">
+                            <label for="inputNombreContacto" class="col-sm-12 custom-label">Nombre del contácto</label>
+                            <div class="col-sm-12">
+                                <input type="text" class="form-control" aria-label="Nombre del contácto" required [(ngModel)]="requestForm.contact_comercial_name" name="contact_comercial_name">
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <label for="inputCargoContacto" class="col-sm-12 custom-label">Cargo</label>
+                            <div class="col-sm-12">
+                                <input type="text" class="form-control" aria-label="Nombre del contácto" required [(ngModel)]="requestForm.position" name="position">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row form-group">
+                        <div class="col-lg-6">
+                            <label for="inputEmailSolicitarInfo" class="col-sm-12 custom-label">Correo electrónico para solicitar información para el
+                        expediente</label>
+                            <div class="col-sm-12">
+                                <input type="email" class="form-control" aria-label="Email para solicitar informacion" required [(ngModel)]="requestForm.records_info_email" name="records_info_email">
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <label for="inputNombreSolicitarInfo" class="col-sm-12 custom-label">Nombre</label>
+                            <div class="col-sm-12">
+                                <input type="text" class="form-control" aria-label="Nombre para solicitar informacion" required [(ngModel)]="requestForm.records_info_name" name="records_info_name">
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <label for="inputTelefonoSolicitarInfo" class="col-sm-12 custom-label">Teléfono directo</label>
+                            <div class="col-sm-12">
+                                <input type="tel" class="form-control" aria-label="Telefono para solicitar informacion" required [(ngModel)]="requestForm.records_info_phone" name="records_info_phone">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row form-group">
+                        <div class="col-lg-6">
+                            <label for="inputEmailContabilidad" class="col-sm-12 custom-label">Correo electrónico de contabilidad</label>
+                            <div class="col-sm-12">
+                                <input type="email" class="form-control" aria-label="Email" required [(ngModel)]="requestForm.accounting_email" name="accounting_email">
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <label for="inputNombreContabilidad" class="col-sm-12 custom-label">Nombre</label>
+                            <div class="col-sm-12">
+                                <input type="text" class="form-control" aria-label="Nombre" required [(ngModel)]="requestForm.accounting_name" name="accounting_name">
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <label for="inputTelefonoContabilidad" class="col-sm-12 custom-label">Teléfono directo</label>
+                            <div class="col-sm-12">
+                                <input type="tel" class="form-control" aria-label="Telefono de contabilidad" required [(ngModel)]="requestForm.accounting_phone" name="accounting_phone">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row form-group">
+                        <div class="col-lg-6">
+                            <label for="inputEmailCobros" class="col-sm-12 custom-label">Correo electrónico para cobros</label>
+                            <div class="col-sm-12">
+                                <input type="email" class="form-control" aria-label="Corre" required [(ngModel)]="requestForm.charges_email" name="charges_email">
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <label for="inputNombreCobros" class="col-sm-12 custom-label">Nombre</label>
+                            <div class="col-sm-12">
+                                <input type="text" class="form-control" aria-label="Nombre" required [(ngModel)]="requestForm.charges_name" name="charges_name">
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <label for="inputTelefonoCobros" class="col-sm-12 custom-label">Teléfono directo</label>
+                            <div class="col-sm-12">
+                                <input type="tel" class="form-control" aria-label="Telefono" required [(ngModel)]="requestForm.charges_phone" name="charges_phone">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row form-group">
+                        <div class="col-lg-6">
+                            <label for="inputEmailFactura" class="col-sm-12 custom-label">Correo electrónico para enviar factura</label>
+                            <div class="col-sm-12">
+                                <input type="email" class="form-control" aria-label="email" required [(ngModel)]="requestForm.bill_send_email" name="bill_send_email">
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <label for="inputNombreFactura" class="col-sm-12 custom-label">Nombre</label>
+                            <div class="col-sm-12">
+                                <input type="text" class="form-control" aria-label="Nombre" required [(ngModel)]="requestForm.bill_send_name" name="bill_send_name">
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <label for="inputTelefonoFactura" class="col-sm-12 custom-label">Teléfono directo</label>
+                            <div class="col-sm-12">
+                                <input type="tel" class="form-control" aria-label="Telefono" required [(ngModel)]="requestForm.bill_send_phone" name="bill_send_phone">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row form-group">
+                        <div class="col-lg-6">
+                            <label for="inputEmailRetencion" class="col-sm-12 custom-label">Correo electrónico para solicitar retención de
+                        ISR</label>
+                            <div class="col-sm-12">
+                                <input type="email" class="form-control" aria-label="Email" required [(ngModel)]="requestForm.isr_email" name="isr_email">
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <label for="inputNombreRetencion" class="col-sm-12 custom-label">Nombre</label>
+                            <div class="col-sm-12">
+                                <input type="text" class="form-control" aria-label="Nombre" required [(ngModel)]="requestForm.isr_name" name="isr_name">
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <label for="inputTelefonoRetencion" class="col-sm-12 custom-label">Teléfono directo</label>
+                            <div class="col-sm-12">
+                                <input type="tel" class="form-control" aria-label="Telefono" required [(ngModel)]="requestForm.isr_phone" name="isr_phone">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row form-group">
+                        <div class="col-lg-12">
+                            <label for="inputActividadPrincipal" class="col-sm-12 custom-label">Actividad principal</label>
+                            <div class="col-sm-12">
+                                <input type="text" class="form-control" aria-label="Actividad principal" required [(ngModel)]="requestForm.core_business" name="core_business">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row form-group">
+                        <div class="col-lg-8">
+                            <label for="inputTiempoMercado" class="col-sm-12 custom-label">Tiempo en el mercado</label>
+                            <div class="col-sm-12">
+                                <input type="number" class="form-control" aria-label="Tiempo en el mercado" required [(ngModel)]="requestForm.time_in_business" name="time_in_business">
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <label for="inputVentasAnuales" class="col-sm-12 custom-label">Ventas anuales último año</label>
+                            <div class="col-sm-12">
+                                <input type="number" class="form-control" aria-label="Ventas Anuales" required [(ngModel)]="requestForm.last_year_sales" name="last_year_sales">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row form-group">
+
+                        <div class="col-lg-3">
+                            <label for="inputNombre" class="col-sm-12 custom-label">Agente retenedor de IVA</label>
+                            <div class="col-sm-12">
+                                <div class="form-check form-check-inline">
+                                    <div class="custom-control custom-radio">
+                                        <input type="radio" class="custom-control-input" id="agenteIVATrue" [value]="isIVA[0]" [(ngModel)]="requestForm.iva_holder" name="iva_holder">
+                                        <label class="custom-control-label custom-label" for="agenteIVATrue">Si</label>
+                                    </div>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <div class="custom-control custom-radio">
+                                        <input type="radio" class="custom-control-input" id="agenteIVAFlase" [value]="isIVA[1]" [(ngModel)]="requestForm.iva_holder" name="iva_holder">
+                                        <label class="custom-control-label custom-label" for="agenteIVAFlase">No</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-3">
+                            <label for="inputPorcentajeRetencionIVA" class="col-sm-12 custom-label">Porcentaje de retención IVA</label>
+                            <div class="col-sm-12">
+                                <input type="number" class="form-control" aria-label="Porcentaje" required [(ngModel)]="requestForm.iva_percentage" name="iva_percentage">
+                            </div>
+                        </div>
+
+                        <div class="col-lg-3">
+                            <label for="inputNombre" class="col-sm-12 custom-label">Agente retenedor de ISR</label>
+                            <div class="col-sm-12">
+                                <div class="form-check form-check-inline">
+                                    <div class="custom-control custom-radio">
+                                        <input type="radio" class="custom-control-input" id="agenteISRTrue" [value]="isISR[0]" [(ngModel)]="requestForm.isr_holder" name="isr_holder">
+                                        <label class="custom-control-label custom-label" for="agenteISRTrue">Si</label>
+                                    </div>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <div class="custom-control custom-radio">
+                                        <input type="radio" class="custom-control-input" id="agenteISRFalse" [value]="isISR[1]" [(ngModel)]="requestForm.isr_holder" name="isr_holder">
+                                        <label class="custom-control-label custom-label" for="agenteISRFalse">No</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <label for="inputPorcentajeRetencionISR" class="col-sm-12 custom-label">Porcentaje de retención ISR</label>
+                            <div class="col-sm-12">
+                                <input type="number" class="form-control" aria-label="Porcentaje ISR" required [(ngModel)]="requestForm.isr_percentage" name="isr_percentage">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row form-group">
+                        <div class="col-lg-12">
+                            <label for="inputWeb" class="col-sm-12 custom-label">Página Web</label>
+                            <div class="col-sm-12">
+                                <input type="text" class="form-control" aria-label="URL" required [(ngModel)]="requestForm.web_page" name="web_page">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row form-group">
+                        <div class="col-lg-12">
+                            <label for="inputGroup" class="col-sm-12 custom-label">¿Pertenece a un grupo de empresas?</label>
+                            <div class="col-sm-12">
+                                <div class="form-check form-check-inline">
+                                    <div class="custom-control custom-radio">
+                                        <input type="radio" class="custom-control-input" id="inputGroupTrue" [value]="isISR[0]" [(ngModel)]="requestForm.holding" [ngModelOptions]="{standalone: true}">
+                                        <label class="custom-control-label custom-label" for="inputGroupTrue">Si</label>
+                                    </div>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <div class="custom-control custom-radio">
+                                        <input type="radio" class="custom-control-input" id="inputGroupFlase" [value]="isISR[1]" [(ngModel)]="requestForm.holding" [ngModelOptions]="{standalone: true}">
+                                        <label class="custom-control-label custom-label" for="inputGroupFlase">No</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="card">
+                <div *ngFor="let legal of requestForm.legal_representatives; index as i">
+                    <div class="card-body">
+                        <h4 class="card-title">Datos del representante legal</h4>
+
+                        <div class="row form-group">
+                            <div class="col-lg-12">
+                                <label for="inputNombre" class="col-sm-12">Nombre</label>
+                                <div class="col-sm-12">
+                                    <input type="text" class="form-control" aria-label="RazonSocial" id="inputNombreRepresentate" required [(ngModel)]="legal.name" name="legal-name{i}">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row form-group">
+                            <div class="col-lg-8">
+                                <label for="inputNombre" class="col-sm-12">Teléfono</label>
+                                <div class="col-sm-12">
+                                    <input type="text" class="form-control" aria-label="Username" [(ngModel)]="legal.phone" name="legal-phone{i}">
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <label for="inputNombre" class="col-sm-12">NIT</label>
+                                <div class="col-sm-12">
+                                    <input type="text" maxlength="13" minlength="8" class="form-control" aria-label="Username" [(ngModel)]="legal.nit" name="legal-nit{i}">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row form-group">
+                            <div class="col-lg-12">
+                                <label for="inputDireccionParticular" class="col-sm-12">Dirección particular</label>
+                                <div class="col-sm-12">
+                                    <input type="text" class="form-control" aria-label="Direccion" [(ngModel)]="legal.address" name="legal-address{i}">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row form-group">
+                            <div class="col-lg-6">
+                                <label for="inputFechaNacimiento" class="col-sm-12">Fecha de nacimiento</label>
+                                <div class="col-sm-12">
+                                    <div class="input-group">
+                                        <input class="form-control" placeholder="yyyy-mm-dd" name="dp2" [(ngModel)]="model" ngbDatepicker #d3="ngbDatepicker">
+                                        <div class="input-group-append">
+                                            <button class="btn btn-outline-secondary no-shadow" (click)="d3.toggle()" type="button">
+                                                <i class="fa fa-calendar"></i>
+                                            </button>
+
+                                        </div>
+                                    </div>
+                                    <input type="text" class="form-control" aria-label="Username">
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <label for="inputProfesion" class="col-sm-12">Profesión</label>
+                                <div class="col-sm-12">
+                                    <input type="text" class="form-control" aria-label="Username" [(ngModel)]="legal.profession" name="legal-profession{i}">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row form-group">
+                            <div class="col-lg-6">
+                                <label for="inputDPI" class="col-sm-12">No. de DPI</label>
+                                <div class="col-sm-12">
+                                    <input type="text" class="form-control" aria-label="Username" [(ngModel)]="legal.dpi_num" name="legal-dpi{i}">
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <label for="inputExtendido" class="col-sm-12">Extendido en</label>
+                                <div class="col-sm-12">
+                                    <input type="text" class="form-control" aria-label="Username" [(ngModel)]="legal.dpi_extended" name="legal-dpi-extended{i}">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row form-group">
+                            <div class="col-lg-8">
+                                <label for="inputNacionalidadRepresentante" class="col-sm-12">Nacionalidad</label>
+                                <div class="col-sm-12">
+                                    <select class="form-control custom-select" [(ngModel)]="legal.nationality" [ngModelOptions]="{standalone: true}">
+                                      <option >Selecione una opcion</option>
+                          <option *ngFor="let country of countries" [ngValue]="country.country_id">{{country.name}}</option>
+                        </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <label for="inputEstadoCivil" class="col-sm-12">Estado Civil</label>
+                                <div class="col-sm-12">
+                                    <input type="text" class="form-control" aria-label="Username" [(ngModel)]="legal.civil_status" name="legal-civil{i}">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row form-group">
+                            <div class="col-lg-8">
+                                <label for="inputCargoRepresentante" class="col-sm-12">Cargo que se le nombro</label>
+                                <div class="col-sm-12">
+                                    <input type="text" class="form-control" aria-label="Username" [(ngModel)]="legal.position" name="legal-position{i}">
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <label for="inputVigencia" class="col-sm-12">Vigencia</label>
+                                <div class="col-sm-12">
+                                    <input type="text" class="form-control" aria-label="Username" [(ngModel)]="legal.validity" name="legal-validiti{i}">
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+
+
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Nombre de los socios</h4>
+
+
+
+
+                    <div *ngFor="let member of requestForm.members; index as i">
+
+                        <div class="row form-group">
+                            <div class="col-lg-6">
+                                <label for="inputNombre" class="col-sm-12">Nombre</label>
+                                <div class="col-sm-12">
+                                    <input type="text" class="form-control" aria-label="Username" [(ngModel)]="member.name" name="member-name{i}">
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <label for="inputNombre" class="col-sm-12">Cargo que desempeña</label>
+                                <div class="col-sm-12">
+                                    <input type="text" class="form-control" aria-label="Username" [(ngModel)]="member.postion" name="member-position{i}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-lg-4">
+                                <label for="inputNombre" class="col-sm-12">Nacionalidad</label>
+                                <div class="col-sm-12">
+                                    <select class="form-control custom-select" [(ngModel)]="member.nationality" [ngModelOptions]="{standalone: true}">
+                              <option >Selecione una opcion</option>
+                              <option *ngFor="let country of countries" [ngValue]="country.country_id">{{country.name}}</option>
+                            </select>
+
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <label for="inputNombre" class="col-sm-12">NIT</label>
+                                <div class="col-sm-12">
+                                    <input type="text" maxlength="13" minlength="8" class="form-control" aria-label="Username" [(ngModel)]="member.nit" name="member-nit{i}">
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <label for="inputNombre" class="col-sm-12">% de participación accionaria</label>
+                                <div class="col-sm-12">
+                                    <input type="text" class="form-control" aria-label="Username" [(ngModel)]="member.share_participation" name="member-partici{i}">
+                                </div>
+                            </div>
+                            <div class="col-lg-1 align-self-end" *ngIf="member.member_id || membersCount > 1">
+                                <button (click)="quitarSocio(i)" class="btn btn-danger btn-raised mr-1"> <i class="far fa-window-close"></i> </button>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+
+
+                    <div class="row">
+                        <div class="offset-lg-9 col-lg-3">
+                            <label for="inputNombre" class="col-sm-12 custom-label"></label>
+                            <button (click)="agregarSocio()" class="btn  btn-info ml-auto  btn-color-solucredit">Agregar otra socio</button>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Junta directiva</h4>
+
+
+                    <div *ngFor="let direc of requestForm.director_boards; index as i">
+
+
+                        <div class="row form-group">
+                            <div class="col-lg-6">
+                                <label for="inputNombre" class="col-sm-12">Nombre</label>
+                                <div class="col-sm-12">
+                                    <input type="text" class="form-control" aria-label="Username" [(ngModel)]="direc.name" name="direc-name{i}">
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <label for="inputNombre" class="col-sm-12">Cargo que desempeña</label>
+                                <div class="col-sm-12">
+                                    <input type="text" class="form-control" aria-label="Username" [(ngModel)]="direc.position" name="direc-position{i}">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row form-group">
+                            <div class="col-lg-6">
+                                <label for="inputNombre" class="col-sm-12">NIT</label>
+                                <div class="col-sm-12">
+                                    <input type="text" maxlength="13" minlength="8" class="form-control" aria-label="Username" [(ngModel)]="direc.nit" name="direc-nit{i}">
+                                </div>
+                            </div>
+                            <div class="col-lg-5">
+                                <label for="inputNombre" class="col-sm-12">Es Pep's</label>
+                                <div class="col-sm-12">
+                                    <input type="text" class="form-control" aria-label="Username" [(ngModel)]="direc.peps" name="direc-peps{i}">
+                                </div>
+                            </div>
+                            <div class="col-lg-1 align-self-end" *ngIf="direc.director_id || directorsCount > 1">
+                                <button (click)="quitarDirectiva(i)" class="btn btn-danger btn-raised mr-1"> <i class="far fa-window-close"></i> </button>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+
+
+
+
+
+                    <div class="row">
+                        <div class="offset-lg-9 col-lg-3">
+                            <label for="inputNombre" class="col-sm-12"></label>
+                            <button (click)="agregarDirectiva()" class="btn btn btn-info ml-auto btn-color-solucredit">Agregar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Empresas del grupo / holding</h4>
+
+                    <div *ngFor="let company of requestForm.companys; index as i">
+
+                        <div *ngIf="company.remove != true">
+                            <div class="row form-group">
+                                <div class="col-lg-4">
+                                    <label for="inputNombre" class="col-sm-12 custom-label">Nombre</label>
+                                    <div class="col-sm-12">
+                                        <input type="text" class="form-control" aria-label="Username" [(ngModel)]="company.name" required name="comp-name{{i}}">
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <label for="inputNombre" class="col-sm-12 custom-label">Sector al que pertenece</label>
+                                    <div class="col-sm-12">
+                                        <input type="text" class="form-control" aria-label="Username" [(ngModel)]="company.business" required name="comp-business{{i}}">
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <label for="inputNombre" class="col-sm-12 custom-label">Nombre de la Holding / País</label>
+                                    <div class="col-sm-12">
+                                        <input type="text" class="form-control" aria-label="Username" [(ngModel)]="requestForm.companys[i].holding_name" required name="comp-holding_name{{i}}">
+                                    </div>
+                                </div>
+                                <div class="col-lg-1 align-self-end" *ngIf="company.company_id || companiesCount > 1">
+                                    <button (click)="quitarEmpresa(i)" class="btn btn-danger btn-raised mr-1"> <i class="far fa-window-close"></i> </button>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                    <div class="row">
+                        <div class="offset-lg-9 col-lg-3">
+                            <label for="inputNombre" class="col-sm-12 "></label>
+                            <button (click)="agregarEmpresa()" class="btn btn btn-info ml-auto btn-color-solucredit">Agregar otra empresa</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Cuentas bancarias de la empresa </h4>
+                    <div *ngFor="let aco of requestForm.bank_accounts; index as i">
+                        <div *ngIf="aco.remove != true">
+                            <div class="row form-group">
+                                <div class="col-lg-4">
+                                    <label for="inputBanco" class="col-sm-12 custom-label">Banco</label>
+                                    <div class="col-sm-12">
+                                        <input type="text" class="form-control" aria-label="Username" [(ngModel)]="aco.bank" required name="aco-banck{{i}}">
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <label for="inputCuenta" class="col-sm-12 custom-label">No. Cuenta</label>
+                                    <div class="col-sm-12">
+                                        <input type="text" class="form-control" aria-label="Username" [(ngModel)]="aco.account_number" required name="aco-accoun-number{{i}}">
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <label for="inputTipo" class="col-sm-12 custom-label">Tipo de Cuenta</label>
+                                    <div class="col-sm-12">
+                                        <input type="text" class="form-control" aria-label="Username" [(ngModel)]="aco.account_type" required name="aco-account-type{{i}}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col-lg-4">
+                                    <label for="inputMoneda" class="col-sm-12 custom-label">Moneda</label>
+                                    <div class="col-sm-12">
+                                        <input type="text" class="form-control" aria-label="Username" i [(ngModel)]="aco.currency" required name="aco-currency{{i}}">
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <label for="inputNombre" class="col-sm-12 custom-label">Nombre de la cuenta</label>
+                                    <div class="col-sm-12">
+                                        <input type="text" class="form-control" aria-label="Username" [(ngModel)]="aco.name_account" required name="aco-name-account{{i}}">
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <label for="inputNombre" class="col-sm-12 custom-label">Promedio mensual en Depósitos</label>
+                                    <div class="col-sm-12">
+                                        <input type="number" class="form-control" aria-label="Username" [(ngModel)]="aco.monthly_average_deposit" required name="aco-monthly-avera-depo{{i}}">
+                                    </div>
+                                </div>
+                                <div class="col-lg-1 align-self-end" *ngIf="aco.account_id || bank_accountCount > 1">
+                                    <button (click)="quitarCuenta(i)" class="btn btn-danger btn-raised mr-1"> <i class="far fa-window-close"></i> </button>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+
+
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-3 offset-lg-9">
+
+                            <button (click)="agregarCuenta()" class="btn btn btn-info ml-auto btn-color-solucredit">Agregar Cuenta</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Préstamos bancarios</h4>
+                    <div *ngFor="let loan of requestForm.bank_loans; index as i">
+                        <div *ngIf="loan.remove != true">
+                            <div class="row form-group">
+                                <div class="col-lg-4">
+                                    <label for="inputNombre" class="col-sm-12 custom-label">Banco</label>
+                                    <div class="col-sm-12">
+                                        <input type="text" class="form-control" aria-label="Username" [(ngModel)]="loan.bank" required name="loan.bank{{i}}">
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <label for="inputNombre" class="col-sm-12 custom-label">No. Préstamo</label>
+                                    <div class="col-sm-12">
+                                        <input type="text" class="form-control" aria-label="Username" [(ngModel)]="loan.loan_number" required name="loan-loannum{{i}}">
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <label for="inputNombre" class="col-sm-12 custom-label">Garantía</label>
+                                    <div class="col-sm-12">
+                                        <input type="text" class="form-control" aria-label="Username" [(ngModel)]="loan.warranty" required name="loan-warranty{{i}}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col-lg-4">
+                                    <label for="inputNombre" class="col-sm-12 custom-label">Monto Otorgado</label>
+                                    <div class="col-sm-12">
+                                        <input type="number" class="form-control" aria-label="Username" [(ngModel)]="loan.amount_awarded" required name="loan-amount-awarded{{i}}">
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <label for="inputNombre" class="col-sm-12 custom-label">Plazo</label>
+                                    <div class="col-sm-12">
+                                        <input type="number" class="form-control" aria-label="Username" [(ngModel)]="loan.time" required name="loan-time{{i}}">
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <label for="inputNombre" class="col-sm-12 custom-label">Saldo</label>
+                                    <div class="col-sm-12">
+                                        <input type="number" class="form-control" aria-label="Username" [(ngModel)]="loan.balance" required name="loan.balance{{i}}">
+                                    </div>
+                                </div>
+                                <div class="col-lg-1 align-self-end" *ngIf="loan.loan_id || bank_loansCount > 1">
+                                    <button (click)="quitarPrestamo(i)" class="btn btn-danger btn-raised mr-1"> <i class="far fa-window-close"></i> </button>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+
+                    </div>
+
+                    <div class="row">
+                        <div class="offset-lg-9 col-lg-3">
+
+                            <button (click)="agregarPrestamo()" class="btn btn btn-info ml-auto btn-color-solucredit">Agregar</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Descuento de documentos (Factoraje)</h4>
+                    <div class="card-body">
+
+                        <div *ngFor="let fact of requestForm.factorings; index as i">
+                            <div *ngIf="fact.remove != true">
+                                <div class="row form-group">
+                                    <div class="col-lg-6">
+                                        <label for="inputNombre" class="col-sm-12 custom-label">Entidad</label>
+                                        <div class="col-sm-12">
+                                            <input type="text" class="form-control" aria-label="Username" [(ngModel)]="fact.entity" required name="fact-entity{{i}}">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <label for="inputNombre" class="col-sm-12 custom-label">Garantía</label>
+                                        <div class="col-sm-12">
+                                            <input type="text" class="form-control" aria-label="Username" [(ngModel)]="fact.warranty" required name="fac-warranty{{i}}">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row form-group">
+                                    <div class="col-lg-4">
+                                        <label for="inputNombre" class="col-sm-12 custom-label">Monto Otorgado</label>
+                                        <div class="col-sm-12">
+                                            <input type="number" class="form-control" aria-label="Username" [(ngModel)]="fact.amount_awarded" required name="fact-amount-awarded{{i}}">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <label for="inputNombre" class="col-sm-12 custom-label">Monto Utilizado</label>
+                                        <div class="col-sm-12">
+                                            <input type="number" class="form-control" aria-label="Username" [(ngModel)]="fact.amount_used" required name="fact-amount-used{{i}}">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <label for="inputNombre" class="col-sm-12 custom-label">Saldo</label>
+                                        <div class="col-sm-12">
+                                            <input type="number" class="form-control" aria-label="Username" [(ngModel)]="fact.balance" required name="fact-balance{{i}}">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-1 align-self-end" *ngIf="fact.factoring_id || factoringsCount > 1">
+                                        <button (click)="quitarDescuento(i)" class="btn btn-danger btn-raised mr-1"> <i class="far fa-window-close"></i> </button>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+
+
+
+
+                        </div>
+                        <div class="row">
+                            <div class="offset-lg-9 col-lg-3">
+
+                                <button (click)="agregarDescuento()" class="btn btn btn-info ml-auto btn-color-solucredit">Agregar</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Referencias comerciales principales proveedores</h4>
+
+                    <div *ngFor="let sup of requestForm.suppliers; index as i">
+                        <div *ngIf="sup.remove != true">
+
+                            <div class="row form-group">
+                                <div class="col-lg-4">
+                                    <label for="inputNombre" class="col-sm-12 custom-label">Nombre</label>
+                                    <div class="col-sm-12">
+                                        <input type="text" class="form-control" aria-label="Username" [(ngModel)]="sup.name" required name="sup-name{{i}}">
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <label for="inputNombre" class="col-sm-12 custom-label">Promedio mensual en compras</label>
+                                    <div class="col-sm-12">
+                                        <input type="number" class="form-control" aria-label="Username" [(ngModel)]="sup.average_monthly_purchase" required name="sup-average_monthly_purchase{{i}}">
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <label for="inputNombre" class="col-sm-12 custom-label">Monto máximo de crédito</label>
+                                    <div class="col-sm-12">
+                                        <input type="number" class="form-control" aria-label="Username" [(ngModel)]="sup.max_credit" required name="sup-max_credit{{i}}">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row form-group">
+                                <div class="col-lg-4">
+                                    <label for="inputNombre" class="col-sm-12 custom-label">País	</label>
+                                    <div class="col-sm-12">
+                                        <input type="text" class="form-control" aria-label="Username" [(ngModel)]="sup.country" required name="sup.country{{i}}">
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <label for="inputNombre" class="col-sm-12 custom-label">Contacto</label>
+                                    <div class="col-sm-12">
+                                        <input type="text" class="form-control" aria-label="Username" [(ngModel)]="sup.contact" required name="sup-contact{{i}}">
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <label for="inputNombre" class="col-sm-12 custom-label">Teléfono</label>
+                                    <div class="col-sm-12">
+                                        <input type="text" class="form-control" aria-label="Username" [(ngModel)]="sup.phone" required name="sup-phone{{i}}">
+                                    </div>
+                                </div>
+                                <div class="col-lg-1 align-self-end" *ngIf="sup.supplier_id || suppliersCount > 1">
+                                    <button (click)="quitarProveedor(i)" class="btn btn-danger btn-raised mr-1"> <i class="far fa-window-close"></i> </button>
+                                </div>
+                            </div>
+
+
+
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="offset-lg-9 col-lg-3">
+
+                            <button (click)="agregarProveedor()" class="btn btn btn-info ml-auto btn-color-solucredit">Agregar</button>
+                        </div>
+                    </div>
+
+
+
+
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Principales clientes</h4>
+
+                    <div *ngFor="let client of requestForm.clients; index as i">
+                        <div *ngIf="client.remove != true">
+                            <div class="row form-group">
+                                <div class="col-lg-4">
+                                    <label for="inputNombre" class="col-sm-12 custom-label">Nombre</label>
+                                    <div class="col-sm-12">
+                                        <input type="text" class="form-control" aria-label="Username" [(ngModel)]="client.name" required name="client-name{{i}}">
+                                    </div>
+                                </div>
+                                <div class="col-lg-2">
+                                    <label for="inputNombre" class="col-sm-12 custom-label">Promedio mensual</label>
+                                    <div class="col-sm-12">
+                                        <input type="number" class="form-control" aria-label="Username" [(ngModel)]="client.monthly_average" required name="client-monthly-average{{i}}">
+                                    </div>
+                                </div>
+                                <div class="col-lg-2">
+                                    <label for="inputNombre" class="col-sm-12 custom-label">Días Crédito</label>
+                                    <div class="col-sm-12">
+                                        <input type="number" class="form-control" aria-label="Username" [(ngModel)]="client.credit_days" required name="client-credit-days{{i}}">
+                                    </div>
+                                </div>
+                                <div class="col-lg-2">
+                                    <label for="inputNombre" class="col-sm-12 custom-label">Forma de Pago</label>
+                                    <div class="col-sm-12">
+                                        <input type="text" class="form-control" aria-label="Username" [(ngModel)]="client.pay_form" required name="client-pay-form{{i}}">
+                                    </div>
+                                </div>
+                                <div class="col-lg-2">
+                                    <label for="inputNombre" class="col-sm-12 custom-label">Tiempo de relación</label>
+                                    <div class="col-sm-12">
+                                        <input type="number" class="form-control" aria-label="Username" [(ngModel)]="client.relation_time" required name="client-relation-name{{i}}">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row form-group">
+                                <div class="col-lg-3">
+                                    <label for="inputNombre" class="col-sm-12 custom-label">Producto o servicio</label>
+                                    <div class="col-sm-12">
+                                        <input type="text" class="form-control" aria-label="Username" [(ngModel)]="client.product_service" required name="client-product-service{{i}}">
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <label for="inputNombre" class="col-sm-12 custom-label">Contacto</label>
+                                    <div class="col-sm-12">
+                                        <input type="text" class="form-control" aria-label="Username" [(ngModel)]="client.contact" required name="client-contact{{i}}">
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <label for="inputNombre" class="col-sm-12 custom-label">Teléfono</label>
+                                    <div class="col-sm-12">
+                                        <input type="text" class="form-control" aria-label="Username" [(ngModel)]="client.phone" required name="client-phone{{i}}">
+                                    </div>
+                                </div>
+                                <div class="col-lg-1 align-self-end" *ngIf="client.client_id || clientsCount > 1">
+                                    <button (click)="quitarCliente(i)" class="btn btn-danger btn-raised mr-1"> <i class="far fa-window-close"></i> </button>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+
+                    </div>
+
+
+
+                    <div class="row">
+                        <div class="offset-lg-9 col-lg-3">
+
+                            <button (click)="agregarCliente()" class="btn btn btn-info ml-auto btn-color-solucredit">Agregar</button>
+                        </div>
+                    </div>
+
+
+
+
+
+
+                </div>
+            </div>
+
+
+            <div class="card">
+                <div class="card-body">
+                    <div class="row mb-4">
+                        <div class="col-lg-12">
+                            <p class="text-justify">
+                                Declaro que los datos y cifras anotadas anteriormente son ciertas, dejando a criterio de SOLUCIONES CREDITICIAS, S.A. la confirmación de la información, por los medios que considere convenientes.
+                                <b>Conozco las consecuencias legales en caso no ser cierto y veraz lo declarado.</b>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row mb-4">
+                        <div class="col-lg-12">
+                            <p class="text-justify">
+                                Autorizo voluntariamente que la información recopilada y/o proporcionada por entidades públicas o privadas y la generada de relaciones contractuales, crediticias o comerciales, sea reportada a centrales de riesgo o burós de crédito para ser tratada, almacenada
+                                o transferida; y autorizo expresamente a las entidades que prestan servicios de información, centrales de riesgo y burós de crédito, a recopilar, difundir o comercializar reportes o estudios que contengan información sobre
+                                mi persona y mi representada.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row mb-4">
+                        <div class="col-lg-12">
+                            <p class="text-justify">
+                                Así mismo autorizo a Soluciones Crediticias, para que pueda realizar consultas las veces que sean necesarias, durante la vigencia de la relación financiera.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="card">
+                <div class="card-body">
+                    <div class="form-group m-b-0 text-right">
+                        <button (click)="onSubmitComplete()" class="btn  btn-info ml-auto  btn-color-solucredit">Guardar y marcar como completado</button>
+                        <button class="btn btn btn-info ml-auto btn-color-solucredit" (click)="onSubmit()">Guardar</button>
+                        <button (click)="returnPreviusPage()" class="btn btn btn-info ml-auto btn-color-solucredit-secondary">Regresar</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

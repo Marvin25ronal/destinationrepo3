@@ -1,0 +1,160 @@
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="card-header" style="background: linear-gradient(to right, #2061c4 0%, #4382eb 100%);">
+                <h4 class="card-title mb-0 text-white">Acta de Gerencia
+                </h4>
+            </div>
+            <div class="card-body">
+                <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#759ee0" type="ball-scale-multiple">
+                    <p style="font-size: 20px; color:#fff">Cargando Información...</p>
+                </ngx-spinner>
+                <ng-container>
+                    <div class="card-block">
+                        <div class="card-body" id='templateActa'>
+                            
+                            <div style="text-align: center;">
+                                <h1>Acta Gerencial</h1>
+                                <hr>
+                            </div>
+                            <div style="text-align: center;">
+                                <h4>Acta {{registry1}}-{{registry2}}-{{yearActa}}</h4>
+                            </div>
+                            <div style="text-align: justify;">
+                                <p>
+                                    En la ciudad de guatemala, el día {{this.dayAct}} de {{this.mesAct}} del {{this.yearAct}}
+                                    en la sede de Soluciones Crediticias, Sociedad Anónima, ubicada en las Avenida
+                                    Las Américas, 8-42 Zona 13, Edificio Américas, 10, 9° Nivel, Oficina 902, Guatemala, 
+                                    Guatemala, con el obeto de Autorizar las operaciones que a continuación se detallan:
+                                </p>
+                            </div>
+                            <div style="text-align: justify; padding-left: 2.5%;" >
+                                <p>1. Se conoce la solicitud de Operación con pagaré, presentada por la entidad <strong>{{this.nombre}}</strong> 
+                                    con fecha {{this.actualday}} de {{this.mes}} del {{this.actYear}} y se autorizó bajo las siguientes condiciones:
+                                </p>
+                            </div>
+                            <div style="text-align: center;">
+                                <h5><strong>PAGARÉ</strong></h5>
+                                <hr>
+                            </div>
+                            <div class="container" style="padding-left: 10%;">
+                                <div class="row">
+                                    <div class="col-md">
+                                        <strong>DEUDORES MANCOMUNADOS</strong>
+                                    </div>
+                                    <div class="col-sm">
+                                        <tr>
+                                            <td>
+                                                <tr>
+                                                    {{this.nombre}}
+                                                </tr>
+                                            </td>
+                                        </tr>
+                                        <tr *ngFor="let debtor of debtorsConditionSheet">
+                                            <td>
+                                                <tr>{{debtor.debtor.business_name}}</tr>
+                                            </td>
+                                        </tr>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-md">
+                                        <strong>DIRECCIÓN</strong>
+                                    </div>
+                                    <div class="col-sm" style="text-align:justify;">
+                                        <p>{{this.direccion}}
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md">
+                                        <strong>MONTO</strong>
+                                    </div>
+                                    <div class="col-sm" style="text-align:justify;">
+                                        <p>{{this.cantidad}}
+                                            ({{this.monto | currency:'Q ':'code'}})
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md">
+                                        <strong>PLAZO</strong>
+                                    </div>
+                                    <div class="col-sm" style="text-align:justify;">
+                                        <p>Esta operación tiene un plazo de {{this.days}} días máximo, contados a partir del {{this.actualday}} de {{this.mes}}
+                                            del {{this.actYear}}, mediante un (1) pago, que deberá hacerse efectivo el día {{this.plazoDay}} de {{this.mesPlazo}} de {{this.plazoYear}}
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md">
+                                        <strong>INTERESES</strong>
+                                    </div>
+                                    <div class="col-sm" style="text-align:justify;">
+                                        <p>{{this.valueInterest}} mensual variable, más el Impuesto al Valor Agregado (IVA)
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md">
+                                        <strong>RECARGOS MORATORIOS</strong>
+                                    </div>
+                                    <div class="col-sm" style="text-align:justify;">
+                                        <p>{{this.valueMora}} Mensuales por arriba de la tasa de interés aplicada, más el Impuesto al 
+                                            Valor Agregado (IVA), sobre saldos deudores.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md">
+                                        <strong>RECARGO POR PENALIZACIÓN</strong>
+                                    </div>
+                                    <div class="col-sm" style="text-align:justify;">
+                                        <p>El deudor deberá pagar el 4.00% mensual y variable, por arriba de la tasa aplicada
+                                            como comisión más el Impuesto al Valor Agregado -IVA-, por concepto de penalización, 
+                                            en el caso que reciba los pagos que sean realizados por los terceros obligados,
+                                            conforme las respectivas facturas, contraseñas, letras de cambio y/o títulos de crédito, 
+                                            objeto de descuento o factoraje, y que los mismos sean utilizados para otros fines distintos 
+                                            a cumplir con el pago de sus obligaciones a SOLUCREDIT
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md">
+                                        <strong>FORMA DE PAGO</strong>
+                                    </div>
+                                    <div class="col-sm" style="text-align:justify;">
+                                        <p>Por medio de depósito, acreditamiento en cuenta de depósitos monetarios y/o cheque a nombre de 
+                                            Soluciones Crediticias, S.A.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="card-footer" style="background-color: white;">
+                        <div class="form-group m-b-0 text-right">
+                            <button ngbTooltip="Generar PDF" type="button"  class="btn btn-raised mr-1 text-white" 
+                            style="background-color: #3473da;" (click)="createPDF()">
+                            <i class="fas fa-file-pdf"></i>
+                                Generar Acta de Gerencia
+                            </button>
+                            <button ngbTooltip="Volver a reporte Gerente General" type="button"  class="btn btn-raised mr-1 text-white" 
+                            style="background-color: #3473da;" (click)="returnReport()">
+                            <i class="fas fa-undo"></i>
+                                Reporte Gerente General
+                            </button>
+                            <button ngbTooltip="Volver a reporte Gerente General" type="button"  class="btn btn-raised mr-1 text-white btn-secondary" 
+                          ngbTooltip="Volver al menú anterior" (click)="closeAct()">
+                            <i class="fas fa-times"></i>
+                                Cerrar
+                            </button>
+                        </div>
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+    </div>
+</div>

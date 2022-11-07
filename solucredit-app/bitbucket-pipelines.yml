@@ -1,0 +1,29 @@
+image: node:14.4.0
+
+pipelines:
+  branches:
+    '{release/master,release/qa}':
+      - step:
+          name: "Initial"
+          script:
+            - echo "Default step" 
+      - step:
+          name: "Build and push images"
+          trigger: manual
+          caches:
+            - node
+          script:            
+            - npm install
+            - npm install -g @angular/cli@9.1.12
+            - npm rebuild node-sass
+            - ng build --prod
+            - echo "ls dentro del frontend"
+            - ls
+            - docker login --username $DOCKER_USER --password $DOCKER_PASSWORD
+            - BRANCH_NAME=$(echo $BITBUCKET_BRANCH | sed "s/[^a-zA-Z0-9]/-/g")
+            - TAG_NAME=$BRANCH_NAME.$(date +%Y%m%d.%H%M%S)
+            - IMAGE_NAME=supervizorsolucredit/devopssolucredit-frontend:$TAG_NAME
+            - docker build -t $IMAGE_NAME .
+            - docker push $IMAGE_NAME
+          services:
+            - docker

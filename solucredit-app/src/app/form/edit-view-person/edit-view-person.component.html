@@ -1,0 +1,289 @@
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="card-header" style="background: linear-gradient(to right, #2061c4 0%, #4382eb 100%);">
+                <h4 class="card-title mb-0 text-white">{{title}}</h4>
+            </div>
+            <div class="card-body">
+                <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#759ee0" type="ball-scale-multiple">
+                    <p style="font-size: 20px; color:#fff">Cargando Información...</p>
+                </ngx-spinner>
+                <div class="card-block">
+                    <form [formGroup]="editPersonform" (ngSubmit)="editPerson()" class="form-horizontal">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-12 col-lg-3">
+                                    <div class="form-group row">
+                                        <label for="first_name" class="col-sm-12">Primer nombre
+
+                                            <code style="font-size: 16px;"><sup>*</sup></code>
+                                        </label>
+                                        <div class="input-group col-sm-12">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="basic-addon1">
+                                                    <i class="far fa-user"></i>
+                                                </span>
+                                            </div>
+                                            <input type="text" class="form-control" aria-label="Username"
+                                                id="first_name" formControlName="first_name" required
+                                                placeholder="Ej. Roberto Ariel">
+                                        </div>
+                                        <small class="form-text text-danger col-sm-12"
+                                            *ngIf="!editPersonform.get('first_name').valid && (editPersonform.get('first_name').dirty || editPersonform.get('first_name').touched)">El
+                                            nombre es requerido.</small>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-lg-3">
+                                    <div class="form-group row">
+                                        <label for="first_name" class="col-sm-12">Segundo nombre
+
+                                        </label>
+                                        <div class="input-group col-sm-12">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="basic-addon1">
+                                                    <i class="far fa-user"></i>
+                                                </span>
+                                            </div>
+                                            <input type="text" class="form-control" aria-label="Username" id="name2"
+                                                formControlName="name2" placeholder="Ej. Roberto">
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-lg-3">
+                                    <div class="form-group row">
+                                        <label for="first_name" class="col-sm-12">Tercer nombre
+
+                                        </label>
+                                        <div class="input-group col-sm-12">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="basic-addon1">
+                                                    <i class="far fa-user"></i>
+                                                </span>
+                                            </div>
+                                            <input type="text" class="form-control" aria-label="Username"
+                                                id="name3" formControlName="name3" placeholder="Ej. Roberto Ariel">
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-lg-3">
+                                    <div class="form-group row">
+                                        <label for="first_name" class="col-sm-12">Primer apellido
+                                            <code style="font-size: 16px;"><sup>*</sup></code>
+                                        </label>
+                                        <div class="input-group col-sm-12">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="basic-addon1">
+                                                    <i class="far fa-user"></i>
+                                                </span>
+                                            </div>
+                                            <input type="text" class="form-control" aria-label="Username"
+                                                id="last_name" formControlName="last_name" required
+                                                placeholder="Ej. Roberto Ariel">
+                                        </div>
+                                        <small class="form-text text-danger col-sm-12"
+                                            *ngIf="!editPersonform.get('last_name').valid && (editPersonform.get('last_name').dirty || editPersonform.get('last_name').touched)">El
+                                            nombre es requerido.</small>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-lg-3">
+                                    <div class="form-group row">
+                                        <label for="last_name" class="col-sm-12">Segundo apellido
+
+
+                                        </label>
+                                        <div class="input-group col-sm-12">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="basic-addon1">
+                                                    <i class="far fa-user"></i>
+                                                </span>
+                                            </div>
+                                            <input type="text" class="form-control" aria-label="Username" id="lastname2"
+                                                formControlName="lastname2" placeholder="Ej. Jimenez">
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-lg-3">
+                                    <div class="form-group row">
+                                        <label for="last_name" class="col-sm-12">Apellido de casada
+                                        </label>
+                                        <div class="input-group col-sm-12">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="basic-addon1">
+                                                    <i class="far fa-user"></i>
+                                                </span>
+                                            </div>
+                                            <input type="text" class="form-control" aria-label="Username" id="lastname3"
+                                                formControlName="lastname3" placeholder="Ej. Jimenez Ramirez">
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-lg-6">
+                                    <div class="form-group row">
+                                        <label for="DPI" class="col-sm-12">DPI</label>
+                                        <div class="input-group col-sm-12">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="basic-addon1">
+                                                    <i class="far fa-address-card"></i>
+                                                </span>
+                                            </div>
+                                            <input type="text" class="form-control" aria-label="Username" id="DPI"
+                                                maxlength="13" formControlName="DPI" placeholder="Ej. 2743984710101">
+                                        </div>
+                                        <small class="form-text text-danger col-sm-12"
+                                            *ngIf="!editPersonform.get('DPI').valid && (editPersonform.get('DPI').dirty || editPersonform.get('DPI').touched)">El
+                                            DPI es requerido.</small>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-lg-6">
+                                    <label for="gender" class="col-sm-12">Seleccionar Género</label>
+                                    <div class="form-group row">
+                                        <div class="input-group col-sm-12">
+                                            <div _ngcontent-bpb-c164="" class="input-group-prepend"><label
+                                                    _ngcontent-bpb-c164="" for="inputGroupSelect01"
+                                                    class="input-group-text"><i class="fas fa-venus-mars"></i></label>
+                                            </div>
+                                            <select class="custom-select col-sm-12" id="gender"
+                                                formControlName="gender">
+                                                <option value="" selected disabled>Selecionar...</option>
+                                                <option value="0">Femenino</option>
+                                                <option value="1">Masculino</option>
+                                            </select>
+                                        </div>
+                                        <small class="form-text text-danger col-sm-12"
+                                            *ngIf="!editPersonform.get('gender').valid && (editPersonform.get('gender').dirty || editPersonform.get('gender').touched)">Seleccione
+                                            un genero.</small>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12 col-lg-6">
+                                    <div class="form-group row">
+                                        <label for="birthdate" class="col-sm-12">Fecha de nacimiento</label>
+                                        <div class="input-group col-sm-12">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="basic-addon1">
+                                                    <i class="fas fa-calendar-alt"></i>
+                                                </span>
+                                            </div>
+                                            <input type="date" class="form-control" id="birthdate"
+                                                formControlName="birthdate">
+                                        </div>
+                                        <small class="form-text text-danger col-sm-12"
+                                            *ngIf="!editPersonform.get('birthdate').valid && (editPersonform.get('birthdate').dirty || editPersonform.get('birthdate').touched)">La
+                                            fecha de nacimiento es requerida.</small>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-lg-6">
+                                    <div class="form-group row">
+                                        <label for="email" class="col-sm-12">Correo electrónico
+                                            <code style="font-size: 16px;"><sup>*</sup></code>
+                                        </label>
+                                        <div class="input-group col-sm-12">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="basic-addon1">
+                                                    <i class="fas fa-envelope"></i>
+                                                </span>
+                                            </div>
+                                            <input type="email" class="form-control" id="email" formControlName="email"
+                                                required placeholder="Ej. email@email.com">
+                                        </div>
+                                        <small class="form-text text-danger col-sm-12"
+                                            *ngIf="!editPersonform.get('email').valid && (editPersonform.get('email').dirty || editPersonform.get('email').touched)">Ingresar
+                                            un correo electrónico válido.</small>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-lg-6">
+                                    <div class="form-group row">
+                                        <label for="mobile_phone" class="col-sm-12">Número de celular</label>
+                                        <div class="input-group col-sm-12">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="basic-addon1">
+                                                    <i class="fas fa-mobile-alt"></i>
+                                                </span>
+                                            </div>
+                                            <input type="tel" class="form-control" id="mobile_phone" maxlength="8" 
+                                                formControlName="mobile_phone" placeholder="Ej. 45826578">
+                                        </div>
+                                        <small class="form-text text-danger col-sm-12"
+                                            *ngIf="!editPersonform.get('mobile_phone').valid && (editPersonform.get('mobile_phone').dirty || editPersonform.get('mobile_phone').touched)">El
+                                            número de celular es requerido.</small>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-lg-6">
+                                    <div class="form-group row">
+                                        <label for="home_phone" class="col-sm-12">Número de casa</label>
+                                        <div class="input-group col-sm-12">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="basic-addon1">
+                                                    <i class="fas fa-phone"></i>
+                                                </span>
+                                            </div>
+                                            <input type="tel" class="form-control" id="home_phone"
+                                                formControlName="home_phone" minlength="8" maxlength="8"
+                                                placeholder="Ej. 24536987">
+                                        </div>
+                                        <small class="form-text text-danger col-sm-12"
+                                            *ngIf="!editPersonform.get('home_phone').valid && (editPersonform.get('home_phone').dirty || editPersonform.get('home_phone').touched)">El
+                                            número debe contener 8 digitos.</small>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-lg-6">
+                                    <div class="form-group row">
+                                        <label for="office_home" class="col-sm-12">Número de oficina</label>
+                                        <div class="input-group col-sm-12">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="basic-addon1">
+                                                    <i class="fas fa-phone"></i>
+                                                </span>
+                                            </div>
+                                            <input type="tel" class="form-control" id="office_home"
+                                                formControlName="office_home" minlength="8" maxlength="8"
+                                                placeholder="Ej. 24536987">
+                                        </div>
+                                        <small class="form-text text-danger col-sm-12"
+                                            *ngIf="!editPersonform.get('office_home').valid && (editPersonform.get('office_home').dirty || editPersonform.get('office_home').touched)">El
+                                            número debe contener 8 digitos.</small>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-lg-6">
+                                    <div class="form-group row">
+                                        <label for="address" class="col-sm-12">Dirección</label>
+                                        <div class="input-group col-sm-12">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="basic-addon1">
+                                                    <i class=" far fa-address-book"></i>
+                                                </span>
+                                            </div>
+                                            <input type="text" class="form-control" id="address"
+                                                formControlName="address"
+                                                placeholder="Ej. 8va. calle 35-40 zona 4, Mixco, Guatemala">
+                                        </div>
+                                        <small class="form-text text-danger col-sm-12"
+                                            *ngIf="!editPersonform.get('address').valid && (editPersonform.get('address').dirty || editPersonform.get('address').touched)">La
+                                            dirección es requerida.</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="card-body">
+                            <div class="form-group m-b-0 text-left">
+                                <button type="submit" class="btn btn-raised mr-1 text-white"
+                                    style="background-color: #3473da;" [hidden]="viewform"
+                                    [disabled]="!editPersonform.valid">Guardar</button>
+                                <a type="" (click)="BackPerson()"
+                                    class="btn btn-gray waves-effect waves-light">Regresar</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Reactive Form Validaton Ends -->

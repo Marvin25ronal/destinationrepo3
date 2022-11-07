@@ -1,0 +1,172 @@
+<div class="row">
+    <div class="col-sm-12">
+        <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#759ee0" type="ball-scale-multiple">
+            <p style="font-size: 20px; color:#fff">Cargando Información...</p>
+        </ngx-spinner>
+        <div class="card-block">
+            <div class="card-body">
+                <div style="text-align: center;">
+                    <h1>Datos de escritura</h1>
+                    <hr>
+                </div>
+            </div>
+            <form [formGroup]="deedDocumentForm">
+                <div class="row">
+                    <div class="col-sm-12 col-md-6 ">
+                        <app-custominput
+                            label="No. De Escritura"
+                            [isrequired]="true"
+                            [formcontrol]="deedDocumentForm.get('deed_number')"
+                            id="deed_number"
+                            [placeholder]="placeHolders.deedNumber"
+                            showMessage="El número de escritura es requerido."
+                            iconclass="fas fa-book"   
+                        ></app-custominput>
+                        
+                    </div>
+                    <div class="col-sm-12 col-md-6 ">
+                        <app-custominput
+                            label="No. De Acta"
+                            [isrequired]="true"
+                            [formcontrol]="deedDocumentForm.get('act_number')"
+                            id="act_number"
+                            [placeholder]="placeHolders.actNumber"
+                            showMessage="El número de acta es requerido."
+                            iconclass="fas fa-book"   
+                        ></app-custominput>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 col-md-6 ">
+                        <app-custominput
+                            label="Fecha de firma de escritura"
+                            [isrequired]="false"
+                            [formcontrol]="deedDocumentForm.get('deed_signature_date')"
+                            id="deed_signature_date"
+                            iconclass="fas fa-calendar"
+                            type="date"
+                       
+                        ></app-custominput>
+                    </div>
+                    <div class="col-sm-12 col-md-6 ">
+                        <app-custominput
+                            label="Fecha de aprobación de cupo"
+                            [isrequired]="false"
+                            [formcontrol]="deedDocumentForm.get('quota_approval_date')"
+                            id="quota_approval_date"
+                            iconclass="fas fa-calendar"
+                            type="date"
+                        ></app-custominput>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 col-md-6 ">
+                        <app-custominput
+                            label="Fecha de vencimiento de cupo"
+                            [isrequired]="false"
+                            [formcontrol]="deedDocumentForm.get('quota_expiration_date')"
+                            id="quota_expiration_date"
+                            iconclass="fas fa-calendar"
+                            type="date"
+                       
+                        ></app-custominput>
+                    </div>
+                    <div class="col-sm-12 col-md-6 ">
+                        <app-custominput
+                            label="Fecha de revisión"
+                            [isrequired]="false"
+                            [formcontrol]="deedDocumentForm.get('review_date')"
+                            id="review_date"
+                            iconclass="fas fa-calendar"
+                            type="date"
+                       
+                        ></app-custominput>
+                    </div>
+                    
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 col-md-6 ">
+                        <app-custominput
+                            label="Fecha de vencimento anterior"
+                            [isrequired]="false"
+                            [formcontrol]="deedDocumentForm.get('previus_expiration_date')"
+                            id="previus_expiration_date"
+                            iconclass="fas fa-calendar"
+                            type="date"
+                        ></app-custominput>
+                    </div>
+                    <div class="col-sm-12 col-md-6 ">
+                        <app-custominput
+                            label="Plazo de vigencia del cupo (meses)"
+                            [isrequired]="true"
+                            [formcontrol]="deedDocumentForm.get('quota_validity_period')"
+                            id="quota_validity_period"
+                            [placeholder]="placeHolders.deedNumber"
+                            showMessage="El plazo en meses es requerido."
+                            iconclass="fas fa-hourglass-end"   
+                            type="number"
+                        ></app-custominput>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 col-md-6 ">
+                        <app-custominput
+                            label="Nombre del Notario"
+                            [isrequired]="true"
+                            [formcontrol]="deedDocumentForm.get('notarys_name')"
+                            id="notarys_name"
+                            iconclass="fas fa-user"
+                            showMessage="El nombre del notario es requerido"
+                            [placeholder]="placeHolders.notarysName"
+                        ></app-custominput>
+                    </div>
+                    <div class="col-sm-12 col-md-6 ">
+                        <app-customoption
+                            label="Tipo de contrato"
+                            [isrequired]="true"
+                            [formcontrol]="deedDocumentForm.get('contract_type')"
+                            id="contract_type"
+                            iconclass="fas fa-file"
+                            [data]="contractTypeData"
+                            itemLabel="name"
+                            itemValue="id"
+                        ></app-customoption>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 col-md-6">
+                        <app-customoption
+                            label="Tipo de escritura"
+                            [isrequired]="true"
+                            [formcontrol]="deedDocumentForm.get('deed_type')"
+                            id="deed_type"
+                            iconclass="fas fa-file"
+                            [data]="deedDocumentTypeData"
+                            itemLabel="name"
+                            itemValue="id"
+                        ></app-customoption>
+                    </div>
+                </div>
+                <div class="card-footer" style="background-color: white;">
+                    <div class="form-group m-b-0 text-right">
+                        <button type="button" class="btn btn-raised mr-1 text-white"
+                        [disabled]="!deedDocumentForm.valid"
+                        (click)="save()"
+                            style="background-color: #3473da;">
+                            <i class="fas fa-save"></i>
+                           Guardar</button>
+                           <button type="submit" class="btn btn-raised mr-1 text-white btn-secondary"
+                           ngbTooltip="Regresar"
+                           (click)="close()"
+                           
+                            >
+                           <i class="fas fa-times"></i>
+                           Cerrar</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+</div>

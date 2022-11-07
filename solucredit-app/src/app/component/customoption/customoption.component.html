@@ -1,0 +1,55 @@
+<div class="form-group row align-items-center" *ngIf="mode=='normal'">
+    <label [for]="id" class="col-sm-3 text-right">{{label}}
+        <app-asteriskrequired *ngIf="isrequired"></app-asteriskrequired>
+    </label>
+    <div class="input-group col-sm-9 ">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon1">
+                <i [class]="iconclass"></i>
+            </span>
+        </div>
+        <select class="custom-select col-sm-12" [id]="id" [formControl]="formcontrol"
+        [class.is-invalid]="formcontrol.invalid && formcontrol.touched"
+        >
+            <option [value]="-1" selected disabled>Seleccionar</option>
+            <option *ngFor="let item of data" [value]="item[itemValue]">
+                {{item[itemLabel]}}
+            </option>
+        </select>
+        <small class="form-text text-danger col-sm-12" *ngIf="formcontrol.errors?.default_value">Seleccione una opción</small>
+        <small class="form-text text-danger col-sm-12" *ngIf="
+        !formcontrol.errors?.default_value&&
+           !formcontrol.valid &&
+            (formcontrol.dirty ||
+              formcontrol.touched)
+          ">{{showMessage}}</small>
+    </div>
+</div>
+
+<div class="form-group row align-items-center" *ngIf="mode=='top'">
+    <label [for]="id"  class="col-sm-12">{{label}}
+        <app-asteriskrequired *ngIf="isrequired"></app-asteriskrequired>
+    </label>
+    <div class="input-group col-sm-12 ">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon1">
+                <i [class]="iconclass"></i>
+            </span>
+        </div>
+        <select class="custom-select col-sm-12" [id]="id" [formControl]="formcontrol"
+        [class.is-invalid]="formcontrol.invalid && formcontrol.touched"
+        >
+            <option [value]="-1" selected disabled>Seleccionar</option>
+            <option *ngFor="let item of data" [value]="item[itemValue]">
+                {{item[itemLabel]}}
+            </option>
+        </select>
+        <small class="form-text text-danger col-sm-12" *ngIf="formcontrol.errors?.default_value">Seleccione una opción</small>
+        <small class="form-text text-danger col-sm-12" *ngIf="
+        !formcontrol.errors?.default_value&&
+           !formcontrol.valid &&
+            (formcontrol.dirty ||
+              formcontrol.touched)
+          ">{{showMessage}}</small>
+    </div>
+</div>

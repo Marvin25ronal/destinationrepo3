@@ -1,0 +1,535 @@
+<div class="row">
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-header" style="background-color: #3473da;">
+          <h4 class="card-title mb-0 text-white">Formulario electrónico de información del cliente (FEIC)</h4>
+        </div>
+        <div class="card-body">
+          <div class="card-block">
+            <form [formGroup]="createProfile" (ngSubmit)="CreateProfile()" class="form-horizontal">
+  
+              <div class="card-body">
+                <h4 class="card-title">I. Tipo de actuación del cliente</h4>
+                <div class="row">
+                  <div class="col-lg-4 col-md-4 col-sm-12">
+                    <label for="inputNombre" class="col-sm-12">¿El cliente actúa en nombre propio?</label>
+                    <div class="col-sm-12" style="padding-top: 7px;">
+                      <div class="form-check form-check-inline">
+                        <div class="custom-control custom-radio">
+                          <input type="radio" class="custom-control-input" id="customControlValidation2"
+                            name="radio-stacked">
+                          <label class="custom-control-label" for="customControlValidation2">Si</label>
+                        </div>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <div class="custom-control custom-radio">
+                          <input type="radio" class="custom-control-input" id="customControlValidation3"
+                            name="radio-stacked">
+                          <label class="custom-control-label" for="customControlValidation3">No</label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-8 col-md-8 col-sm-12">
+                    <label for="inputNombre" class="col-sm-12">Calidad con que actúa</label>
+                    <div class="col-sm-12">
+                      <input type="text" class="form-control" aria-label="Username" id="inputNombre"
+                        formControlName="inputNombre" required>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="card-body">
+                <h4 class="card-title">II. Lugar y fecha</h4>
+                <div class="row">
+                  <div class="col-lg-3 col-md-3 col-sm-12">
+                    <label for="inputNombre" class="col-sm-12">País</label>
+                    <div class="col-sm-12">
+                      <select class="custom-select mr-sm-2" id="inlineFormCustomSelect">
+                          <option selected>Seleccione...</option>
+                          <option value="1">Guatemala</option>
+                          <option value="2">El Salvador</option>
+                          <option value="3">México</option>
+                        </select>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-12">
+                    <label for="inputNombre" class="col-sm-12">Departamento</label>
+                    <div class="col-sm-12">
+                      <select class="custom-select mr-sm-2" id="inlineFormCustomSelect">
+                          <option selected>Seleccione...</option>
+                          <option value="1">Guatemala</option>
+                        </select>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-12">
+                    <label for="inputNombre" class="col-sm-12">Municipio</label>
+                    <div class="col-sm-12">
+                      <select class="custom-select mr-sm-2" id="inlineFormCustomSelect">
+                          <option selected>Seleccione...</option>
+                          <option value="1">Guatemala</option>
+                        </select>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-12">
+                    <label for="inputNombre" class="col-sm-12">Fecha</label>
+                    <div class="col-sm-12">
+                      <input type="date" class="form-control">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="card-body">
+                <h4 class="card-title">III. Datos personales</h4>
+                <div class="card-body">
+                  <h6 class="card-title">Información del cliente</h6>
+                  <div class="row">
+                    <div class="col-lg-2 col-md-4 col-sm-12">
+                      <label for="inputNombre" class="col-sm-12">Primer apellido</label>
+                      <div class="col-sm-12">
+                        <input type="text" class="form-control" aria-label="Username" id="inputNombre"
+                          formControlName="inputNombre" required>
+                      </div>
+                    </div>
+                    <div class="col-lg-2 col-md-4 col-sm-12">
+                      <label for="inputNombre" class="col-sm-12">Segundo apellido</label>
+                      <div class="col-sm-12">
+                        <input type="text" class="form-control" aria-label="Username" id="inputNombre"
+                          formControlName="inputNombre" required>
+                      </div>
+                    </div>
+                    <div class="col-lg-2 col-md-4 col-sm-12">
+                      <label for="inputNombre" class="col-sm-12">Apellido casada</label>
+                      <div class="col-sm-12">
+                        <input type="text" class="form-control" aria-label="Username" id="inputNombre"
+                          formControlName="inputNombre" required>
+                      </div>
+                    </div>
+                    <div class="col-lg-2 col-md-4 col-sm-12">
+                      <label for="inputNombre" class="col-sm-12">Primer nombre</label>
+                      <div class="col-sm-12">
+                        <input type="text" class="form-control" aria-label="Username" id="inputNombre"
+                          formControlName="inputNombre" required>
+                      </div>
+                    </div>
+                    <div class="col-lg-2 col-md-4 col-sm-12">
+                      <label for="inputNombre" class="col-sm-12">Segundo nombre</label>
+                      <div class="col-sm-12">
+                        <input type="text" class="form-control" aria-label="Username" id="inputNombre"
+                          formControlName="inputNombre" required>
+                      </div>
+                    </div>
+                    <div class="col-lg-2 col-md-4 col-sm-12">
+                      <label for="inputNombre" class="col-sm-12">Otros nombres</label>
+                      <div class="col-sm-12">
+                        <input type="text" class="form-control" aria-label="Username" id="inputNombre"
+                          formControlName="inputNombre" required>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row mt-3">
+                    <div class="col-lg-2 col-md-4 col-sm-12">
+                      <label for="inputNombre" class="col-sm-12">Fecha de nacimiento</label>
+                      <div class="col-sm-12">
+                        <input type="text" class="form-control" aria-label="Username" id="inputNombre"
+                          formControlName="inputNombre" required>
+                      </div>
+                    </div>
+                    <div class="col-lg-2 col-md-4 col-sm-12">
+                      <label for="inputNombre" class="col-sm-12">País nacimiento</label>
+                      <div class="col-sm-12">
+                        <input type="text" class="form-control" aria-label="Username" id="inputNombre"
+                          formControlName="inputNombre" required>
+                      </div>
+                    </div>
+                    <div class="col-lg-2 col-md-4 col-sm-12">
+                      <label for="inputNombre" class="col-sm-12">Departamento nacimiento</label>
+                      <div class="col-sm-12">
+                        <input type="text" class="form-control" aria-label="Username" id="inputNombre"
+                          formControlName="inputNombre" required>
+                      </div>
+                    </div>
+                    <div class="col-lg-2 col-md-4 col-sm-12">
+                      <label for="inputNombre" class="col-sm-12">Municipio nacimiento</label>
+                      <div class="col-sm-12">
+                        <input type="text" class="form-control" aria-label="Username" id="inputNombre"
+                          formControlName="inputNombre" required>
+                      </div>
+                    </div>
+                    <div class="col-lg-2 col-md-4 col-sm-12">
+                      <label for="inputNombre" class="col-sm-12">Condición migratoria</label>
+                      <div class="col-sm-12">
+                        <input type="text" class="form-control" aria-label="Username" id="inputNombre"
+                          formControlName="inputNombre" required>
+                      </div>
+                    </div>
+                    <div class="col-lg-2 col-md-4 col-sm-12">
+                      <label for="inputNombre" class="col-sm-12">Especifique</label>
+                      <div class="col-sm-12">
+                        <input type="text" class="form-control" aria-label="Username" id="inputNombre"
+                          formControlName="inputNombre" required>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row mt-3">
+                    <div class="col-lg-2 col-md-4 col-sm-12">
+                      <label for="inputNombre" class="col-sm-12">Sexo</label>
+                      <div class="col-sm-12">
+                        <div class="form-check form-check-inline">
+                          <div class="custom-control custom-radio">
+                            <input type="radio" class="custom-control-input" id="customControlValidation4"
+                              name="gender">
+                            <label class="custom-control-label" for="customControlValidation4">Femenino</label>
+                          </div>
+                        </div>
+                        <div class="form-check form-check-inline">
+                          <div class="custom-control custom-radio">
+                            <input type="radio" class="custom-control-input" id="customControlValidation5"
+                              name="gender">
+                            <label class="custom-control-label" for="customControlValidation5">Masculino</label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-lg-2 col-md-4 col-sm-12">
+                      <label for="inputNombre" class="col-sm-12">Estado civil</label>
+                      <div class="col-sm-12">
+                        <input type="text" class="form-control" aria-label="Username" id="inputNombre"
+                          formControlName="inputNombre" required>
+                      </div>
+                    </div>
+                    <div class="col-lg-2 col-md-4 col-sm-12">
+                      <label for="inputNombre" class="col-sm-12">Profesión u oficio</label>
+                      <div class="col-sm-12">
+                        <input type="text" class="form-control" aria-label="Username" id="inputNombre"
+                          formControlName="inputNombre" required>
+                      </div>
+                    </div>
+                    <div class="col-lg-2 col-md-4 col-sm-12">
+                      <label for="inputNombre" class="col-sm-12">Docto. identificación</label>
+                      <div class="col-sm-12">
+                        <input type="text" class="form-control" aria-label="Username" id="inputNombre"
+                          formControlName="inputNombre" required>
+                      </div>
+                    </div>
+                    <div class="col-lg-2 col-md-4 col-sm-12">
+                      <label for="inputNombre" class="col-sm-12">Número identificación</label>
+                      <div class="col-sm-12">
+                        <input type="text" class="form-control" aria-label="Username" id="inputNombre"
+                          formControlName="inputNombre" required>
+                      </div>
+                    </div>
+                    <div class="col-lg-2 col-md-4 col-sm-12">
+                      <label for="inputNombre" class="col-sm-12">País (Pasaporte)</label>
+                      <div class="col-sm-12">
+                        <input type="text" class="form-control" aria-label="Username" id="inputNombre"
+                          formControlName="inputNombre" required>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row mt-3">
+                    <div class="col-lg-4 col-md-4 col-sm-12">
+                      <label for="inputNombre" class="col-sm-12">NIT</label>
+                      <div class="col-sm-12">
+                        <input type="text" class="form-control" maxlength="13" minlength="8" aria-label="Username" id="inputNombre"
+                          formControlName="inputNombre" required>
+                      </div>
+                    </div>
+                    <div class="col-lg-8 col-md-8 col-sm-12">
+                      <label for="inputNombre" class="col-sm-12">Correo electrónico</label>
+                      <div class="col-sm-12">
+                        <input type="text" class="form-control" aria-label="Username" id="inputNombre"
+                          formControlName="inputNombre" required>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row mt-3">
+                      <div class="col-sm-12">
+                          <label for="inputNombre" class="col-sm-12">Dirección de residencia completa (calle o avenida, número de casa, colonia, sector, lote, manzana, otros)</label>
+                          <div class="col-sm-12">
+                              <textarea class="form-control" rows="3" placeholder="Agregar descripción..."></textarea>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="row mt-3">
+                      <div class="col-lg-4 col-md-4 col-sm-12">
+                          <label for="inputNombre" class="col-sm-12">País</label>
+                          <div class="col-sm-12">
+                              <input type="text" class="form-control" aria-label="Username" id="inputNombre"
+                              formControlName="inputNombre" required>
+                          </div>
+                      </div>
+                      <div class="col-lg-4 col-md-4 col-sm-12">
+                          <label for="inputNombre" class="col-sm-12">Departamento</label>
+                          <div class="col-sm-12">
+                              <input type="text" class="form-control" aria-label="Username" id="inputNombre"
+                              formControlName="inputNombre" required>
+                          </div>
+                      </div>
+                      <div class="col-lg-4 col-md-4 col-sm-12">
+                          <label for="inputNombre" class="col-sm-12">Municipio</label>
+                          <div class="col-sm-12">
+                              <input type="text" class="form-control" aria-label="Username" id="inputNombre"
+                              formControlName="inputNombre" required>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="row mt-3">
+                      <div class="col-lg-6 col-md-6 col-sm-12">
+                          <label for="inputNombre" class="col-sm-12">País</label>
+                          <div class="col-sm-12">
+                              <input type="text" class="form-control" aria-label="Username" id="inputNombre"
+                              formControlName="inputNombre" required>
+                          </div>
+                      </div>
+                      <div class="col-lg-6 col-md-6 col-sm-12">
+                          <label for="inputNombre" class="col-sm-12">Teléfono</label>
+                          <div class="col-sm-12">
+                              <input type="text" class="form-control" aria-label="Username" id="inputNombre"
+                              formControlName="inputNombre" required>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="row mt-3">
+                      <div class="col-sm-12">
+                          ¿El cliente es PEP, tiene parentesco o es asociado cercano a una PEP? &nbsp;
+                          <div class="form-check form-check-inline">
+                              <div class="custom-control custom-radio">
+                                  <input type="radio" class="custom-control-input" id="customControlValidation8" name="pep1">
+                                  <label class="custom-control-label" for="customControlValidation8">Si</label>
+                              </div>
+                          </div>
+                          <div class="form-check form-check-inline">
+                              <div class="custom-control custom-radio">
+                                  <input type="radio" class="custom-control-input" id="customControlValidation9" name="pep1">
+                                  <label class="custom-control-label" for="customControlValidation9">No</label>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="row mt-3">
+                      <div class="col-sm-12">
+                          ¿El cliente es CPE? &nbsp;
+                          <div class="form-check form-check-inline">
+                              <div class="custom-control custom-radio">
+                                  <input type="radio" class="custom-control-input" id="customControlValidation6" name="pep">
+                                  <label class="custom-control-label" for="customControlValidation6">Si</label>
+                              </div>
+                          </div>
+                          <div class="form-check form-check-inline">
+                              <div class="custom-control custom-radio">
+                                  <input type="radio" class="custom-control-input" id="customControlValidation7" name="pep">
+                                  <label class="custom-control-label" for="customControlValidation7">No</label>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                </div>
+              </div>
+              <div class="card-body">
+                  <h4 class="card-title">IV. Información económica del cliente</h4>
+                  <div class="row">
+                      <div class="col-lg-6 col-md-6 col-sm-12">
+                          <p>Monto mensual aproximado de los ingresos considerando todas las
+                              actividades económicas a las que se dedica (monto en quetzales)</p>
+                      </div>
+                      <div class="col-lg-6 col-md-6 col-sm-12">
+                          <div class="input-group mb-3">
+                              <div class="input-group-append">
+                                  <span class="input-group-text">GTQ</span>
+                              </div>
+                              <input type="number" class="form-control" aria-label="Username" aria-describedby="basic-addon1">
+                          </div>
+                      </div>
+                  </div>
+                  <div class="row">
+                      <div class="col-lg-4 col-md-4 col-sm-12">
+                          <label for="inputNombre" class="col-sm-12">Fuente de ingresos</label>
+                          <div class="col-sm-12">
+                              <select class="custom-select mr-sm-2" id="inlineFormCustomSelect">
+                                  <option selected>Seleccione...</option>
+                                  <option value="1">Negocio propio</option>
+                                  <option value="2">Relación de dependencia</option>
+                                  <option value="3">Otras fuentes de ingreso</option>
+                              </select>
+                          </div>
+                      </div>
+                      <div class="col-lg-4 col-md-4 col-sm-12">
+                          <label for="inputNombre" class="col-sm-12">Nombre comercial</label>
+                          <div class="col-sm-12">
+                              <input type="text" class="form-control" aria-label="Username" id="inputNombre"
+                              formControlName="inputNombre" required>
+                          </div>
+                      </div>
+                      <div class="col-lg-4 col-md-4 col-sm-12">
+                          <label for="addBtn" class="col-sm-12">&nbsp;</label>
+                          <button type="button" id="addBtn" class="btn btn-primary btn-raised mr-1">Agregar</button>
+                      </div>
+                  </div>
+                  <div class="row mt-3">
+                      <div class="col-sm-12">
+                          <div class="col-sm-12">
+                              <div class="table-responsive">
+                                  <table class="table">
+                                      <thead>
+                                          <tr>
+                                              <th scope="col">#</th>
+                                              <th scope="col">Fuente de ingreso</th>
+                                              <th scope="col">Nombre</th>
+                                              <th scope="col">Acción</th>
+                                          </tr>
+                                      </thead>
+                                      <tbody>
+                                          <tr>
+                                              <th scope="row"></th>
+                                              <td></td>
+                                              <td></td>
+                                              <td><button class="btn btn-danger waves-effect btn-rounded waves-light" type="button"><i class="fas fa-trash-alt"></i></button></td>
+                                          </tr>
+                                      </tbody>
+                                  </table>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="row mt-3">
+                      <div class="col-sm-12">
+                          <label for="inputNombre" class="col-sm-12">Próposito de la relación de negocios</label>
+                          <div class="col-sm-12">
+                              <textarea class="form-control" rows="3" placeholder="Agregar descripción..."></textarea>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <div class="card-body">
+                  <h4 class="card-title">V. Productos y/o servicios</h4>
+                  <div class="row">
+                      <div class="col-lg-6 col-md-6 col-sm-12">
+                          <label for="inputNombre" class="col-sm-12">Tipo ingreso</label>
+                          <div class="col-sm-12">
+                              <select class="custom-select mr-sm-2" id="inlineFormCustomSelect">
+                                  <option selected>Seleccione...</option>
+                                  <option value="1">Perfil inicial</option>
+                                  <option value="2">Actualización de perfil</option>
+                              </select>
+                          </div>
+                      </div>
+                      <div class="col-lg-6 col-md-6 col-sm-12">
+                          <label for="inputNombre" class="col-sm-12">Fecha</label>
+                          <div class="col-sm-12">
+                              <input type="date" class="form-control">
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <div class="card-body">
+                  <h4 class="card-title">VI. Perfil económico y transaccional</h4>
+                  <div class="row">
+                      <div class="col-lg-4 col-md-4 col-sm-12">
+                          <label for="inputNombre" class="col-sm-12">Fecha de elaboración del perfil</label>
+                          <div class="col-sm-12">
+                              <input type="date" class="form-control">
+                          </div>
+                      </div>
+                      <div class="col-lg-8 col-md-8 col-sm-12">
+                          <label for="inputNombre" class="col-sm-12">Producto y/o servicio</label>
+                          <div class="col-sm-12">
+                              <input type="text" class="form-control" aria-label="Username" id="inputNombre"
+                              formControlName="inputNombre" required>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="row mt-3">
+                      <div class="col-lg-6 col-md-6 col-sm-12">
+                          <label for="inputNombre" class="col-sm-12">Moneda</label>
+                          <div class="col-sm-12">
+                              <select class="custom-select mr-sm-2" id="inlineFormCustomSelect">
+                                  <option selected>Seleccione...</option>
+                                  <option value="1">Perfil inicial</option>
+                                  <option value="2">Actualización de perfil</option>
+                              </select>
+                          </div>
+                      </div>
+                      <div class="col-lg-6 col-md-6 col-sm-12">
+                          <label for="inputNombre" class="col-sm-12">Monto promedio mensual (6 meses)</label>
+                          <div class="col-sm-12">
+                              <input type="number" class="form-control" aria-label="Username" id="inputNombre"
+                              formControlName="inputNombre" required>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="row mt-3">
+                      <div class="col-lg-3 col-md-3 col-sm-12">
+                          <label for="inputNombre" class="col-sm-12">Principales ubicaciones geográficas (país)</label>
+                          <div class="col-sm-12">
+                              <select class="custom-select mr-sm-2" id="inlineFormCustomSelect">
+                                  <option selected>Seleccione...</option>
+                                  <option value="1">Negocio propio</option>
+                                  <option value="2">Relación de dependencia</option>
+                                  <option value="3">Otras fuentes de ingreso</option>
+                              </select>
+                          </div>
+                      </div>
+                      <div class="col-lg-3 col-md-3 col-sm-12">
+                          <label for="inputNombre" class="col-sm-12">Departamento</label>
+                          <div class="col-sm-12">
+                              <input type="text" class="form-control" aria-label="Username" id="inputNombre"
+                              formControlName="inputNombre" required>
+                          </div>
+                      </div>
+                      <div class="col-lg-3 col-md-3 col-sm-12">
+                          <label for="inputNombre" class="col-sm-12">Municipio</label>
+                          <div class="col-sm-12">
+                              <input type="text" class="form-control" aria-label="Username" id="inputNombre"
+                              formControlName="inputNombre" required>
+                          </div>
+                      </div>
+                      <div class="col-lg-3 col-md-3 col-sm-12">
+                          <label for="addBtn" class="col-sm-12">&nbsp;</label>
+                          <button type="button" id="addBtn" class="btn btn-primary btn-raised mr-1">Agregar</button>
+                      </div>
+                  </div>
+                  <div class="row mt-3">
+                      <div class="col-sm-12">
+                          <div class="col-sm-12">
+                              <div class="table-responsive">
+                                  <table class="table">
+                                      <thead>
+                                          <tr>
+                                              <th scope="col">#</th>
+                                              <th scope="col">País</th>
+                                              <th scope="col">Departamento</th>
+                                              <th scope="col">Municipio</th>
+                                              <th scope="col">Acción</th>
+                                          </tr>
+                                      </thead>
+                                      <tbody>
+                                          <tr>
+                                              <th scope="row"></th>
+                                              <td></td>
+                                              <td></td>
+                                              <td></td>
+                                              <td><button class="btn btn-danger waves-effect btn-rounded waves-light" type="button"><i class="fas fa-trash-alt"></i></button></td>
+                                          </tr>
+                                      </tbody>
+                                  </table>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <hr>
+              <div class="card-body">
+                <div class="form-group m-b-0 text-right">
+                  <button type="submit" class="btn btn-success btn-raised mr-1"
+                    [disabled]="!createProfile.valid">Registrar</button>
+                  <button type="submit" class="btn btn-dark waves-effect waves-light">Cancelar</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

@@ -1,0 +1,54 @@
+<ng-template #viewdocuments let-modal>
+    <div class="modal-header">
+
+        <h4 class="modal-title" id="editUserLabel">Visualización de Documentos</h4>
+
+        <button type="button" class="close" (click)="modal.dismiss('cerrar')" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+
+    </div>
+    <div class="modal-body">
+        <ngx-extended-pdf-viewer 
+        pageViewMode="multiple" 
+        [textLayer]="true" 
+        height="80vh" 
+        [base64Src]="pdfsrcbase64" 
+        *ngIf="pdfsrcbase64" 
+        [customToolbar]="additionalButtons"
+        >
+        </ngx-extended-pdf-viewer>
+        <div class="row justify-content-center">
+           
+
+            <img *ngIf="imgsrcbase64"  [hidden]="!imgsrcbase64" [src]="imgsrcbase64 "
+                type="application/img"  class="img-fluid" alt="Responsive image">
+        </div>
+        <div class="row d-flex justify-content-center mt-3">
+            <button type="button" class="btn btn-raised mr-1 text-white  btn-color-solucredit-secondary"
+                (click)="modal.dismiss('cerrar')">Cancelar</button>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #additionalButtons>
+    <div id="toolbarViewer" style="background-color:#E8F0F2">
+      <div id="toolbarViewerLeft">
+        <pdf-toggle-sidebar></pdf-toggle-sidebar>
+        <div class="toolbarButtonSpacer"></div>
+        <pdf-find-button [showFindButton]="true" [textLayer]="true"></pdf-find-button>
+        <pdf-paging-area></pdf-paging-area>
+      </div>
+      <div id="toolbarViewerRight">
+       
+        <pdf-presentation-mode></pdf-presentation-mode>
+        <pdf-print></pdf-print>
+        <app-open-in-new-tab></app-open-in-new-tab>
+        <pdf-download></pdf-download>
+        <pdf-rotate-page></pdf-rotate-page>
+        <div class="verticalToolbarSeparator hiddenSmallView"></div>
+        <pdf-toggle-secondary-toolbar></pdf-toggle-secondary-toolbar>
+      </div>
+      <pdf-zoom-toolbar ></pdf-zoom-toolbar>
+    </div>
+  </ng-template>
