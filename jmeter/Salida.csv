@@ -1,2 +1,2 @@
 timeStamp,elapsed,label,responseCode,responseMessage,threadName,dataType,success,failureMessage,bytes,sentBytes,grpThreads,allThreads,URL,Latency,IdleTime,Connect
-1667859301937,592,Obtener 1k pokemones,200,OK,Thread Group 1-1,text,true,,68745,138,1,1,https://pokeapi.co/api/v2/pokemon?limit=1000,538,0,471
+1667859395942,2389,Obtener 1k pokemones,200,OK,Thread Group 1-1,text,true,,68747,138,1,1,https://pokeapi.co/api/v2/pokemon?limit=1000,1894,0,1404
