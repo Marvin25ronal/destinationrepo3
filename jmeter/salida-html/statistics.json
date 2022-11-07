@@ -1,0 +1,34 @@
+{
+  "Total" : {
+    "transaction" : "Total",
+    "sampleCount" : 1,
+    "errorCount" : 0,
+    "errorPct" : 0.0,
+    "meanResTime" : 758.0,
+    "medianResTime" : 758.0,
+    "minResTime" : 758.0,
+    "maxResTime" : 758.0,
+    "pct1ResTime" : 758.0,
+    "pct2ResTime" : 758.0,
+    "pct3ResTime" : 758.0,
+    "throughput" : 1.3192612137203166,
+    "receivedKBytesPerSec" : 88.56442735817942,
+    "sentKBytesPerSec" : 0.17779106200527706
+  },
+  "Obtener 1k pokemones" : {
+    "transaction" : "Obtener 1k pokemones",
+    "sampleCount" : 1,
+    "errorCount" : 0,
+    "errorPct" : 0.0,
+    "meanResTime" : 758.0,
+    "medianResTime" : 758.0,
+    "minResTime" : 758.0,
+    "maxResTime" : 758.0,
+    "pct1ResTime" : 758.0,
+    "pct2ResTime" : 758.0,
+    "pct3ResTime" : 758.0,
+    "throughput" : 1.3192612137203166,
+    "receivedKBytesPerSec" : 88.56442735817942,
+    "sentKBytesPerSec" : 0.17779106200527706
+  }
+}
