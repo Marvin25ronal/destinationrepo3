@@ -187,7 +187,7 @@ $(document).ready(function() {
     }, [[0, 0]], 3);
 
     // Create statistics table
-    createTable($("#statisticsTable"), {"supportsControllersDiscrimination": true, "overall": {"data": ["Total", 1, 0, 0.0, 1346.0, 1346, 1346, 1346.0, 1346.0, 1346.0, 1346.0, 0.7429420505200593, 49.88231914004457, 0.10012304977711738], "isController": false}, "titles": ["Label", "#Samples", "FAIL", "Error %", "Average", "Min", "Max", "Median", "90th pct", "95th pct", "99th pct", "Transactions/s", "Received", "Sent"], "items": [{"data": ["Obtener 1k pokemones", 1, 0, 0.0, 1346.0, 1346, 1346, 1346.0, 1346.0, 1346.0, 1346.0, 0.7429420505200593, 49.88231914004457, 0.10012304977711738], "isController": false}]}, function(index, item){
+    createTable($("#statisticsTable"), {"supportsControllersDiscrimination": true, "overall": {"data": ["Total", 1, 0, 0.0, 1360.0, 1360, 1360, 1360.0, 1360.0, 1360.0, 1360.0, 0.7352941176470588, 49.376005284926464, 0.09909237132352941], "isController": false}, "titles": ["Label", "#Samples", "FAIL", "Error %", "Average", "Min", "Max", "Median", "90th pct", "95th pct", "99th pct", "Transactions/s", "Received", "Sent"], "items": [{"data": ["Obtener 1k pokemones", 1, 0, 0.0, 1360.0, 1360, 1360, 1360.0, 1360.0, 1360.0, 1360.0, 0.7352941176470588, 49.376005284926464, 0.09909237132352941], "isController": false}]}, function(index, item){
         switch(index){
             // Errors pct
             case 3:
