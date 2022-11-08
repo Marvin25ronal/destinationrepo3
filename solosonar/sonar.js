@@ -9,7 +9,7 @@ scanner(
             'sonar.projectDescription': 'Backend test qa nodejs',
             'sonar.sources': '../solucredit-app/src',
             'sonar.login': 'd9618251fc7ab20cb7461e22831ddde5ca2050bc',
-            'sonar.baseDir': '../solucredit-app',
+            'sonar.projectBaseDir': '../solucredit-app',
         }
     },
     () => process.exit()
