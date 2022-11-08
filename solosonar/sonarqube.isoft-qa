@@ -1,0 +1,6 @@
+sonarqube{
+    command: [
+        "npm install",
+        "npm run sonar"
+    ]
+}
