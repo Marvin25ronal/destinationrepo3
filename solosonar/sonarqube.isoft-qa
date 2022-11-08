@@ -1,6 +1,7 @@
 sonar{
     sonarDirectory: "/solosonar",
     command: [
+        "ls",
         "npm install",
         "npm run sonar"
     ]
