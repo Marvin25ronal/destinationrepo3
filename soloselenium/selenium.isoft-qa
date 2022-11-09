@@ -1,5 +1,5 @@
 selenium{
-    seleniumDir:"/soloselenium",
+    seleniumDirectory:"/soloselenium",
     command:[
         "npm insall",
         "npm run test"
