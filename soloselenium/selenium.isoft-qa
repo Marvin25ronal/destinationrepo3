@@ -1,7 +1,7 @@
 selenium{
-    seleniumDirectory:"/soloselenium",
+    seleniumdirectory:"/soloselenium",
     command:[
-        "npm insall",
+        "npm install",
         "npm run test"
     ]
 }
