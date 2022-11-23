@@ -1,4 +1,4 @@
-const SELENIUM_HOST = `http://192.168.1.76:4444/wd/hub`;
+const SELENIUM_HOST = `http://192.168.1.54:4444/wd/hub`;
 
 const webdriver = require('selenium-webdriver');
 
@@ -48,8 +48,10 @@ const llenar_formulario = async (done) => {
         let title = await driver.getTitle()
         if (title.match('Processed Form Details')) {
             console.log('Formulario llenado correctamente')
+            await driver.sleep(10000)
             done()
         }
+        
 
     }
     catch (error) {
