@@ -1,4 +1,4 @@
-const SELENIUM_HOST = `http://192.168.1.54:4444/wd/hub`;
+const SELENIUM_HOST = `http://192.168.1.69:4444/wd/hub`;
 
 const webdriver = require('selenium-webdriver');
 
